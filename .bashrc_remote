@@ -1,0 +1,3 @@
+alias l='ls -al'
+export TERM=xterm-256color
+~/.i3/scripts/tmux-session default
