@@ -1,0 +1,1 @@
+/home/devenv/.config/fisherman/grc/functions/ping.fish

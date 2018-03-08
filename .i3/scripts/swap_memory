@@ -1,0 +1,13 @@
+#!/usr/bin/sh
+free=$(awk '/SwapFree/ {print $2}' /proc/meminfo)
+total=$(awk '/SwapTotal/ {print $2}' /proc/meminfo)
+percentage=$(expr '(' $total - $free ')' '*' 100 / $total)
+echo $percentage%
+echo $percentage%
+if [ $percentage >= 90 ]; then
+  echo "#FF0000\n"
+elif [ $percentage >= 50 ]; then
+  echo "#FFFC00\n"
+else
+  echo "#FFFFFF\n"
+fi

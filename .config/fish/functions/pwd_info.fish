@@ -1,0 +1,1 @@
+/home/devenv/.config/fisherman/pwd_info/pwd_info.fish

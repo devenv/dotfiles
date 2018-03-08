@@ -1,0 +1,13 @@
+#!/usr/bin/sh
+pkill -f XCreateMouseVoid
+pkill -f compton
+xrandr --output eDP-1 --mode 3840x2160 --scale 0.5x0.5 --pos 1200x0 --output HDMI-1 --rotate left --mode 1920x1200 --pos 0x0 --fb 3840x2160 #--dpi 48 --fbmm 357x235
+#xrandr --dpi 48
+i3 restart
+~/bin/XCreateMouseVoid 1200 1080 1920 1080 &
+~/bin/XCreateMouseVoid 3120 0 1000 2160 &
+feh --bg-fill --scale-down --auto-zoom ~/Pictures/wallpaper_3840x2400.png --bg-fill --scale-down --auto-zoom ~/Pictures/wallpaper_1200x1920.png
+~/bin/compton_default
+echo Done
+#pkill -f gnome-settings
+#nohup dbus-launch /usr/lib/gnome-settings-daemon-3.0/gnome-settings-daemon-localeexec > /dev/null &

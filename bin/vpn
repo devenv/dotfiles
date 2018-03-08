@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+cd ~/dy/openvpn-client/
+sudo openvpn dy.ovpn

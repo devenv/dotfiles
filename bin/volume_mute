@@ -1,0 +1,3 @@
+#!/bin/bash
+id=$(pactl list | grep 'Source #' | sed 's/Source #//g')
+pactl set-sink-mute $id toggle && pkill -RTMIN+10 i3blocks

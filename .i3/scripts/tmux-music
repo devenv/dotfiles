@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+tmux attach-session -t music || tmux source-file ~/bin/tmux-music

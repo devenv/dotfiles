@@ -1,0 +1,1 @@
+/home/devenv/.config/fisherman/eden/eden_prompt_char.fish
