@@ -1,0 +1,4 @@
+#!/bin/bash
+sudo /root/reload_audio
+pulseaudio -k
+pulseaudio

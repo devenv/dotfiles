@@ -1,0 +1,1 @@
+compton -b --vsync opengl-swc --backend glx -r0 -o0 -C

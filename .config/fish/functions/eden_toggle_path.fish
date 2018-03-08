@@ -1,0 +1,1 @@
+/home/devenv/.config/fisherman/eden/eden_toggle_path.fish

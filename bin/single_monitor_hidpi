@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+pkill -f XCreateMouseVoid
+pkill -f compton
+xrandr --output eDP-1 --mode 3840x2160 --scale 1x1 --pos 0x0 --output HDMI-1 --off
+i3 restart
+#pkill -f gnome-settings
+#nohup dbus-launch /usr/lib/gnome-settings-daemon-3.0/gnome-settings-daemon-localeexec > /dev/null &
+feh --bg-fill --scale-down --auto-zoom ~/Pictures/wallpaper_3840x2400.png
+~/bin/compton_default
+echo Done

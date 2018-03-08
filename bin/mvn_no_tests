@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+mvn_buffed -DskipTests -Dmario.skip.tests -Dspark.skip.tests -Dsparkbi.skip.tests -Dsparkjobs.skip.tests $@

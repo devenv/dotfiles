@@ -1,0 +1,11 @@
+#!/usr/bin/sh
+
+WINDOW_CLASS=$1
+COMMAND=$2
+
+CURRENT_WINDOW_CLASS=`xprop -id $(xdotool getwindowfocus) | awk '/WM_CLASS/{print $4}' | tr -d '"'`
+if [ $CURRENT_WINDOW_CLASS = "$WINDOW_CLASS" ]; then
+  i3-msg "[class=\"^$WINDOW_CLASS$\"] move scratchpad"
+else
+  i3-msg "[class=\"^$WINDOW_CLASS$\"] focus" | grep false && i3-msg exec "$COMMAND"
+fi

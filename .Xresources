@@ -1,0 +1,94 @@
+XTerm*allowSendEvents: true
+XTerm*allowsends: true
+
+! xterm*font: -misc-fixed-medium-r-normal--12-200-75-75-c-100-iso8859-1
+*loginShell: true
+*scrollBar: true
+*scrollBar_right:     true
+*rightScrollBar: true
+*title: XTerm
+*iconName: XTerm
+*saveLines: 50000
+*jumpScroll: true
+*scrollTtyOutput: false
+*scrollKey: true
+*metaSendsEscape: true
+*utf8Title: true
+*utf8: true
+*renderFont: true
+*faceName: Hack-Regular:style=Book:antialias=true
+*font: xft:Hack-Regular:style=Book:antialias=true:size=16
+*urlLauncher: google-chrome
+*faceSize: 12
+*faceSize1: 6
+*faceSize2: 8
+*faceSize3: 10
+*faceSize4: 12
+*faceSize5: 14
+*selectToClipboard: true
+*borderWidth: 0
+*vt100*geometry: 80x80
+*customization: -color
+*termName: xterm-256color
+*eightBitInput: false
+*scrollColor: #000000
+*letterSpace: -5
+*secondaryScreen: 1
+*secondaryScroll: 1
+*secondaryWheel: 1
+*scrollWithBuffer: true
+*scrollTtyKeypress: true
+*backarrowKey: false
+
+rofi.font: Hack 12
+Xcursor.size: 48
+Xcursor.theme: Obsidian
+
+! Fonts {{{
+ Xft.antialias: true
+ Xft.hinting:   true
+ Xft.rgba:      rgb
+ Xft.hintstyle: hintfull
+ Xft.dpi:       96
+! }}}
+
+
+XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+XTerm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+
+! special
+*.foreground:   #ffffff
+*.background:   #000000
+*.cursorColor:  #ffffff
+
+! black
+*.color0:       #000000
+*.color8:       #4d4d4d
+
+! red
+*.color1:       #dc0403
+*.color9:       #a82615
+
+! green
+*.color2:       #19cb00
+*.color10:      #23fd00
+
+! yellow
+*.color3:       #cecb00
+*.color11:      #fffd00
+
+! blue
+*.color4:       #4f68ff
+*.color12:      #2d48f8
+
+! magenta
+*.color5:       #cb1ed1
+*.color13:      #fd28ff
+
+! cyan
+*.color6:       #0dcdcd
+*.color14:      #14ffff
+
+! white
+*.color7:       #e5e5e5
+*.color15:      #ffffff

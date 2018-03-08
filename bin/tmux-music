@@ -1,0 +1,7 @@
+#new -s music -n youtube mpsyt
+#set monitor-activity 0
+new -n "mpc" ncmpcpp -p 6601
+set monitor-activity 0
+#neww -n "mopidy" mopidy
+#set monitor-activity 0
+#selectw -t "mpc"

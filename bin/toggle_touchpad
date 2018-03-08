@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+if xinput list-props 'DLL07BE:01 06CB:7A13 Touchpad' | grep Enabled | grep ':\s*1' > /dev/null; then
+  xinput --disable 'DLL07BE:01 06CB:7A13 Touchpad'
+else
+  xinput --enable 'DLL07BE:01 06CB:7A13 Touchpad'
+fi
+

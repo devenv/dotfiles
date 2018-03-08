@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+pass -w ~/Enpass/walletx.db copy $1

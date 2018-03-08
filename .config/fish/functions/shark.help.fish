@@ -1,0 +1,1 @@
+/home/devenv/.config/fisherman/shark/functions/shark.help.fish

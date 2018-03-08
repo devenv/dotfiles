@@ -1,0 +1,29 @@
+#
+# Includes current git branch in tcsh prompt.
+#
+# EXAMPLE
+#
+# Your prompt can look like this:
+#
+#   [myhost.com ~/repos/foo (master)]
+#
+# USAGE:
+#
+# 1) Save this script as ~/bin/setprompt
+# 2) In .cshrc, include this line:
+#
+#      alias precmd "source ~/bin/setprompt"
+#
+# AUTHOR
+#
+#   Original from http://acts.as.streeteasy.com/archives/2007/12/19/git_in_your_prompt/
+#   Modified for tcsh by Geoffrey Grosenbach http://peepcode.com
+
+setenv GIT_BRANCH_CMD "sh -c 'git branch --no-color 2> /dev/null' | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'"
+if ( ! ($?PROJECT) ) then
+  set PR=""
+else
+  set PR="[$PROJECT] "
+endif
+set prompt="%{\033[32m%}$HOST%{\033[37m%} %P $PR`$GIT_BRANCH_CMD`%c2 >%{\033[38m%} "
+

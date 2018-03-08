@@ -1,0 +1,14 @@
+#!/usr/bin/sh
+free=$(awk '/MemFree/ {print $2}' /proc/meminfo)
+total=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+cached=$(awk '/^Cached/ {print $2}' /proc/meminfo)
+percentage=$(expr '(' $total - $free - $cached ')' '*' 100 / $total)
+echo $percentage%
+echo $percentage%
+if [ $percentage -ge 90 ]; then
+  echo "#FF0000\n"
+elif [ $percentage -ge 50 ]; then
+  echo "#FFFC00\n"
+else
+  echo "#FFFFFF\n"
+fi
