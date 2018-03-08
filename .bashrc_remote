@@ -1,4 +1,4 @@
 alias l='ls -al'
 export TERM=xterm-256color
-[[ $- == *i* ]] && ~/.i3/scripts/tmux-session default
+[[ $- == *i* ]] && ~/.i3/scripts/tmux-session $USER
 
