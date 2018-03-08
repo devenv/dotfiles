@@ -36,8 +36,6 @@ set -g visual-activity on
 
 # Vi copypaste mode
 set-window-option -g mode-keys vi
-bind-key -Tcopy-mode-vi 'v' send -X begin-selection
-bind-key -Tcopy-mode-vi 'y' send -X copy-selection
 
 # hjkl pane traversal
 bind h select-pane -L
@@ -46,8 +44,6 @@ bind k select-pane -U
 bind l select-pane -R
 bind J swap-pane -D
 bind K swap-pane -U
-
-bind-key m choose-tree -w 'join-pane -h -t "%%"'
 
 # set to main-horizontal, 60% height for main pane
 #bind m set-window-option main-pane-height 60\; select-layout main-horizontal
@@ -59,9 +55,6 @@ bind r source-file ~/.tmux.conf \; display-message "Config reloaded..."
 
 # auto window rename
 #set-window-option -g automatic-rename
-
-set -g mouse on
-bind z set -g mouse
 
 set -g default-terminal "screen-256color"
 
@@ -111,11 +104,6 @@ bind -n C-k run "(tmux display-message -p '#{pane_current_command}' | grep -iq v
 bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-l) || tmux select-pane -R"
 bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys 'C-\\') || tmux select-pane -l"
 
-set -g @prefix_highlight_fg 'white' # default is 'colour231'
-set -g @prefix_highlight_bg 'blue'  # default is 'colour04'
-set -g @prefix_highlight_show_copy_mode 'on'
-set -g @prefix_highlight_copy_mode_attr 'fg=black,bg=yellow,bold' # default is 'fg=default,bg=yellow'
-
 unbind -n Pageup
 unbind -n Pagedown
 set-option -g xterm-keys on
@@ -136,30 +124,16 @@ setw -g alternate-screen on
 
 bind-key p save-buffer ~/.tmux-buffer \; run-shell "xsel -i -b <~/.tmux-buffer && rm ~/.tmux-buffer"
 
-set -g focus-events on
 set -g display-time 4000
 set -g pane-base-index 1
 
 setw -g mode-keys vi
-bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
-#bind-key -t vi-copy 'y' copy-selection # Yank selection in copy mode.
 
-unbind-key -T copy-mode-vi v
-
-set -g @copycat_search_C-L '\[[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}T[[:digit:]]{2}:[[:digit:]]{2}:[[:digit:]]{2}.[[:digit:]]{3}Z\]'
-
-setw -g window-status-separator "| "
 setw -g window-status-format "#I:#W:#[fg=white]#F"
 setw -g window-status-current-format "#[fg=black,bg=colour130]#I:#W:#[fg=white]#F"
 
-bind '"' split-window -c "#{pane_current_path}"
-bind % split-window -h -c "#{pane_current_path}"
-bind c new-window -c "#{pane_current_path}"
-
 bind = select-layout even-vertical
 bind-key / copy-mode \; send-key ?
-bind-key Space resize-pane -Z
-bind-key C-Space resize-pane -Z
 bind-key -n C-S-Left swap-window -t -1
 bind-key -n C-S-Right swap-window -t +1
 
