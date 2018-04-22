@@ -2,7 +2,7 @@
 cd
 sudo pacman -S --needed --noconfirm base-devel
 sudo pacman -S --noconfirm bumblebee nvidia lib32-virtualgl lib32-nvidia-utils
-sudo pacman -S --noconfirm acpi acpi audacity autoconf automake aws-cli compton cups dconf-editor dia docker docker-compose easystroke evince feh filelight firefox fish gcc gcolor2 gdb gimp gvim htop jq libtool meld mutt neomutt mysql-workbench net-tools npm parcellite pavucontrol pv python-pip qiv rofi ruby scrot sxiv sysstat sysstat thunar tmux tmux unrar vlc xautolock xautomation xbindkeys xcape xclip xclip zathura zenity zip gksu google-chrome teamviewer python python2 python2-pip python-pip python2-gflags transset-df wireshark-qt xsel pkgfile mopidy mpc pass rsync openvpn gtk-theme-switch2 zathura-pdf-poppler dunst qalculate-gtk pulseaudio-equalizer ctags
+sudo pacman -S --noconfirm acpi acpi audacity autoconf automake aws-cli compton cups dconf-editor dia docker docker-compose easystroke evince feh filelight firefox fish gcc gcolor2 gdb gimp gvim htop jq libtool meld mutt neomutt mysql-workbench net-tools npm parcellite pavucontrol pv python-pip qiv rofi ruby scrot sxiv sysstat sysstat thunar tmux tmux unrar vlc xautolock xautomation xbindkeys xcape xclip xclip zathura zenity zip gksu google-chrome teamviewer python python2 python2-pip python-pip python2-gflags transset-df wireshark-qt xsel pkgfile mopidy mpc pass rsync openvpn gtk-theme-switch2 zathura-pdf-poppler dunst qalculate-gtk pulseaudio-equalizer ctags cscope wine playonlinux dex
 
 sudo pip2 install gcalcli
 sudo pip3 install pyinotify i3-py i3ipc tldextract
@@ -28,7 +28,7 @@ aur_install urlview
 aur_install viber
 aur_install teamviewer
 aur_install slack-desktop
-aur_install messengerfordesktop-git
+aur_install parquet-tools
 
 cd
 wget https://downloads.jungledisk.com/jungledisk/junglediskworkgroup64-3222.tar.gz

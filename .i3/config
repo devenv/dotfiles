@@ -60,7 +60,7 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 bindsym $mod+z focus left
-bindsym $mod+c focus right
+bindsym $mod+x focus right
 bindsym --whole-window button8 focus right
 
 # alternatively, you can use the cursor keys:
@@ -203,7 +203,7 @@ mode "moveit" {
 }
 bindsym Mod4+m focus floating; mode "moveit"
 
-bindsym $mod+x focus mode_toggle
+bindsym $mod+c focus mode_toggle
 
 set $mode_gaps gaps
 set $mode_gaps_outer outer gaps
@@ -274,7 +274,7 @@ for_window [class="^mutt$"] floating enable, resize set 1000 1000, move absolute
 for_window [class="Qalculate-gtk"] floating enable
 
 for_window [class=".*"] move position center
-floating_minimum_size 260 x 240
+floating_minimum_size 10 x 10
 floating_maximum_size -1 x -1
 
 bar {
@@ -342,8 +342,9 @@ exec --no-startup-id i3-msg 'exec $music'
 #exec --no-startup-id i3-msg 'exec qutebrowser'
 #exec --no-startup-id i3-msg 'exec luakit'
 exec --no-startup-id i3-msg 'exec firefox'
-#exec --no-startup-id i3-msg 'exec /home/devenv/franz/Franz'
-exec --no-startup-id i3-msg 'exec /data/rslsync'
+exec --no-startup-id i3-msg 'exec slack'
+exec --no-startup-id i3-msg 'exec messengerfordesktop'
+exec --no-startup-id i3-msg 'exec rslsync'
 exec --no-startup-id i3-msg 'exec xautolock -time 60 -locker $HOME/.i3/scripts/lock'
 exec --no-startup-id i3-msg 'exec dunst'
 exec --no-startup-id i3-msg 'exec kbdd'
@@ -374,6 +375,8 @@ assign [class="luakit"] $ws2
 assign [class="Firefox"] $ws2
 assign [class="TeamViewer"] $ws5
 assign [class="^Franz"] $ws7
+assign [class="^Slack"] $ws7
+assign [class="^Messenger for Desktop"] $ws7
 assign [class="^viber"] $ws7
 assign [class="^Enpass"] $ws5
 assign [class="^Discord"] $ws5

@@ -1,4 +1,5 @@
 set rtp+=~/.vim/bundle/Vundle.vim
+let g:vundle_default_git_proto = 'git'
 set shell=/bin/bash
 
 " Modeline {{{
@@ -126,6 +127,7 @@ set shell=/bin/bash
        Bundle 'christoomey/vim-tmux-navigator'
        Plugin 'tmux-plugins/vim-tmux'
        Plugin 'tmux-plugins/vim-tmux-focus-events'
+       Plugin 'benmills/vimux'
        Plugin 'powerman/vim-plugin-AnsiEsc'
        Plugin 'Colorizer'
        Bundle 'kien/ctrlp.vim'
@@ -141,6 +143,9 @@ set shell=/bin/bash
        Plugin 'embear/vim-localvimrc'
        Plugin 'xolox/vim-notes'
        Plugin 'jamessan/vim-gnupg'
+
+       "Plugin 'simnalamburt/vim-mundo'
+       "Plugin 'chrisbra/histwin.vim'
      " }}}
 
     " General Programming {{{
@@ -166,8 +171,8 @@ set shell=/bin/bash
         Bundle 'klen/python-mode'
         Bundle 'yssource/python.vim'
         Bundle 'python_match.vim'
-        Bundle 'pythoncomplete'
-        "Bundle "jmcantrell/vim-virtualenv"
+        Bundle 'davidhalter/jedi-vim'
+        Bundle 'janko-m/vim-test'
     " }}}
 
     " Go {{{
@@ -201,7 +206,7 @@ set shell=/bin/bash
         "Bundle 'wakatime/vim-wakatime'
         Bundle 'Chiel92/vim-autoformat'
         Bundle "jaxbot/semantic-highlight.vim"
-        Bundle "vim-scripts/Align"
+        "Bundle "vim-scripts/Align"
         Bundle "vim-scripts/SQLUtilities"
         Bundle "garbas/vim-snipmate"
         "Bundle "vim-scripts/vim-chef"
@@ -368,7 +373,7 @@ set shell=/bin/bash
     " }}}
 
     " Tagbar remap {{{
-        nnoremap <silent> <Leader>tt :TagbarOpenAutoClose<CR>
+        "nnoremap <silent> <Leader>tt :TagbarOpenAutoClose<CR>
     " }}}
 
     " Man map {{{
@@ -624,16 +629,19 @@ set shell=/bin/bash
         let g:pymode_lint_checkers       = ['flake8']
         let g:pymode_trim_whitespaces    = 1
         let g:pymode_options             = 0
-        let g:pymode_rope                = 0
+        let g:pymode_rope                = 1
         let g:pymod_run                  = 1
-        let g:pymode_folding             = 0
+        let g:pymode_folding             = 1
         let g:pymode_syntax              = 1
         let g:pymode_syntax_all          = 1
         let g:pymode_syntax_slow_sync    = 1
         let g:pymode_trim_whitespaces    = 1
         let g:pymode_lint                = 1
-        let g:pymode_options_colorcolumn = 1
+        let g:pymode_options_colorcolumn = 0
         let g:pymode_lint_cwindow        = 1
+        let g:pymode_rope_autoimport     = 1
+        let g:pymode_rope_autoimport_import_after_complete = 1
+        let g:pymode_run_bind = '<leader>pr'
     endif
 " }}}
 
@@ -983,7 +991,7 @@ set shell=/bin/bash
 
   nnoremap <leader>a, <Plug>AM_a,
   nnoremap <leader>a= <Plug>AM_a=
-  nnoremap <leader>tt <Plug>AM_tt
+  "nnoremap <leader>tt <Plug>AM_tt
 
   let g:sqlutil_align_where = 0
   "let g:sqlutil_align_comma = 1
@@ -1027,5 +1035,14 @@ set shell=/bin/bash
   map <leader>? ^r¿w
   map <leader>x ^rxw
   nnoremap <C-m> :make<CR><CR>
+  nnoremap <leader>u :cs find s <cword><CR>
+  set mps+=<:>
+
+  nmap <silent> <leader>tt <CR>:TestNearest<CR>
+  nmap <silent> <leader>tf <CR>:TestFile<CR>
+  nmap <silent> <leader>ta <CR>:TestSuite<CR>
+  nmap <silent> <leader>. <CR>:TestLast<CR>
+  nmap <silent> <leader>tv <CR>:TestVisit<CR>
+  let test#strategy = "vimterminal"
 
 " }}}
