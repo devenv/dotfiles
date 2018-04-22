@@ -14,6 +14,7 @@ export GIT_PAGER=$PAGER
 export BROWSER='firefox'
 export WINEDEBUG=-all
 export TERM=xterm-256color
+export COLORTERM=truecolor
 export XCURSOR_THEME=Obsidian
 
 source ~/.credentials
@@ -29,8 +30,9 @@ export GOPATH=$HOME/.go
 export ANDROID_HOME=/data/Android/Sdk/
 export KDEHOME=$HOME/.kde4
 
-alias v='vi'
-alias i='vi'
+alias v='vim'
+alias vi='vim'
+alias i='vim'
 alias gut='git'
 alias got='git'
 alias l='ls -alh'
