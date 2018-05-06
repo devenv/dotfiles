@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+#xprop -id `xdotool search --name "Google Play Music" | head -1` | grep WM_NAME | head -1
+xwininfo -id `xdotool search --name "Google Play Music" | head -1` | grep "Google Play" | grep -o '".*"'| sed 's/ - Google Play Music\| - Mozilla Firefox//g' | tr -d '"'

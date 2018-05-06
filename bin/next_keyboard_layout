@@ -1,0 +1,13 @@
+#!/usr/bin/sh
+
+LAYOUT=`~/.i3/scripts/key_layout | head -n1`
+if [ "$LAYOUT" == 'US' ]; then
+  echo "US -> RU"
+  setxkbmap -model pc105 -layout "ru(phonetic),us,il" -option grp:alt_shift_toggle -option compose:ralt -option caps:ctrl_modifier
+elif [ "$LAYOUT" == 'RU' ]; then
+  echo "RU -> IL"
+  setxkbmap -model pc105 -layout "il,ru(phonetic),us" -option grp:alt_shift_toggle -option compose:ralt -option caps:ctrl_modifier
+else
+  echo "IL -> US"
+  setxkbmap -model pc105 -layout "us,il,ru(phonetic)" -option grp:alt_shift_toggle -option compose:ralt -option caps:ctrl_modifier
+fi

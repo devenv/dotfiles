@@ -14,7 +14,7 @@ MB_precision=1
 kB_precision=0
 regex="${BLOCK_INSTANCE:-/^nvme.+/}"
 threshold=0
-warn_color="#FF0000"
+warn_color="#FA827C"
 sep="/"
 unit_suffix="B/s"
 

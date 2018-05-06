@@ -16,10 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-layout=`~/bin/xkblayout-state print "%s" | tr [a-z] [A-Z]`
+layout=`~/bin/xkblayout-state print "%s" | tr a-z A-Z`
 
 echo $layout
 echo $layout
-if [ "$layout" != "us" ]; then
-  echo red
+if [ "$layout" != "US" ]; then
+  echo "#FA827C"
 fi

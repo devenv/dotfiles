@@ -8,6 +8,17 @@ set-option -g status-attr default
 
 set -g history-limit 40000
 
+set -g pane-border-bg colour234
+set -g pane-border-fg colour15
+set -g pane-active-border-bg colour234
+set -g pane-active-border-fg colour15
+
+set-option -g visual-activity on
+set-option -g visual-bell off
+set-option -g visual-silence on
+set-window-option -g monitor-activity on
+set-option -g bell-action none
+
 # C-b is not acceptable -- Vim uses it
 # unbind-key C-b
 set-option -g prefix C-Space
@@ -122,5 +133,6 @@ bind-key -n C-S-Left swap-window -t -1
 bind-key -n C-S-Right swap-window -t +1
 
 bind u run tmux-url-select.pl
-bind v select-layout even-vertical
-bind h select-layout even-horizontal
+
+bind 5 select-layout even-vertical
+bind v select-layout even-horizontal

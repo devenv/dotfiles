@@ -1,0 +1,5 @@
+TIME=`date '+%H:%M:%S'`
+echo $TIME
+case $BLOCK_BUTTON in
+    1) echo $TIME | xsel -i
+esac

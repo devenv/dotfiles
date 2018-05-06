@@ -13,6 +13,8 @@ set $calc qalculate-gtk
 
 bindsym $mod+d exec --no-startup-id rofi -show run
 
+workspace_layout tabbed
+
 set_from_resource $darkred     color1  #000000
 set_from_resource $red         color9  #000000
 set_from_resource $darkgreen   color2  #000000
@@ -38,12 +40,6 @@ set $ws1  "1:  "
 set $ws2  "2:  "
 set $ws3  "3:  "
 set $ws4  "4:  "
-set $ws5  "5:  "
-set $ws6  "6:  "
-set $ws7  "7:  "
-set $ws8  "8:  "
-set $ws9  "9:  "
-set $ws10 "10:  "
 
 workspace 1 output HDMI-1
 workspace 2 output eDP-1
@@ -74,6 +70,8 @@ bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+bindsym $mod+Shift+z move left
+bindsym $mod+Shift+x move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -96,11 +94,11 @@ focus_on_window_activation focus
 font pango:FontAwesome 12, Hack-Regular 12
 
 #                       BORDER      BACKGROUND  TEXT
-client.focused          #000000     #333333     $33FF33
-client.unfocused        #000000     #000000     $FFFFFF
-client.focused_inactive #000000     #000000     $FFFFFF
-client.urgent           #000000     $FF5555     $FFFFFF
-client.background       #000000
+client.focused          #444444     #303030     #8AFF92
+client.unfocused        #444444     #000000     #BBBBBB
+client.focused_inactive #444444     #000000     #FAF87C
+client.urgent           #444444     $FF5555     #FA827C
+client.background       #444444
 
 floating_modifier Mod1
 
@@ -137,15 +135,11 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+p focus parent
 bindsym $mod+Shift+p focus child
 
-bindsym Mod1+1 workspace $ws1
-bindsym Mod1+2 workspace $ws2
-bindsym Mod1+3 workspace $ws3
-bindsym Mod1+4 workspace $ws4
-bindsym $mod+1 workspace $ws5
-bindsym $mod+2 workspace $ws6
-bindsym $mod+3 workspace $ws7
-bindsym $mod+4 workspace $ws8
-bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+#bindsym $mod+Tab workspace back_and_forth
 bindsym Mod1+Tab exec ~/.i3/scripts/focus_last --switch
 bindsym --whole-window button9 workspace back_and_forth
 
@@ -154,14 +148,10 @@ bindsym $mod+plus scratchpad show
 
 bindsym $mod+Ctrl+s sticky toggle
 
-bindsym Mod1+$mod+1 move container to workspace number $ws1
-bindsym Mod1+$mod+2 move container to workspace number $ws2
-bindsym Mod1+$mod+3 move container to workspace number $ws3
-bindsym Mod1+$mod+4 move container to workspace number $ws4
-bindsym $mod+Ctrl+1 move container to workspace number $ws5
-bindsym $mod+Ctrl+2 move container to workspace number $ws6
-bindsym $mod+Ctrl+3 move container to workspace number $ws7
-bindsym $mod+Ctrl+4 move container to workspace number $ws8
+bindsym Shift+$mod+1 move container to workspace number $ws1
+bindsym Shift+$mod+2 move container to workspace number $ws2
+bindsym Shift+$mod+3 move container to workspace number $ws3
+bindsym Shift+$mod+4 move container to workspace number $ws4
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
@@ -201,7 +191,7 @@ mode "moveit" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym Mod4+m focus floating; mode "moveit"
+#bindsym $mod+m focus floating; mode "moveit"
 
 bindsym $mod+c focus mode_toggle
 
@@ -265,16 +255,17 @@ for_window [class="(?i)pavucontrol"] floating enable, move position mouse
 for_window [class="(?i)pavucontrol" instance="pavucontrol-bar"] move down $height px
 for_window [class="(?i)jetbrains-idea" title="^Debug$|^Run$"] floating disable move container to workspace number $ws3
 for_window [title="^xv"] floating enable
-#for_window [class="sun-awt-X11-XWindowPeer" id="^win.*$" floating] grow up 200
+for_window [window_role="toolbox_window"] floating enable
+
 for_window [class="^vim_notes$"] floating enable, border 1pixel, resize set 600 400, move position 100px 100px, move scratchpad, scratchpad show
 for_window [class="^vpn$"] floating enable, border 1pixel, resize set 600 400, move position 100px 100px, move scratchpad, scratchpad show
 for_window [class="^mixer$"] floating enable, border 1pixel, resize set 800 600, move position 100px 100px, move scratchpad, scratchpad show
-for_window [class="^gcalcli$"] floating enable, resize set 800 100, move absolute position 500 100, border 1pixel, move scratchpad, scratchpad show
+for_window [class="^gcalcli$"] floating enable, resize set 800 400, move absolute position 500 100, border 1pixel, move scratchpad, scratchpad show
 for_window [class="^mutt$"] floating enable, resize set 1000 1000, move absolute position 500 100, border 1pixel, move scratchpad, scratchpad show
 for_window [class="Qalculate-gtk"] floating enable
 
 for_window [class=".*"] move position center
-floating_minimum_size 10 x 10
+floating_minimum_size 100 x 100
 floating_maximum_size -1 x -1
 
 bar {
@@ -282,44 +273,57 @@ bar {
     status_command i3blocks -c ~/.i3block.conf
     bindsym button4 nop
     bindsym button5 nop
-    height 20
+    height 22
     position bottom
     font pango:FontAwesome 12, Hack-Regular 12
     tray_output eDP-1
     colors {
       statusline    #999999
-      background    #131D24
+      background    #141414
 
-      focused_workspace #232D34 #232D34 #93AE03
-      active_workspace  #232D34 #232D34 #999999
-      inactive_workspace  #131D24 #131D24 #999999
-      urgent_workspace  #999999 #999999 #B33A3A
+      focused_workspace #141414 #141414 #FAF87C
+      active_workspace  #141414 #141414 #999999
+      inactive_workspace  #141414 #141414 #999999
+      urgent_workspace  #141414 #141414 #B33A3A
     }
 }
 
 # AUTOSTART
 
 exec --no-startup-id i3-msg 'exec ~/bin/compton_default'
-exec --no-startup-id i3-msg 'exec ~/bin/set_keyboard_layout'
+exec --no-startup-id i3-msg 'exec ~/bin/set_keyboard_layout_en'
+bindsym $mod+Tab exec ~/bin/next_keyboard_layout
+
+bindsym Mod1+e exec ~/bin/set_keyboard_layout_en
+bindsym Mod1+ק exec ~/bin/set_keyboard_layout_en
+bindsym Mod1+е exec ~/bin/set_keyboard_layout_en
+bindsym Mod1+r exec ~/bin/set_keyboard_layout_ru
+bindsym Mod1+ר exec ~/bin/set_keyboard_layout_ru
+bindsym Mod1+i exec ~/bin/set_keyboard_layout_il
+bindsym Mod1+и exec ~/bin/set_keyboard_layout_il
 
 bindsym $mod+n move workspace to output right
-bindsym $mod+Shift+x exec ~/.i3/scripts/swap_workspaces.py
-bindsym $mod+F1 exec ~/bin/volume_mute
-bindsym $mod+F2 exec ~/bin/volume_down
-bindsym $mod+F3 exec ~/bin/volume_up
-bindsym Mod1+z exec mpc -p 6601 toggle
-bindsym Mod1+c exec mpc -p 6601 next
-bindsym Mod1+x exec mpc -p 6601 prev
+bindsym $mod+Mod1+x exec ~/.i3/scripts/swap_workspaces.py
+bindsym $mod+m exec pavolume mutetoggle
+bindsym $mod+q exec pavolume volup
+bindsym $mod+a exec pavolume voldown
+#bindsym Mod1+z exec mpc -p 6601 toggle
+#bindsym Mod1+c exec mpc -p 6601 next
+#bindsym Mod1+x exec mpc -p 6601 prev
+bindsym Mod1+z exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+z"
+bindsym Mod1+c exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+c"
+bindsym Mod1+x exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+x"
 
 bindsym $mod+Mod1+d exec play ~/dumdumduuum.ogg
 bindsym $mod+Mod1+b exec play ~/badumtss.ogg
 bindsym $mod+Mod1+l exec play ~/laaalalalaaa.ogg
 bindsym $mod+Mod1+h exec play ~/hohohohoho.ogg
 bindsym $mod+Mod1+w exec play ~/wawawaaa.ogg
-bindsym $mod+Mod1+t exec play ~/trololo.ogg
+bindsym $mod+Mod1+t exec play ~/tada.ogg
+bindsym $mod+Mod1+c exec play ~/calc.ogg
 
 bindsym $mod+space exec ~/bin/toggle_touchpad
-exec --no-startup-id i3-msg 'exec ~/bin/toggle_touchpad'
+#exec --no-startup-id i3-msg 'exec ~/bin/toggle_touchpad'
 
 bindsym $mod+comma exec ~/bin/dual_monitor_left
 bindsym $mod+period exec ~/bin/dual_monitor_right
@@ -335,37 +339,36 @@ bindsym $mod+Shift+u exec "xdg-open $(xsel)"
 exec --no-startup-id i3-msg 'exec xrandr --output eDP-1 --auto --output HDMI-1 --auto --left-of eDP-1 --rotate left'
 exec --no-startup-id i3-msg 'exec nm-applet'
 exec --no-startup-id i3-msg 'exec blueman-applet'
-exec --no-startup-id i3-msg 'exec sudo rcnetwork restart'
 exec --no-startup-id i3-msg 'exec $tmux'
-exec --no-startup-id i3-msg 'exec $music'
-#exec --no-startup-id i3-msg 'exec google-chrome'
-#exec --no-startup-id i3-msg 'exec qutebrowser'
-#exec --no-startup-id i3-msg 'exec luakit'
 exec --no-startup-id i3-msg 'exec firefox'
 exec --no-startup-id i3-msg 'exec slack'
 exec --no-startup-id i3-msg 'exec messengerfordesktop'
-exec --no-startup-id i3-msg 'exec rslsync'
 exec --no-startup-id i3-msg 'exec xautolock -time 60 -locker $HOME/.i3/scripts/lock'
 exec --no-startup-id i3-msg 'exec dunst'
-exec --no-startup-id i3-msg 'exec kbdd'
 exec --no-startup-id i3-msg 'exec enpass'
-exec --no-startup-id i3-msg 'exec ~/.dropbox-dist/dropboxd'
+exec --no-startup-id i3-msg 'exec dropbox
 exec --no-startup-id i3-msg 'exec ~/.i3/scripts/focus_last'
-exec --no-startup-id i3-msg 'exec pasystray'
 exec --no-startup-id i3-msg 'exec parcellite'
-exec --no-startup-id i3-msg 'exec easystroke'
 exec --no-startup-id i3-msg 'exec xbindkeys'
-exec --no-startup-id i3-msg 'exec mopidy'
 exec --no-startup-id i3-msg 'exec xinput --set-prop 'pointer:Logitech MX Master' 'libinput Accel Speed' -0.2'
 exec --no-startup-id i3-msg 'exec /usr/local/bin/jungledisk'
-#exec_always --no-startup-id i3-msg 'exec xmodmap -e "keycode 108 = Delete"'
+exec_always --no-startup-id i3-msg 'exec xset r rate 150 150'
 exec_always --no-startup-id i3-msg 'exec xmodmap -e "clear lock"'
 exec_always --no-startup-id i3-msg 'exec xmodmap -e "keysym Caps_Lock = Escape"'
-exec_always --no-startup-id i3-msg 'exec xcape -e "Caps_Lock=Escape"'
-exec_always --no-startup-id i3-msg 'exec xset r rate 150 150'
-#exec --no-startup-id i3-msg 'exec dbus-launch autokey-gtk'
+### exec_always --no-startup-id i3-msg 'exec xmodmap -e "keycode 108 = Delete"'
+exec --no-startup-id i3-msg 'exec kbdd'
 exec --no-startup-id i3-msg 'exec pactl load-module module-equalizer-sink"
 exec --no-startup-id i3-msg 'exec pactl load-module module-dbus-protocol"
+exec --no-startup-id i3-msg 'exec qpaeq'
+exec --no-startup-id i3-msg 'exec ~/xvisbell/xvisbell'
+
+#exec --no-startup-id i3-msg 'exec mopidy'
+#exec --no-startup-id i3-msg 'exec easystroke'
+#exec --no-startup-id i3-msg 'exec rslsync'
+#exec --no-startup-id i3-msg 'exec sudo rcnetwork restart'
+#exec --no-startup-id i3-msg 'exec $music'
+#exec --no-startup-id i3-msg 'exec pasystray'
+#exec --no-startup-id i3-msg 'exec dbus-launch autokey-gtk'
 
 assign [class="XTerm"] $ws1
 assign [class="Google-chrome"] $ws2
@@ -373,18 +376,20 @@ assign [class="QupZilla"] $ws2
 assign [class="qutebrowser"] $ws2
 assign [class="luakit"] $ws2
 assign [class="Firefox"] $ws2
-assign [class="TeamViewer"] $ws5
-assign [class="^Franz"] $ws7
-assign [class="^Slack"] $ws7
-assign [class="^Messenger for Desktop"] $ws7
-assign [class="^viber"] $ws7
-assign [class="^Enpass"] $ws5
-assign [class="^Discord"] $ws5
+assign [class="TeamViewer"] $ws4
+assign [class="^Franz"] $ws3
+assign [class="^Slack"] $ws3
+assign [class="^Messenger for Desktop"] $ws3
+assign [class="^viber"] $ws3
+assign [class="^Enpass"] $ws4
+assign [class="^Discord"] $ws3
 assign [class="^tmux$"] $ws1
 assign [class="^music$"] $ws4
+assign [class="^qpaeq$"] $ws4
+
 for_window [title="Google Play Music"] move container to workspace $ws4
-for_window [title="Plarium.com"] move container to workspace $ws5
-for_window [title="Vikings: War Of Clans on Facebook"] move container to workspace $ws6
+for_window [title="Plarium.com"] move container to workspace $ws4
+for_window [title="Vikings: War Of Clans on Facebook"] move container to workspace $ws4
 
 bindsym $mod+Escape exec $HOME/.i3/scripts/lock -c 000000
 bindsym $mod+Ctrl+l exec ~/.i3/scripts/shutdown_menu

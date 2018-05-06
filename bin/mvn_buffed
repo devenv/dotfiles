@@ -1,2 +1,2 @@
 #!/usr/bin/sh
-MAVEN_OPS="$MAVEN_OPS -XX:+TieredCompilation -XX:TieredStopAtLevel=1" mvn -T0.8C -offline $@
+MAVEN_OPS="$MAVEN_OPS -XX:+TieredCompilation -XX:TieredStopAtLevel=1" mvn -T0.8C $@
