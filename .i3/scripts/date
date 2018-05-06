@@ -1,0 +1,5 @@
+DATE=`date '+%a %Y-%m-%d'`
+echo $DATE
+case $BLOCK_BUTTON in
+    1) echo $DATE | xsel -i
+esac

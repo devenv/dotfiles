@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 pkill -f XCreateMouseVoid
 pkill -f compton
-xrandr --output eDP-1 --mode 3840x2160 --scale 0.5x0.5 --pos 0x0 --output HDMI-1 --off
+xrandr --output eDP-1 --mode 1920x1080 --pos 0x0 --output HDMI-1 --off
 i3 restart
 #pkill -f gnome-settings
 #nohup dbus-launch /usr/lib/gnome-settings-daemon-3.0/gnome-settings-daemon-localeexec > /dev/null &

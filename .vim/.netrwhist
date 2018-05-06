@@ -1,5 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/devenv/dy/pmml_generator/pmml_generator/models'
-let g:netrw_dirhist_2='/home/devenv/dy/pmml_generator/pmml_generator'
-let g:netrw_dirhist_3='/home/devenv/dy/report-server-scala/.idea/runConfigurations'
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/devenv/.i3/scripts'
+let g:netrw_dirhist_2='/home/devenv/dy/chef-dy-spark/recipes'
+let g:netrw_dirhist_3='/home/devenv/dy/chef-dy-spark/.kitchen'
+let g:netrw_dirhist_4='/home/devenv/dy/collaborative-filtering-lab/visualizer/visualizer'
+let g:netrw_dirhist_5='/home/devenv/dy/chef-dy-learn/.kitchen'
+let g:netrw_dirhist_6='/home/devenv/dy/chef-dy-spark/templates/default'
+let g:netrw_dirhist_7='/home/devenv/dy/janitor-starter'
+let g:netrw_dirhist_8='/home/devenv/bin'
+let g:netrw_dirhist_9='/home/devenv/dy/pmml_generator/.kitchen'

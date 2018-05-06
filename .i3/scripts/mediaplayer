@@ -1,0 +1,49 @@
+#!/usr/bin/env perl
+
+use Time::HiRes qw(usleep);
+use Env qw(BLOCK_INSTANCE);
+
+my @metadata = ();
+my $player_arg = "";
+
+if ($BLOCK_INSTANCE) {
+    $player_arg = "--player='$BLOCK_INSTANCE'";
+}
+
+sub buttons {
+    my $method = shift;
+
+    if($method eq 'mpd') {
+        if ($ENV{'BLOCK_BUTTON'} == 1) {
+            system("mpc toggle");
+        } elsif ($ENV{'BLOCK_BUTTON'} == 2) {
+            system("mpc prev");
+        } elsif ($ENV{'BLOCK_BUTTON'} == 3) {
+            system("mpc next");
+        } elsif ($ENV{'BLOCK_BUTTON'} == 4) {
+            system("mpc volume +10");
+        } elsif ($ENV{'BLOCK_BUTTON'} == 5) {
+            system("mpc volume -10");
+        }
+    }
+}
+
+sub mpd {
+    my $data = qx(mpc current);
+    if (not $data eq '') {
+      my $status = qx(mpc status);
+        if (index($status, "pause") != -1) {
+          print("");
+        } else {
+          buttons("mpd");
+          print($data);
+          exit 0;
+        }
+    } else {
+        print("");
+    }
+}
+
+if ($player_arg eq '' or $player_arg =~ /mpd/) {
+    mpd;
+}

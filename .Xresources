@@ -1,7 +1,9 @@
 XTerm*allowSendEvents: true
 XTerm*allowsends: true
 
-! xterm*font: -misc-fixed-medium-r-normal--12-200-75-75-c-100-iso8859-1
+#xterm*font: -misc-fixed-medium-r-normal--12-200-75-75-c-100-iso8859-1
+XTerm*font: xft:Hack Regular:size=14
+Rxvt*font: xft:Hack Regular:size=14
 *loginShell: true
 *scrollBar: true
 *scrollBar_right:     true

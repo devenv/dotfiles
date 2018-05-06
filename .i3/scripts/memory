@@ -5,8 +5,9 @@ cached=$(awk '/^Cached/ {print $2}' /proc/meminfo)
 percentage=$(expr '(' $total - $free - $cached ')' '*' 100 / $total)
 echo $percentage%
 echo $percentage%
-if [ $percentage -ge 90 ]; then
+if [ $percentage -ge 80 ]; then
   echo "#FF0000\n"
+  xkbbell
 elif [ $percentage -ge 50 ]; then
   echo "#FFFC00\n"
 else

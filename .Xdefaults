@@ -1,0 +1,4 @@
+Xcursor.theme: Obsidian
+
+xterm*termName: xterm-256color
+xterm*selectToClipboard: true

@@ -143,6 +143,7 @@ set shell=/bin/bash
        Plugin 'embear/vim-localvimrc'
        Plugin 'xolox/vim-notes'
        Plugin 'jamessan/vim-gnupg'
+       Bundle 'oblitum/rainbow'
 
        "Plugin 'simnalamburt/vim-mundo'
        "Plugin 'chrisbra/histwin.vim'
@@ -1044,5 +1045,6 @@ set shell=/bin/bash
   nmap <silent> <leader>. <CR>:TestLast<CR>
   nmap <silent> <leader>tv <CR>:TestVisit<CR>
   let test#strategy = "vimterminal"
+  let g:rainbow_active = 1
 
 " }}}
