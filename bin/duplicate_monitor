@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+pkill -f XCreateMouseVoid
+pkill -f compton
+xrandr --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --brightness 1.0 --output eDP-1 --same-as HDMI-1
+i3 restart
+#pkill -f gnome-settings
+#nohup dbus-launch /usr/lib/gnome-settings-daemon-3.0/gnome-settings-daemon-localeexec > /dev/null &
+pkill xvisbell
+nohup ~/xvisbell/xvisbell & > /dev/null&
+feh --bg-fill --scale-down --auto-zoom ~/Pictures/df_wallpaper.jpg
+~/bin/compton_default
+echo Done

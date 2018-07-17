@@ -1,2 +1,2 @@
-#!/usr/bin/sh
+#!/bin/sh
 vim -c "Note root | set noshowcmd | set laststatus=0 | set noruler | set nornu | set nonu | set showtabline=0"

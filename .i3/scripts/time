@@ -1,5 +1,5 @@
 TIME=`date '+%H:%M:%S'`
-echo $TIME
+echo "<span font_weight='bold'>$TIME</span>"
 case $BLOCK_BUTTON in
-    1) echo $TIME | xsel -i
+    1) echo $TIME | tr -d '\n' | xsel -i
 esac

@@ -1,6 +1,6 @@
 [user]
   name = Boris Churzin
-  email = boris@dynamicyield.com
+  email = boris.churzin@fundbox.com
 [alias]
   ci = commit
   st = status
@@ -44,14 +44,26 @@
   tool = meld
 [push]
   default = current
+[pull]
+  default = current
 [advice]
   commitBeforeMerge = true
 [init]
-  templatedir = /home/devenv/.git-templates
+  templateDir = /home/devenv/.git-templates/git-secrets
 [mergetool "diffconflicts"]
-  cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+  cmd = diffconflicts nvim $BASE $LOCAL $REMOTE $MERGED
   trustExitCode = true
 [mergetool]
   keepBackup = false
 [credential]
   helper = cache --timeout=680400
+[secrets]
+  providers = git secrets --aws-provider
+  patterns = [A-Z0-9]{20}
+  patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+  patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+[filter "lfs"]
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f

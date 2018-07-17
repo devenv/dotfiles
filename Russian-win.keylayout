@@ -1,0 +1,1519 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<!DOCTYPE keyboard SYSTEM "file://localhost/System/Library/DTDs/KeyboardLayout.dtd">
+<!--
+- Keyboard layout description for Russian/Ukrainian/Byelorussian languages.
+- Jcukeng keyboard layout with windows-like key mapping.
+- Ukrainian and byelorussian characters entered using Option key.
+-
+- Copyright (C) 2006 Serge Vakulenko, <vak@cronyx.ru>
+-
+- This file is distributed in the hope that it will be useful, but WITHOUT
+- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- FITNESS FOR A PARTICULAR PURPOSE.
+-
+- You can redistribute this file and/or modify it under the terms of the GNU
+- General Public License (GPL) as published by the Free Software Foundation;
+- either version 2 of the License, or (at your discretion) any later version.
+- See "http://www.gnu.org/licenses/gpl.html" for more details.
+-->
+<!--Last edited by Ukelele version 3.4.0.277 on 2019-09-16 at 10:57 (GMT+3)-->
+<keyboard group="126" id="-19319" name="Russian Win" maxout="1">
+    <layouts>
+        <layout first="0" last="17" mapSet="RUS" modifiers="commonModifiers"/>
+    </layouts>
+    <modifierMap id="commonModifiers" defaultIndex="0">
+        <keyMapSelect mapIndex="0">
+            <modifier keys=""/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="1">
+            <modifier keys="anyShift caps?"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="2">
+            <modifier keys="caps"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="3">
+            <modifier keys="anyOption"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="4">
+            <modifier keys="anyShift caps? anyOption"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="5">
+            <modifier keys="caps anyOption"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="6">
+            <modifier keys="anyShift? caps? anyOption? command anyControl?"/>
+        </keyMapSelect>
+        <keyMapSelect mapIndex="7">
+            <modifier keys="anyShift? caps? anyOption? anyControl"/>
+        </keyMapSelect>
+    </modifierMap>
+    <keyMapSet id="RUS">
+        <keyMap index="0">
+            <!-- No modifiers -->
+            <key code="0" output="а"/>
+            <!-- ef small -->
+            <key code="1" output="с"/>
+            <!-- yeru small -->
+            <key code="2" output="д"/>
+            <!-- ve small -->
+            <key code="3" output="ф"/>
+            <!-- a small -->
+            <key code="4" output="х"/>
+            <!-- er small -->
+            <key code="5" output="г"/>
+            <!-- pe small -->
+            <key code="6" output="з"/>
+            <!-- ya small -->
+            <key code="7" output="ь"/>
+            <!-- che small -->
+            <key code="8" output="ц"/>
+            <!-- es small -->
+            <key code="9" output="ж"/>
+            <!-- em small -->
+            <key code="10" output="&#x003E;"/>
+            <!-- was § -->
+            <key code="11" output="б"/>
+            <!-- i small -->
+            <key code="12" output="я"/>
+            <!-- short i small -->
+            <key code="13" output="в"/>
+            <!-- tse small -->
+            <key code="14" output="е"/>
+            <!-- u small -->
+            <key code="15" output="р"/>
+            <!-- ka small -->
+            <key code="16" output="ы"/>
+            <!-- en small -->
+            <key code="17" output="т"/>
+            <!-- ie small -->
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="ч"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="щ"/>
+            <!-- hard sign small -->
+            <key code="31" output="о"/>
+            <!-- shcha small -->
+            <key code="32" output="у"/>
+            <!-- ghe small -->
+            <key code="33" output="ш"/>
+            <!-- ha small -->
+            <key code="34" output="и"/>
+            <!-- sha small -->
+            <key code="35" output="п"/>
+            <!-- ze small -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="л"/>
+            <!-- de small -->
+            <key code="38" output="й"/>
+            <!-- o small -->
+            <key code="39" output="&#x0027;"/>
+            <!-- e small -->
+            <key code="40" output="к"/>
+            <!-- el small -->
+            <key code="41" output=";"/>
+            <!-- zhe small -->
+            <key code="42" output="э"/>
+            <!-- was \ -->
+            <key code="43" output=","/>
+            <!-- be small -->
+            <key code="44" output="/"/>
+            <!-- was / -->
+            <key code="45" output="н"/>
+            <!-- te small -->
+            <key code="46" output="м"/>
+            <!-- soft sign small -->
+            <key code="47" output="."/>
+            <!-- yu small -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="ю"/>
+            <!-- io small, was ` -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="1">
+            <!-- shift -->
+            <key code="0" output="А"/>
+            <!-- Ef -->
+            <key code="1" output="С"/>
+            <!-- Yeru -->
+            <key code="2" output="Д"/>
+            <!-- Ve -->
+            <key code="3" output="Ф"/>
+            <!-- A -->
+            <key code="4" output="Х"/>
+            <!-- Er -->
+            <key code="5" output="Г"/>
+            <!-- Pe -->
+            <key code="6" output="З"/>
+            <!-- Ya -->
+            <key code="7" output="ъ"/>
+            <!-- Che -->
+            <key code="8" output="Ц"/>
+            <!-- Es -->
+            <key code="9" output="Ж"/>
+            <!-- Em -->
+            <key code="10" output="&#x003C;"/>
+            <!-- < was ± -->
+            <key code="11" output="Б"/>
+            <!-- I -->
+            <key code="12" output="Я"/>
+            <!-- Short I -->
+            <key code="13" output="В"/>
+            <!-- Tse -->
+            <key code="14" output="Е"/>
+            <!-- U -->
+            <key code="15" output="Р"/>
+            <!-- Ka -->
+            <key code="16" output="Ы"/>
+            <!-- En -->
+            <key code="17" output="Т"/>
+            <!-- Ie -->
+            <key code="18" output="!"/>
+            <key code="19" output="@"/>
+            <!-- ", was @ -->
+            <key code="20" output="#"/>
+            <!-- No, was # -->
+            <key code="21" output="$"/>
+            <!-- was $ -->
+            <key code="22" output="^"/>
+            <!-- was ^ -->
+            <key code="23" output="%"/>
+            <key code="24" output="+"/>
+            <key code="25" output="("/>
+            <key code="26" output="&#x0026;"/>
+            <!-- was & -->
+            <key code="27" output="Ч"/>
+            <key code="28" output="*"/>
+            <key code="29" output=")"/>
+            <key code="30" output="Щ"/>
+            <!-- Hard Sign -->
+            <key code="31" output="О"/>
+            <!-- Shcha -->
+            <key code="32" output="У"/>
+            <!-- Ghe -->
+            <key code="33" output="Ш"/>
+            <!-- Ha -->
+            <key code="34" output="И"/>
+            <!-- Sha -->
+            <key code="35" output="П"/>
+            <!-- Ze -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="Л"/>
+            <!-- De -->
+            <key code="38" output="Й"/>
+            <!-- O -->
+            <key code="39" output="&#x0022;"/>
+            <!-- E -->
+            <key code="40" output="К"/>
+            <!-- El -->
+            <key code="41" output=":"/>
+            <!-- Zhe -->
+            <key code="42" output="Э"/>
+            <key code="43" output="&#x003C;"/>
+            <!-- Be -->
+            <key code="44" output="?"/>
+            <!-- was ? -->
+            <key code="45" output="Н"/>
+            <!-- Te -->
+            <key code="46" output="М"/>
+            <!-- Soft Sign -->
+            <key code="47" output="&#x003E;"/>
+            <!-- Yu -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="Ю"/>
+            <!-- Io, was ~ -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="2">
+            <!-- caps lock -->
+            <key code="0" output="Ф"/>
+            <!-- Ef -->
+            <key code="1" output="Ы"/>
+            <!-- Yeru -->
+            <key code="2" output="В"/>
+            <!-- Ve -->
+            <key code="3" output="А"/>
+            <!-- A -->
+            <key code="4" output="Р"/>
+            <!-- Er -->
+            <key code="5" output="П"/>
+            <!-- Pe -->
+            <key code="6" output="Я"/>
+            <!-- Ya -->
+            <key code="7" output="Ч"/>
+            <!-- Che -->
+            <key code="8" output="С"/>
+            <!-- Es -->
+            <key code="9" output="М"/>
+            <!-- Em -->
+            <key code="10" output="&#x003E;"/>
+            <!-- was § -->
+            <key code="11" output="И"/>
+            <!-- I -->
+            <key code="12" output="Й"/>
+            <!-- Short I -->
+            <key code="13" output="Ц"/>
+            <!-- Tse -->
+            <key code="14" output="У"/>
+            <!-- U -->
+            <key code="15" output="К"/>
+            <!-- Ka -->
+            <key code="16" output="Н"/>
+            <!-- En -->
+            <key code="17" output="Е"/>
+            <!-- Ie -->
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="-"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="Ъ"/>
+            <!-- Hard Sign -->
+            <key code="31" output="Щ"/>
+            <!-- Shcha -->
+            <key code="32" output="Г"/>
+            <!-- Ghe -->
+            <key code="33" output="Х"/>
+            <!-- Ha -->
+            <key code="34" output="Ш"/>
+            <!-- Sha -->
+            <key code="35" output="З"/>
+            <!-- Ze -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="Д"/>
+            <!-- De -->
+            <key code="38" output="О"/>
+            <!-- O -->
+            <key code="39" output="Э"/>
+            <!-- E -->
+            <key code="40" output="Л"/>
+            <!-- El -->
+            <key code="41" output="Ж"/>
+            <!-- Zhe -->
+            <key code="42" output="/"/>
+            <!-- was \ -->
+            <key code="43" output="Б"/>
+            <!-- Be -->
+            <key code="44" output="."/>
+            <!-- was / -->
+            <key code="45" output="Т"/>
+            <!-- Te -->
+            <key code="46" output="Ь"/>
+            <!-- Soft Sign -->
+            <key code="47" output="Ю"/>
+            <!-- Yu -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="Ё"/>
+            <!-- Io, was ` -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="3">
+            <!-- option -->
+            <key code="0" output="ф"/>
+            <!-- ef small -->
+            <key code="1" output="ы"/>
+            <!-- yeru small -->
+            <key code="2" output="в"/>
+            <!-- ve small -->
+            <key code="3" output="а"/>
+            <!-- a small -->
+            <key code="4" output="р"/>
+            <!-- er small -->
+            <key code="5" output="п"/>
+            <!-- pe small -->
+            <key code="6" output="я"/>
+            <!-- ya small -->
+            <key code="7" output="ч"/>
+            <!-- che small -->
+            <key code="8" output="с"/>
+            <!-- es small -->
+            <key code="9" output="м"/>
+            <!-- em small -->
+            <key code="10" output="&#x003E;"/>
+            <!-- was § -->
+            <key code="11" output="і"/>
+            <!-- ukrainian i small -->
+            <key code="12" output="ї"/>
+            <!-- yi small -->
+            <key code="13" output="ц"/>
+            <!-- tse small -->
+            <key code="14" output="ў"/>
+            <!-- short u small -->
+            <key code="15" output="к"/>
+            <!-- ka small -->
+            <key code="16" output="н"/>
+            <!-- en small -->
+            <key code="17" output="є"/>
+            <!-- ukrainian ie small -->
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="-"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="ъ"/>
+            <!-- hard sign small -->
+            <key code="31" output="щ"/>
+            <!-- shcha small -->
+            <key code="32" output="ґ"/>
+            <!-- ghe with upturn small -->
+            <key code="33" output="х"/>
+            <!-- ha small -->
+            <key code="34" output="ш"/>
+            <!-- sha small -->
+            <key code="35" output="з"/>
+            <!-- ze small -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="д"/>
+            <!-- de small -->
+            <key code="38" output="о"/>
+            <!-- o small -->
+            <key code="39" output="э"/>
+            <!-- e small -->
+            <key code="40" output="л"/>
+            <!-- el small -->
+            <key code="41" output="ж"/>
+            <!-- zhe small -->
+            <key code="42" output="/"/>
+            <!-- was \ -->
+            <key code="43" output="б"/>
+            <!-- be small -->
+            <key code="44" output="."/>
+            <!-- was / -->
+            <key code="45" output="т"/>
+            <!-- te small -->
+            <key code="46" output="ь"/>
+            <!-- soft sign small -->
+            <key code="47" output="ю"/>
+            <!-- yu small -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="ё"/>
+            <!-- io small, was ` -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="4">
+            <!-- option shift -->
+            <key code="0" output="Ф"/>
+            <!-- Ef -->
+            <key code="1" output="Ы"/>
+            <!-- Yeru -->
+            <key code="2" output="В"/>
+            <!-- Ve -->
+            <key code="3" output="А"/>
+            <!-- A -->
+            <key code="4" output="Р"/>
+            <!-- Er -->
+            <key code="5" output="П"/>
+            <!-- Pe -->
+            <key code="6" output="Я"/>
+            <!-- Ya -->
+            <key code="7" output="Ч"/>
+            <!-- Che -->
+            <key code="8" output="С"/>
+            <!-- Es -->
+            <key code="9" output="М"/>
+            <!-- Em -->
+            <key code="10" output="&#x003C;"/>
+            <!-- < was ± -->
+            <key code="11" output="І"/>
+            <!-- Ukrainian I -->
+            <key code="12" output="Ї"/>
+            <!-- Yi -->
+            <key code="13" output="Ц"/>
+            <!-- Tse -->
+            <key code="14" output="Ў"/>
+            <!-- Short U -->
+            <key code="15" output="К"/>
+            <!-- Ka -->
+            <key code="16" output="Н"/>
+            <!-- En -->
+            <key code="17" output="Є"/>
+            <!-- Ukrainian Ie -->
+            <key code="18" output="!"/>
+            <key code="19" output="&#x0022;"/>
+            <!-- ", was @ -->
+            <key code="20" output="№"/>
+            <!-- No, was # -->
+            <key code="21" output=";"/>
+            <!-- was $ -->
+            <key code="22" output=":"/>
+            <!-- was ^ -->
+            <key code="23" output="%"/>
+            <key code="24" output="+"/>
+            <key code="25" output="("/>
+            <key code="26" output="?"/>
+            <!-- was & -->
+            <key code="27" output="_"/>
+            <key code="28" output="*"/>
+            <key code="29" output=")"/>
+            <key code="30" output="Ъ"/>
+            <!-- Hard Sign -->
+            <key code="31" output="Щ"/>
+            <!-- Shcha -->
+            <key code="32" output="Ґ"/>
+            <!-- Ghe with upturn -->
+            <key code="33" output="Х"/>
+            <!-- Ha -->
+            <key code="34" output="Ш"/>
+            <!-- Sha -->
+            <key code="35" output="З"/>
+            <!-- Ze -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="Д"/>
+            <!-- De -->
+            <key code="38" output="О"/>
+            <!-- O -->
+            <key code="39" output="Э"/>
+            <!-- E -->
+            <key code="40" output="Л"/>
+            <!-- El -->
+            <key code="41" output="Ж"/>
+            <!-- Zhe -->
+            <key code="42" output="|"/>
+            <key code="43" output="Б"/>
+            <!-- Be -->
+            <key code="44" output=","/>
+            <!-- was ? -->
+            <key code="45" output="Т"/>
+            <!-- Te -->
+            <key code="46" output="Ь"/>
+            <!-- Soft Sign -->
+            <key code="47" output="Ю"/>
+            <!-- Yu -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="Ё"/>
+            <!-- Io, was ~ -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="5">
+            <!-- option caps lock -->
+            <key code="0" output="Ф"/>
+            <!-- Ef -->
+            <key code="1" output="Ы"/>
+            <!-- Yeru -->
+            <key code="2" output="В"/>
+            <!-- Ve -->
+            <key code="3" output="А"/>
+            <!-- A -->
+            <key code="4" output="Р"/>
+            <!-- Er -->
+            <key code="5" output="П"/>
+            <!-- Pe -->
+            <key code="6" output="Я"/>
+            <!-- Ya -->
+            <key code="7" output="Ч"/>
+            <!-- Che -->
+            <key code="8" output="С"/>
+            <!-- Es -->
+            <key code="9" output="М"/>
+            <!-- Em -->
+            <key code="10" output="&#x003E;"/>
+            <!-- was § -->
+            <key code="11" output="І"/>
+            <!-- Ukrainian I -->
+            <key code="12" output="Ї"/>
+            <!-- Yi -->
+            <key code="13" output="Ц"/>
+            <!-- Tse -->
+            <key code="14" output="Ў"/>
+            <!-- Short U -->
+            <key code="15" output="К"/>
+            <!-- Ka -->
+            <key code="16" output="Н"/>
+            <!-- En -->
+            <key code="17" output="Є"/>
+            <!-- Ukrainian Ie -->
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="-"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="Ъ"/>
+            <!-- Hard Sign -->
+            <key code="31" output="Щ"/>
+            <!-- Shcha -->
+            <key code="32" output="Ґ"/>
+            <!-- Ghe with upturn -->
+            <key code="33" output="Х"/>
+            <!-- Ha -->
+            <key code="34" output="Ш"/>
+            <!-- Sha -->
+            <key code="35" output="З"/>
+            <!-- Ze -->
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="Д"/>
+            <!-- De -->
+            <key code="38" output="О"/>
+            <!-- O -->
+            <key code="39" output="Э"/>
+            <!-- E -->
+            <key code="40" output="Л"/>
+            <!-- El -->
+            <key code="41" output="Ж"/>
+            <!-- Zhe -->
+            <key code="42" output="/"/>
+            <!-- was \ -->
+            <key code="43" output="Б"/>
+            <!-- Be -->
+            <key code="44" output="."/>
+            <!-- was / -->
+            <key code="45" output="Т"/>
+            <!-- Te -->
+            <key code="46" output="Ь"/>
+            <!-- Soft Sign -->
+            <key code="47" output="Ю"/>
+            <!-- Yu -->
+            <key code="48" output="&#x0009;"/>
+            <!-- Tab -->
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="Ё"/>
+            <!-- Io, was ` -->
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="6">
+            <!-- command -->
+            <key code="0" output="a"/>
+            <key code="1" output="s"/>
+            <key code="2" output="d"/>
+            <key code="3" output="f"/>
+            <key code="4" output="h"/>
+            <key code="5" output="g"/>
+            <key code="6" output="z"/>
+            <key code="7" output="x"/>
+            <key code="8" output="c"/>
+            <key code="9" output="v"/>
+            <key code="10" output="§"/>
+            <key code="11" output="b"/>
+            <key code="12" output="q"/>
+            <key code="13" output="w"/>
+            <key code="14" output="e"/>
+            <key code="15" output="r"/>
+            <key code="16" output="y"/>
+            <key code="17" output="t"/>
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="-"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="]"/>
+            <key code="31" output="o"/>
+            <key code="32" output="u"/>
+            <key code="33" output="["/>
+            <key code="34" output="i"/>
+            <key code="35" output="p"/>
+            <key code="36" output="&#x000D;"/>
+            <!-- Enter -->
+            <key code="37" output="l"/>
+            <key code="38" output="j"/>
+            <key code="39" output="&#x0027;"/>
+            <key code="40" output="k"/>
+            <key code="41" output=";"/>
+            <key code="42" output="\"/>
+            <key code="43" output=","/>
+            <key code="44" output="/"/>
+            <key code="45" output="n"/>
+            <key code="46" output="m"/>
+            <key code="47" output="."/>
+            <key code="48" output="&#x0009;"/>
+            <key code="49" output=" "/>
+            <!-- Space -->
+            <key code="50" output="`"/>
+            <key code="51" output="&#x0008;"/>
+            <!-- Backspace -->
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- Escape -->
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+        <keyMap index="7">
+            <!-- control -->
+            <key code="0" output="&#x0001;"/>
+            <key code="1" output="&#x0013;"/>
+            <key code="2" output="&#x0004;"/>
+            <key code="3" output="&#x0006;"/>
+            <key code="4" output="&#x0008;"/>
+            <key code="5" output="&#x0007;"/>
+            <key code="6" output="&#x001A;"/>
+            <key code="7" output="&#x0018;"/>
+            <key code="8" output="&#x0003;"/>
+            <key code="9" output="&#x0016;"/>
+            <key code="10" output="0"/>
+            <key code="11" output="&#x0002;"/>
+            <key code="12" output="&#x0011;"/>
+            <key code="13" output="&#x0017;"/>
+            <key code="14" output="&#x0005;"/>
+            <key code="15" output="&#x0012;"/>
+            <key code="16" output="&#x0019;"/>
+            <key code="17" output="&#x0014;"/>
+            <key code="18" output="1"/>
+            <key code="19" output="2"/>
+            <key code="20" output="3"/>
+            <key code="21" output="4"/>
+            <key code="22" output="6"/>
+            <key code="23" output="5"/>
+            <key code="24" output="="/>
+            <key code="25" output="9"/>
+            <key code="26" output="7"/>
+            <key code="27" output="&#x001F;"/>
+            <key code="28" output="8"/>
+            <key code="29" output="0"/>
+            <key code="30" output="&#x001D;"/>
+            <key code="31" output="&#x000F;"/>
+            <key code="32" output="&#x0015;"/>
+            <key code="33" output="&#x001B;"/>
+            <key code="34" output="&#x0009;"/>
+            <key code="35" output="&#x0010;"/>
+            <key code="36" output="&#x000A;"/>
+            <!-- Enter -->
+            <key code="37" output="&#x000C;"/>
+            <key code="38" output="&#x000A;"/>
+            <key code="39" output="&#x0027;"/>
+            <key code="40" output="&#x000B;"/>
+            <key code="41" output=";"/>
+            <key code="42" output="&#x001C;"/>
+            <key code="43" output=","/>
+            <key code="44" output="/"/>
+            <key code="45" output="&#x000E;"/>
+            <key code="46" output="&#x000D;"/>
+            <key code="47" output="."/>
+            <key code="48" output="&#x0009;"/>
+            <key code="49" output=" "/>
+            <key code="50" output="`"/>
+            <key code="51" output="&#x0008;"/>
+            <key code="52" output="&#x000A;"/>
+            <!-- LineFeed -->
+            <key code="53" output="&#x001B;"/>
+            <!-- gap, 54 through 64 -->
+            <key code="65" output=""/>
+            <!-- ./Del -->
+            <key code="66" output="&#x001D;"/>
+            <!-- ??? -->
+            <key code="67" output="*"/>
+            <!-- keypad * -->
+            <!-- gap, 68 -->
+            <key code="69" output="+"/>
+            <!-- keypad + -->
+            <key code="70" output="&#x001C;"/>
+            <!-- ??? -->
+            <key code="71" output="&#x001B;"/>
+            <!-- Num Lock -->
+            <key code="72" output="&#x001F;"/>
+            <!-- ??? -->
+            <!-- gap, 73-74 -->
+            <key code="75" output="/"/>
+            <!-- keypad / -->
+            <key code="76" output="&#x0003;"/>
+            <!-- keypad Enter -->
+            <key code="77" output="&#x001E;"/>
+            <!-- ??? -->
+            <key code="78" output="-"/>
+            <!-- keypad - -->
+            <!-- gap, 79-80 -->
+            <key code="81" output="="/>
+            <!-- keypad = -->
+            <key code="82" output=""/>
+            <!-- 0/Ins -->
+            <key code="83" output=""/>
+            <!-- 1/End -->
+            <key code="84" output=""/>
+            <!-- 2/Down -->
+            <key code="85" output=""/>
+            <!-- 3/PgDn -->
+            <key code="86" output=""/>
+            <!-- 4/Left -->
+            <key code="87" output=""/>
+            <!-- 5/Select -->
+            <key code="88" output=""/>
+            <!-- 6/Right -->
+            <key code="89" output=""/>
+            <!-- 7/Home -->
+            <!-- gap, 90 -->
+            <key code="91" output=""/>
+            <!-- 8/Up -->
+            <key code="92" output=""/>
+            <!-- 9/PgUp -->
+            <!-- gap, 93-95 -->
+            <key code="96" output="&#x0010;"/>
+            <key code="97" output="&#x0010;"/>
+            <key code="98" output="&#x0010;"/>
+            <key code="99" output="&#x0010;"/>
+            <key code="100" output="&#x0010;"/>
+            <key code="101" output="&#x0010;"/>
+            <key code="102" output="&#x0010;"/>
+            <key code="103" output="&#x0010;"/>
+            <key code="104" output="&#x0010;"/>
+            <key code="105" output="&#x0010;"/>
+            <key code="106" output="&#x0010;"/>
+            <key code="107" output="&#x0010;"/>
+            <key code="108" output="&#x0010;"/>
+            <key code="109" output="&#x0010;"/>
+            <key code="110" output=""/>
+            <!-- Print -->
+            <key code="111" output="&#x0010;"/>
+            <key code="112" output="&#x0010;"/>
+            <key code="113" output="&#x0010;"/>
+            <key code="114" output=""/>
+            <!-- Insert -->
+            <key code="115" output="&#x0001;"/>
+            <!-- Home -->
+            <key code="116" output="&#x000B;"/>
+            <!-- Page Up -->
+            <key code="117" output="&#x007F;"/>
+            <!-- Delete -->
+            <key code="118" output="&#x0010;"/>
+            <key code="119" output="&#x0004;"/>
+            <!-- End -->
+            <key code="120" output="&#x0010;"/>
+            <key code="121" output="&#x000C;"/>
+            <!-- Page Down -->
+            <key code="122" output="&#x0010;"/>
+            <key code="123" output="&#x001C;"/>
+            <!-- Left -->
+            <key code="124" output="&#x001D;"/>
+            <!-- Right -->
+            <key code="125" output="&#x001F;"/>
+            <!-- Down -->
+            <key code="126" output="&#x001E;"/>
+            <!-- Up -->
+            <!-- gap, 127 -->
+        </keyMap>
+    </keyMapSet>
+</keyboard>

@@ -1,5 +1,6 @@
 alias l='ls -al'
 export TERM=xterm-256color
+source ~/.profile
 [[ $- == *i* ]] && ~/.i3/scripts/tmux-session $USER && exit
 export TMUX_NESTED=1
 

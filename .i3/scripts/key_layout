@@ -18,8 +18,19 @@
 
 layout=`~/bin/xkblayout-state print "%s" | tr a-z A-Z`
 
-echo $layout
-echo $layout
-if [ "$layout" != "US" ]; then
-  echo "#FA827C"
+if [ "$layout" == "US" ]; then
+  echo $layout
+  echo $layout
+  echo "#8AFF92"
+elif [ "$layout" == "RU" ]; then
+  echo "<span weight='bold'>$layout</span>"
+  echo "<span weight='bold'>$layout</span>"
+  echo "#FF6666"
+elif [ "$layout" == "IL" ]; then
+  echo "<span weight='bold'>$layout</span>"
+  echo "<span weight='bold'>$layout</span>"
+  echo "#FF6666"
 fi
+case $BLOCK_BUTTON in
+    1) ~/bin/next_keyboard_layout
+esac

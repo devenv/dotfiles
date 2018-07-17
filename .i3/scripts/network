@@ -34,5 +34,5 @@ ipaddr="${ipaddr:-0.0.0.0}"
 echo -n "$ipaddr"
 
 case $BLOCK_BUTTON in
-    1) echo $ipaddr | xsel -i
+    1) echo $ipaddr | tr -d '\n' | xsel -i
 esac

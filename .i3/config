@@ -3,8 +3,8 @@
 set $mod Mod4
 set $xterm uxterm -fn Hack-Regular -report-colors
 set $notes uxterm -fn Hack-Regular -report-colors +sb -class vim_notes -name vim_notes -T vim_notes -e '~/bin/notes'
-set $vpn uxterm -fn Hack-Regular -report-colors +sb -class vpn -name vpn -T vpn -e '~/bin/vpn'
-set $gcalcli uxterm -fn Hack-Regular -report-colors +sb -class gcalcli -name gcalcli -T gcalcli -e 'gcalcli agenda | less'
+set $vpn uxterm -fn Hack-Regular -report-colors +sb -class vpn -name vpn -T vpn -e '~/bin/meta_vpn.sh'
+set $gcalcli uxterm -fn Hack-Regular -report-colors +sb -class gcalcli -name gcalcli -T gcalcli -e '~/bin/agenda.sh'
 set $mutt uxterm -fn Hack-Regular -report-colors +sb -class mutt -name mutt -T mutt -e "neomutt"
 set $tmux uxterm -fn Hack-Regular -report-colors +sb -class tmux -name tmux -T tmux -e "~/.i3/scripts/tmux-session default"
 set $music uxterm -fn Hack-Regular -report-colors +sb -class music -name music -T music -e "~/.i3/scripts/tmux-music"
@@ -37,9 +37,9 @@ set $transparent #00000000
 set $height 34
 
 set $ws1  "1:  "
-set $ws2  "2:  "
-set $ws3  "3:  "
-set $ws4  "4:  "
+set $ws2  "2:  "
+set $ws3  "3:  "
+set $ws4  "4:  "
 
 workspace 1 output HDMI-1
 workspace 2 output eDP-1
@@ -59,7 +59,6 @@ bindsym $mod+z focus left
 bindsym $mod+x focus right
 bindsym --whole-window button8 focus right
 
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -73,7 +72,6 @@ bindsym $mod+Shift+l move right
 bindsym $mod+Shift+z move left
 bindsym $mod+Shift+x move right
 
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -90,6 +88,9 @@ focus_follows_mouse false
 #workspace_auto_back_and_forth yes
 force_display_urgency_hint 0 ms
 focus_on_window_activation focus
+
+bindsym --release button2 kill
+bindsym button3 floating toggle
 
 font pango:FontAwesome 12, Hack-Regular 12
 
@@ -122,7 +123,6 @@ bindsym Mod1+F1 exec --no-startup-id rofi -show run
 bindsym $mod+b split h
 bindsym $mod+v split v
 
-# Until I figure out a better way to use this key
 bindsym $mod+f fullscreen
 bindsym $mod+g fullscreen global
 
@@ -148,10 +148,10 @@ bindsym $mod+plus scratchpad show
 
 bindsym $mod+Ctrl+s sticky toggle
 
-bindsym Shift+$mod+1 move container to workspace number $ws1
-bindsym Shift+$mod+2 move container to workspace number $ws2
-bindsym Shift+$mod+3 move container to workspace number $ws3
-bindsym Shift+$mod+4 move container to workspace number $ws4
+bindsym Shift+$mod+1 move container to workspace $ws1
+bindsym Shift+$mod+2 move container to workspace $ws2
+bindsym Shift+$mod+3 move container to workspace $ws3
+bindsym Shift+$mod+4 move container to workspace $ws4
 
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
@@ -255,7 +255,7 @@ for_window [class="(?i)pavucontrol"] floating enable, move position mouse
 for_window [class="(?i)pavucontrol" instance="pavucontrol-bar"] move down $height px
 for_window [class="(?i)jetbrains-idea" title="^Debug$|^Run$"] floating disable move container to workspace number $ws3
 for_window [title="^xv"] floating enable
-for_window [window_role="toolbox_window"] floating enable
+for_window [class="love-hg"] floating disable
 
 for_window [class="^vim_notes$"] floating enable, border 1pixel, resize set 600 400, move position 100px 100px, move scratchpad, scratchpad show
 for_window [class="^vpn$"] floating enable, border 1pixel, resize set 600 400, move position 100px 100px, move scratchpad, scratchpad show
@@ -276,12 +276,13 @@ bar {
     height 22
     position bottom
     font pango:FontAwesome 12, Hack-Regular 12
+    tray_output HDMI-1
     tray_output eDP-1
     colors {
       statusline    #999999
       background    #141414
 
-      focused_workspace #141414 #141414 #FAF87C
+      focused_workspace #141414 #141414 #FFFF00
       active_workspace  #141414 #141414 #999999
       inactive_workspace  #141414 #141414 #999999
       urgent_workspace  #141414 #141414 #B33A3A
@@ -291,32 +292,24 @@ bar {
 # AUTOSTART
 
 exec --no-startup-id i3-msg 'exec ~/bin/compton_default'
-exec --no-startup-id i3-msg 'exec ~/bin/set_keyboard_layout_en'
+exec --no-startup-id i3-msg 'exec ~/bin/init_keyboard.sh'
 bindsym $mod+Tab exec ~/bin/next_keyboard_layout
-
-bindsym Mod1+e exec ~/bin/set_keyboard_layout_en
-bindsym Mod1+ק exec ~/bin/set_keyboard_layout_en
-bindsym Mod1+е exec ~/bin/set_keyboard_layout_en
-bindsym Mod1+r exec ~/bin/set_keyboard_layout_ru
-bindsym Mod1+ר exec ~/bin/set_keyboard_layout_ru
-bindsym Mod1+i exec ~/bin/set_keyboard_layout_il
-bindsym Mod1+и exec ~/bin/set_keyboard_layout_il
 
 bindsym $mod+n move workspace to output right
 bindsym $mod+Mod1+x exec ~/.i3/scripts/swap_workspaces.py
+bindsym $mod+Shift+b exec ~/bin/reconnect_jabra
 bindsym $mod+m exec pavolume mutetoggle
 bindsym $mod+q exec pavolume volup
 bindsym $mod+a exec pavolume voldown
-#bindsym Mod1+z exec mpc -p 6601 toggle
-#bindsym Mod1+c exec mpc -p 6601 next
-#bindsym Mod1+x exec mpc -p 6601 prev
+bindsym Ctrl+Mod1+Tab exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+z"
 bindsym Mod1+z exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+z"
-bindsym Mod1+c exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+c"
 bindsym Mod1+x exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+x"
+bindsym Mod1+c exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+c"
+bindcode 208 exec "xdotool key --clearmodifiers --window `xdotool search --name 'Google Play Music' | head -1` alt+z"
 
 bindsym $mod+Mod1+d exec play ~/dumdumduuum.ogg
 bindsym $mod+Mod1+b exec play ~/badumtss.ogg
-bindsym $mod+Mod1+l exec play ~/laaalalalaaa.ogg
+#bindsym $mod+Mod1+l exec play ~/laaalalalaaa.ogg
 bindsym $mod+Mod1+h exec play ~/hohohohoho.ogg
 bindsym $mod+Mod1+w exec play ~/wawawaaa.ogg
 bindsym $mod+Mod1+t exec play ~/tada.ogg
@@ -328,7 +321,7 @@ bindsym $mod+space exec ~/bin/toggle_touchpad
 bindsym $mod+comma exec ~/bin/dual_monitor_left
 bindsym $mod+period exec ~/bin/dual_monitor_right
 bindsym $mod+slash exec ~/bin/single_monitor
-bindsym $mod+Shift+slash exec ~/bin/single_monitor_hidpi
+bindsym $mod+Shift+slash exec ~/bin/duplicate_monitor
 
 bindsym $mod+t exec $xterm -e htop
 bindsym Mod1+Ctrl+Escape exec xkill
@@ -336,31 +329,27 @@ bindsym Mod1+Ctrl+Escape exec xkill
 
 bindsym $mod+Shift+u exec "xdg-open $(xsel)"
 
-exec --no-startup-id i3-msg 'exec xrandr --output eDP-1 --auto --output HDMI-1 --auto --left-of eDP-1 --rotate left'
+exec --no-startup-id i3-msg 'exec $tmux'
+exec --no-startup-id i3-msg 'exec udiskie -N'
+exec --no-startup-id i3-msg 'exec ~/bin/single_monitor'
 exec --no-startup-id i3-msg 'exec nm-applet'
 exec --no-startup-id i3-msg 'exec blueman-applet'
-exec --no-startup-id i3-msg 'exec $tmux'
 exec --no-startup-id i3-msg 'exec firefox'
 exec --no-startup-id i3-msg 'exec slack'
-exec --no-startup-id i3-msg 'exec messengerfordesktop'
+exec --no-startup-id i3-msg 'exec /opt/messengerfordesktop/messengerfordesktop'
 exec --no-startup-id i3-msg 'exec xautolock -time 60 -locker $HOME/.i3/scripts/lock'
 exec --no-startup-id i3-msg 'exec dunst'
 exec --no-startup-id i3-msg 'exec enpass'
 exec --no-startup-id i3-msg 'exec dropbox
 exec --no-startup-id i3-msg 'exec ~/.i3/scripts/focus_last'
 exec --no-startup-id i3-msg 'exec parcellite'
-exec --no-startup-id i3-msg 'exec xbindkeys'
-exec --no-startup-id i3-msg 'exec xinput --set-prop 'pointer:Logitech MX Master' 'libinput Accel Speed' -0.2'
 exec --no-startup-id i3-msg 'exec /usr/local/bin/jungledisk'
-exec_always --no-startup-id i3-msg 'exec xset r rate 150 150'
-exec_always --no-startup-id i3-msg 'exec xmodmap -e "clear lock"'
-exec_always --no-startup-id i3-msg 'exec xmodmap -e "keysym Caps_Lock = Escape"'
-### exec_always --no-startup-id i3-msg 'exec xmodmap -e "keycode 108 = Delete"'
-exec --no-startup-id i3-msg 'exec kbdd'
 exec --no-startup-id i3-msg 'exec pactl load-module module-equalizer-sink"
 exec --no-startup-id i3-msg 'exec pactl load-module module-dbus-protocol"
 exec --no-startup-id i3-msg 'exec qpaeq'
 exec --no-startup-id i3-msg 'exec ~/xvisbell/xvisbell'
+exec --no-startup-id i3-msg 'exec i8kmon'
+exec --no-startup-id i3-msg 'exec powerline-daemon -q'
 
 #exec --no-startup-id i3-msg 'exec mopidy'
 #exec --no-startup-id i3-msg 'exec easystroke'
@@ -386,6 +375,7 @@ assign [class="^Discord"] $ws3
 assign [class="^tmux$"] $ws1
 assign [class="^music$"] $ws4
 assign [class="^qpaeq$"] $ws4
+assign [class="^spotify$"] $ws4
 
 for_window [title="Google Play Music"] move container to workspace $ws4
 for_window [title="Plarium.com"] move container to workspace $ws4
@@ -394,6 +384,6 @@ for_window [title="Vikings: War Of Clans on Facebook"] move container to workspa
 bindsym $mod+Escape exec $HOME/.i3/scripts/lock -c 000000
 bindsym $mod+Ctrl+l exec ~/.i3/scripts/shutdown_menu
 
-bindsym --release Print exec "scrot -s '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'"
+bindsym --release Print exec ~/.i3/scripts/screenshot.sh
 
 exec i3-msg workspace $ws1

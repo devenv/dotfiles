@@ -1,0 +1,36 @@
+"3.16.0 (created: 2017/02/01 00:55:15)
+
+set hintmatching=fuzzy
+source! /home/devenv/.vimperatorrc.local
+
+" vim: set ft=vimperator:
+
+"===[ Settings ]========================================================
+
+" Autocomplete using Firefox Awesomebar subsystem
+set complete=l
+
+" Select the longest autocomplete match
+set wildmode='list:full'
+
+" Don't beep
+set noerrorbells
+
+" Make Firefox run faster by using JIT
+set! javascript.options.jit.chrome=true
+
+"===[ Status bars ]=====================================================
+
+" Make bar yellow when focused.
+" From: http://www.reddit.com/r/linux/comments/99d55/i_could_use_a_little_vimperator_help_also/
+javascript <<EOF
+    (function() {
+        var inputElement = document.getElementById('liberator-commandline-command');
+        function swapBGColor(event) {
+            inputElement.style.backgroundColor = event.type == "focus" ? "yellow" : "";
+        }
+        inputElement.addEventListener('focus', swapBGColor, false);
+        inputElement.addEventListener('blur', swapBGColor, false);
+    })();
+EOF
+

@@ -1,4 +1,5 @@
 package bang-bang
+package bass
 package cd
 package foreign-env
 package grc

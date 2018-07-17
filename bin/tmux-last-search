@@ -1,0 +1,8 @@
+#!/bin/sh
+
+tmux copy-mode
+tmux send-keys "?Tra"
+sleep 1
+tmux send-keys Up
+sleep 1
+tmux send-keys Enter

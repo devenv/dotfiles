@@ -1,10 +1,10 @@
 bind \e\[1\;5C forward-word
 bind \e\[1\;5D backward-word
-bind \cleft backward-word
-bind \cright forward-word
+#bind \cleft backward-word
+#bind \cright forward-word
 set -U fish_key_bindings fish_default_key_bindings
 
-source ~/.credentials
+#source ~/.credentials
 source ~/.profile
 
 #fish_vi_key_bindings
@@ -18,3 +18,15 @@ end
 
 set  -U grc_plugin --color
 
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
+set -g theme_date_format "+%H:%M"
+set -g theme_show_exit_status yes
+#set -g theme_display_git_master_branch yes
+#set -g theme_display_git_ahead_verbose yes
+#set -g theme_display_git_dirty_verbose yes
+#set -g theme_display_git_stashed_verbose yes
+set -g theme_display_cmd_duration yes
+set -g theme_display_jobs_verbose yes
+set -g theme_color_scheme terminal2

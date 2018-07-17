@@ -1,0 +1,2 @@
+#!/usr/bin/sh
+echo DISPLAY=:0 zenity --info --text=$2 | at "$1"
