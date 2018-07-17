@@ -1,1 +1,1 @@
-/home/devenv/.config/fisherman/metro/fish_prompt.fish
+/Users/borischurzin/.local/share/omf/themes/bobthefish/fish_prompt.fish

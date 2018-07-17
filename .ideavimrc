@@ -1,0 +1,40 @@
+set ideajoin
+
+source ~/.vimrc
+
+set surround
+set scrolloff=2
+set ignorecase
+
+set multiple-cursors
+
+nmap <C-w><C-q> :q<CR>
+
+nnoremap <leader>p :action PinActiveTab<CR>
+nnoremap <leader>g :action Annotate<CR>
+nnoremap <leader>h :action QuickJavaDoc<CR>
+nnoremap <leader>s :action NewScratchBuffer<CR>
+nnoremap <C-p> :action GotoClass<CR>
+nnoremap <leader>/ :nohlsearch<CR>
+
+nnoremap <leader>, :action VimFilePrevious<CR>
+nnoremap <leader>r :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>u :action FindUsages<CR>
+
+nnoremap <leader>c :action CompileProject<CR>
+nnoremap <leader><space> :action Run<CR>
+nnoremap <leader>. :action RunClass<CR>
+nnoremap <leader>< :action Debug<CR>
+nnoremap <leader>> :action DebugClass<CR>
+nnoremap <leader>n :action ChooseRunConfiguration<CR>
+nnoremap <leader>N :action RerunFailedTests<CR>
+nnoremap <leader>m :action Resume<CR>
+nnoremap <leader>t :action RunToCursor<CR>
+nnoremap <leader>b :action ToggleLineBreakpoint<CR>
+
+noremap <leader>e :action EvaluateExpression<CR>
+noremap <leader>w :action Debugger.AddToWatch<CR>
+
+nnoremap 0 0
+nnoremap ^ ^
+nnoremap $ $

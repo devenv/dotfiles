@@ -3,15 +3,18 @@ date >> ~/lock_dates.txt
 scrot -q 1 /tmp/screen_locked.png
 #i3lock -i /tmp/screen_locked.png
 
-#convert /tmp/screen_locked.png -modulate 80 -blur 0x6 -brightness-contrast 5x5 /tmp/screen_locked2.png
-#$HOME/bin/effects/camerablur -t defocus -a 7 /tmp/screen_locked.png /tmp/screen_locked2.png
-
-$HOME/bin/effects/disperse -s 5 -d 2 -c 10 /tmp/screen_locked.png /tmp/screen_locked2.png
-mv /tmp/screen_locked2.png /tmp/screen_locked.png
-#$HOME/bin/effects/watercolor -s 0 -e 5 -m 33 -c 0 /tmp/screen_locked.png /tmp/screen_locked2.png
+#convert /tmp/screen_locked.png -scale 40% /tmp/screen_locked2.png
 #mv /tmp/screen_locked2.png /tmp/screen_locked.png
-convert /tmp/screen_locked.png -blur 0x2 /tmp/screen_locked2.png
+
+#$HOME/bin/effects/ripples -c 400,400 -t d -a 20 -w 35 -o 0 -r 35 -p 1 /tmp/screen_locked.png /tmp/screen_locked2.png
+$HOME/bin/effects/crosshatch  -l 7 -s 5 -g 0 -a 1 -b -80 /tmp/screen_locked.png /tmp/screen_locked2.png
+#$HOME/bin/effects/screeneffects -s 3.5 -t displace -a 6 -r -m 3 /tmp/screen_locked.png /tmp/screen_locked2.png
+#$HOME/bin/effects/turbulence -s 20 -d 200 /tmp/screen_locked.png /tmp/screen_locked2.png
+#$HOME/bin/effects/frosted  -b 1 -s 2 /tmp/screen_locked.png /tmp/screen_locked2.png
+
 mv /tmp/screen_locked2.png /tmp/screen_locked.png
+#convert /tmp/screen_locked.png -scale 250% /tmp/screen_locked2.png
+#mv /tmp/screen_locked2.png /tmp/screen_locked.png
 
 pkill i3lock
 i3lock -i /tmp/screen_locked.png

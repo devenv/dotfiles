@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+pavolume muteon
+bluetoothctl disconnect 74:5C:4B:0A:91:E0
+bluetoothctl connect 74:5C:4B:0A:91:E0

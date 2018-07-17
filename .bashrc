@@ -11,3 +11,9 @@ export PATH=/home/devenv/jdk1.8.0_73/bin:/home/devenv/apache-maven-3.3.3/bin:/us
 export JAVA_HOME=~/jdk1.8.0_73
 export M2_HOME=~/apache-maven-3.3.9/
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

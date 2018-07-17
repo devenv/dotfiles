@@ -31,19 +31,31 @@ close(ACPI);
 
 # fail on unexpected output
 if ($acpi !~ /: (\w+), (\d+)%/) {
-    die "$acpi\n";
+  die "$acpi\n";
 }
 
 $status = $1;
 $percent = $2;
 $full_text = "$percent%";
 
-if ($status eq 'Discharging') {
-        $full_text = '   ' . $full_text ;
-} elsif ($status eq 'Charging') {
-        $full_text = '   ' . $full_text ;
+my $full = "" ;
+my $almost_full = "" ;
+my $half = "" ;
+my $almost_empty = "" ;
+my $empty = "" ;
+
+if ($status eq 'Discharging' or $status eq 'Charging') {
+  if ($percent > 75) {
+    $full_text = $full . '  ' . $full_text ;
+  } elsif ($percent > 50) {
+    $full_text = $almost_full . '  ' . $full_text ;
+  } elsif ($percent > 25) {
+    $full_text = $half . '  ' . $full_text ;
+  } else {
+    $full_text = $empty . '  ' . $full_text ;
+  }
 } elsif ($status eq 'Full') {
-        $full_text = '   ' . $full_text ;
+  $full_text = '   ' . $full_text ;
 }
 
 $short_text = $full_text;
@@ -58,22 +70,21 @@ print "$short_text\n";
 
 # consider color and urgent flag only on discharge
 if ($status eq 'Discharging') {
+  if ($percent < 20) {
+    print "#FA827C\n";
+  } elsif ($percent < 40) {
+    print "#FFB956\n";
+  } elsif ($percent < 60) {
+    print "#FAF87C\n";
+  } elsif ($percent <= 100) {
+    print "#8AFF92\n";
+  }
 
-    if ($percent < 10) {
-        print "#FA827C\n";
-    } elsif ($percent < 40) {
-        print "#FFB956\n";
-    } elsif ($percent < 60) {
-        print "#FAF87C\n";
-    } elsif ($percent <= 100) {
-        print "#8AFF92\n";
-    }
-
-    if ($percent < 5) {
-        exit(33);
-    }
+  if ($percent < 5) {
+    exit(33);
+  }
 } else {
-  print "#4A8CC5\n";
+  print "#5CCFFD\n";
 }
 
 exit(0);

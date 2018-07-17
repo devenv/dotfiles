@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+temp=$(sensors coretemp-isa-0000 | awk '/Package/ { print $4 }' | tr -d '+')
+if [[ $temp > '90' ]]; then
+  echo "<span weight='bold' color='#FF5C5C'></span> <span weight='bold' color='#FF8483'> $temp</span>"
+  echo "<span weight='bold' color='#FF5C5C'></span> <span weight='bold' color='#FF8483'> $temp</span>"
+elif [[ $temp > '70' ]]; then
+  echo "<span weight='bold' color='#FFCA5F'></span> <span weight='bold' color='#FFCA5F'> $temp</span>"
+  echo "<span weight='bold' color='#FFCA5F'></span> <span weight='bold' color='#FFCA5F'> $temp</span>"
+else
+  echo "<span color='#5CCFFD'></span> <span color='#FFFFFF'> $temp</span>"
+  echo "<span color='#5CCFFD'></span> <span color='#FFFFFF'> $temp</span>"
+fi

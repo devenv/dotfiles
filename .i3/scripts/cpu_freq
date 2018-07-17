@@ -1,0 +1,2 @@
+FREQ=`cpupower frequency-info -fm | grep "CPU freq" | sed 's/.*CPU frequency: \(.*\) (.*/\1/g'`
+echo $FREQ

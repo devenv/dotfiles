@@ -1,7 +1,7 @@
 #!/usr/bin/sh
-if xinput list-props 'DLL07BE:01 06CB:7A13 Touchpad' | grep Enabled | grep ':\s*1' > /dev/null; then
-  xinput --disable 'DLL07BE:01 06CB:7A13 Touchpad'
+if xinput list-props 'SynPS/2 Synaptics TouchPad' | grep Enabled | grep ':\s*1' > /dev/null; then
+  xinput --disable 'SynPS/2 Synaptics TouchPad'
 else
-  xinput --enable 'DLL07BE:01 06CB:7A13 Touchpad'
+  xinput --enable 'SynPS/2 Synaptics TouchPad'
 fi
 

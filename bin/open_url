@@ -1,2 +1,2 @@
-#!/usr/bin/sh
-nohup xdg-open $1 &> /dev/null &
+#!/bin/sh
+open $1

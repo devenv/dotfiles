@@ -1,0 +1,54 @@
+export XCURSOR_THEME=Obsidian
+export MPD_PORT=6601
+export EDITOR=vim
+export VISUAL=$EDITOR
+export GIT_EDITOR=$EDITOR
+export LESS='-imJMWR'
+export PAGER="less $LESS"
+export MANPAGER=$PAGER
+export GIT_PAGER=$PAGER
+export BROWSER='firefox'
+export WINEDEBUG=-all
+#export TERM=xterm-256color
+export COLORTERM=truecolor
+export XCURSOR_THEME=Obsidian
+
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+
+export JAVA_HOME=$HOME/jdk
+export JDK_HOME=$HOME/jdk
+export M2_HOME=$HOME/maven/
+
+alias gut='git'
+alias got='git'
+alias l='ls -alh'
+alias ll='ls -alh'
+alias ..='cd ..'
+alias rmb='rm *~ -rf; rm .*~ -rf'
+alias findg='find . | grep -v "\.git\|.svn\|.js.map" | grep -v -s "~" | xargs grep -n -s -i --color'
+alias ducks='du -cks * | sort -rn | head -15'
+alias dus='du -sh'
+alias tree="tree -FC --charset=ascii"
+alias psf='ps -opid,uid,cpu,time,stat,command'
+alias clip='xclip -selection clipboard'
+alias R='R --no-save'
+alias watch='watch -n1'
+alias in='task +in'
+alias html='w3m -dump -T text/html -cols 200'
+alias fn='find -name'
+alias sbt='env TERM=xterm-color sbt'
+
+function init_docker() {
+  docker exec -it $1 bash -c "apt-get update; apt-get install -y htop vim less git"
+  docker cp .vim $1:/root/.vim
+  docker cp .vimrc $1:/root/.vimrc
+  docker cp .local $1:/root/.local
+}
+
+function find_docker() {
+  docker ps | grep $1 | tr -s ' ' | cut -f1,12 -d' '
+}
+
+function bash_docker() {
+  docker exec -it $1 bash
+}

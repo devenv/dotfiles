@@ -1,2 +1,3 @@
 #!/usr/bin/sh
-setxkbmap -model pc105 -layout "us,ru(phonetic),il" -option grp:alt_shift_toggle -option compose:ralt -option caps:ctrl_modifier
+setxkbmap -model pc105 -layout "us,ru(phonetic),il" -option grp:alt_shift_toggle -option compose:ralt
+

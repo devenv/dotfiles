@@ -2,11 +2,11 @@
 cpu=$(mpstat | awk '$13 ~ /[0-9.]+/ { printf("%.0f", 100 - $13) }')
 echo $cpu%
 echo $cpu%
-if [ $cpu -ge 80 ]; then
+if [ $cpu -ge 90 ]; then
   echo "#FF0000\n"
-elif [ $cpu -ge 40 ]; then
-  echo "#FFFC00\n"
   xkbbell
+elif [ $cpu -ge 70 ]; then
+  echo "#FFFC00\n"
 else
   echo "#FFFFFF\n"
 fi
