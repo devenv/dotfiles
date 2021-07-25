@@ -18,7 +18,12 @@ export LC_ALL=en_US.UTF-8
 export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/mysql/bin:$HOME/jdk/bin:$HOME/maven/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin/:$PATH
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$HOME/bin:/usr/bin:/usr/local/bin:/bin:$PATH
+pyenv rehash
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+
 
 export JAVA_HOME=$HOME/jdk
 export JDK_HOME=$HOME/jdk

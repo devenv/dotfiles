@@ -23,7 +23,7 @@ filetype plugin indent on
     set iskeyword-=.
     set spelllang=en_us
     set nospell
-    set diffopt+=iwhite
+    "set diffopt+=iwhite
     set backspace=indent,eol,start
     set linespace=0
     set nu
@@ -32,7 +32,7 @@ filetype plugin indent on
     set sbr= lcs=tab:!-,trail:~ wrap  " List mode and non-text characters
     set showmatch
     set incsearch
-    set inccommand=nosplit
+    "set inccommand=nosplit
     set hlsearch
     set winminheight=0
     set lazyredraw
@@ -118,14 +118,12 @@ filetype plugin indent on
        Plug 'benmills/vimux'
        Plug 'itchyny/vim-gitbranch'
        "Plug 'kien/ctrlp.vim'
-       Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-       Plug 'junegunn/fzf.vim'
        Plug 'Konfekt/FastFold'
        Plug 'vim-scripts/YankRing.vim'
        Plug 'chrisbra/csv.vim'
        "Plug 'roman/golden-ratio'
-       Plug 'justincampbell/vim-eighties'
-       Plug 'vim-scripts/let-modeline.vim'
+       "Plug 'justincampbell/vim-eighties'
+       "Plug 'vim-scripts/let-modeline.vim'
        Plug 'embear/vim-localvimrc'
        "Plug 'xolox/vim-notes'
        Plug 'AndrewRadev/linediff.vim'
@@ -178,7 +176,18 @@ filetype plugin indent on
         "Plug 'neoclide/coc.nvim'
         "Plug 'maralla/completor.vim'
         "Plug 'Valloric/YouCompleteMe'
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+        Plug 'junegunn/fzf.vim'
+        Plug 'neovim/nvim-lspconfig'
+        Plug 'glepnir/lspsaga.nvim'
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        Plug 'nvim-treesitter/playground'
+        Plug 'nvim-lua/completion-nvim'
+        Plug 'nvim-lua/popup.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
+
         "let g:ycm_autoclose_preview_window_after_completion=1
     " }}}
 
@@ -189,7 +198,6 @@ filetype plugin indent on
 
         "Plug 'deoplete-plugins/deoplete-tag'
         "Plug 'python-mode/python-mode'
-        Plug 'Vimjas/vim-python-pep8-indent'
         "Plug 'tweekmonster/impsort.vim'
         Plug 'wsdjeg/FlyGrep.vim'
         Plug 'airblade/vim-gitgutter'
@@ -357,14 +365,6 @@ call plug#end()
         cc
     endfunction
 
-    command! -bang -nargs=* GGrep
-          \ call fzf#vim#grep(
-          \   'git grep --line-number '.shellescape(<q-args>), 0,
-          \   <bang>0 ? fzf#vim#with_preview({'options': '--no-hscroll'},'up:60%')
-          \           : fzf#vim#with_preview({'options': '--no-hscroll'},'down:50%'),
-          \   <bang>0)
-
-
 " }}}
 
 " Custom {{{
@@ -391,16 +391,8 @@ call plug#end()
   let g:notes_list_bullets = ['√', '•', '▸', '¿', '▹', '▪', '▫', 'x']
   let test#enabled_runners = ["python#nose"]
   let g:UltiSnipsJumpForwardTrigger = "<tab>"
-  let g:fzf_history_dir = '~/.local/share/fzf-history'
-  let g:fzf_buffers_jump = 1
   let g:gitgutter_override_sign_column_highlight = 0
   let g:gitgutter_map_keys = 0
-  let g:fzf_action = {'ctrl-q': function('s:build_quickfix_list'), 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
-  let $FZF_DEFAULT_OPTS = "--bind ctrl-a:select-all --preview-window down"
-  let $FZF_PREVIEW_COMMAND = 'coderay {}'
-  command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --no-heading --line-number --color=always '.shellescape(<q-args>), 1, fzf#vim#with_preview('up:70%'), <bang>0)
-  command! -bang -nargs=* GFiles call fzf#vim#gitfiles('', fzf#vim#with_preview('up:70%'), <bang>0)
-  command! -bang -nargs=* Marks call fzf#vim#marks({'options': ['--preview', 'coderay {4..-1}']}, <bang>0)
 
   let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
   let g:netrw_banner = 0
@@ -425,21 +417,8 @@ call plug#end()
   nmap <silent> ]n :cnext<CR>
   nmap <silent> [n :cprev<CR>
 
-  nmap <C-P> :GFiles!<CR>
-  imap <C-S> <C-O>:Snippets!<CR>
-  nmap <Leader>; :Buffers!<CR>
-  nmap <Leader>b :Buffers!<CR>
-  nmap <Leader>h :History<CR>
-  nmap <Leader>m :Marks!<CR>
-  nmap <leader>f :Rg!<CR>
-  "nmap <leader>f :CocList grep<CR>
-  nmap <Leader>l :BLines<CR>
-  nmap <Leader>L :Lines<CR>
-  nmap <Leader>t :CocList tags<CR>
-  nmap <Leader>y  :<C-u>CocList -A --normal yank<cr>
   nnoremap <Leader><tab> :NERDTreeToggle<Enter>
   nnoremap <Leader><CR> :NERDTreeToggle<Enter>
-  nmap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
 
   "nmap <leader>i :ImportName<CR>:Isort<CR>
   nmap } :lnext<CR>
@@ -465,25 +444,25 @@ call plug#end()
 
   nmap _s :%s/\s\+$//<CR>
 
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  "autocmd CursorHold * silent call CocActionAsync('highlight')
 
   " Applying codeAction to the selected region.
   " Example: `<leader>aap` for current paragraph
-  xmap <leader>a  <Plug>(coc-codeaction-selected)
-  nmap <leader>a  <Plug>(coc-codeaction-selected)
+  "xmap <leader>a  <Plug>(coc-codeaction-selected)
+  "nmap <leader>a  <Plug>(coc-codeaction-selected)
 
   " Remap for do codeAction of selected region
-  function! s:cocActionsOpenFromSelected(type) abort
-      execute 'CocCommand actions.open ' . a:type
-  endfunction
-  xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-  nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+  "function! s:cocActionsOpenFromSelected(type) abort
+      "execute 'CocCommand actions.open ' . a:type
+  "endfunction
+  "xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+  "nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
 
   " Show all diagnostics.
-  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+  "nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
   " Show commands.
-  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+  "nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 
   if has("patch-8.1.1564")
       " Recently vim can merge signcolumn and number column into one
@@ -492,34 +471,36 @@ call plug#end()
       set signcolumn=yes
   endif
 
-  inoremap <silent><expr> <c-space> coc#refresh()
+  "inoremap <silent><expr> <c-space> coc#refresh()
   if exists('*complete_info')
       inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
   else
       inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
   endif
 
-  nmap <space>e :CocCommand explorer<CR>
+  "nmap <space>e :CocCommand explorer<CR>
 
-  nmap <silent> [l <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]l <Plug>(coc-diagnostic-next)
+  "nmap <silent> [l <Plug>(coc-diagnostic-prev)
+  "nmap <silent> ]l <Plug>(coc-diagnostic-next)
 
-  function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
-  endfunction
+  map \ "+y
 
-  function! StatusDiagnostic() abort
-    let info = get(b:, 'coc_diagnostic_info', {})
-    if empty(info) | return '' | endif
-    let msgs = []
-    if get(info, 'warning', 0)
-      call add(msgs, info['warning'] . emoji#for('space_invader'))
-    endif
-    if get(info, 'error', 0)
-      call add(msgs, info['error'] . emoji#for('anger'))
-    endif
-    return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-  endfunction
+  "function! CocCurrentFunction()
+    "return get(b:, 'coc_current_function', '')
+  "endfunction
+
+  "function! StatusDiagnostic() abort
+    "let info = get(b:, 'coc_diagnostic_info', {})
+    "if empty(info) | return '' | endif
+    "let msgs = []
+    "if get(info, 'warning', 0)
+      "call add(msgs, info['warning'] . emoji#for('space_invader'))
+    "endif
+    "if get(info, 'error', 0)
+      "call add(msgs, info['error'] . emoji#for('anger'))
+    "endif
+    "return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
+  "endfunction
 
   let g:lightline = {
         \ 'colorscheme': 'jellybeans',
@@ -584,3 +565,44 @@ if has('macunix')
   endfunction
   nnoremap gx :call OpenURLUnderCursor()<CR>
 endif
+
+
+nnoremap <silent> <leader>rn <cmd>lua require('lspsaga.rename').rename()<CR>
+
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+let g:completion_matching_smart_case = 1
+let g:completion_trigger_on_delete = 1
+
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {'ctrl-q': function('s:build_quickfix_list'), 'ctrl-t': 'tab split', 'ctrl-x': 'split', 'ctrl-v': 'vsplit' }
+let $FZF_DEFAULT_OPTS = "--bind ctrl-a:select-all --preview-window down"
+let $FZF_PREVIEW_COMMAND = 'coderay {}'
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --no-heading --line-number --color=always -- '.shellescape(<q-args>), 1, fzf#vim#with_preview('up:70%'), <bang>0)
+command! -bang -nargs=* GFiles call fzf#vim#gitfiles('', fzf#vim#with_preview('up:70%'), <bang>0)
+command! -bang -nargs=* Marks call fzf#vim#marks({'options': ['--preview', 'coderay {4..-1}']}, <bang>0)
+
+command! -bang -nargs=* GGrep
+      \ call fzf#vim#grep(
+      \   'git grep --line-number '.shellescape(<q-args>), 0,
+      \   <bang>0 ? fzf#vim#with_preview({'options': '--no-hscroll'},'up:60%')
+      \           : fzf#vim#with_preview({'options': '--no-hscroll'},'down:50%'),
+      \   <bang>0)
+
+nmap <C-P> :GFiles!<CR>
+imap <C-S> <C-O>:Snippets!<CR>
+nmap <Leader>; :Buffers!<CR>
+nmap <Leader>b :Buffers!<CR>
+nmap <Leader>h :History<CR>
+nmap <Leader>m :Marks!<CR>
+nmap <leader>f :Rg!<CR>
+nmap <Leader>l :BLines<CR>
+nmap <Leader>L :Lines<CR>
+nmap <Leader>t :Telescope treesitter<CR>
+nmap <Leader>g :Lspsaga lsp_finder<CR>
+nmap <Leader>y  :YRShow<cr>
+nnoremap <Leader><tab> :NERDTreeToggle<Enter>
+nnoremap <Leader><CR> :NERDTreeToggle<Enter>
+nmap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
+set foldexpr=nvim_treesitter#foldexpr()

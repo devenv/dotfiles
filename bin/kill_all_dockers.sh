@@ -1,5 +1,3 @@
-#!/usr/bin/sh
-
 docker rm -f `docker ps --no-trunc -aq`
 
 if [ "$(uname)" == "Darwin" ]; then

@@ -46,6 +46,7 @@
   default = current
 [pull]
   default = current
+	rebase = false
 [advice]
   commitBeforeMerge = true
 [init]
