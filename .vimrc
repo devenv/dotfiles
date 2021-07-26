@@ -114,7 +114,6 @@ filetype plugin indent on
        Plug 'git://github.com/tpope/vim-abolish.git'
        Plug 'christoomey/vim-tmux-navigator'
        Plug 'tmux-plugins/vim-tmux'
-       Plug 'tmux-plugins/vim-tmux-focus-events'
        Plug 'benmills/vimux'
        Plug 'itchyny/vim-gitbranch'
        "Plug 'kien/ctrlp.vim'
@@ -215,11 +214,11 @@ filetype plugin indent on
         "let g:ncm2#matcher = 'substrfuzzy'
         let g:PythonAutoAddImports = 1
 
-        set completeopt-=menu
+        set completeopt+=menu
         set completeopt+=menuone   " Show the completions UI even with only 1 item
-        set completeopt-=longest   " Don't insert the longest common text
-        set completeopt-=preview   " Hide the documentation preview window
-        set completeopt+=noinsert  " Don't insert text automatically
+        set completeopt-=longest   " Insert the longest common text
+        set completeopt+=preview   " Documentation preview window
+        set completeopt+=noinsert  " Insert text automatically
         set completeopt-=noselect  " Highlight the first completion automatically
         set shortmess+=c
     " }}}
@@ -569,7 +568,7 @@ endif
 
 nnoremap <silent> <leader>rn <cmd>lua require('lspsaga.rename').rename()<CR>
 
-let g:completion_enable_snippet = 'UltiSnips'
+"let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
 let g:completion_matching_smart_case = 1
 let g:completion_trigger_on_delete = 1
@@ -601,7 +600,8 @@ nmap <Leader>l :BLines<CR>
 nmap <Leader>L :Lines<CR>
 nmap <Leader>t :Telescope treesitter<CR>
 nmap <Leader>g :Lspsaga lsp_finder<CR>
-nmap <Leader>y  :YRShow<cr>
+nmap <Leader>y :YRShow<cr>
+nmap <Leader>i :PyrightOrganizeImports<cr>
 nnoremap <Leader><tab> :NERDTreeToggle<Enter>
 nnoremap <Leader><CR> :NERDTreeToggle<Enter>
 nmap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>

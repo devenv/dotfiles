@@ -1,0 +1,2 @@
+#!/bin/sh
+curl v2.wttr.in/tel-aviv

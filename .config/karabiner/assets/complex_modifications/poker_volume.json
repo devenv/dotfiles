@@ -2,68 +2,6 @@
   "title": "Pok3r Media Controls",
   "rules": [
     {
-      "description": "Pok3r Volume Controls (fn + aqm to Volume down/up/mute)",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "a",
-            "modifiers": {
-              "mandatory": [
-                "fn"
-              ],
-              "optional": [
-                "caps_lock"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "volume_decrement"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "q",
-            "modifiers": {
-              "mandatory": [
-                "fn"
-              ],
-              "optional": [
-                "caps_lock"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "volume_increment"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "m",
-            "modifiers": {
-              "mandatory": [
-                "fn"
-              ],
-              "optional": [
-                "caps_lock"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "mute"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "description": "Pok3r Media Keys (fn + zxc to Previous Title/Play-Pause/Next)",
       "manipulators": [
         {
@@ -72,7 +10,8 @@
             "key_code": "z",
             "modifiers": {
               "mandatory": [
-                "fn"
+                "left_option",
+                "left_shift"
               ],
               "optional": [
                 "caps_lock"
@@ -91,7 +30,8 @@
             "key_code": "x",
             "modifiers": {
               "mandatory": [
-                "fn"
+                "left_option",
+                "left_shift"
               ],
               "optional": [
                 "caps_lock"
@@ -110,7 +50,8 @@
             "key_code": "c",
             "modifiers": {
               "mandatory": [
-                "fn"
+                "left_option",
+                "left_shift"
               ],
               "optional": [
                 "caps_lock"
