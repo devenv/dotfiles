@@ -23,24 +23,13 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', ']l', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 
 end
-require'lspconfig'.pyright.setup{
+require'lspconfig'.pylsp.setup{
   on_attach = on_attach,
   flags = {
     debounce_text_changes = 150,
   },
-    cmd = { "pyright-langserver", "--stdio" },
-    filetypes = { "python" },
-    root_dir = nvim_lsp.util.root_pattern('.git'),
-    settings = {
-      python = {
-        analysis = {
-          extraPaths = {"src"},
-          autoImportCompletions = false,
-          autoSearchPaths = true,
-          diagnosticMode = "openFilesOnly",
-          useLibraryCodeForTypes = true,
-        }
-      }
-    }
+  cmd = { "pylsp" },
+  filetypes = { "python" },
+  root_dir = nvim_lsp.util.root_pattern('.git'),
 }
 EOF
