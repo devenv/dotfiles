@@ -17,19 +17,61 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<C-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '[l', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']l', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 
 end
-require'lspconfig'.pylsp.setup{
+require'lspconfig'.pyright.setup{
   on_attach = on_attach,
   flags = {
     debounce_text_changes = 150,
   },
-  cmd = { "pylsp" },
+  cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_dir = nvim_lsp.util.root_pattern('.git'),
+  settings = {
+    python = {
+      analysis = {
+        extraPaths = {"src"},
+        autoImportCompletions = false,
+        autoSearchPaths = false,
+        diagnosticMode = "openFilesOnly",
+        useLibraryCodeForTypes = true,
+        reportGeneralTypeIssues = false,
+        reportUntypedFunctionDecorator = false,
+        reportInvalidTypeVarUse = false,
+        reportUnusedVariable = false,
+        reportPropertyTypeMismatch = false,
+      }
+    }
+  }
 }
+-- require'lspconfig'.pylsp.setup{
+--   on_attach = on_attach,
+--   flags = {
+--     debounce_text_changes = 150,
+--   },
+--   cmd = { "pylsp" },
+--   filetypes = { "python" },
+--   root_dir = nvim_lsp.util.root_pattern('.git'),
+--   settings = {
+--     pylsp = {
+--       plugins = {
+--         jedi_completion = {
+--           fuzzy = true,
+--         },
+--       },
+--     },
+--   },
+-- }
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- Disable signs
+    signs = false,
+  }
+)
+
 EOF

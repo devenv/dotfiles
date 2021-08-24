@@ -54,9 +54,10 @@
   set regexpengine=1
   set rnu
   set signcolumn=number
-  set sbr= lcs=tab:!-,trail:~ wrap  " List mode and non-text characters
+  set sbr= lcs=tab:!-,trail:~  " List mode and non-text characters
   set scrolljump=1
   set scrolloff=10
+  set signcolumn=yes
   set shiftwidth=2
   set shortmess+=c
   set shortmess+=filmnrxoOtT
@@ -68,6 +69,7 @@
   set splitbelow
   set splitright
   set tabstop=2
+  set tags=~/.vimtags
   set ttimeout
   set ttimeoutlen=0
   set viewoptions=folds,options,cursor,unix,slash
@@ -107,12 +109,14 @@
       Plug 'nvim-lua/completion-nvim'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
       Plug 'nvim-treesitter/playground'
+      Plug 'ludovicchabant/vim-gutentags'
     " }}}
 
     " Python {{{
-      Plug 'Vimjas/vim-python-pep8-indent'
       Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
+      Plug 'mgedmin/python-imports.vim'
       Plug 'vim-python/python-syntax'
+      Plug 'Vimjas/vim-python-pep8-indent'
     " }}}
 
     " Other languages {{{
@@ -128,6 +132,8 @@
       Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
       Plug 'moll/vim-node'
       Plug 'pangloss/vim-javascript'    " JavaScript support
+      Plug 'Rykka/riv.vim'
+      Plug 'Rykka/InstantRst'
       Plug 'tasn/vim-tsx'
     " }}}
  
@@ -156,6 +162,7 @@
     Plug 'Konfekt/FastFold'
     Plug 'bling/vim-bufferline'
     Plug 'calebsmith/vim-lambdify'
+    Plug 'camspiers/lens.vim'
     Plug 'embear/vim-localvimrc'
     Plug 'flazz/vim-colorschemes'
     Plug 'itchyny/lightline.vim'
@@ -303,21 +310,16 @@
         set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
     endif
 " }}}
-
-  " Misc {{{
-    if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-    else
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    endif
-  " }}}
 " }}}
 
 " Lets {{{
   let $PAGER=''
   let b:csv_arrange_leftalign = 1
   let g:C_Ctrl_j   = 'off'
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
+  let g:UltiSnipsExpandTrigger = "<Tab>"
+  let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
+
   let g:go_fmt_autosave=0
   let g:rainbow_active = 1
   let g:vim_json_syntax_conceal = 0
@@ -334,7 +336,9 @@
   let g:fzf_history_dir = '~/.local/share/fzf-history'
 
   let g:completion_auto_change_source = 1
+  let g:completion_enable_snippet = 'UltiSnips'
   let g:completion_matching_smart_case = 1
+
   let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
   let g:completion_trigger_on_delete = 1
 
@@ -349,9 +353,11 @@
   let g:gitgutter_map_keys = 0
   let g:gitgutter_override_sign_column_highlight = 0
 
-  let g:golden_ratio_exclude_nonmodifiable = 1
-  let g:golden_ratio_filetypes_blacklist = ["nerdtree", "unite"]
-  let g:golden_ratio_wrap_ignored = 1
+  let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
+  let g:lens#height_resize_min = 800
+  let g:lens#height_resize_max = 800
+  let g:lens#width_resize_min = 800
+  let g:lens#width_resize_max = 800
 
   let g:localvimrc_ask=0
   let g:localvimrc_sandbox=0
@@ -373,14 +379,24 @@
 
   let test#enabled_runners = ["python#nose"]
   let test#strategy = "vtr"
+
+  let g:instant_rst_port = 8905
+  let g:instant_rst_browser = 'google_chrome'
+
+  let g:gutentags_ctags_tagfile = '/Users/borischurzin/.vimtags'
+  let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+  let g:gutentags_ctags_executable = '/usr/local/bin/ctags'
+  let g:gutentags_project_info = [{"type": "python"}]
+  let g:gutentags_file_list_command = 'git ls-files'
 " }}}
 
 " Mappings {{{
   cmap w!! w !sudo tee % >/dev/null
+  nnoremap <silent> _i :w<CR>:!isort %<CR>
   nnoremap _s :%s/\s\+$//<CR>
 
   noremap \ "+y
-  nnoremap <Leader>y :YRShow<cr>
+  nnoremap <Leader>y :YRShow<CR>
   nnoremap Y y$
 
   nnoremap <C-P> :GFiles!<CR>
@@ -392,17 +408,20 @@
 
   nnoremap <Leader>L :Lines<CR>
   nnoremap <Leader>l :BLines<CR>
-  nnoremap <Leader>m :Marks!<CR>
   imap <C-S> <C-O>:Snippets!<CR>
 
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
 
   nnoremap <Leader>g :Lspsaga lsp_finder<CR>
+  nnoremap <Leader>m :Lspsaga show_line_diagnostics<CR>
   nnoremap <Leader>t :Telescope treesitter<CR>
 
-  nnoremap <Leader>i :PyrightOrganizeImports<cr>
-  nnoremap <leader>p :let @+=expand("%:~")<CR>
+  nnoremap <Leader>i :PyrightOrganizeImports<CR>
+  nnoremap <Leader><S-I> :silent! ImportName<CR>
+  nnoremap <leader>p :let @+=expand("%")<CR>
+  nnoremap <leader><S-P> :let @+=expand("%:t:r")<CR>
+  nnoremap <leader><C-p> :let @+=join([expand("%"), line('.')], ':')<CR>
 
   nnoremap <silent> <leader>/ :set invhlsearch<CR>
   nnoremap <silent> <leader><leader> <C-^>
@@ -427,9 +446,9 @@
   nnoremap j gj
   nnoremap k gk
 
-  nnoremap S <plug>(SubversiveSubstituteToEndOfLine)
-  nnoremap s <plug>(SubversiveSubstitute)
-  nnoremap ss <plug>(SubversiveSubstituteLine)
+  nmap S <plug>(SubversiveSubstituteToEndOfLine)
+  nmap s <plug>(SubversiveSubstitute)
+  nmap ss <plug>(SubversiveSubstituteLine)
 
   vnoremap zc :fold<CR>
   vnoremap . :normal .<CR>
