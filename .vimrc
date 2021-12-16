@@ -53,7 +53,6 @@
   set pastetoggle=<F12>
   set regexpengine=1
   set rnu
-  set signcolumn=number
   set sbr= lcs=tab:!-,trail:~  " List mode and non-text characters
   set scrolljump=1
   set scrolloff=10
@@ -91,7 +90,7 @@
     Plug 'honza/vim-snippets'
     Plug 'kristijanhusak/vim-multiple-cursors'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'nathanaelkane/vim-indent-guides'
+    "Plug 'nathanaelkane/vim-indent-guides'
     Plug 'preservim/nerdcommenter'
     Plug 'svermeulen/vim-subversive'
     Plug 'tommcdo/vim-exchange'
@@ -155,6 +154,18 @@
     Plug 'simnalamburt/vim-mundo'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tpope/vim-fugitive'
+  " }}}
+
+  " Org / TODOs {{{
+    Plug 'chrisbra/NrrwRgn'
+    Plug 'inkarkat/vim-SyntaxRange'
+    Plug 'jceb/vim-orgmode'
+    Plug 'mattn/calendar-vim'
+    Plug 'preservim/tagbar'
+    Plug 'tpope/vim-speeddating'
+    Plug 'vim-scripts/utl.vim'
+    Plug 'vimoutliner/vimoutliner'
+    Plug 'yegappan/taglist'
   " }}}
 
   " Support {{{
@@ -283,6 +294,7 @@
   autocmd FileType netrw set nolist
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
+  autocmd FileType org set nolist sw=2 ts=2 sts=2 nowrap tw=800 foldlevel=0
 
   " FZF {{{
       command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --no-heading --line-number --color=always -- '.shellescape(<q-args>), 1, fzf#vim#with_preview('up:70%'), <bang>0)
@@ -324,7 +336,7 @@
   let g:rainbow_active = 1
   let g:vim_json_syntax_conceal = 0
   let g:yankring_clipboard_monitor = 0
-  let localleader = '|'
+  let maplocalleader="\<space>"
   let mapleader = ","
   let python_highlight_all=1
   let yankring_replace_n_pkey = ''
@@ -384,15 +396,18 @@
   let g:instant_rst_browser = 'google_chrome'
 
   let g:gutentags_ctags_tagfile = '/Users/borischurzin/.vimtags'
-  let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+  let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'sh', 'text', '']
   let g:gutentags_ctags_executable = '/usr/local/bin/ctags'
   let g:gutentags_project_info = [{"type": "python"}]
   let g:gutentags_file_list_command = 'git ls-files'
+
+  let g:org_export_emacs="/usr/local/bin/emacs"
+  let g:org_todo_keywords = ['TODO', 'IN_PROGRESS', 'SCHEDULED', 'WAITING', '|', 'OBSOLETE', 'DELEGATED', 'DONE']
+  let g:utl_cfg_hdl_scm_http_system="silent !open '%u'"
 " }}}
 
 " Mappings {{{
   cmap w!! w !sudo tee % >/dev/null
-  nnoremap <silent> _i :w<CR>:!isort %<CR>
   nnoremap _s :%s/\s\+$//<CR>
 
   noremap \ "+y
@@ -417,8 +432,9 @@
   nnoremap <Leader>m :Lspsaga show_line_diagnostics<CR>
   nnoremap <Leader>t :Telescope treesitter<CR>
 
-  nnoremap <Leader>i :PyrightOrganizeImports<CR>
-  nnoremap <Leader><S-I> :silent! ImportName<CR>
+  "nnoremap <Leader>i :PyrightOrganizeImports<CR>
+  nnoremap <leader>i :silent! ImportName<CR>
+  nnoremap <leader><S-I> :silent! w<CR>:silent! !isort %<CR>
   nnoremap <leader>p :let @+=expand("%")<CR>
   nnoremap <leader><S-P> :let @+=expand("%:t:r")<CR>
   nnoremap <leader><C-p> :let @+=join([expand("%"), line('.')], ':')<CR>

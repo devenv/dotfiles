@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nvim ~/Documents/Notes/todo.org ~/Documents/Notes/done.org -o
