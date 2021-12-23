@@ -1,0 +1,56 @@
+# espanso configuration file
+
+# This is the default configuration file, change it as you like it
+# You can refer to the official documentation:
+# https://espanso.org/docs/
+
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+
+matches:
+  - trigger: ":1"
+    replace: ":+1:"
+
+  - trigger: ':check'
+    replace: '✅'
+
+  - trigger: ':no'
+    replace: '❌'
+
+  - trigger: ":peace"
+    replace: "( ͡─ ͜ʖ ͡─)✌"
+
+  - trigger: ":teary"
+    replace: "( ͡ಥ ͜ʖ ͡ಥ)"
+
+  - trigger: ":cry"
+    replace: "(ಥ﹏ಥ)"
+
+  - trigger: ":lwave"
+    replace: "~(˘▾˘~)"
+
+  - trigger: ":rwave"
+    replace: "(~˘▾˘)~"
+
+  - trigger: ":blank"
+    replace: "(ʘ‿ʘ)"
+
+  - trigger: ":writing"
+    replace: "✍(◔◡◔)"
+
+  - trigger: ":fight"
+    replace: "(ง︡'-'︠)ง"
+
+  - trigger: ":flip"
+    replace: "(╯°□°）╯︵ ┻━┻"
+
+  - trigger: ":wat"
+    replace: "ಠ_ಠ"
+
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
