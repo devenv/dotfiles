@@ -1,0 +1,10 @@
+{
+    "suggest.enablePreselect": true,
+    "cSpell.userWords": [
+      "Boto",
+      "Consts",
+      "cname",
+      "deregistered"
+    ],
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalchemy"]
+}

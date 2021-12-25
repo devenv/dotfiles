@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/Users/borischurzin/fundbox/frontend/onboarding/src/routes'
+let g:netrw_dirhist_2='/Users/borischurzin/fundbox/common/data_warehouse'
+let g:netrw_dirhist_3='/Users/borischurzin/fundbox'
+let g:netrw_dirhist_4='/Users/borischurzin/fundbox/frontend/cypress/screenshots/onboarding/invoice-clearing/p0-cip-business.js'
+let g:netrw_dirhist_5='/Users/borischurzin/fundbox/backend'

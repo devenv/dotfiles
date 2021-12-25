@@ -81,7 +81,6 @@
 .config/mopidy/
 .config/mps-youtube/
 .config/networkmanagement.notifyrc
-.config/nvim/
 .config/parcellite/
 .config/pavucontrol.ini
 .config/pip/
