@@ -52,3 +52,5 @@ function find_docker() {
 function bash_docker() {
   docker exec -it $1 bash
 }
+
+[[ $- == *i* ]] && ~/.i3/scripts/tmux-session $USER && exit
