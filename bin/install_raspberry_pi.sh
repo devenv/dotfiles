@@ -1,4 +1,4 @@
-sudo apt-get install -y git vim htop tmux
+sudo apt-get install -y git vim htop tmux rsync sysstat
 
 git clone http://github.com/devenv/dotfiles.git
 mv dotfiles/.git ./
