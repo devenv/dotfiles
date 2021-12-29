@@ -1,4 +1,5 @@
 sudo apt-get install -y git vim htop tmux rsync sysstat
+sudo systemctl set-default multi-user.target
 
 git clone http://github.com/devenv/dotfiles.git
 mv dotfiles/.git ./
