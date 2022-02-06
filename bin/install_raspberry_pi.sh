@@ -1,3 +1,6 @@
+set -e
+
+sudo apt-get update
 sudo apt-get install -y git vim htop tmux rsync sysstat
 sudo systemctl set-default multi-user.target
 
@@ -10,3 +13,6 @@ cp .tmux.conf_remote .tmux.conf
 cp .profile_remote .profile
 
 vim +PlugInstall +qall
+
+sudo rm /etc/xdg/lxsession/LXDE-pi/sshpwd.sh
+sudo rm /etc/profile.d/sshpwd.sh
