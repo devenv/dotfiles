@@ -5,11 +5,10 @@
 )
 
 (defalias
-    sft_v (tap-hold-next-release 150 v lsft)
-    sft_m (tap-hold-next-release 150 m lsft)
-    sft_n (tap-hold-next-release 150 n lsft)
-    sft_; (tap-hold-next-release 150 ; lsft)
-    sft_1 (tap-hold-next-release 150 1 lsft)
+    sft_a (tap-hold-next-release 150 a lsft)
+    sft_' (tap-hold-next-release 150 ' lsft)
+    sft_` (tap-hold-next-release 150 ` lsft)
+    sft_0 (tap-hold-next-release 150 0 lsft)
     ctl_z (tap-hold-next-release 150 z lctl)
     ctl_/ (tap-hold-next-release 150 / lctl)
     ctl_. (tap-hold-next-release 150 . lctl)
@@ -18,10 +17,9 @@
     met_. (tap-hold-next-release 150 . lmet)
     met_3 (tap-hold-next-release 150 3 lmet)
     met_\ (tap-hold-next-release 150 \ lmet)
-    alt_c (tap-hold-next-release 150 c lalt)
-    alt_, (tap-hold-next-release 150 , lalt)
-    alt_2 (tap-hold-next-release 150 2 lalt)
-    alt_* (tap-hold-next-release 150 * lalt)
+    alt_q (tap-hold-next-release 150 q lalt)
+    alt_p (tap-hold-next-release 150 p lalt)
+    alt_- (tap-hold-next-release 150 - lalt)
     sym   (tap-hold-next-release 150 space (layer-toggle symbols))
     extra (tap-hold-next-release 150 space (layer-toggle extra))
     lead  (layer-next leaders)
@@ -43,17 +41,17 @@
 
 (deflayer default
   XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  _      _      _      _      _      _      _      _      _      _      _      XX     XX     XX
-  esc    _      _      _      _      _      _      _      _      _      '      XX     XX
-  XX     @ctl_z @met_x @alt_c @sft_v _      @sft_n @sft_m @alt_, @met_. @ctl_/ _      XX
+  _      @alt_q _      _      _      _      _      _      _      _      @alt_p XX     XX     XX
+  esc    @sft_a _      _      _      _      _      _      _      _      @sft_' XX     XX
+  XX     @ctl_z @met_x c      v      _      n      m      ,      @met_. @ctl_/ _      XX
   _      _      _      @extra               @sym          backspace     lsft   XX     XX     XX
 )
 
 (deflayer symbols
   _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      !      @      #      $      %      ^      7      8      9      \_     _      _      _
-  _      ~      =      -      :      \(     \)     4      5      6      0      _      _
-  _      @ctl_` @met_\ @alt_* @sft_; [      ]      @sft_1 @alt_2 @met_3 @ctl_. _      _
+  _      !      @      #      $      %      ^      7      8      9      @alt_- _      _      _
+  _      @sft_` =      \_     :      \(     \)     4      5      6      @sft_0 _      _
+  _      lctl   @met_\ *      ;      [      ]      1      2      @met_3 @ctl_. _      _
   _      _      _      spc                  _             _             _      _      _      _
 )
 

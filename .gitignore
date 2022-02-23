@@ -18,10 +18,13 @@
 .bash_logout
 .bash_profile
 .berkshelf/
+bin/remouse
+bin/remousable
 .bundle/
 .byobu/
 .cache/
 .calc_history
+.cargo/
 .chef/
 .chunkwmrc
 .cifs
@@ -135,7 +138,7 @@
 .face
 .factorio/
 .fehbg
-.fonts/.uuid
+.fonts/
 .fpp/
 .fzf.bash
 .fzf.zsh
@@ -166,6 +169,9 @@
 .junglediskworkgroupinstance
 .kitchen/
 .lesshst
+.local/LICENSE
+.local/bin
+.local/lib
 .local/share/DisplayCAL/
 .local/share/JetBrains/
 .local/share/LocalStorage/
@@ -240,9 +246,11 @@
 .semantic-highlight-cache
 .sh_history
 .ssh/
+.stack
 .steam
 .steampath
 .steampid
+.swiftpm/
 .t-engine/
 .task/
 .taskrc
