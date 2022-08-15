@@ -19,7 +19,7 @@ export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 pyenv rehash
 export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"

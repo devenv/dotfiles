@@ -7,6 +7,8 @@
 # Matches are the substitution rules, when you type the "trigger" string
 # it gets replaced by the "replace" string.
 
+toggle_key: META
+
 matches:
   - trigger: ":1"
     replace: ":+1:"
@@ -16,6 +18,12 @@ matches:
 
   - trigger: ':no'
     replace: '❌'
+
+  - trigger: ':prog'
+    replace: '🚧'
+
+  - trigger: ':wait'
+    replace: '⌛'
 
   - trigger: ":peace"
     replace: "( ͡─ ͜ʖ ͡─)✌"

@@ -24,7 +24,7 @@ alt - f : yabai -m window --toggle zoom-fullscreen
 # Equalize size of windows
 alt - e : yabai -m space --balance
 alt - s : yabai -m config layout stack
-alt - d : yabai -m config layout bsp
+alt - w : yabai -m config layout bsp
 
 # Toggle split v/h for active window
-alt - w : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)'
+alt - d : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)'
