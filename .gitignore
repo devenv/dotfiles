@@ -305,6 +305,7 @@ Dropbox/
 Enpass/
 IdeaProjects/
 Library/
+!Library/Preferences/espanso
 Movies/
 Music/
 My Games/
@@ -407,3 +408,4 @@ xcalib/
 xv/
 xvkbd/
 yankring_history_v2.txt
+.git_secrets/

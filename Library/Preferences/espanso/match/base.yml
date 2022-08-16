@@ -1,0 +1,38 @@
+# espanso configuration file
+
+# This is the default configuration file, change it as you like it
+# You can refer to the official documentation:
+# https://espanso.org/docs/
+
+# Matches are the substitution rules, when you type the "trigger" string
+# it gets replaced by the "replace" string.
+
+toggle_key: ALT
+search_shortcut: ALT+SHIFT+SPACE
+
+matches:
+  - trigger: ':check'
+    replace: '✅'
+
+  - trigger: ':no'
+    replace: '❌'
+
+  - trigger: ':prog'
+    replace: '🚧'
+
+  - trigger: ':wait'
+    replace: '⌛'
+
+  - trigger: ':queue'
+    replace: '🥌'
+
+  - trigger: ':?'
+    replace: '❓'
+
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
