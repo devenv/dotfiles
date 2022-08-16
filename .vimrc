@@ -149,6 +149,7 @@
     Plug 'junegunn/fzf.vim'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-startify'
+    Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'preservim/nerdtree'
     Plug 'simnalamburt/vim-mundo'
@@ -397,7 +398,7 @@
 
   let g:gutentags_ctags_tagfile = '/Users/borischurzin/.vimtags'
   let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'sh', 'text', '']
-  let g:gutentags_ctags_executable = '/usr/local/bin/ctags'
+  let g:gutentags_ctags_executable = '/opt/homebrew/bin/ctags'
   let g:gutentags_project_info = [{"type": "python"}]
   let g:gutentags_file_list_command = 'git ls-files'
 

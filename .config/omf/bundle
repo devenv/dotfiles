@@ -1,9 +1,4 @@
-package bang-bang
-package bass
-package cd
 package foreign-env
-package grc
-package z
+theme agnoster
 theme bobthefish
 theme default
-theme fishbone

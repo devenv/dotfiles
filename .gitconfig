@@ -51,6 +51,7 @@
   commitBeforeMerge = true
 [init]
   templateDir = /home/devenv/.git-templates/git-secrets
+	defaultBranch = master
 [mergetool "diffconflicts"]
   cmd = diffconflicts nvim $BASE $LOCAL $REMOTE $MERGED
   trustExitCode = true

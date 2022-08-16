@@ -1,1 +1,0 @@
-/home/devenv/.config/fisherman/shark/completions/shark.fish

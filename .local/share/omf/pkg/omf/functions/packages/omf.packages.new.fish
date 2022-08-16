@@ -23,7 +23,8 @@ function __omf.packages.new.from_template -a path github user name
           echo (basename "$file")
         end
       end)
-      sed "s/{{USER_NAME}}/$user/;s/{{GITHUB_USER}}/$github/;s/{{NAME}}/$name/" \
+      set -l year (date +%Y)
+      sed "s/{{USER_NAME}}/$user/;s/{{GITHUB_USER}}/$github/;s/{{NAME}}/$name/;s/{{YEAR}}/$year/" \
         $file > $target
       echo (omf::em)" create "(omf::off)" "(begin
         if test (basename $PWD) = $name
@@ -34,7 +35,7 @@ function __omf.packages.new.from_template -a path github user name
       end)$target
     end
   end
-  popd >/dev/null ^&1
+  popd >/dev/null 2>&1
 end
 
 

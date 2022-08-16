@@ -334,7 +334,6 @@ bin/init_sshecs
 bin/servers_to_init.txt
 bin/single_monitor_tv
 bin/single_monitor_tv_hd
-bin/sshec2
 bin/sshecs
 boris.crt
 boris.key

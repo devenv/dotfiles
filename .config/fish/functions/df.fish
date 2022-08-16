@@ -1,1 +1,0 @@
-/home/devenv/.config/fisherman/grc/functions/df.fish
