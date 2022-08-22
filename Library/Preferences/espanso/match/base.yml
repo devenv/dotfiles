@@ -11,6 +11,12 @@ toggle_key: ALT
 search_shortcut: ALT+SHIFT+SPACE
 
 matches:
+  - trigger: ':pdb'
+    replace: '__import__("pdb").set_trace()'
+
+  - trigger: ':br'
+    replace: 'from nose.tools import set_trace; set_trace()'
+
   - trigger: ':check'
     replace: '✅'
 
