@@ -32,6 +32,7 @@
 [core]
   autocrlf = input
   eol = lf
+  pager = delta
 [color]
   branch = auto
   diff = auto
@@ -40,18 +41,19 @@
   ui = true
 [merge]
   tool = diffconflicts
+  conflictstyle = diff3
 [diff]
-  tool = meld
+  colorMoved = default
 [push]
   default = current
 [pull]
   default = current
-	rebase = false
+  rebase = false
 [advice]
   commitBeforeMerge = true
 [init]
   templateDir = /home/devenv/.git-templates/git-secrets
-	defaultBranch = master
+  defaultBranch = master
 [mergetool "diffconflicts"]
   cmd = diffconflicts nvim $BASE $LOCAL $REMOTE $MERGED
   trustExitCode = true
@@ -69,3 +71,10 @@
   process = git-lfs filter-process
   required = true
   clean = git-lfs clean -- %f
+[interactive]
+  diffFilter = delta --color-only
+[add.interactive]
+  useBuiltin = false # required for git 2.37.0
+[delta]
+  navigate = true    # use n and N to move between diff sections
+  light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)

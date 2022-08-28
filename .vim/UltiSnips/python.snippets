@@ -4,6 +4,11 @@ snippet dev "description"
 	text ${3}
 endsnippet
 
+snippet main "if main"
+	if __name__ == "__main__":
+		${1}
+endsnippet
+
 snippet mserv "mock service"
 mock_service(BackendServiceNames.${1}, ${2:MagicMock()})
 endsnippet
@@ -31,4 +36,8 @@ endsnippet
 
 snippet br "breakpoint"
 from nose.tools import set_trace; set_trace()
+endsnippet
+
+snippet pdb "pdb breakpoint"
+__import__("pdb").set_trace()
 endsnippet
