@@ -6,7 +6,6 @@ export GIT_EDITOR=$EDITOR
 export LESS='-imJMWR'
 export PAGER="less"
 export MANPAGER=$PAGER
-export GIT_PAGER=$PAGER
 export BROWSER='firefox'
 export WINEDEBUG=-all
 #export TERM=xterm-256color
