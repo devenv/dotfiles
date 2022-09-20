@@ -86,7 +86,6 @@
 
   " Editing {{{
     Plug 'SirVer/ultisnips'
-    Plug 'git://github.com/tpope/vim-abolish.git'
     Plug 'honza/vim-snippets'
     Plug 'kristijanhusak/vim-multiple-cursors'
     Plug 'michaeljsmith/vim-indent-object'
@@ -94,6 +93,7 @@
     Plug 'preservim/nerdcommenter'
     Plug 'svermeulen/vim-subversive'
     Plug 'tommcdo/vim-exchange'
+    Plug 'tpope/vim-abolish'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
@@ -112,7 +112,6 @@
     " }}}
 
     " Python {{{
-      Plug 'flebel/vim-mypy', { 'for': 'python', 'branch': 'bugfix/fast_parser_is_default_and_only_parser' }
       Plug 'mgedmin/python-imports.vim'
       Plug 'vim-python/python-syntax'
       Plug 'Vimjas/vim-python-pep8-indent'
@@ -182,7 +181,7 @@
     Plug 'junegunn/vim-peekaboo'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
-    Plug 'oblitum/rainbow'
+    Plug 'luochen1990/rainbow'
     Plug 'romainl/vim-qf'
     Plug 'tmhedberg/SimpylFold'
     Plug 'tpope/vim-dispatch'
@@ -249,6 +248,25 @@
         copen
         cc
     endfunction
+
+    "FZF Buffer Delete
+
+    function! s:list_buffers()
+      redir => list
+      silent ls
+      redir END
+      return split(list, "\n")
+    endfunction
+
+    function! s:delete_buffers(lines)
+      execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+    endfunction
+
+    command! BD call fzf#run(fzf#wrap({
+      \ 'source': s:list_buffers(),
+      \ 'sink*': { lines -> s:delete_buffers(lines) },
+      \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+    \ }))
   " }}}
 " }}}
 
@@ -396,7 +414,7 @@
   let g:instant_rst_port = 8905
   let g:instant_rst_browser = 'google_chrome'
 
-  let g:gutentags_ctags_tagfile = '/Users/borischurzin/.vimtags'
+  let g:gutentags_ctags_tagfile = '~/.vimtags'
   let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'sh', 'text', '']
   let g:gutentags_ctags_executable = '/opt/homebrew/bin/ctags'
   let g:gutentags_project_info = [{"type": "python"}]

@@ -1,0 +1,1 @@
+gsed -i 's|"sync-finished"|"sync-finished"\nafplay /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/Sounds/Focus2.aiff|' ~/.rde/trigger-scripts/watchman-trigger-backend.sh 
