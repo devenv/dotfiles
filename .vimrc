@@ -87,6 +87,11 @@
   " Editing {{{
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+
+    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'kristijanhusak/vim-multiple-cursors'
     Plug 'michaeljsmith/vim-indent-object'
     "Plug 'nathanaelkane/vim-indent-guides'
@@ -105,7 +110,6 @@
       Plug 'glepnir/lspsaga.nvim'
       Plug 'janko/vim-test'
       Plug 'neovim/nvim-lspconfig'
-      Plug 'nvim-lua/completion-nvim'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
       Plug 'nvim-treesitter/playground'
       Plug 'ludovicchabant/vim-gutentags'
@@ -143,13 +147,16 @@
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'christoomey/vim-tmux-runner'
     Plug 'farmergreg/vim-lastplace'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
     Plug 'itchyny/vim-gitbranch'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-startify'
+    Plug 'mzlogin/vim-markdown-toc'
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-symbols.nvim'
     Plug 'preservim/nerdtree'
     Plug 'simnalamburt/vim-mundo'
     Plug 'tmux-plugins/vim-tmux'
@@ -160,8 +167,8 @@
     Plug 'chrisbra/NrrwRgn'
     Plug 'inkarkat/vim-SyntaxRange'
     Plug 'jceb/vim-orgmode'
-    Plug 'mattn/calendar-vim'
     Plug 'preservim/tagbar'
+    Plug 'renerocksai/calendar-vim'
     Plug 'tpope/vim-speeddating'
     Plug 'vim-scripts/utl.vim'
     Plug 'vimoutliner/vimoutliner'
@@ -311,7 +318,7 @@
 
 " Init {{{
   autocmd FileType netrw set nolist
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
   autocmd FileType org set nolist sw=2 ts=2 sts=2 nowrap tw=800 foldlevel=0
 
@@ -366,13 +373,6 @@
   let g:fzf_buffers_jump = 1
   let g:fzf_history_dir = '~/.local/share/fzf-history'
 
-  let g:completion_auto_change_source = 1
-  let g:completion_enable_snippet = 'UltiSnips'
-  let g:completion_matching_smart_case = 1
-
-  let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-  let g:completion_trigger_on_delete = 1
-
   let g:ctrlp_clear_cache_on_exit = 0
   let g:ctrlp_root_markers = ['.idea']
   let g:ctrlp_working_path_mode = 'ra'
@@ -414,7 +414,7 @@
   let g:instant_rst_port = 8905
   let g:instant_rst_browser = 'google_chrome'
 
-  let g:gutentags_ctags_tagfile = '~/.vimtags'
+  let g:gutentags_ctags_tagfile = $HOME."/.vimtags"
   let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'sh', 'text', '']
   let g:gutentags_ctags_executable = '/opt/homebrew/bin/ctags'
   let g:gutentags_project_info = [{"type": "python"}]
@@ -435,8 +435,10 @@
 
   nnoremap <C-P> :GFiles!<CR>
   nnoremap <Leader><C-P> :Telescope git_files<CR>
-  nnoremap <Leader>; :Buffers!<CR>
-  nnoremap <Leader>.; :Telescope buffers<CR>
+  nnoremap <Leader>.; :Buffers!<CR>
+  nnoremap <Leader>; :Telescope buffers<CR>
+  nnoremap <Leader>e :Telescope symbols<CR>
+  nnoremap <Leader>d :BD<CR>
   nnoremap <Leader>h :History<CR>
   nnoremap <Leader>.h :Telescope oldfiles<CR>
 
@@ -472,6 +474,8 @@
   nnoremap <silent> <leader>u :MundoToggle<CR>
   nnoremap <silent> <leader>rn <cmd>lua require('lspsaga.rename').rename()<CR>
 
+  nnoremap <leader>p :let @+ = expand("%")<cr>
+
   nnoremap <Space> <Nop>
   nnoremap <C-H> <C-W>h
   nnoremap <C-J> <C-W>j
@@ -489,4 +493,10 @@
   vnoremap . :normal .<CR>
   vnoremap < <gv
   vnoremap > >gv
+
+  nnoremap gd = <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap K <cmd>lua vim.lsp.buf.hover()<CR>
+  nnoremap [l <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+  nnoremap ]l <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+
 " }}}
