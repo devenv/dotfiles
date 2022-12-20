@@ -18,15 +18,17 @@ export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$HOME/bin:$HOME/.local/bin:/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/bin/:/opt/homebrew/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 #pyenv rehash
 export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
 
 
-export JAVA_HOME=$HOME/jdk
-export JDK_HOME=$HOME/jdk
-export M2_HOME=$HOME/maven/
+#export JAVA_HOME=$HOME/jdk
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
+#export JDK_HOME=$HOME/jdk
+export JDK_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
+#export M2_HOME=$HOME/maven/
 export GOPATH=$HOME/.go
 export ANDROID_HOME=/data/Android/Sdk/
 #export _JAVA_OPTIONS=-Djline.terminal=jline.UnsupportedTerminal

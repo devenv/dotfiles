@@ -43,6 +43,7 @@
   set list
   set list
   set mousehide
+  set mouse=
   set mps+=<:>
   set nocompatible
   set nojoinspaces
@@ -87,9 +88,10 @@
   " Editing {{{
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
-    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    Plug 'hrsh7th/nvim-cmp'
 
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'kristijanhusak/vim-multiple-cursors'
@@ -496,7 +498,7 @@
 
   nnoremap gd = <cmd>lua vim.lsp.buf.definition()<CR>
   nnoremap K <cmd>lua vim.lsp.buf.hover()<CR>
-  nnoremap [l <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-  nnoremap ]l <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+  nnoremap [l <cmd>lua vim.diagnostic.goto_prev()<CR>
+  nnoremap ]l <cmd>lua vim.diagnostic.goto_next()<CR>
 
 " }}}

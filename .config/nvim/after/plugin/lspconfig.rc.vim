@@ -4,7 +4,7 @@ lua << EOF
 
 local lspconfig = require('lspconfig')
 
-local cmp = require 'cmp'
+local cmp = require('cmp')
 require("cmp_nvim_ultisnips").setup{}
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -41,19 +41,37 @@ require'lspconfig'.pyright.setup{
 -- nvim-cmp setup
 cmp.setup {
   mapping = cmp.mapping.preset.insert({
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<CR>'] = cmp.mapping.confirm({ select = true })
-  }),
+    ['<C-g>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['C-n>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+      end
+    end
+  )}),
   snippet = {
     expand = function(args)
     vim.fn["UltiSnips#Anon"](args.body)
     end,
   },
-  sources = {
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'buffer',
+      option = {
+          get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+          end,
+          keyword_length = 1
+      }
+    },
     { name = 'ultisnips' },
     { name = 'nvim_lsp_signature_help' }
-  },
+  }),
 }
 EOF
