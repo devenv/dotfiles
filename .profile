@@ -31,6 +31,7 @@ export JDK_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
 #export M2_HOME=$HOME/maven/
 export GOPATH=$HOME/.go
 export ANDROID_HOME=/data/Android/Sdk/
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 #export _JAVA_OPTIONS=-Djline.terminal=jline.UnsupportedTerminal
 
 alias gut='git'

@@ -32,7 +32,7 @@
 [core]
   autocrlf = input
   eol = lf
-  pager = delta
+  # pager = delta
 [color]
   branch = auto
   diff = auto
@@ -71,8 +71,8 @@
   process = git-lfs filter-process
   required = true
   clean = git-lfs clean -- %f
-[interactive]
-  diffFilter = delta --color-only
+#[interactive]
+  #diffFilter = delta --color-only
 [add.interactive]
   useBuiltin = false # required for git 2.37.0
 [delta]

@@ -77,7 +77,6 @@
   set whichwrap=b,s,[,]
   set wildmenu
   set wildmode=list:longest,full
-  set winminheight=0
   set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
   set runtimepath^=~/.vim/bundle/ctrlp.vim
 " }}}Environment
@@ -86,7 +85,8 @@
   call plug#begin('~/.local/share/nvim/plugged')
 
   " Editing {{{
-    Plug 'SirVer/ultisnips'
+    Plug 'blueyed/vim-diminactive'
+    Plug 'camspiers/lens.vim'
     Plug 'honza/vim-snippets'
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-nvim-lsp'
@@ -95,7 +95,7 @@
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'kristijanhusak/vim-multiple-cursors'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'preservim/nerdcommenter'
+    Plug 'SirVer/ultisnips'
     Plug 'svermeulen/vim-subversive'
     Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-abolish'
@@ -109,8 +109,10 @@
     " General {{{
       Plug 'glepnir/lspsaga.nvim'
       Plug 'janko/vim-test'
+      Plug 'majutsushi/tagbar'
       Plug 'neovim/nvim-lspconfig'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+      Plug 'tree-sitter/tree-sitter-python'
       Plug 'nvim-treesitter/playground'
       Plug 'ludovicchabant/vim-gutentags'
     " }}}
@@ -157,22 +159,13 @@
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-symbols.nvim'
-    Plug 'preservim/nerdtree'
     Plug 'simnalamburt/vim-mundo'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tpope/vim-fugitive'
   " }}}
 
   " Org / TODOs {{{
-    Plug 'chrisbra/NrrwRgn'
-    Plug 'inkarkat/vim-SyntaxRange'
-    Plug 'jceb/vim-orgmode'
     Plug 'preservim/tagbar'
-    Plug 'renerocksai/calendar-vim'
-    Plug 'tpope/vim-speeddating'
-    Plug 'vim-scripts/utl.vim'
-    Plug 'vimoutliner/vimoutliner'
-    Plug 'yegappan/taglist'
   " }}}
 
   " Support {{{
@@ -180,9 +173,10 @@
     Plug 'Konfekt/FastFold'
     Plug 'bling/vim-bufferline'
     Plug 'calebsmith/vim-lambdify'
-    Plug 'camspiers/lens.vim'
+    Plug 'camspiers/animate.vim'
     Plug 'embear/vim-localvimrc'
     Plug 'flazz/vim-colorschemes'
+    Plug 'inkarkat/vim-SyntaxRange'
     Plug 'inkarkat/vim-UnconditionalPaste'
     Plug 'itchyny/lightline.vim'
     Plug 'junegunn/vim-emoji'
@@ -235,20 +229,15 @@
     call InitializeDirectories()
   " }}}
 
-  " Diff ignore white space {{{
-    function! DiffW()
-      let opt = ""
-      if &diffopt =~ "icase"
-        let opt = opt . "-i "
+  " No space J {{{
+    fun! s:join_spaceless()
+      execute 'normal! gJ'
+      if matchstr(getline('.'), '\%' . col('.') . 'c.') =~ '\s'
+        execute 'normal! dw'
       endif
-      if &diffopt =~ "iwhite"
-        let opt = opt . "-w " " swapped vim's -b with -w
-      endif
-      silent execute "!diff -a --binary " . opt .
-            \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
-    endfunction
-    set diffexpr=DiffW()
+    endfun
   " }}}
+ " }}}
 
   " FZF {{{
     function! s:build_quickfix_list(lines)
@@ -318,13 +307,13 @@
 " }}}
 
 " Init {{{
-  autocmd FileType netrw set nolist
   "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
   autocmd FileType org set nolist sw=2 ts=2 sts=2 nowrap tw=800 foldlevel=0
+  let project_root = system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 
   " FZF {{{
-      command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --no-heading --line-number --color=always -- '.shellescape(<q-args>), 1, fzf#vim#with_preview('up:70%'), <bang>0)
+      command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --no-heading --line-number --color=always -- '.shellescape(<q-args>), 1, fzf#vim#with_preview({'dir': g:project_root}, 'up:70%'), <bang>0)
       command! -bang -nargs=* GFiles call fzf#vim#gitfiles('', fzf#vim#with_preview('up:70%'), <bang>0)
       command! -bang -nargs=* Marks call fzf#vim#marks({'options': ['--preview', 'coderay {4..-1}']}, <bang>0)
 
@@ -385,21 +374,15 @@
   let g:gitgutter_map_keys = 0
   let g:gitgutter_override_sign_column_highlight = 0
 
-  let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
-  let g:lens#height_resize_min = 800
-  let g:lens#height_resize_max = 800
-  let g:lens#width_resize_min = 800
-  let g:lens#width_resize_max = 800
+  let g:lens#disabled_filetypes = ['fzf']
+  let g:lens#height_resize_min = 5
+  let g:lens#height_resize_max = 30
+  let g:lens#width_resize_min = 20
+  let g:lens#width_resize_max = 200
+  let g:animate#duration = 200.0
 
   let g:localvimrc_ask=0
   let g:localvimrc_sandbox=0
-
-  let g:netrw_altv = 1
-  let g:netrw_banner = 0
-  let g:netrw_browse_split = 1
-  let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
-  let g:netrw_liststyle = 3
-  let g:netrw_winsize = 75
 
   let g:notes_directories = ['~/Documents/Notes']
   let g:notes_list_bullets = ['√', '•', '▸', '¿', '▹', '▪', '▫', 'x']
@@ -433,6 +416,7 @@
   noremap \ "+y
   nnoremap <Leader>y :YRShow<CR>
   nnoremap Y y$
+  nnoremap <Leader>J :call <SID>join_spaceless()<CR>
 
   nnoremap <C-P> :GFiles!<CR>
   nnoremap <Leader><C-P> :Telescope git_files<CR>
@@ -453,6 +437,8 @@
   nnoremap <Leader>g :Lspsaga lsp_finder<CR>
   nnoremap <Leader>m :Lspsaga show_line_diagnostics<CR>
   nnoremap <Leader>t :Telescope treesitter<CR>
+  nnoremap <Leader>T :TagbarToggle<CR>
+  nnoremap <Leader>H :Startify<CR>
 
   "nnoremap <Leader>i :PyrightOrganizeImports<CR>
   nnoremap <leader>i :silent! ImportName<CR>
@@ -470,8 +456,6 @@
   nnoremap <silent> } :lnext<CR>
 
   nnoremap <Leader>.<tab> :Telescope file_browser<Enter>
-  nnoremap <Leader><CR> :NERDTreeToggle<Enter>
-  nnoremap <Leader><tab> :NERDTreeToggle<Enter>
   nnoremap <silent> <leader>u :MundoToggle<CR>
   nnoremap <silent> <leader>rn <cmd>lua require('lspsaga.rename').rename()<CR>
 
