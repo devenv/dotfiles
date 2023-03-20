@@ -55,3 +55,5 @@ alias vi='nvim'
 alias vim='nvim'
 alias sbt='env TERM=xterm-color sbt'
 alias kp="ps -ef | fzf -m | awk '"'{ print $2 }'"' | xargs kill -9"
+
+source ~/.secrets

@@ -243,6 +243,7 @@ bin/remousable
 .scala_history
 .scalac/
 .screenrc
+.secrets
 .semantic-highlight-cache
 .sh_history
 .ssh/
