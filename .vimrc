@@ -159,6 +159,7 @@
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-symbols.nvim'
+    Plug 'nvim-telescope/telescope-ui-select.nvim'
     Plug 'simnalamburt/vim-mundo'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'tpope/vim-fugitive'
@@ -400,8 +401,7 @@
 
   let g:gutentags_ctags_tagfile = $HOME."/.vimtags"
   let g:gutentags_exclude_filetypes = ['javascript', 'gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'sh', 'text', '']
-  let g:gutentags_ctags_executable = '/opt/homebrew/bin/ctags'
-  let g:gutentags_project_info = [{"type": "python"}]
+  "let g:gutentags_project_info = [{"type": "python"}]
   let g:gutentags_file_list_command = 'git ls-files'
 
   let g:org_export_emacs="/usr/local/bin/emacs"
@@ -457,7 +457,9 @@
 
   nnoremap <Leader>.<tab> :Telescope file_browser<Enter>
   nnoremap <silent> <leader>u :MundoToggle<CR>
-  nnoremap <silent> <leader>rn <cmd>lua require('lspsaga.rename').rename()<CR>
+  nnoremap <silent> <leader>rn :Lspsaga rename<CR>
+  nnoremap <Leader>rr :Lspsaga code_action<CR>
+  vnoremap <Leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
 
   nnoremap <leader>p :let @+ = expand("%")<cr>
 

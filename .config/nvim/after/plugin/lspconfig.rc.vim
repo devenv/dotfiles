@@ -11,6 +11,8 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 local opts = { noremap=true, silent=true }
 
+require'lspconfig'.tsserver.setup{}
+
 require'lspconfig'.pyright.setup{
   on_attach = on_attach,
   capabilities = capabilities,
