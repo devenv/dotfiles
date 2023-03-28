@@ -247,24 +247,6 @@
         cc
     endfunction
 
-    "FZF Buffer Delete
-
-    function! s:list_buffers()
-      redir => list
-      silent ls
-      redir END
-      return split(list, "\n")
-    endfunction
-
-    function! s:delete_buffers(lines)
-      execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
-    endfunction
-
-    command! BD call fzf#run(fzf#wrap({
-      \ 'source': s:list_buffers(),
-      \ 'sink*': { lines -> s:delete_buffers(lines) },
-      \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-    \ }))
   " }}}
 " }}}
 
@@ -408,6 +390,7 @@
 " }}}
 
 " Mappings {{{
+  nmap <Tab> ,
   cmap w!! w !sudo tee % >/dev/null
   nnoremap _s :%s/\s\+$//<CR>
 
@@ -418,7 +401,6 @@
   nnoremap <C-P> :GFiles!<CR>
   nnoremap <Leader><C-P> :Telescope git_files<CR>
   nnoremap <Leader>; :Telescope buffers<CR>
-  nnoremap <Leader>d :BD<CR>
   nnoremap <Leader>h :History<CR>
 
   imap <C-S> <C-O>:Snippets!<CR>
@@ -426,7 +408,6 @@
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
 
-  nnoremap <Leader>g :Lspsaga lsp_finder<CR>
   nnoremap <Leader>H :Startify<CR>
 
   "nnoremap <Leader>i :PyrightOrganizeImports<CR>
@@ -442,6 +423,7 @@
   nnoremap <silent> <leader>m :bp<CR>
   nnoremap <silent> <leader>> :bl<CR>
   nnoremap <silent> <leader>M :bf<CR>
+  nnoremap <silent> <leader><C-x> :bd<CR>
 
   nnoremap <silent> [n :cprev<CR>
   nnoremap <silent> ]n :cnext<CR>
@@ -453,17 +435,19 @@
   nnoremap <silent> <leader>rn :Lspsaga rename<CR>
   nnoremap <silent> <leader>l :Lspsaga diagnostic_jump_next<CR>
   nnoremap <silent> <leader>L :Lspsaga diagnostic_jump_prev<CR>
+  nnoremap <silent> L :Lspsaga diagnostic_jump_prev<CR>
+  nnoremap <silent> <leader>d = <cmd>Lspsaga goto_definition<CR>
+  nnoremap <silent> <leader>D = <cmd>Lspsaga peek_definition<CR>
   nnoremap <silent> <leader>e :Lspsaga show_buf_diagnostics<CR>
   nnoremap <silent> <leader>E :Lspsaga show_workspace_diagnostics<CR>
   nnoremap <silent> <leader>i :Lspsaga incoming_calls<CR>
   nnoremap <silent> <leader>o :Lspsaga outgoing_calls<CR>
   nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
-  nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
   nnoremap <silent> <leader>' <cmd>lua vim.lsp.buf.format()<CR>
   nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.signature_help()<CR>
   nnoremap K :Lspsaga hover_doc<CR>
-  nnoremap <Leader>rr :Lspsaga code_action<CR>
-  vnoremap <Leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
+  nnoremap <Leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
+  vnoremap <Leader>rr <cmd>lua vim.lsp.buf.range_code_action()<CR>
 
   nnoremap <leader>p :let @+ = expand("%")<cr>
 
@@ -484,9 +468,5 @@
   vnoremap . :normal .<CR>
   vnoremap < <gv
   vnoremap > >gv
-
-  nnoremap gd = <cmd>lua vim.lsp.buf.definition()<CR>
-  nnoremap [l <cmd>lua vim.diagnostic.goto_prev()<CR>
-  nnoremap ]l <cmd>lua vim.diagnostic.goto_next()<CR>
 
 " }}}
