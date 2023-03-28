@@ -95,6 +95,7 @@
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'kristijanhusak/vim-multiple-cursors'
     Plug 'michaeljsmith/vim-indent-object'
+    Plug 'cohama/lexima.vim'
     Plug 'SirVer/ultisnips'
     Plug 'svermeulen/vim-subversive'
     Plug 'tommcdo/vim-exchange'
@@ -102,7 +103,6 @@
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'
-    Plug 'vim-scripts/YankRing.vim'
   " }}}
 
   " Programming {{{
@@ -352,11 +352,9 @@
   let g:go_fmt_autosave=0
   let g:rainbow_active = 1
   let g:vim_json_syntax_conceal = 0
-  let g:yankring_clipboard_monitor = 0
   let maplocalleader="\<space>"
   let mapleader = ","
   let python_highlight_all=1
-  let yankring_replace_n_pkey = ''
 
   let $FZF_DEFAULT_OPTS = "--bind ctrl-a:select-all --preview-window down"
   let $FZF_PREVIEW_COMMAND = 'coderay {}'
@@ -414,30 +412,21 @@
   nnoremap _s :%s/\s\+$//<CR>
 
   noremap \ "+y
-  nnoremap <Leader>y :YRShow<CR>
   nnoremap Y y$
   nnoremap <Leader>J :call <SID>join_spaceless()<CR>
 
   nnoremap <C-P> :GFiles!<CR>
   nnoremap <Leader><C-P> :Telescope git_files<CR>
-  nnoremap <Leader>.; :Buffers!<CR>
   nnoremap <Leader>; :Telescope buffers<CR>
-  nnoremap <Leader>e :Telescope symbols<CR>
   nnoremap <Leader>d :BD<CR>
   nnoremap <Leader>h :History<CR>
-  nnoremap <Leader>.h :Telescope oldfiles<CR>
 
-  nnoremap <Leader>L :Lines<CR>
-  nnoremap <Leader>l :BLines<CR>
   imap <C-S> <C-O>:Snippets!<CR>
 
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
 
   nnoremap <Leader>g :Lspsaga lsp_finder<CR>
-  nnoremap <Leader>m :Lspsaga show_line_diagnostics<CR>
-  nnoremap <Leader>t :Telescope treesitter<CR>
-  nnoremap <Leader>T :TagbarToggle<CR>
   nnoremap <Leader>H :Startify<CR>
 
   "nnoremap <Leader>i :PyrightOrganizeImports<CR>
@@ -449,15 +438,30 @@
 
   nnoremap <silent> <leader>/ :set invhlsearch<CR>
   nnoremap <silent> <leader><leader> <C-^>
+  nnoremap <silent> <leader>. :bn<CR>
+  nnoremap <silent> <leader>m :bp<CR>
+  nnoremap <silent> <leader>> :bl<CR>
+  nnoremap <silent> <leader>M :bf<CR>
 
   nnoremap <silent> [n :cprev<CR>
   nnoremap <silent> ]n :cnext<CR>
   nnoremap <silent> { :lprev<CR>
   nnoremap <silent> } :lnext<CR>
 
-  nnoremap <Leader>.<tab> :Telescope file_browser<Enter>
   nnoremap <silent> <leader>u :MundoToggle<CR>
   nnoremap <silent> <leader>rn :Lspsaga rename<CR>
+  nnoremap <silent> <leader>rn :Lspsaga rename<CR>
+  nnoremap <silent> <leader>l :Lspsaga diagnostic_jump_next<CR>
+  nnoremap <silent> <leader>L :Lspsaga diagnostic_jump_prev<CR>
+  nnoremap <silent> <leader>e :Lspsaga show_buf_diagnostics<CR>
+  nnoremap <silent> <leader>E :Lspsaga show_workspace_diagnostics<CR>
+  nnoremap <silent> <leader>i :Lspsaga incoming_calls<CR>
+  nnoremap <silent> <leader>o :Lspsaga outgoing_calls<CR>
+  nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
+  nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
+  nnoremap <silent> <leader>' <cmd>lua vim.lsp.buf.format()<CR>
+  nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.signature_help()<CR>
+  nnoremap K :Lspsaga hover_doc<CR>
   nnoremap <Leader>rr :Lspsaga code_action<CR>
   vnoremap <Leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
 
@@ -482,7 +486,6 @@
   vnoremap > >gv
 
   nnoremap gd = <cmd>lua vim.lsp.buf.definition()<CR>
-  nnoremap K <cmd>lua vim.lsp.buf.hover()<CR>
   nnoremap [l <cmd>lua vim.diagnostic.goto_prev()<CR>
   nnoremap ]l <cmd>lua vim.diagnostic.goto_next()<CR>
 

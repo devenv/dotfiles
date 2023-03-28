@@ -13,6 +13,8 @@ local opts = { noremap=true, silent=true }
 
 require'lspconfig'.tsserver.setup{}
 
+require'lspconfig'.cssmodules_ls.setup{}
+
 require'lspconfig'.pyright.setup{
   on_attach = on_attach,
   capabilities = capabilities,
