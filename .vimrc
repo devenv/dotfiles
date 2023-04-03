@@ -93,7 +93,9 @@
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     Plug 'hrsh7th/nvim-cmp'
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-    Plug 'kristijanhusak/vim-multiple-cursors'
+    Plug 'svermeulen/vim-easyclip'
+    Plug 'Shougo/neoyank.vim'
+    Plug 'justinhoward/fzf-neoyank'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'cohama/lexima.vim'
     Plug 'SirVer/ultisnips'
@@ -149,7 +151,6 @@
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'christoomey/vim-tmux-runner'
     Plug 'farmergreg/vim-lastplace'
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
     Plug 'itchyny/vim-gitbranch'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
@@ -181,7 +182,6 @@
     Plug 'inkarkat/vim-UnconditionalPaste'
     Plug 'itchyny/lightline.vim'
     Plug 'junegunn/vim-emoji'
-    Plug 'junegunn/vim-peekaboo'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'luochen1990/rainbow'
@@ -310,7 +310,7 @@
 
   " Undo {{{
     if isdirectory(expand("~/.vim/bundle/undotree/"))
-        nnoremap <Leader>u :UndotreeToggle<CR>
+        nnoremap <leader>u :UndotreeToggle<CR>
         " If undotree is opened, it is likely one wants to interact with it.
         let g:undotree_SetFocusWhenToggle=1
     endif
@@ -387,34 +387,38 @@
   let g:org_export_emacs="/usr/local/bin/emacs"
   let g:org_todo_keywords = ['TODO', 'IN_PROGRESS', 'SCHEDULED', 'WAITING', '|', 'OBSOLETE', 'DELEGATED', 'DONE']
   let g:utl_cfg_hdl_scm_http_system="silent !open '%u'"
+
+  let g:EasyClipEnableBlackHoleRedirect = 0
+  let g:EasyClipShareYanks = 1
+  let g:EasyClipUseCutDefaults = 0
+  let g:EasyClipUsePasteToggleDefaults = 0
+  let g:EasyClipUseSubstituteDefaults = 0
 " }}}
 
 " Mappings {{{
-  nmap <Tab> ,
   cmap w!! w !sudo tee % >/dev/null
   nnoremap _s :%s/\s\+$//<CR>
 
   noremap \ "+y
   nnoremap Y y$
-  nnoremap <Leader>J :call <SID>join_spaceless()<CR>
+  nnoremap <leader>y :FZFNeoyank<cr>
+  nnoremap <leader>Y :FZFNeoyank " P<cr>
+  vnoremap <leader>y :FZFNeoyankSelection<cr>
 
   nnoremap <C-P> :GFiles!<CR>
-  nnoremap <Leader><C-P> :Telescope git_files<CR>
-  nnoremap <Leader>; :Telescope buffers<CR>
-  nnoremap <Leader>h :History<CR>
-
-  imap <C-S> <C-O>:Snippets!<CR>
+  nnoremap <leader><C-P> :Telescope git_files<CR>
+  nnoremap <leader>; :Telescope buffers<CR>
+  nnoremap <leader>h :History<CR>
 
   nnoremap <leader>f :Rg!<CR>
-  nnoremap <silent> <Leader><S-F> :Rg! <C-R><C-W><CR>
+  nnoremap <silent> <leader><S-F> :Rg! <C-R><C-W><CR>
 
-  nnoremap <Leader>H :Startify<CR>
+  nnoremap <leader>H :Startify<CR>
 
-  "nnoremap <Leader>i :PyrightOrganizeImports<CR>
   nnoremap <leader>i :silent! ImportName<CR>
-  nnoremap <leader><S-I> :silent! w<CR>:silent! !isort %<CR>
+  nnoremap <leader>I :silent! w<CR>:silent! !isort %<CR>
   nnoremap <leader>p :let @+=expand("%")<CR>
-  nnoremap <leader><S-P> :let @+=expand("%:t:r")<CR>
+  nnoremap <leader>P :let @+=expand("%:t:r")<CR>
   nnoremap <leader><C-p> :let @+=join([expand("%"), line('.')], ':')<CR>
 
   nnoremap <silent> <leader>/ :set invhlsearch<CR>
@@ -446,10 +450,10 @@
   nnoremap <silent> <leader>' <cmd>lua vim.lsp.buf.format()<CR>
   nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.signature_help()<CR>
   nnoremap K :Lspsaga hover_doc<CR>
-  nnoremap <Leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
-  vnoremap <Leader>rr <cmd>lua vim.lsp.buf.range_code_action()<CR>
+  nnoremap <leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
+  vnoremap <leader>rr <cmd>lua vim.lsp.buf.range_code_action()<CR>
 
-  nnoremap <leader>p :let @+ = expand("%")<cr>
+  nnoremap <leader>J :call <SID>join_spaceless()<CR>
 
   nnoremap <Space> <Nop>
   nnoremap <C-H> <C-W>h

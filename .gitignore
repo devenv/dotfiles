@@ -1,3 +1,4 @@
+!Library/Preferences/espanso
 .Enpass-RecentPaths.conf
 .IntelliJIdea2018.1/
 .IntelliJIdea2018.2/
@@ -18,8 +19,6 @@
 .bash_logout
 .bash_profile
 .berkshelf/
-bin/remouse
-bin/remousable
 .bundle/
 .byobu/
 .cache/
@@ -131,6 +130,7 @@ bin/remousable
 .dropbox-dist/
 .dropbox/
 .dwarffortress/
+.easyclip
 .easystroke/
 .electron-gyp/
 .electron/
@@ -146,6 +146,7 @@ bin/remousable
 .gcalcli_cache
 .gcalcli_oauth
 .gem/
+.git_secrets/
 .gitcinclude
 .gnupg/
 .gnuplot_history
@@ -306,7 +307,6 @@ Dropbox/
 Enpass/
 IdeaProjects/
 Library/
-!Library/Preferences/espanso
 Movies/
 Music/
 My Games/
@@ -333,6 +333,8 @@ bin/decompile_jar.sh
 bin/espanso
 bin/google_chrome
 bin/init_sshecs
+bin/remousable
+bin/remouse
 bin/servers_to_init.txt
 bin/single_monitor_tv
 bin/single_monitor_tv_hd
@@ -409,4 +411,3 @@ xcalib/
 xv/
 xvkbd/
 yankring_history_v2.txt
-.git_secrets/
