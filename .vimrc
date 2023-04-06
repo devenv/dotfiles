@@ -405,9 +405,11 @@
 
   nnoremap <C-P> :GFiles!<CR>
   nnoremap <leader><C-P> :Telescope git_files<CR>
-  nnoremap <leader>; :Telescope buffers<CR>
+  "nnoremap <leader>; :Telescope buffers<CR>
+  nnoremap <leader>; :Neotree buffers<CR>
   nnoremap <leader>h :History<CR>
-  nnoremap <leader><tab> :NeoTreeFloatToggle<CR>
+  nnoremap <leader><tab> :Neotree reveal_file=%:p<CR>
+  nnoremap <leader>gs :Neotree git_status<CR>
 
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <leader><S-F> :Rg! <C-R><C-W><CR>
@@ -436,7 +438,6 @@
   nnoremap <silent> <leader>gl :GitGutterLineHighlightsToggle<CR>
   nnoremap <silent> <leader>gn :GitGutterLineNrHighlightsToggle<CR>
   nnoremap <silent> <leader>gd :GitGutterDiffOrig<CR>
-  nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
   nnoremap <silent> { :lprev<CR>
   nnoremap <silent> } :lnext<CR>
 
