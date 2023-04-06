@@ -111,7 +111,6 @@
     " General {{{
       Plug 'glepnir/lspsaga.nvim'
       Plug 'janko/vim-test'
-      Plug 'majutsushi/tagbar'
       Plug 'neovim/nvim-lspconfig'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
       Plug 'tree-sitter/tree-sitter-python'
@@ -166,10 +165,6 @@
     Plug 'tpope/vim-fugitive'
   " }}}
 
-  " Org / TODOs {{{
-    Plug 'preservim/tagbar'
-  " }}}
-
   " Support {{{
     Plug 'AndrewRadev/linediff.vim'
     Plug 'Konfekt/FastFold'
@@ -185,6 +180,10 @@
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'luochen1990/rainbow'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-tree/nvim-web-devicons'
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
     Plug 'romainl/vim-qf'
     Plug 'tmhedberg/SimpylFold'
     Plug 'tpope/vim-dispatch'
@@ -240,14 +239,13 @@
   " }}}
  " }}}
 
-  " FZF {{{
-    function! s:build_quickfix_list(lines)
-        call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-        copen
-        cc
-    endfunction
+" FZF {{{
+  function! s:build_quickfix_list(lines)
+      call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+      copen
+      cc
+  endfunction
 
-  " }}}
 " }}}
 
 " Style {{{
@@ -409,6 +407,7 @@
   nnoremap <leader><C-P> :Telescope git_files<CR>
   nnoremap <leader>; :Telescope buffers<CR>
   nnoremap <leader>h :History<CR>
+  nnoremap <leader><tab> :NeoTreeFloatToggle<CR>
 
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <leader><S-F> :Rg! <C-R><C-W><CR>
@@ -427,15 +426,21 @@
   nnoremap <silent> <leader>m :bp<CR>
   nnoremap <silent> <leader>> :bl<CR>
   nnoremap <silent> <leader>M :bf<CR>
-  nnoremap <silent> <leader><C-x> :bd<CR>
+  nnoremap <silent> <leader>x :bd<CR>
 
   nnoremap <silent> [n :cprev<CR>
   nnoremap <silent> ]n :cnext<CR>
+  nnoremap <silent> [g :GitGutterPrevHunk<CR>
+  nnoremap <silent> ]g :GitGutterNextHunk<CR>
+  nnoremap <silent> <leader>gu :GitGutterUndoHunk<CR>
+  nnoremap <silent> <leader>gl :GitGutterLineHighlightsToggle<CR>
+  nnoremap <silent> <leader>gn :GitGutterLineNrHighlightsToggle<CR>
+  nnoremap <silent> <leader>gd :GitGutterDiffOrig<CR>
+  nnoremap <silent> <leader>gs :GitGutterStageHunk<CR>
   nnoremap <silent> { :lprev<CR>
   nnoremap <silent> } :lnext<CR>
 
   nnoremap <silent> <leader>u :MundoToggle<CR>
-  nnoremap <silent> <leader>rn :Lspsaga rename<CR>
   nnoremap <silent> <leader>rn :Lspsaga rename<CR>
   nnoremap <silent> <leader>l :Lspsaga diagnostic_jump_next<CR>
   nnoremap <silent> <leader>L :Lspsaga diagnostic_jump_prev<CR>
@@ -444,8 +449,7 @@
   nnoremap <silent> <leader>D = <cmd>Lspsaga peek_definition<CR>
   nnoremap <silent> <leader>e :Lspsaga show_buf_diagnostics<CR>
   nnoremap <silent> <leader>E :Lspsaga show_workspace_diagnostics<CR>
-  nnoremap <silent> <leader>i :Lspsaga incoming_calls<CR>
-  nnoremap <silent> <leader>o :Lspsaga outgoing_calls<CR>
+  nnoremap <silent> <leader>o :Lspsaga outline<CR>
   nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
   nnoremap <silent> <leader>' <cmd>lua vim.lsp.buf.format()<CR>
   nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.signature_help()<CR>
