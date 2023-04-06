@@ -118,12 +118,6 @@
       Plug 'ludovicchabant/vim-gutentags'
     " }}}
 
-    " Python {{{
-      Plug 'mgedmin/python-imports.vim'
-      Plug 'vim-python/python-syntax'
-      Plug 'Vimjas/vim-python-pep8-indent'
-    " }}}
-
     " Other languages {{{
       Plug 'alvan/vim-closetag'
       Plug 'burnettk/vim-angular'
@@ -168,6 +162,8 @@
   " Support {{{
     Plug 'AndrewRadev/linediff.vim'
     Plug 'Konfekt/FastFold'
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'ThePrimeagen/harpoon'
     Plug 'bling/vim-bufferline'
     Plug 'calebsmith/vim-lambdify'
     Plug 'camspiers/animate.vim'
@@ -177,13 +173,12 @@
     Plug 'inkarkat/vim-UnconditionalPaste'
     Plug 'itchyny/lightline.vim'
     Plug 'junegunn/vim-emoji'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-lua/popup.nvim'
     Plug 'luochen1990/rainbow'
     Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-tree/nvim-web-devicons'
-    Plug 'MunifTanjim/nui.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
+    Plug 'nvim-tree/nvim-web-devicons'
     Plug 'romainl/vim-qf'
     Plug 'tmhedberg/SimpylFold'
     Plug 'tpope/vim-dispatch'
@@ -334,7 +329,6 @@
   let g:vim_json_syntax_conceal = 0
   let maplocalleader="\<space>"
   let mapleader = ","
-  let python_highlight_all=1
 
   let $FZF_DEFAULT_OPTS = "--bind ctrl-a:select-all --preview-window down"
   let $FZF_PREVIEW_COMMAND = 'coderay {}'
@@ -367,9 +361,12 @@
   let g:notes_list_bullets = ['√', '•', '▸', '¿', '▹', '▪', '▫', 'x']
   let g:notes_suffix = '.txt'
 
+  let g:startify_bookmarks = 0
   let g:startify_change_to_dir = 0
   let g:startify_change_to_vcs_root = 1
   let g:startify_custom_header = []
+  let g:startify_enable_unsafe = 1
+  let g:startify_session_autoload = 0
 
   let test#enabled_runners = ["python#nose"]
   let test#strategy = "vtr"
@@ -410,6 +407,9 @@
   nnoremap <leader>h :History<CR>
   nnoremap <leader><tab> :Neotree reveal_file=%:p<CR>
   nnoremap <leader>gs :Neotree git_status<CR>
+  nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
+  nnoremap <leader>A :lua require("harpoon.mark").rm_file()<CR>
+  nnoremap <leader>l :Telescope harpoon marks<CR>
 
   nnoremap <leader>f :Rg!<CR>
   nnoremap <silent> <leader><S-F> :Rg! <C-R><C-W><CR>
@@ -443,8 +443,7 @@
 
   nnoremap <silent> <leader>u :MundoToggle<CR>
   nnoremap <silent> <leader>rn :Lspsaga rename<CR>
-  nnoremap <silent> <leader>l :Lspsaga diagnostic_jump_next<CR>
-  nnoremap <silent> <leader>L :Lspsaga diagnostic_jump_prev<CR>
+  nnoremap <silent> <leader>L :Lspsaga diagnostic_jump_next<CR>
   nnoremap <silent> L :Lspsaga diagnostic_jump_prev<CR>
   nnoremap <silent> <leader>d = <cmd>Lspsaga goto_definition<CR>
   nnoremap <silent> <leader>D = <cmd>Lspsaga peek_definition<CR>
