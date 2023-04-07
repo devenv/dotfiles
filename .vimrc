@@ -85,7 +85,6 @@
   call plug#begin('~/.local/share/nvim/plugged')
 
   " Editing {{{
-    Plug 'blueyed/vim-diminactive'
     Plug 'camspiers/lens.vim'
     Plug 'honza/vim-snippets'
     Plug 'hrsh7th/cmp-buffer'
@@ -96,11 +95,9 @@
     Plug 'svermeulen/vim-easyclip'
     Plug 'Shougo/neoyank.vim'
     Plug 'justinhoward/fzf-neoyank'
-    Plug 'michaeljsmith/vim-indent-object'
     Plug 'cohama/lexima.vim'
     Plug 'SirVer/ultisnips'
     Plug 'svermeulen/vim-subversive'
-    Plug 'tommcdo/vim-exchange'
     Plug 'tpope/vim-abolish'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
@@ -113,55 +110,29 @@
       Plug 'janko/vim-test'
       Plug 'neovim/nvim-lspconfig'
       Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-      Plug 'tree-sitter/tree-sitter-python'
-      Plug 'nvim-treesitter/playground'
       Plug 'ludovicchabant/vim-gutentags'
     " }}}
 
-    " Other languages {{{
-      Plug 'alvan/vim-closetag'
-      Plug 'burnettk/vim-angular'
-      Plug 'chrisbra/csv.vim'
-      Plug 'elzr/vim-json'
-      Plug 'hail2u/vim-css3-syntax'
-      Plug 'jparise/vim-graphql'        " GraphQL syntax
-      Plug 'lambdalisue/nose.vim'
-      Plug 'leafgarland/typescript-vim' " TypeScript syntax
-      Plug 'martinda/Jenkinsfile-vim-syntax'
-      Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-      Plug 'moll/vim-node'
-      Plug 'pangloss/vim-javascript'    " JavaScript support
-      Plug 'Rykka/riv.vim'
-      Plug 'Rykka/InstantRst'
-      Plug 'tasn/vim-tsx'
-    " }}}
- 
   " }}}
 
   " Git / Tree / Undo / Tmux / etc {{{
     Plug 'airblade/vim-gitgutter'
-    Plug 'benmills/vimux'
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'christoomey/vim-tmux-runner'
     Plug 'farmergreg/vim-lastplace'
     Plug 'itchyny/vim-gitbranch'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-startify'
-    Plug 'mzlogin/vim-markdown-toc'
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-symbols.nvim'
     Plug 'nvim-telescope/telescope-ui-select.nvim'
     Plug 'simnalamburt/vim-mundo'
-    Plug 'tmux-plugins/vim-tmux'
     Plug 'tpope/vim-fugitive'
   " }}}
 
   " Support {{{
-    Plug 'AndrewRadev/linediff.vim'
-    Plug 'Konfekt/FastFold'
     Plug 'MunifTanjim/nui.nvim'
     Plug 'ThePrimeagen/harpoon'
     Plug 'bling/vim-bufferline'
@@ -169,18 +140,14 @@
     Plug 'camspiers/animate.vim'
     Plug 'embear/vim-localvimrc'
     Plug 'flazz/vim-colorschemes'
-    Plug 'inkarkat/vim-SyntaxRange'
-    Plug 'inkarkat/vim-UnconditionalPaste'
     Plug 'itchyny/lightline.vim'
     Plug 'junegunn/vim-emoji'
     Plug 'luochen1990/rainbow'
-    Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
     Plug 'nvim-tree/nvim-web-devicons'
     Plug 'romainl/vim-qf'
-    Plug 'tmhedberg/SimpylFold'
     Plug 'tpope/vim-dispatch'
   " }}}
 
@@ -365,8 +332,16 @@
   let g:startify_change_to_dir = 0
   let g:startify_change_to_vcs_root = 1
   let g:startify_custom_header = []
+  let g:startify_enable_special = 0
   let g:startify_enable_unsafe = 1
-  let g:startify_session_autoload = 0
+  let g:startify_session_autoload = 1
+  let g:startify_session_persistence = 1
+  let g:startify_lists = [
+        \ { 'type': 'sessions',  'header': ['   Sessions']       },
+        \ { 'type': 'files',     'header': ['   MRU']            },
+        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+        \ { 'type': 'commands',  'header': ['   Commands']       },
+        \ ]
 
   let test#enabled_runners = ["python#nose"]
   let test#strategy = "vtr"
