@@ -19,7 +19,7 @@
   set completeopt+=noinsert  " Insert text automatically
   set completeopt-=preview   " Documentation preview window
   set completeopt-=longest   " Insert the longest common text
-  set completeopt+=noselect  " Highlight the first completion automatically
+  set completeopt-=noselect  " Highlight the first completion automatically
   set cursorline
   set encoding=utf-8
   set encoding=utf8
@@ -85,18 +85,15 @@
   call plug#begin('~/.local/share/nvim/plugged')
 
   " Editing {{{
+    Plug 'Shougo/neoyank.vim'
+    Plug 'SirVer/ultisnips'
     Plug 'camspiers/lens.vim'
-    Plug 'honza/vim-snippets'
+    Plug 'cohama/lexima.vim'
     Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/cmp-nvim-lsp'
-    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     Plug 'hrsh7th/nvim-cmp'
+    Plug 'justinhoward/fzf-neoyank'
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'svermeulen/vim-easyclip'
-    Plug 'Shougo/neoyank.vim'
-    Plug 'justinhoward/fzf-neoyank'
-    Plug 'cohama/lexima.vim'
-    Plug 'SirVer/ultisnips'
     Plug 'svermeulen/vim-subversive'
     Plug 'tpope/vim-abolish'
     Plug 'tpope/vim-repeat'
@@ -105,50 +102,48 @@
   " }}}
 
   " Programming {{{
-    " General {{{
-      Plug 'glepnir/lspsaga.nvim'
-      Plug 'janko/vim-test'
-      Plug 'neovim/nvim-lspconfig'
-      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-      Plug 'ludovicchabant/vim-gutentags'
-    " }}}
-
+    Plug 'airblade/vim-gitgutter'
+    Plug 'folke/trouble.nvim'
+    Plug 'glepnir/lspsaga.nvim'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    Plug 'itchyny/vim-gitbranch'
+    Plug 'janko/vim-test'
+    Plug 'jeetsukumaran/vim-pythonsense'
+    Plug 'leafgarland/typescript-vim'
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'tpope/vim-fugitive'
+    Plug 'wellle/targets.vim'
   " }}}
 
-  " Git / Tree / Undo / Tmux / etc {{{
-    Plug 'airblade/vim-gitgutter'
+  " Git / FZF / Undo /  etc {{{
+    Plug 'ThePrimeagen/harpoon'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'embear/vim-localvimrc'
     Plug 'farmergreg/vim-lastplace'
-    Plug 'itchyny/vim-gitbranch'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-startify'
-    Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
     Plug 'nvim-telescope/telescope-symbols.nvim'
     Plug 'nvim-telescope/telescope-ui-select.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
     Plug 'simnalamburt/vim-mundo'
-    Plug 'tpope/vim-fugitive'
   " }}}
 
   " Support {{{
     Plug 'MunifTanjim/nui.nvim'
-    Plug 'ThePrimeagen/harpoon'
     Plug 'bling/vim-bufferline'
     Plug 'calebsmith/vim-lambdify'
-    Plug 'camspiers/animate.vim'
-    Plug 'embear/vim-localvimrc'
     Plug 'flazz/vim-colorschemes'
     Plug 'itchyny/lightline.vim'
     Plug 'junegunn/vim-emoji'
-    Plug 'luochen1990/rainbow'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
     Plug 'nvim-tree/nvim-web-devicons'
-    Plug 'romainl/vim-qf'
-    Plug 'tpope/vim-dispatch'
   " }}}
 
   call plug#end()
@@ -319,7 +314,6 @@
   let g:lens#height_resize_max = 30
   let g:lens#width_resize_min = 20
   let g:lens#width_resize_max = 200
-  let g:animate#duration = 200.0
 
   let g:localvimrc_ask=0
   let g:localvimrc_sandbox=0
@@ -345,6 +339,8 @@
 
   let test#enabled_runners = ["python#nose"]
   let test#strategy = "vtr"
+
+  let g:lexima_enable_basic_rules = 0
 
   let g:instant_rst_port = 8905
   let g:instant_rst_browser = 'google_chrome'
@@ -375,19 +371,18 @@
   nnoremap <leader>Y :FZFNeoyank " P<cr>
   vnoremap <leader>y :FZFNeoyankSelection<cr>
 
-  nnoremap <C-P> :GFiles!<CR>
-  nnoremap <leader><C-P> :Telescope git_files<CR>
-  "nnoremap <leader>; :Telescope buffers<CR>
+  nnoremap <C-P> :Telescope git_files<CR>
   nnoremap <leader>; :Neotree buffers<CR>
-  nnoremap <leader>h :History<CR>
+  nnoremap <leader>b :Telescope buffers<CR>
+  nnoremap <leader>h :Telescope oldfiles<CR>
   nnoremap <leader><tab> :Neotree reveal_file=%:p<CR>
   nnoremap <leader>gs :Neotree git_status<CR>
   nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
   nnoremap <leader>A :lua require("harpoon.mark").rm_file()<CR>
   nnoremap <leader>l :Telescope harpoon marks<CR>
 
-  nnoremap <leader>f :Rg!<CR>
-  nnoremap <silent> <leader><S-F> :Rg! <C-R><C-W><CR>
+  nnoremap <leader>f :Telescope live_grep<CR>
+  nnoremap <leader>F :Telescope grep_string<CR>
 
   nnoremap <leader>H :Startify<CR>
 
@@ -422,13 +417,13 @@
   nnoremap <silent> L :Lspsaga diagnostic_jump_prev<CR>
   nnoremap <silent> <leader>d = <cmd>Lspsaga goto_definition<CR>
   nnoremap <silent> <leader>D = <cmd>Lspsaga peek_definition<CR>
-  nnoremap <silent> <leader>e :Lspsaga show_buf_diagnostics<CR>
-  nnoremap <silent> <leader>E :Lspsaga show_workspace_diagnostics<CR>
   nnoremap <silent> <leader>o :Lspsaga outline<CR>
   nnoremap <silent> <leader>t :Lspsaga term_toggle<CR>
   nnoremap <silent> <leader>' <cmd>lua vim.lsp.buf.format()<CR>
-  nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.signature_help()<CR>
+  nnoremap <silent> <leader>j <cmd>lua require("trouble").next({skip_groups = true, jump = true})<CR>
+  nnoremap <silent> <leader>k <cmd>lua require("trouble").previous({skip_groups = true, jump = true})<CR>
   nnoremap K :Lspsaga hover_doc<CR>
+  nnoremap <leader>e :TroubleToggle<CR>
   nnoremap <leader>rr <cmd>lua vim.lsp.buf.code_action()<CR>
   vnoremap <leader>rr <cmd>lua vim.lsp.buf.range_code_action()<CR>
 

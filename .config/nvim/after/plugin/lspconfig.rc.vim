@@ -44,6 +44,9 @@ require'lspconfig'.pyright.setup{
 
 -- nvim-cmp setup
 cmp.setup {
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
   mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),

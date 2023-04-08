@@ -1,4 +1,6 @@
 lua << EOF
+local trouble = require("trouble.providers.telescope")
+local actions = require('telescope.actions')
 require('telescope').setup{
   extensions = {
     ["ui-select"] = {
@@ -47,7 +49,16 @@ require('telescope').setup{
     qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
 
     -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+    mappings = {
+      i = {
+        ["<C-e>"] = trouble.open_with_trouble,
+        ["<C-n>"] = actions.cycle_history_next,
+        ["<C-p>"] = actions.cycle_history_prev,
+        ["<C-q>"] = actions.send_to_qflist,
+      },
+      n = { ["<c-t>"] = trouble.open_with_trouble },
+    }
   }
 }
 EOF
