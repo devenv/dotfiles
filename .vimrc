@@ -90,7 +90,6 @@
     Plug 'camspiers/lens.vim'
     Plug 'cohama/lexima.vim'
     Plug 'hrsh7th/cmp-buffer'
-    Plug 'hrsh7th/nvim-cmp'
     Plug 'justinhoward/fzf-neoyank'
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'svermeulen/vim-easyclip'
@@ -103,17 +102,19 @@
 
   " Programming {{{
     Plug 'airblade/vim-gitgutter'
+    Plug 'christoomey/vim-sort-motion'
     Plug 'folke/trouble.nvim'
     Plug 'glepnir/lspsaga.nvim'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+    Plug 'hrsh7th/nvim-cmp'
     Plug 'itchyny/vim-gitbranch'
     Plug 'janko/vim-test'
-    Plug 'jeetsukumaran/vim-pythonsense'
-    Plug 'leafgarland/typescript-vim'
     Plug 'ludovicchabant/vim-gutentags'
+    Plug 'michaeljsmith/vim-indent-object'
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     Plug 'tpope/vim-fugitive'
     Plug 'wellle/targets.vim'
   " }}}
