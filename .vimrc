@@ -1,5 +1,5 @@
 " Modeline {{{
-" vim: sw=2 ts=2 sts=2 tw=78 foldmarker={{{,}}} foldlevel=0 foldmethod=marker
+" vim: sw=2 ts=2 sts=2 tw=78 foldmarker={{{,}}} foldmethod=marker
 " }}}
 
 " Header {{{
@@ -57,7 +57,7 @@
   set sbr= lcs=tab:!-,trail:~  " List mode and non-text characters
   set scrolljump=1
   set scrolloff=10
-  set signcolumn=yes
+  set signcolumn=no
   set shiftwidth=2
   set shortmess+=c
   set shortmess+=filmnrxoOtT
@@ -192,6 +192,7 @@
       endif
     endfun
   " }}}
+
  " }}}
 
 " FZF {{{
@@ -394,7 +395,7 @@
   nnoremap <silent> <leader>m :bp<CR>
   nnoremap <silent> <leader>> :bl<CR>
   nnoremap <silent> <leader>M :bf<CR>
-  nnoremap <silent> <leader>x :bd<CR>
+  nnoremap <silent> <leader>q :bd<CR>
 
   nnoremap <silent> [n :cprev<CR>
   nnoremap <silent> ]n :cnext<CR>
@@ -424,8 +425,10 @@
   vnoremap <leader>rr <cmd>lua vim.lsp.buf.range_code_action()<CR>
 
   nnoremap <leader>J :call <SID>join_spaceless()<CR>
-
-  nnoremap <Space> <Nop>
+  nnoremap <silent> <leader>o :call append(line("."),   repeat([""], v:count1))<CR>
+  nnoremap <silent> <leader>O :call append(line(".")-1, repeat([""], v:count1))<CR>
+  nnoremap <silent> <leader>x :<C-u>let cursor_pos = getpos('.')<Bar>execute 'normal j' . v:count1 . 'ddk'<Bar>call setpos('.', cursor_pos)<CR>
+  nnoremap <silent> <leader>X :<C-u>let cursor_line = line('.')<Bar>execute 'normal ' . v:count1 . 'k' . v:count1 . 'dd'<Bar>call setpos('.', [0, cursor_line - v:count1, 0, 0])<CR>
   nnoremap <C-H> <C-W>h
   nnoremap <C-J> <C-W>j
   nnoremap <C-K> <C-W>k
