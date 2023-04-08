@@ -85,12 +85,10 @@
   call plug#begin('~/.local/share/nvim/plugged')
 
   " Editing {{{
-    Plug 'Shougo/neoyank.vim'
     Plug 'SirVer/ultisnips'
     Plug 'camspiers/lens.vim'
     Plug 'cohama/lexima.vim'
     Plug 'hrsh7th/cmp-buffer'
-    Plug 'justinhoward/fzf-neoyank'
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'svermeulen/vim-easyclip'
     Plug 'svermeulen/vim-subversive'
@@ -101,7 +99,6 @@
   " }}}
 
   " Programming {{{
-    Plug 'airblade/vim-gitgutter'
     Plug 'christoomey/vim-sort-motion'
     Plug 'folke/trouble.nvim'
     Plug 'glepnir/lspsaga.nvim'
@@ -110,12 +107,12 @@
     Plug 'hrsh7th/nvim-cmp'
     Plug 'itchyny/vim-gitbranch'
     Plug 'janko/vim-test'
+    Plug 'leafgarland/typescript-vim'
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-    Plug 'tpope/vim-fugitive'
     Plug 'wellle/targets.vim'
   " }}}
 
@@ -126,13 +123,13 @@
     Plug 'farmergreg/vim-lastplace'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
+    Plug 'lewis6991/gitsigns.nvim'
     Plug 'mbbill/undotree'
     Plug 'mhinz/vim-startify'
     Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
     Plug 'nvim-telescope/telescope-symbols.nvim'
     Plug 'nvim-telescope/telescope-ui-select.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'simnalamburt/vim-mundo'
   " }}}
 
   " Support {{{
@@ -368,9 +365,7 @@
 
   noremap \ "+y
   nnoremap Y y$
-  nnoremap <leader>y :FZFNeoyank<cr>
-  nnoremap <leader>Y :FZFNeoyank " P<cr>
-  vnoremap <leader>y :FZFNeoyankSelection<cr>
+  nnoremap <leader>y :Telescope registers<cr>
 
   nnoremap <C-P> :Telescope git_files<CR>
   nnoremap <leader>; :Neotree buffers<CR>

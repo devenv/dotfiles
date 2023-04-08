@@ -35,7 +35,7 @@ require('telescope').setup{
       },
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {'**/*.js', '**/*.json'},
+    file_ignore_patterns = {'**/*.pyc'},
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
     winblend = 0,
     border = {},
@@ -52,7 +52,7 @@ require('telescope').setup{
     buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
     mappings = {
       i = {
-        ["<C-e>"] = trouble.open_with_trouble,
+        ["<C-t>"] = trouble.open_with_trouble,
         ["<C-n>"] = actions.cycle_history_next,
         ["<C-p>"] = actions.cycle_history_prev,
         ["<C-q>"] = actions.send_to_qflist,
