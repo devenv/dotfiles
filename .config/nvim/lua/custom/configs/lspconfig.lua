@@ -45,5 +45,3 @@ require("lspsaga").setup{
     enable = false,
   }
 }
--- 
--- lspconfig.pyright.setup { blabla}

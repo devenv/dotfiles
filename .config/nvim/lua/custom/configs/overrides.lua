@@ -16,10 +16,65 @@ M.treesitter = {
   },
   indent = {
     enable = true,
-    -- disable = {
-    --   "python"
-    -- },
   },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      include_surrounding_whitespace = true,
+      keymaps = {
+        ["aC"] = "@class.outer",
+        ["iC"] = "@class.outer",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
+        ["ac"] = "@call.outer",
+        ["ic"] = "@call.inner",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["cmc"] = "@class.outer",
+        ["cmf"] = "@function.outer",
+        ["cma"] = "@parameter.inner",
+        ["cmb"] = "@block.outer",
+      },
+      swap_previous = {
+        ["cMc"] = "@class.outer",
+        ["cMf"] = "@function.outer",
+        ["cMa"] = "@parameter.inner",
+        ["cMb"] = "@block.outer",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true,
+      goto_next_start = {
+        ["]c"] = "@class.outer",
+        ["]f"] = "@function.outer",
+        ["]a"] = "@parameter.outer",
+      },
+      goto_next_end = {
+        ["]C"] = "@class.outer",
+        ["]F"] = "@function.outer",
+        ["]A"] = "@parameter.outer",
+      },
+      goto_previous_start = {
+        ["[c"] = "@class.outer",
+        ["[f"] = "@function.outer",
+        ["[a"] = "@parameter.outer",
+      },
+      goto_previous_end = {
+        ["[C"] = "@class.outer",
+        ["[F"] = "@function.outer",
+        ["[A"] = "@parameter.outer",
+      },
+    },
+  }
 }
 
 M.mason = {
