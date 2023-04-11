@@ -55,6 +55,7 @@ vim.api.nvim_set_option("whichwrap", "b,s,[,]")
 vim.api.nvim_set_option("undofile", true)
 vim.api.nvim_set_option("undolevels", 10000)
 vim.api.nvim_set_option("undoreload", 10000)
+vim.api.nvim_set_option("clipboard", "")
 
 vim.g.localvimrc_ask=0
 vim.g.localvimrc_sandbox=0

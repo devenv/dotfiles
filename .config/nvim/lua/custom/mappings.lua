@@ -108,7 +108,7 @@ M.general = {
     ["ss"] = { "<plug>(SubversiveSubstituteLine)" },
     ["S"] = { "<plug>(SubversiveSubstituteToEndOfLine)" },
 
-    ["<A-t>"] = {
+    ["<leader>t"] = {
       function()
         require("nvterm.terminal").toggle "float"
       end,
