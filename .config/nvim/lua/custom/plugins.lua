@@ -11,6 +11,7 @@ local plugins = {
           require "custom.configs.null-ls"
         end,
       },
+    { "nvim-treesitter/nvim-treesitter-textobjects" },
     },
     config = function()
       require "plugins.configs.lspconfig"
@@ -80,10 +81,6 @@ local plugins = {
   },
   {
     "michaeljsmith/vim-indent-object",
-    event = "BufEnter",
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
     event = "BufEnter",
   },
   {

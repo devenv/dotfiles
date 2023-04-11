@@ -1,4 +1,5 @@
 ---@type MappingsTable
+
 local M = {}
 
 local opts = { noremap = true, silent = true }
@@ -73,7 +74,14 @@ M.general = {
     ["<C-k>"] = { ":TmuxNavigateUp<CR>" },
     ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
 
-    ["<leader><tab>"] = { "<cmd> NvimTreeToggle <CR>", "toggle nvimtree" },
+    [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
+    ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
+    ["f"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_f()<CR>" },
+    ["F"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_F()<CR>" },
+    ["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>" },
+    ["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>" },
+
+    ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },
     ["<leader>e"] = { ":TroubleToggle<CR>" },
     ["<leader>u"] = { ":UndotreeToggle<CR>" },
 

@@ -30,3 +30,7 @@ function fish_user_key_bindings
     bind '$' bind_dollar
 end
 
+
+# Generated for envman. Do not edit.
+test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
+
