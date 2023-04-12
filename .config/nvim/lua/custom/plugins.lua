@@ -16,7 +16,7 @@ local plugins = {
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
-    end, -- Override to setup mason-lspconfig
+    end,
   },
   {
     "williamboman/mason.nvim",
@@ -46,6 +46,10 @@ local plugins = {
   -- Editing {{{
   {
     "camspiers/lens.vim",
+    event = "BufEnter",
+  },
+  {
+    "madox2/vim-ai",
     event = "BufEnter",
   },
   {
