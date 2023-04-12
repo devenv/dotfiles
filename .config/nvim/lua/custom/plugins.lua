@@ -11,7 +11,7 @@ local plugins = {
           require "custom.configs.null-ls"
         end,
       },
-    { "nvim-treesitter/nvim-treesitter-textobjects" },
+      { "nvim-treesitter/nvim-treesitter-textobjects" },
     },
     config = function()
       require "plugins.configs.lspconfig"
@@ -33,8 +33,6 @@ local plugins = {
     opts = overrides.nvimtree,
     lazy = false,
   },
-
-  -- Install a plugin
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -42,8 +40,6 @@ local plugins = {
       require("better_escape").setup()
     end,
   },
-
-  -- Editing {{{
   {
     "camspiers/lens.vim",
     event = "BufEnter",
@@ -53,41 +49,60 @@ local plugins = {
     event = "BufEnter",
   },
   {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup {}
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "BufEnter",
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
+  {
     "hrsh7th/cmp-buffer",
     event = "BufEnter",
     config = function()
-      local cmp = require("cmp")
-      cmp.setup({
+      local cmp = require "cmp"
+      cmp.setup {
         completion = {
-          completeopt = 'menu,menuone,noinsert'
+          completeopt = "menu,menuone,noinsert",
         },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
+        sources = cmp.config.sources {
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "nvim_lua" },
+          { name = "copilot" },
+          { name = "path" },
           {
-            name = 'buffer',
+            name = "buffer",
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
-              end
-            }
-          }
-        }),
-        mapping = cmp.mapping.preset.insert({
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-g>'] = cmp.mapping.complete(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-n>'] = cmp.mapping(function()
+              end,
+            },
+          },
+        },
+        mapping = cmp.mapping.preset.insert {
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-g>"] = cmp.mapping.complete(),
+          ["<CR>"] = cmp.mapping.confirm { select = true },
+          ["<tab>"] = cmp.mapping.abort(),
+          ["<C-n>"] = cmp.mapping(function()
             if cmp.visible() then
               cmp.select_next_item()
             else
               cmp.complete()
             end
-          end
-        )}),
-      })
-    end
+          end),
+        },
+      }
+    end,
   },
   {
     "svermeulen/vim-subversive",
@@ -109,9 +124,7 @@ local plugins = {
     "tpope/vim-unimpaired",
     event = "BufEnter",
   },
-  -- }}}
 
-  -- Programming {{{
   {
     "christoomey/vim-sort-motion",
     event = "BufEnter",
@@ -121,17 +134,16 @@ local plugins = {
     "glepnir/lspsaga.nvim",
     event = "BufEnter",
     config = function()
-      require("lspsaga").setup({
+      require("lspsaga").setup {
         beacon = {
           enable = false,
           frequency = 1,
         },
         symbol_in_winbar = {
           enable = false,
-        }
-
-      })
-    end
+        },
+      }
+    end,
   },
   {
     "michaeljsmith/vim-indent-object",
@@ -141,19 +153,17 @@ local plugins = {
     "wellle/targets.vim",
     event = "BufEnter",
   },
-  -- }}}
 
-  -- Git / FZF / Undo /  etc {{{
   {
     "ThePrimeagen/harpoon",
     event = "BufEnter",
     config = function()
-      require("harpoon").setup({
+      require("harpoon").setup {
         save_on_toggle = true,
         save_on_change = true,
         mark_branch = true,
-      })
-    end
+      }
+    end,
   },
   {
     "christoomey/vim-tmux-navigator",
@@ -175,7 +185,6 @@ local plugins = {
     "farmergreg/vim-lastplace",
     lazy = false,
   },
-  -- }}}
 }
 
 return plugins

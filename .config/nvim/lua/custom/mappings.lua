@@ -12,6 +12,7 @@ M.disabled = {
     ["<C-l>"] = { "" },
     ["<C-j>"] = { "" },
     ["<C-k>"] = { "" },
+    ["<tab>"] = { "" },
   },
   n = {
     ["<Esc>"] = { "" },
@@ -22,6 +23,7 @@ M.disabled = {
     ["<C-j>"] = { "" },
     ["<C-k>"] = { "" },
     ["<C-l>"] = { "" },
+    ["<tab>"] = { "" },
     ["<leader>f"] = { "" },
     ["<leader>fm"] = { "" },
     ["<leader>fw"] = { "" },
@@ -42,7 +44,7 @@ M.disabled = {
   t = {
     ["<A-i>"] = { "" },
     ["<leader>/"] = { "" },
-  }
+  },
 }
 
 M.general = {
@@ -67,12 +69,14 @@ M.general = {
     ["{"] = { ":normal [c<CR>" },
     ["}"] = { ":normal ]c<CR>" },
     ["<leader>j"] = { ":lua require('trouble').next({skip_groups = true, jump = true, opts={ silent = true }})<CR>" },
-    ["<leader>k"] = { ":lua require('trouble').previous({skip_groups = true, jump = true, opts={ silent = true }})<CR>" },
+    ["<leader>k"] = {
+      ":lua require('trouble').previous({skip_groups = true, jump = true, opts={ silent = true }})<CR>",
+    },
 
-    ["<C-h>"] = { ":TmuxNavigateLeft<CR>" },
+    ["<C-h>"] = { ":bp<CR>" },
     ["<C-j>"] = { ":TmuxNavigateDown<CR>" },
     ["<C-k>"] = { ":TmuxNavigateUp<CR>" },
-    ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
+    ["<C-l>"] = { ":bn<CR>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
@@ -156,7 +160,7 @@ M.general = {
       end,
       "toggle floating term",
     },
-  }
+  },
 }
 
 -- more keybinds!
