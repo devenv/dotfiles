@@ -31,6 +31,7 @@ local plugins = {
   {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree,
+    lazy = false,
   },
 
   -- Install a plugin
@@ -46,6 +47,43 @@ local plugins = {
   {
     "camspiers/lens.vim",
     event = "BufEnter",
+  },
+  {
+    "hrsh7th/cmp-buffer",
+    event = "BufEnter",
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        completion = {
+          completeopt = 'menu,menuone,noinsert'
+        },
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          {
+            name = 'buffer',
+            option = {
+              get_bufnrs = function()
+                return vim.api.nvim_list_bufs()
+              end
+            }
+          }
+        }),
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-g>'] = cmp.mapping.complete(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          ['<C-n>'] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              cmp.complete()
+            end
+          end
+        )}),
+      })
+    end
   },
   {
     "svermeulen/vim-subversive",
@@ -78,6 +116,18 @@ local plugins = {
   {
     "glepnir/lspsaga.nvim",
     event = "BufEnter",
+    config = function()
+      require("lspsaga").setup({
+        beacon = {
+          enable = false,
+          frequency = 1,
+        },
+        symbol_in_winbar = {
+          enable = false,
+        }
+
+      })
+    end
   },
   {
     "michaeljsmith/vim-indent-object",
@@ -93,6 +143,13 @@ local plugins = {
   {
     "ThePrimeagen/harpoon",
     event = "BufEnter",
+    config = function()
+      require("harpoon").setup({
+        save_on_toggle = true,
+        save_on_change = true,
+        mark_branch = true,
+      })
+    end
   },
   {
     "christoomey/vim-tmux-navigator",
@@ -115,12 +172,6 @@ local plugins = {
     lazy = false,
   },
   -- }}}
-
-  -- To make a plugin not be loaded
-  -- {
-  --   "NvChad/nvim-colorizer.lua",
-  --   enabled = false
-  -- },
 }
 
 return plugins

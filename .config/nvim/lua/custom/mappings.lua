@@ -91,10 +91,11 @@ M.general = {
 
     ["<leader><leader>"] = { "<C-^>", opts = opts },
     ["<leader><space>"] = { "<C-^>", opts = opts },
-    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action()<CR>" },
+    ["<leader>rr"] = { ":Lspsaga code_action<CR>" },
     ["<leader>f<space>"] = { ":Telescope live_grep<CR>" },
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
+    ["<leader>b"] = { ":Telescope buffers<CR>" },
     ["<C-p>"] = { ":Telescope git_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
 
