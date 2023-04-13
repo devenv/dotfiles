@@ -76,6 +76,8 @@ vim.g.startify_lists = {
   { type = 'commands', header = { 'Commands' } },
 }
 
+vim.o.exrc = true
+
 M.mappings = require "custom.mappings"
 
 return M

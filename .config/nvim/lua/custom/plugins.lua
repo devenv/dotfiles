@@ -124,7 +124,6 @@ local plugins = {
     "tpope/vim-unimpaired",
     event = "BufEnter",
   },
-
   {
     "christoomey/vim-sort-motion",
     event = "BufEnter",
@@ -153,7 +152,6 @@ local plugins = {
     "wellle/targets.vim",
     event = "BufEnter",
   },
-
   {
     "ThePrimeagen/harpoon",
     event = "BufEnter",
@@ -167,10 +165,6 @@ local plugins = {
   },
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false,
-  },
-  {
-    "embear/vim-localvimrc",
     lazy = false,
   },
   {
