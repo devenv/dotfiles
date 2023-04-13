@@ -19,6 +19,24 @@ local plugins = {
     end,
   },
   {
+    "nvim-telescope/telescope.nvim",
+    opts = overrides.mason,
+    config = function()
+      local trouble = require("trouble.providers.telescope")
+
+      local telescope = require("telescope")
+
+      telescope.setup {
+        defaults = {
+          mappings = {
+            i = { ["<c-t>"] = trouble.open_with_trouble },
+            n = { ["<c-t>"] = trouble.open_with_trouble },
+          },
+        },
+      }
+    end
+  },
+  {
     "williamboman/mason.nvim",
     opts = overrides.mason,
   },
@@ -73,11 +91,11 @@ local plugins = {
           completeopt = "menu,menuone,noinsert",
         },
         sources = cmp.config.sources {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "nvim_lua" },
-          { name = "copilot" },
-          { name = "path" },
+          { name = "nvim_lsp", priority = 1 },
+          { name = "nvim_lua", priority = 1 },
+          { name = "copilot", priority = 2  },
+          { name = "luasnip", priority = 3 },
+          { name = "path", priority = 4 },
           {
             name = "buffer",
             option = {
@@ -179,6 +197,14 @@ local plugins = {
     "farmergreg/vim-lastplace",
     lazy = false,
   },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    lazy = false,
+    build = 'make',
+    config = function()
+      require('telescope').load_extension('fzf')
+    end
+  }
 }
 
 return plugins
