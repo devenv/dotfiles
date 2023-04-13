@@ -67,6 +67,7 @@
 .config/fontconfig/
 .config/gconf/
 .config/git/
+.config/github-copilot/
 .config/gnuplot/
 .config/godot/
 .config/google-chrome/
@@ -245,6 +246,7 @@
 .python-eggs/
 .python_history
 .qt/
+.rde/
 .rediscli_history
 .rstudio-desktop/
 .sbt/
