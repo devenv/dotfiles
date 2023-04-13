@@ -54,7 +54,7 @@ M.general = {
     ["Y"] = { "y$" },
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
-    ["<leader>H"] = { ":Startify<CR>" },
+    ["<leader>h"] = { ":Startify<CR>" },
 
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
