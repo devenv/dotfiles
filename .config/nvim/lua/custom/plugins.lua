@@ -114,11 +114,29 @@ local plugins = {
             },
           },
         },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            require("copilot_cmp.comparators").prioritize,
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
+        },
         mapping = cmp.mapping.preset.insert {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-g>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm { select = true },
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+          }),
           ["<tab>"] = cmp.mapping.abort(),
           ["<C-n>"] = cmp.mapping(function()
             if cmp.visible() then
