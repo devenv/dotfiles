@@ -73,10 +73,12 @@ M.general = {
       ":lua require('trouble').previous({skip_groups = true, jump = true, opts={ silent = true }})<CR>",
     },
 
-    ["<C-h>"] = { ":bp<CR>" },
+    ["<C-h>"] = { ":TmuxNavigateLeft<CR>" },
     ["<C-j>"] = { ":TmuxNavigateDown<CR>" },
     ["<C-k>"] = { ":TmuxNavigateUp<CR>" },
-    ["<C-l>"] = { ":bn<CR>" },
+    ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
+    ["<C-,>"] = { ":bp<CR>" },
+    ["<C-.>"] = { ":bn<CR>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
@@ -103,7 +105,7 @@ M.general = {
     ["<C-p>"] = { ":Telescope git_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
 
-    ["<leader>tn"] = { ":tabnew<CR>" },
+    ["<leader>n"] = { ":tabnew<CR>" },
     ["]t"] = { ":tabnext<CR>" },
     ["[t"] = { ":tabprevious<CR>" },
 
@@ -123,9 +125,9 @@ M.general = {
 
     ["<leader>t"] = {
       function()
-        require("nvterm.terminal").toggle "float"
+        require("nvterm.terminal").toggle "horizontal"
       end,
-      "toggle floating term",
+      "toggle horizontal term",
     },
     ["<leader>gr"] = {
       function()
@@ -151,15 +153,6 @@ M.general = {
 
   v = {
     ["<leader>rr"] = { ":lua vim.lsp.buf.range_code_action()<CR>" },
-  },
-
-  t = {
-    ["<A-t>"] = {
-      function()
-        require("nvterm.terminal").toggle "float"
-      end,
-      "toggle floating term",
-    },
   },
 }
 
