@@ -77,8 +77,8 @@ M.general = {
     ["<C-j>"] = { ":TmuxNavigateDown<CR>" },
     ["<C-k>"] = { ":TmuxNavigateUp<CR>" },
     ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
-    ["<C-,>"] = { ":bp<CR>" },
-    ["<C-.>"] = { ":bn<CR>" },
+    ["<leader>,"] = { ":bp<CR>" },
+    ["<leader>."] = { ":bn<CR>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
