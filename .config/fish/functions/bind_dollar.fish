@@ -1,10 +1,23 @@
-# Defined in /var/folders/p2/80wzrx0s5yvds_chp6qsxn_r0000gn/T//fish.mRu2t5/fish_user_key_bindings.fish @ line 28
+function bind_bang
+    switch (commandline -t)[-1]
+        case "!"
+            commandline -t $history[1]; commandline -f repaint
+        case "*"
+            commandline -i !
+    end
+end
+
 function bind_dollar
-	switch (commandline -t)
-  case "!"
-    commandline -t ""
-    commandline -f history-token-search-backward
-  case "*"
-    commandline -i '$'
-  end
+    switch (commandline -t)[-1]
+        case "!"
+            commandline -t ""
+            commandline -f history-token-search-backward
+        case "*"
+            commandline -i '$'
+    end
+end
+
+function fish_user_key_bindings
+    bind ! bind_bang
+    bind '$' bind_dollar
 end

@@ -1,1 +1,0 @@
-/home/devenv/.config/fisherman/tmux/functions/tmux.fish

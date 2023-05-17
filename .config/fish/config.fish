@@ -1,36 +1,15 @@
 bind \e\[1\;5C forward-word
 bind \e\[1\;5D backward-word
-
-source ~/.profile
-oh-my-posh init fish --config ~/.config/fish/catppuccin.omp.json | source
-
 set -U fish_key_bindings fish_default_key_bindings
 
-function bind_bang
-    switch (commandline -t)[-1]
-        case "!"
-            commandline -t $history[1]; commandline -f repaint
-        case "*"
-            commandline -i !
-    end
+source ~/.profile
+for file in ~/.config/fish/functions/*.fish
+  source $file
 end
 
-function bind_dollar
-    switch (commandline -t)[-1]
-        case "!"
-            commandline -t ""
-            commandline -f history-token-search-backward
-        case "*"
-            commandline -i '$'
-    end
-end
+oh-my-posh init fish --config ~/.config/fish/catppuccin.omp.json | source
 
-function fish_user_key_bindings
-    bind ! bind_bang
-    bind '$' bind_dollar
-end
-
-
-# Generated for envman. Do not edit.
-test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
-
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYTHONPATH=$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages/
