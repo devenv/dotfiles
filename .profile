@@ -26,7 +26,6 @@ export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 
 export PATH=/opt/homebrew/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
-export PYTHONPATH=/opt/homebrew/lib/python3.10/site-packages/
 
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
 export JDK_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
@@ -40,5 +39,10 @@ alias l='lsd -alh'
 alias ll='lsd -alh'
 alias vi='nvim'
 alias vim='nvim'
+alias rm='grm'
 
 source ~/.secrets
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PYTHONPATH=$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages/

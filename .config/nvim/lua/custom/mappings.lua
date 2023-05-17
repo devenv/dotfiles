@@ -50,7 +50,7 @@ M.disabled = {
 M.general = {
   n = {
     ["_s"] = { ":%s/\\s\\+$//<CR>" },
-    ["\\"] = { "+y" },
+    ["\\"] = { '"+y' },
     ["Y"] = { "y$" },
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
@@ -104,6 +104,7 @@ M.general = {
     ["<leader>b"] = { ":Telescope buffers<CR>" },
     ["<C-p>"] = { ":Telescope git_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
+    ["<leader>cc"] = { ":Copilot panel<CR>" },
 
     ["<leader>n"] = { ":tabnew<CR>" },
     ["]t"] = { ":tabnext<CR>" },
@@ -152,6 +153,7 @@ M.general = {
   },
 
   v = {
+    ["\\"] = { '"+y' },
     ["<leader>rr"] = { ":lua vim.lsp.buf.range_code_action()<CR>" },
   },
 }

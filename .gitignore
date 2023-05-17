@@ -123,6 +123,8 @@
 .config/xfce4/
 .config/zathura/
 .config/zoomus.conf
+.cookiecutter_replay/
+.cookiecutters/
 .coursier/
 .credentials
 .ctags
@@ -174,6 +176,7 @@
 .jungledisk/
 .junglediskworkgroupinstance
 .kitchen/
+.kube/
 .lesshst
 .local/LICENSE
 .local/bin
@@ -221,6 +224,7 @@
 .m2/
 .macromedia/
 .minecraft/
+.minikube/
 .mono/
 .mozilla/
 .mutt/
@@ -237,7 +241,9 @@
 .nvm/
 .oracle_jre_usage/
 .password-store/
+.pgadmin/
 .pki/
+.psql_history
 .pulse-cookie
 .pyenv/
 .pyhistory
@@ -257,6 +263,7 @@
 .semantic-highlight-cache
 .sh_history
 .shiv/
+.skaffold/
 .ssh/
 .stack
 .steam
@@ -329,6 +336,7 @@ Public/
 R/
 Resilio Sync/
 Steam
+SynologyDrive/
 Unreal Projects/
 ViberDownloads/
 Videos/
@@ -394,6 +402,7 @@ messengerfordesktop-bin/
 mkpasswd/
 mps-youtube-git/
 myhubot/
+nilus/
 nltk_data/
 nohup.out
 openswan/

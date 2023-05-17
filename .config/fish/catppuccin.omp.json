@@ -1,36 +1,51 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "palette": {
-        "os": "#ACB0BE",
-        "pink": "#F5BDE6",
-        "red": "#FF7777",
-        "lavender": "#B7BDF8",
-        "blue":  "#8AADF4",
-        "wight": "#FFFFFF",
-        "text": "#111016"
+    "os": "#ACB0BE",
+    "pink": "#F5BDE6",
+    "red": "#FF7777",
+    "lavender": "#B7BDF8",
+    "green": "#ADF48A",
+    "blue": "#8AADF4",
+    "yellow": "#ebcc34",
+    "wight": "#FFFFFF",
+    "text": "#111016"
   },
   "blocks": [
     {
       "alignment": "left",
       "segments": [
         {
-					"type": "git",
+          "type": "kubectl",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "",
+          "background_templates": [
+            "{{ if eq .Context \"minikube\" }}p:green{{end}}",
+            "{{ if eq .Context \"staging\" }}p:yellow{{end}}",
+            "{{ if eq .Context \"prod\" }}p:red{{end}}"
+          ],
+          "template": "\ue0c8\u2388{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}\ue0c7"
+        },
+        {
+          "type": "git",
           "style": "plain",
-					"foreground": "#193549",
-					"background": "p:blue",
-					"background_templates": [
-						"{{ if or (.Working.Changed) (.Staging.Changed) }}p:blue{{ end }}",
-						"{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:pink{{ end }}",
-						"{{ if gt .Ahead 0 }}p:pink{{ end }}",
-						"{{ if gt .Behind 0 }}p:pink{{ end }}"
-					],
-					"properties": {
-						"fetch_status": true,
-						"fetch_stash_count": false,
-						"fetch_upstream_icon": false
-					},
-					"template": "\ue0c8[{{ .RepoName }}] {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} "
-				},
+          "foreground": "#193549",
+          "background": "p:blue",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:blue{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:pink{{ end }}",
+            "{{ if gt .Ahead 0 }}p:pink{{ end }}",
+            "{{ if gt .Behind 0 }}p:pink{{ end }}"
+          ],
+          "properties": {
+            "fetch_status": true,
+            "fetch_stash_count": false,
+            "fetch_upstream_icon": false
+          },
+          "template": "\ue0c6[{{ .RepoName }}] {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} "
+        },
         {
           "type": "path",
           "style": "diamond",
@@ -81,7 +96,7 @@
           "properties": {
             "time_format": "_2,15:04"
           },
-          "template": "\ue0c6{{ .CurrentDate | date .Format }} \ue0ca"
+          "template": "\ue0c6 {{ .CurrentDate | date .Format }} \ue0c7"
         }
       ],
       "type": "prompt"
