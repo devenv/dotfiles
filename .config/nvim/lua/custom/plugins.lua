@@ -80,14 +80,20 @@ local plugins = {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup {}
+      require("copilot").setup {
+        fix_pairs = false
+      }
     end,
   },
   {
     "zbirenbaum/copilot-cmp",
     event = "BufEnter",
     config = function()
-      require("copilot_cmp").setup()
+      require("copilot_cmp").setup(
+        {
+          snippet_placeholder = "﬌",
+        }
+      )
     end,
   },
   {
