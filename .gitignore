@@ -315,6 +315,7 @@
 .z
 .zprofile
 .zsh_history
+.zsh_sessions/
 AndroidStudioProjects/
 Applications/
 Desktop/
