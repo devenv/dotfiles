@@ -19,6 +19,27 @@ local plugins = {
     end,
   },
   {
+   "williamboman/mason.nvim",
+   opts = {
+      ensure_installed = {
+        "lua-language-server",
+        "html-lsp",
+        "prettier",
+        "pyright",
+        "python-lsp-server",
+        "reorganize-python-imports",
+      },
+    },
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup {}
+    end,
+  },
+  {
     "nvim-telescope/telescope.nvim",
     opts = overrides.mason,
     config = function()
@@ -76,14 +97,6 @@ local plugins = {
     event = "BufEnter",
   },
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup {}
-    end,
-  },
-  {
     "zbirenbaum/copilot-cmp",
     event = "BufEnter",
     config = function()
@@ -102,7 +115,7 @@ local plugins = {
         sources = cmp.config.sources {
           { name = "nvim_lsp", priority = 1 },
           { name = "nvim_lua", priority = 1 },
-          { name = "copilot", priority = 2  },
+          { name = "copilot", priority = 2 },
           { name = "luasnip", priority = 3 },
           { name = "path", priority = 4 },
           {
@@ -119,6 +132,25 @@ local plugins = {
           comparators = {
             require("copilot_cmp.comparators").prioritize
           },
+        },
+        formatting = {
+          format = function(entry, vim_item)
+            vim_item.menu = ({
+              nvim_lsp = '[LSP]',
+              vsnip = '[Snippet]',
+              nvim_lua = '[Nvim Lua]',
+              buffer = '[Buffer]',
+            })[entry.source.name]
+
+            vim_item.dup = ({
+              vsnip = 0,
+              nvim_lsp = 0,
+              nvim_lua = 0,
+              buffer = 0,
+            })[entry.source.name] or 0
+
+            return vim_item
+          end
         },
         mapping = cmp.mapping.preset.insert {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),

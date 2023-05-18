@@ -1,22 +1,6 @@
-# MEH: cmd + alt + ctrl
-
 # Navigation
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
-
-# # Moving windows
-ctrl + alt - h : yabai -m window --warp west
-ctrl + alt - j : yabai -m window --warp south
-ctrl + alt - k : yabai -m window --warp north
-ctrl + alt - l : yabai -m window --warp east
-
-# Resize windows
-shift + alt - l : yabai -m window --resize right:100:0; yabai -m window --resize left:100:0
-shift + alt - h : yabai -m window --resize right:-100:0; yabai -m window --resize left:-100:0
-shift + alt - k : yabai -m window --resize bottom:0:-100; yabai -m window --resize top:0:-100
-shift + alt - j : yabai -m window --resize bottom:0:100; yabai -m window --resize top:0:100
+alt - h : yabai -m display --focus west
+alt - l : yabai -m display --focus east
 
 # Fullscreen toggle
 alt - f : yabai -m window --toggle zoom-fullscreen

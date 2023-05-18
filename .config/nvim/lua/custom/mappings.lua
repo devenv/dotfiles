@@ -154,7 +154,7 @@ M.general = {
 
   v = {
     ["\\"] = { '"+y' },
-    ["<leader>rr"] = { ":lua vim.lsp.buf.range_code_action()<CR>" },
+    ["<leader>rr"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>" },
   },
 }
 
