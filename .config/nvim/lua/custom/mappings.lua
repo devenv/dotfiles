@@ -92,12 +92,21 @@ M.general = {
     ["<leader>u"] = { ":UndotreeToggle<CR>" },
 
     ["L"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
+    ["K"] = { ":Lspsaga hover_doc<CR>" },
+    ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
     ["<leader>L"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
-    ["<leader>d"] = { ":normal gd<CR>" },
+    ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
+
+    ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
+    ["<leader>rn"] = { ":Lspsaga rename<CR>" },
+    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
+    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
+    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
+    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
+    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'source' } } })<CR>" },
 
     ["<leader><leader>"] = { "<C-^>", opts = opts },
     ["<leader><space>"] = { "<C-^>", opts = opts },
-    ["<leader>rr"] = { ":Lspsaga code_action<CR>" },
     ["<leader>f<space>"] = { ":Telescope live_grep<CR>" },
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
@@ -113,9 +122,6 @@ M.general = {
     ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
     ["<leader>gS"] = { ":Gitsigns setqflist<CR>" },
     ["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits" },
-
-    ["K"] = { ":Lspsaga hover_doc<CR>" },
-    ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
 
     ["<leader>o"] = { ":call append(line('.'),   repeat([''], v:count1))<CR>", opts = opts },
     ["<leader>O"] = { ":call append(line('.')-1, repeat([''], v:count1))<CR>", opts = opts },
@@ -154,7 +160,13 @@ M.general = {
 
   v = {
     ["\\"] = { '"+y' },
-    ["<leader>rr"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>" },
+    ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
+    ["<leader>rn"] = { ":Lspsaga rename<CR>" },
+    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
+    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
+    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
+    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
+    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'source' } } })<CR>" },
   },
 }
 

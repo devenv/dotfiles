@@ -44,12 +44,12 @@
             "fetch_stash_count": false,
             "fetch_upstream_icon": false
           },
-          "template": "\ue0c6[{{ .RepoName }}] {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} "
+          "template": "\ue0c6[{{ .RepoName }}] {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} \ue0c7"
         },
         {
           "type": "path",
           "style": "diamond",
-          "background": "p:lavender",
+          "background": "p:green",
           "foreground": "p:text",
           "leading_diamond": "",
           "trailing_diamond": "",
@@ -58,7 +58,7 @@
             "home_icon": "~",
             "style": "agnoster_short"
           },
-          "template": " {{ .Path }} "
+          "template": "\ue0c6 {{ .Path }} "
         }
       ],
       "type": "prompt"
@@ -108,7 +108,7 @@
         {
           "type": "exit",
           "style": "plain",
-          "foreground": "p:lavender",
+          "foreground": "p:green",
           "foreground_templates": ["{{ if gt .Code 0 }}p:red{{ end }}"],
           "properties": {
             "always_enabled": true

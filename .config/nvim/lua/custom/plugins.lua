@@ -202,13 +202,17 @@ local plugins = {
     event = "BufEnter",
     config = function()
       require("lspsaga").setup {
-        beacon = {
-          enable = false,
-          frequency = 1,
+        diagnostic = {
+          on_insert = true,
+          on_insert_follow = true,
+          extend_relatedInformation = true,
         },
-        symbol_in_winbar = {
+        lightbulb = {
           enable = false,
         },
+        code_actions = {
+          show_server_name = true,
+        }
       }
     end,
   },
