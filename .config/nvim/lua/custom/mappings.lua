@@ -4,6 +4,10 @@ local M = {}
 
 local opts = { noremap = true, silent = true }
 
+local filter = function(action)
+  return action.isPreferred
+end
+
 M.disabled = {
   i = {
     ["<C-b>"] = { "" },
@@ -68,10 +72,6 @@ M.general = {
     ["]n"] = { ":cnext<CR>", opts = opts },
     ["{"] = { ":normal [c<CR>" },
     ["}"] = { ":normal ]c<CR>" },
-    ["<leader>j"] = { ":lua require('trouble').next({skip_groups = true, jump = true, opts={ silent = true }})<CR>" },
-    ["<leader>k"] = {
-      ":lua require('trouble').previous({skip_groups = true, jump = true, opts={ silent = true }})<CR>",
-    },
 
     ["<C-h>"] = { ":TmuxNavigateLeft<CR>" },
     ["<C-j>"] = { ":TmuxNavigateDown<CR>" },
@@ -88,22 +88,22 @@ M.general = {
     ["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>" },
 
     ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },
-    ["<leader>e"] = { ":TroubleToggle<CR>" },
     ["<leader>u"] = { ":UndotreeToggle<CR>" },
 
-    ["L"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
+    ["<leader>k"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
+    ["<leader>j"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
+    ["<leader>e"] = { ":TroubleToggle<CR>" },
+    ["<leader>'"] = { ":Black<CR>", opts = opts },
     ["K"] = { ":Lspsaga hover_doc<CR>" },
     ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
-    ["<leader>L"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
-    ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
 
     ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
     ["<leader>rn"] = { ":Lspsaga rename<CR>" },
-    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
-    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
-    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
-    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
-    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'source' } } })<CR>" },
+    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
+    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
+    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
+    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
+    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
 
     ["<leader><leader>"] = { "<C-^>", opts = opts },
     ["<leader><space>"] = { "<C-^>", opts = opts },
@@ -162,11 +162,11 @@ M.general = {
     ["\\"] = { '"+y' },
     ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
     ["<leader>rn"] = { ":Lspsaga rename<CR>" },
-    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
-    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
-    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
-    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
-    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ context = { diagnostics = {}, only = { 'source' } } })<CR>" },
+    ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
+    ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
+    ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
+    ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
+    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
   },
 }
 

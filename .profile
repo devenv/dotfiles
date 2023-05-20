@@ -27,8 +27,8 @@ export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:
 
 export PATH=/opt/homebrew/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
-export JDK_HOME=/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/
+export MYPYPATH=$HOME/nilus/
+export MYPY_CACHE_DIR=$HOME/.mypy_cache
 
 export GOPATH=$HOME/.go
 export DOCKER_DEFAULT_PLATFORM=linux/arm64

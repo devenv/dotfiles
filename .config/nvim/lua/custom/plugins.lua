@@ -19,8 +19,8 @@ local plugins = {
     end,
   },
   {
-   "williamboman/mason.nvim",
-   opts = {
+    "williamboman/mason.nvim",
+    opts = {
       ensure_installed = {
         "lua-language-server",
         "html-lsp",
@@ -43,10 +43,10 @@ local plugins = {
     "nvim-telescope/telescope.nvim",
     opts = overrides.mason,
     config = function()
-      local trouble = require("trouble.providers.telescope")
+      local trouble = require "trouble.providers.telescope"
 
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
+      local telescope = require "telescope"
+      local actions = require "telescope.actions"
 
       telescope.setup {
         defaults = {
@@ -64,7 +64,7 @@ local plugins = {
           },
         },
       }
-    end
+    end,
   },
   {
     "williamboman/mason.nvim",
@@ -130,16 +130,16 @@ local plugins = {
         sorting = {
           priority_weight = 2,
           comparators = {
-            require("copilot_cmp.comparators").prioritize
+            require("copilot_cmp.comparators").prioritize,
           },
         },
         formatting = {
           format = function(entry, vim_item)
             vim_item.menu = ({
-              nvim_lsp = '[LSP]',
-              vsnip = '[Snippet]',
-              nvim_lua = '[Nvim Lua]',
-              buffer = '[Buffer]',
+              nvim_lsp = "[LSP]",
+              vsnip = "[Snippet]",
+              nvim_lua = "[Nvim Lua]",
+              buffer = "[Buffer]",
             })[entry.source.name]
 
             vim_item.dup = ({
@@ -150,16 +150,16 @@ local plugins = {
             })[entry.source.name] or 0
 
             return vim_item
-          end
+          end,
         },
         mapping = cmp.mapping.preset.insert {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-g>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({
+          ["<CR>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,
-          }),
+          },
           ["<tab>"] = cmp.mapping.abort(),
           ["<C-n>"] = cmp.mapping(function()
             if cmp.visible() then
@@ -203,16 +203,27 @@ local plugins = {
     config = function()
       require("lspsaga").setup {
         diagnostic = {
-          on_insert = true,
-          on_insert_follow = true,
           extend_relatedInformation = true,
+          show_code_action = false,
+          keys = {
+            exec_action = "o",
+            quit = "q",
+            expand_or_jump = "<CR>",
+            quit_in_show = { "q", "<ESC>" },
+          },
+        },
+        beacon = {
+          enable = false,
+        },
+        symbol_in_winbar = {
+          enable = false,
         },
         lightbulb = {
           enable = false,
         },
         code_actions = {
           show_server_name = true,
-        }
+        },
       }
     end,
   },
@@ -252,13 +263,17 @@ local plugins = {
     lazy = false,
   },
   {
+    "psf/black",
+    lazy = false,
+  },
+  {
     "nvim-telescope/telescope-fzf-native.nvim",
     lazy = false,
-    build = 'make',
+    build = "make",
     config = function()
-      require('telescope').load_extension('fzf')
-    end
-  }
+      require("telescope").load_extension "fzf"
+    end,
+  },
 }
 
 return plugins
