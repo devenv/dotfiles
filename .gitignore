@@ -178,6 +178,7 @@
 .kitchen/
 .kube/
 .lesshst
+.local
 .local/LICENSE
 .local/bin
 .local/lib
@@ -313,6 +314,7 @@
 .yarn/
 .yarnrc
 .z
+.zcompdump*
 .zprofile
 .zsh_history
 .zsh_sessions/
@@ -432,4 +434,3 @@ xcalib/
 xv/
 xvkbd/
 yankring_history_v2.txt
-~/.zcompdump*
