@@ -61,7 +61,7 @@ vim.g.localvimrc_ask=0
 vim.g.localvimrc_sandbox=0
 
 vim.g.startify_bookmarks = 0
-vim.g.startify_change_to_dir = 0
+vim.g.startify_change_to_dir = 1
 vim.g.startify_change_to_vcs_root = 1
 vim.g.startify_custom_header = {}
 vim.g.startify_enable_special = 0

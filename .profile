@@ -25,7 +25,7 @@ export LC_ALL=en_US.UTF-8
 export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 
-export PATH=/opt/homebrew/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+export PATH=$HOME/.pyenv/shims/:/opt/homebrew/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
 export MYPYPATH=$HOME/nilus/
 export MYPY_CACHE_DIR=$HOME/.mypy_cache
