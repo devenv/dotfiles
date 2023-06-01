@@ -50,6 +50,21 @@ local plugins = {
 
       telescope.setup {
         defaults = {
+          layout_strategy = "flex",
+          layout_config = {
+            flex = {
+              width = 0.95,
+              height = 0.95,
+              flip_columns = 120,
+              vertical = {
+                preview_height = 0.75,
+              },
+              horizontal = {
+                preview_width = 0.5,
+              },
+            },
+          },
+
           mappings = {
             i = {
               ["<c-t>"] = trouble.open_with_trouble,
@@ -157,8 +172,8 @@ local plugins = {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-g>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = false,
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
           },
           ["<tab>"] = cmp.mapping.abort(),
           ["<C-n>"] = cmp.mapping(function()

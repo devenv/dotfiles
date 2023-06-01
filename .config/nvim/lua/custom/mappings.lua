@@ -79,6 +79,7 @@ M.general = {
     ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
     ["<leader>,"] = { ":bp<CR>" },
     ["<leader>."] = { ":bn<CR>" },
+    ["<leader>x"] = { ":silent! w<CR>:bd<CR>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
@@ -115,7 +116,6 @@ M.general = {
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
     ["<leader>cc"] = { ":Copilot panel<CR>" },
 
-    ["<leader>n"] = { ":tabnew<CR>" },
     ["]t"] = { ":tabnext<CR>" },
     ["[t"] = { ":tabprevious<CR>" },
 

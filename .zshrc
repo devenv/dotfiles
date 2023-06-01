@@ -14,6 +14,7 @@ source $HOME/.profile
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
 
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source /Users/devenv/.iterm2_shell_integration.zsh
 
 # alt-↑
 bindkey '^[^[OA' insert-last-word '^[^[[A' insert-last-word
@@ -24,3 +25,6 @@ bindkey '^[^[OB' insert-next-word '^[^[[B' insert-next-word
 bindkey "${terminfo[kcuu1]}" history-substring-search-up
 # ↓
 bindkey "${terminfo[kcud1]}" history-substring-search-down
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
