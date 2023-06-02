@@ -58,7 +58,7 @@ M.general = {
     ["Y"] = { "y$" },
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
-    ["<leader>h"] = { ":Startify<CR>" },
+    ["<leader>h"] = { ":silent! wa<CR>:Startify<CR>" },
 
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
@@ -94,7 +94,7 @@ M.general = {
     ["<leader>k"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
     ["<leader>j"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
     ["<leader>e"] = { ":TroubleToggle<CR>" },
-    ["<leader>'"] = { ":Black<CR>", opts = opts },
+    ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
     ["K"] = { ":Lspsaga hover_doc<CR>" },
     ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
 

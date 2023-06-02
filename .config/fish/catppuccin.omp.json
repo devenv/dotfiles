@@ -29,6 +29,14 @@
           "template": "\ue0c8\u2388{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}\ue0c7"
         },
         {
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "#000000",
+          "background": "p:blue",
+          "template": "{{ if .Error }} {{ .Error }} {{ else }}{{ if .Venv }}\ue0c6 {{ .Venv }} \ue0c7{{ end }}{{ end }}"
+        },
+        {
           "type": "git",
           "style": "plain",
           "foreground": "#193549",

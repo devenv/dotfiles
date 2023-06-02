@@ -7,6 +7,7 @@ local plugins = {
     dependencies = {
       {
         "jose-elias-alvarez/null-ls.nvim",
+        event = "BufEnter",
         config = function()
           require "custom.configs.null-ls"
         end,
@@ -19,24 +20,181 @@ local plugins = {
     end,
   },
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "html-lsp",
-        "prettier",
-        "pyright",
-        "python-lsp-server",
-        "reorganize-python-imports",
-      },
-    },
-  },
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
+    event = "BufEnter",
+    config = function()
+      require("copilot").setup {
+        panel = {
+          enabled = false,
+        },
+        suggestion = {
+          enabled = false,
+        },
+      }
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup {}
+      require("copilot_cmp").setup()
+    end,
+  },
+  {
+    "tzachar/cmp-fuzzy-buffer",
+    event = "InsertEnter",
+    dependencies = { "tzachar/fuzzy.nvim" },
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    config = function()
+      local cmp = require "cmp"
+      local luasnip = require "luasnip"
+      local has_words_before = function()
+        unpack = unpack or table.unpack
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+      end
+      cmp.setup {
+        snippet = {
+          enabled = false,
+        },
+        completion = {
+          completeopt = "menu,menuone,noinsert",
+        },
+        sources = {
+          { name = "path", priority = 50, group_index = 1 },
+          { name = "luasnip", priority = 50, group_index = 1 },
+          { name = "nvim_lsp", priority = 20, group_index = 1 },
+          { name = "nvim_lua", priority = 20, group_index = 1 },
+          { name = "copilot", priority = 2, group_index = 1 },
+          {
+            name = "fuzzy_buffer",
+            priority = 1,
+            group_index = 1,
+            option = {
+              get_bufnrs = function()
+                return vim.api.nvim_list_bufs()
+              end,
+            },
+          },
+        },
+        sorting = {
+          priority_weight = 4,
+          comparators = {
+            cmp.config.compare.score,
+            require("copilot_cmp.comparators").prioritize,
+            require "cmp_fuzzy_buffer.compare",
+            cmp.config.compare.recently_used,
+            cmp.config.compare.locality,
+            cmp.config.compare.exact,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
+        },
+        mapping = cmp.mapping.preset.insert {
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-g>"] = cmp.mapping.complete(),
+          ["<CR>"] = cmp.mapping.confirm { select = true},
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+            -- they way you will only jump inside the snippet region
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            elseif has_words_before() then
+              cmp.complete()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+
+          ["<C-s>"] = cmp.mapping.complete {
+            config = {
+              sources = {
+                { name = "copilot" },
+              },
+            },
+          },
+          ["<C-a>"] = cmp.mapping.complete {},
+          ["<C-n>"] = cmp.mapping(function()
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              cmp.complete()
+            end
+          end),
+        },
+        formatting = {
+          format = require("lspkind").cmp_format {
+            mode = "symbol",
+            maxwidth = 150,
+            ellipsis_char = "...",
+            before = function(entry, vim_item)
+              vim_item.dup = ({
+                nvim_lsp = 0,
+                nvim_lua = 0,
+                fuzzy_buffer = 0,
+              })[entry.source.name] or 0
+              return vim_item
+            end,
+          },
+        },
+      }
+    end,
+  },
+  {
+    "onsails/lspkind.nvim",
+    event = "InsertEnter",
+    config = function()
+      require("lspkind").init {
+        mode = "symbol_text",
+        preset = "codicons",
+        symbol_map = {
+          Class = "󰠱",
+          Color = "󰏘",
+          Copilot = "",
+          Constant = "󰏿",
+          Constructor = "",
+          Enum = "",
+          EnumMember = "",
+          Event = "",
+          Field = "󰜢",
+          File = "󰈙",
+          Folder = "󰉋",
+          Function = "󰊕",
+          Interface = "",
+          Keyword = "󰌋",
+          Method = "󰆧",
+          Module = "",
+          Operator = "󰆕",
+          Property = "󰜢",
+          Reference = "󰈇",
+          Snippet = "",
+          Struct = "󰙅",
+          Text = "󰉿",
+          TypeParameter = "",
+          Unit = "󰑭",
+          Value = "󰎠",
+          Variable = "󰀫",
+        },
+      }
     end,
   },
   {
@@ -110,82 +268,6 @@ local plugins = {
   {
     "madox2/vim-ai",
     event = "BufEnter",
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    event = "BufEnter",
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
-  {
-    "hrsh7th/cmp-buffer",
-    event = "BufEnter",
-    config = function()
-      local cmp = require "cmp"
-      cmp.setup {
-        completion = {
-          completeopt = "menu,menuone,noinsert",
-        },
-        sources = cmp.config.sources {
-          { name = "nvim_lsp", priority = 1 },
-          { name = "nvim_lua", priority = 1 },
-          { name = "copilot", priority = 2 },
-          { name = "luasnip", priority = 3 },
-          { name = "path", priority = 4 },
-          {
-            name = "buffer",
-            option = {
-              get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
-              end,
-            },
-          },
-        },
-        sorting = {
-          priority_weight = 2,
-          comparators = {
-            require("copilot_cmp.comparators").prioritize,
-          },
-        },
-        formatting = {
-          format = function(entry, vim_item)
-            vim_item.menu = ({
-              nvim_lsp = "[LSP]",
-              vsnip = "[Snippet]",
-              nvim_lua = "[Nvim Lua]",
-              buffer = "[Buffer]",
-            })[entry.source.name]
-
-            vim_item.dup = ({
-              vsnip = 0,
-              nvim_lsp = 0,
-              nvim_lua = 0,
-              buffer = 0,
-            })[entry.source.name] or 0
-
-            return vim_item
-          end,
-        },
-        mapping = cmp.mapping.preset.insert {
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-g>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          },
-          ["<tab>"] = cmp.mapping.abort(),
-          ["<C-n>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              cmp.complete()
-            end
-          end),
-        },
-      }
-    end,
   },
   {
     "svermeulen/vim-subversive",
@@ -288,6 +370,12 @@ local plugins = {
     config = function()
       require("telescope").load_extension "fzf"
     end,
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    version = "1.*",
+    lazy = false,
+    event = "BufEnter",
   },
 }
 

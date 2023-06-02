@@ -74,7 +74,7 @@ M.treesitter = {
         ["[A"] = "@parameter.outer",
       },
     },
-  }
+  },
 }
 
 M.mason = {
@@ -90,13 +90,14 @@ M.mason = {
     "deno",
     "prettier",
 
-    -- c/cpp stuff
-    "clangd",
-    "clang-format",
+    -- python stuff
+    "black",
+    "isort",
+    "pyright",
+    "python-lsp-server",
   },
 }
 
--- git support in nvimtree
 M.nvimtree = {
   git = {
     enable = true,
