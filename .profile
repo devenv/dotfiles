@@ -41,4 +41,4 @@ alias vi='nvim'
 alias vim='nvim'
 alias rm='grm'
 
-source ~/.secrets
+test -e "${HOME}/.secrets" && source "${HOME}/.secrets"

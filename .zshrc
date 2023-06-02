@@ -9,8 +9,6 @@ source $HOME/.profile
 
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
 
-source /Users/devenv/.iterm2_shell_integration.zsh
-
 # alt-↑
 bindkey '^[^[OA' insert-last-word '^[^[[A' insert-last-word
 # alt-↓
@@ -22,4 +20,3 @@ bindkey "${terminfo[kcuu1]}" history-substring-search-up
 bindkey "${terminfo[kcud1]}" history-substring-search-down
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
