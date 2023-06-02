@@ -5,15 +5,10 @@ export PYTHONPATH=$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages/
 
 plugins=(fzf kubectl last-working-dir nilus zsh-autosuggestions zsh-history-substring-search)
 
-export ZSH="$HOME/.oh-my-zsh"
-
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
 
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
 
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 source /Users/devenv/.iterm2_shell_integration.zsh
 
 # alt-↑
