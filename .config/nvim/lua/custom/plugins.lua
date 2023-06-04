@@ -12,7 +12,6 @@ local plugins = {
           require "custom.configs.null-ls"
         end,
       },
-      { "nvim-treesitter/nvim-treesitter-textobjects" },
     },
     config = function()
       require "plugins.configs.lspconfig"
@@ -42,9 +41,8 @@ local plugins = {
     end,
   },
   {
-    "tzachar/cmp-fuzzy-buffer",
+    "hrsh7th/cmp-buffer",
     event = "InsertEnter",
-    dependencies = { "tzachar/fuzzy.nvim" },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -58,9 +56,6 @@ local plugins = {
         return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
       end
       cmp.setup {
-        snippet = {
-          enabled = false,
-        },
         completion = {
           completeopt = "menu,menuone,noinsert",
         },
@@ -71,9 +66,7 @@ local plugins = {
           { name = "nvim_lua", priority = 20, group_index = 1 },
           { name = "copilot", priority = 2, group_index = 1 },
           {
-            name = "fuzzy_buffer",
-            priority = 1,
-            group_index = 1,
+            name = "buffer",
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
@@ -86,7 +79,6 @@ local plugins = {
           comparators = {
             cmp.config.compare.score,
             require("copilot_cmp.comparators").prioritize,
-            require "cmp_fuzzy_buffer.compare",
             cmp.config.compare.recently_used,
             cmp.config.compare.locality,
             cmp.config.compare.exact,
@@ -100,7 +92,7 @@ local plugins = {
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-g>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm { select = true},
+          ["<CR>"] = cmp.mapping.confirm { select = true },
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -150,7 +142,6 @@ local plugins = {
               vim_item.dup = ({
                 nvim_lsp = 0,
                 nvim_lua = 0,
-                fuzzy_buffer = 0,
               })[entry.source.name] or 0
               return vim_item
             end,
@@ -329,6 +320,30 @@ local plugins = {
     event = "BufEnter",
   },
   {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+            },
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+            include_surrounding_whitespace = false,
+          },
+        },
+      }
+    end,
+  },
+  {
     "wellle/targets.vim",
     event = "BufEnter",
   },
@@ -370,12 +385,6 @@ local plugins = {
     config = function()
       require("telescope").load_extension "fzf"
     end,
-  },
-  {
-    "L3MON4D3/LuaSnip",
-    version = "1.*",
-    lazy = false,
-    event = "BufEnter",
   },
 }
 
