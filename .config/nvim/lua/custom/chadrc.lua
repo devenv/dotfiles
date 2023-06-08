@@ -57,8 +57,8 @@ vim.api.nvim_set_option("undolevels", 10000)
 vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
 
-vim.g.localvimrc_ask=0
-vim.g.localvimrc_sandbox=0
+vim.g.localvimrc_ask = 0
+vim.g.localvimrc_sandbox = 0
 
 vim.g.startify_bookmarks = 0
 vim.g.startify_change_to_dir = 1
@@ -69,12 +69,13 @@ vim.g.startify_enable_unsafe = 1
 vim.g.startify_session_autoload = 1
 vim.g.startify_session_persistence = 1
 vim.g.startify_lists = {
-  { type = 'sessions', header = { 'Sessions' } },
-  { type = 'files', header = { 'MRU' } },
-  { type = 'dir', header = { 'Dir MRU' } },
-  { type = 'bookmarks', header = { 'Bookmarks' } },
-  { type = 'commands', header = { 'Commands' } },
+  { type = "sessions", header = { "Sessions" } },
+  { type = "files", header = { "MRU" } },
+  { type = "dir", header = { "Dir MRU" } },
+  { type = "bookmarks", header = { "Bookmarks" } },
+  { type = "commands", header = { "Commands" } },
 }
+vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1" }
 
 vim.o.exrc = true
 

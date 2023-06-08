@@ -59,13 +59,17 @@ M.general = {
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
     ["<leader>h"] = { ":silent! wa<CR>:Startify<CR>" },
+    ["<leader>s"] = { ":silent! wa<CR>" },
+    ["<leader>q"] = { ":silent! wqa<CR>" },
 
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
     ["<leader>l"] = { ":Telescope harpoon marks<CR>" },
 
-    ["<leader>p"] = { ":let @+=expand('%')<CR>" },
-    ["<leader>P"] = { ":let @+=expand('%:t:r')<CR>" },
+    ["<leader>pf"] = { ":let @+=expand('%')<CR>" },
+    ["<leader>p."] = { ':PythonCopyReferenceDotted<CR>' },
+    ["<leader>pt"] = { ':PythonCopyReferencePytest<CR>' },
+    ["<leader>pi"] = { ':PythonCopyReferenceImport<CR>' },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>" },
 
     ["[n"] = { ":cprev<CR>", opts = opts },
@@ -79,7 +83,9 @@ M.general = {
     ["<C-l>"] = { ":TmuxNavigateRight<CR>" },
     ["<leader>,"] = { ":bp<CR>" },
     ["<leader>."] = { ":bn<CR>" },
-    ["<leader>x"] = { ":silent! w<CR>:bd<CR>" },
+    ["<leader>x"] = { ":bd<CR>" },
+    ["<C-s>"] = { "<PageUp>" },
+    ["<C-f>"] = { "<PageDown>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
@@ -104,7 +110,8 @@ M.general = {
     ["<leader>ri"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>" },
     ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
     ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
-    ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
+    ["<leader>ro"] = { ":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
+    ["<leader>rl"] = { ":LspRestart<CR>" },
 
     ["<leader><leader>"] = { "<C-^>", opts = opts },
     ["<leader><space>"] = { "<C-^>", opts = opts },
@@ -112,7 +119,7 @@ M.general = {
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
     ["<leader>b"] = { ":Telescope buffers<CR>" },
-    ["<C-p>"] = { ":Telescope git_files<CR>" },
+    ["<C-p>"] = { ":Telescope find_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
     ["<leader>cc"] = { ":Copilot panel<CR>" },
 
@@ -167,6 +174,12 @@ M.general = {
     ["<leader>rr"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>" },
     ["<leader>rq"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>" },
     ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
+  },
+  o = {
+    ["ic"] = { "<plug>CamelCaseMotion_iw" },
+  },
+  x = {
+    ["ic"] = { "<plug>CamelCaseMotion_iw" },
   },
 }
 

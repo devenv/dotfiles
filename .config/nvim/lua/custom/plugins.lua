@@ -44,6 +44,7 @@ local plugins = {
     "hrsh7th/cmp-buffer",
     event = "InsertEnter",
   },
+  { "L3MON4D3/LuaSnip", lazy = false },
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
@@ -67,6 +68,8 @@ local plugins = {
           { name = "copilot", priority = 2, group_index = 1 },
           {
             name = "buffer",
+            priority = 1,
+            group_index = 1,
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
@@ -96,8 +99,6 @@ local plugins = {
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- they way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
@@ -258,7 +259,7 @@ local plugins = {
   },
   {
     "madox2/vim-ai",
-    event = "BufEnter",
+    lazy = true,
   },
   {
     "svermeulen/vim-subversive",
@@ -320,31 +321,11 @@ local plugins = {
     event = "BufEnter",
   },
   {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-            },
-            selection_modes = {
-              ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V", -- linewise
-              ["@class.outer"] = "<c-v>", -- blockwise
-            },
-            include_surrounding_whitespace = false,
-          },
-        },
-      }
-    end,
+    "wellle/targets.vim",
+    event = "BufEnter",
   },
   {
-    "wellle/targets.vim",
+    "bkad/CamelCaseMotion",
     event = "BufEnter",
   },
   {
@@ -364,7 +345,7 @@ local plugins = {
   },
   {
     "mbbill/undotree",
-    lazy = false,
+    event = "BufEnter",
   },
   {
     "mhinz/vim-startify",
@@ -376,12 +357,17 @@ local plugins = {
   },
   {
     "psf/black",
-    lazy = false,
+    event = "BufEnter",
+  },
+  {
+    "ranelpadon/python-copy-reference.vim",
+    event = "BufEnter",
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
     lazy = false,
     build = "make",
+    dependencies = { { "junegunn/fzf.vim" } },
     config = function()
       require("telescope").load_extension "fzf"
     end,

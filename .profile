@@ -7,6 +7,11 @@ export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+export TERM=xterm-color
+export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
 export C_INCLUDE_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/lib
 
@@ -40,5 +45,7 @@ alias ll='lsd -alh'
 alias vi='nvim'
 alias vim='nvim'
 alias rm='grm'
+alias br='git checkout "$(git branch | fzf | tr -d "[:space:]")"'
+alias gcp='git ci -a && git push'
 
 test -e "${HOME}/.secrets" && source "${HOME}/.secrets"

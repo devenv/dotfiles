@@ -8,6 +8,7 @@
     "green": "#ADF48A",
     "blue": "#8AADF4",
     "yellow": "#ebcc34",
+    "orange": "#e0b020",
     "wight": "#FFFFFF",
     "text": "#111016"
   },
@@ -23,7 +24,8 @@
           "background": "",
           "background_templates": [
             "{{ if eq .Context \"minikube\" }}p:green{{end}}",
-            "{{ if eq .Context \"staging\" }}p:yellow{{end}}",
+            "{{ if eq .Context \"dev\" }}p:yellow{{end}}",
+            "{{ if eq .Context \"staging\" }}p:orange{{end}}",
             "{{ if eq .Context \"prod\" }}p:red{{end}}"
           ],
           "template": "\ue0c8\u2388{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}\ue0c7"
