@@ -77,6 +77,7 @@ vim.g.startify_lists = {
 }
 vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1" }
 
+
 vim.o.exrc = true
 
 M.mappings = require "custom.mappings"

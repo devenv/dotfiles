@@ -70,6 +70,7 @@ M.general = {
     ["<leader>p."] = { ':PythonCopyReferenceDotted<CR>' },
     ["<leader>pt"] = { ':PythonCopyReferencePytest<CR>' },
     ["<leader>pi"] = { ':PythonCopyReferenceImport<CR>' },
+    ["<leader>pp"] = { ":echo @%<CR>" },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>" },
 
     ["[n"] = { ":cprev<CR>", opts = opts },
@@ -176,10 +177,10 @@ M.general = {
     ["<leader>ro"] = { ":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
   },
   o = {
-    ["ic"] = { "<plug>CamelCaseMotion_iw" },
+    ["iw"] = { "<plug>CamelCaseMotion_iw" },
   },
   x = {
-    ["ic"] = { "<plug>CamelCaseMotion_iw" },
+    ["iw"] = { "<plug>CamelCaseMotion_iw" },
   },
 }
 

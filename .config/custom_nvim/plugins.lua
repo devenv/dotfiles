@@ -274,14 +274,6 @@ local plugins = {
     event = "BufEnter",
   },
   {
-    "tpope/vim-surround",
-    event = "BufEnter",
-  },
-  {
-    "tpope/vim-unimpaired",
-    event = "BufEnter",
-  },
-  {
     "christoomey/vim-sort-motion",
     event = "BufEnter",
   },
@@ -371,6 +363,57 @@ local plugins = {
     config = function()
       require("telescope").load_extension "fzf"
     end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = "BufEnter",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>ma"] = "@parameter.inner",
+              ["<leader>mf"] = "@function.outer",
+            },
+            swap_previous = {
+              ["<leader>Ma"] = "@parameter.inner",
+              ["<leader>Mf"] = "@function.outer",
+            },
+          },
+          goto_next_start = {
+            ["]]"] = "@function.outer",
+          },
+          goto_previous_start = {
+            ["[["] = "@function.outer",
+          },
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["aa"] = "@argument.outer",
+            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+            include_surrounding_whitespace = false,
+          },
+        },
+      }
+    end,
+  },
+  {
+    "tpope/vim-unimpaired",
+    event = "BufEnter",
+  },
+  {
+    "tpope/vim-surround",
+    event = "BufEnter",
   },
 }
 

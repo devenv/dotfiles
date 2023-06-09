@@ -4,11 +4,11 @@ eval "$(pyenv init -)"
 export PYTHONPATH=$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages/
 
 export ZSH="$HOME/.oh-my-zsh"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
 
 plugins=(fzf kubectl nilus)
 
 source $ZSH/oh-my-zsh.sh
-
 source $HOME/.profile
 
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
