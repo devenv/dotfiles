@@ -4,10 +4,6 @@ local M = {}
 
 local opts = { noremap = true, silent = true }
 
-local filter = function(action)
-  return action.isPreferred
-end
-
 M.disabled = {
   i = {
     ["<C-b>"] = { "" },
@@ -58,9 +54,9 @@ M.general = {
     ["Y"] = { "y$" },
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
-    ["<leader>h"] = { ":silent! wa<CR>:Startify<CR>" },
-    ["<leader>s"] = { ":silent! wa<CR>" },
-    ["<leader>q"] = { ":silent! wqa<CR>" },
+    ["<leader>h"] = { ":silent wa<CR>:Startify<CR>" },
+    ["<leader>s"] = { ":silent wa<CR>" },
+    ["<leader>d"] = { ":silent wqa<CR>" },
 
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
@@ -105,6 +101,25 @@ M.general = {
     ["K"] = { ":Lspsaga hover_doc<CR>" },
     ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
 
+    ["<leader>tt"] = { ":silent Pytest project<CR>"},
+    ["<leader>tdt"] = { ":silent Pytest project -s<CR>"},
+    ["<leader>tet"] = { ":silent Pytest project --pdb<CR>"},
+    ["<leader>twt"] = { ":silent Pytest method looponfail<CR>"},
+    ["<leader>tf"] = { ":silent Pytest file<CR>"},
+    ["<leader>tdf"] = { ":silent Pytest file -s<CR>"},
+    ["<leader>tef"] = { ":silent Pytest file --pdb<CR>"},
+    ["<leader>twf"] = { ":silent Pytest file looponfail<CR>"},
+    ["<leader>t<space>"] = { ":silent Pytest method<CR>"},
+    ["<leader>td<space>"] = { ":silent Pytest method -s<CR>"},
+    ["<leader>te<space>"] = { ":silent Pytest method --pdb<CR>"},
+    ["<leader>tw<space>"] = { ":silent Pytest method looponfail<CR>"},
+
+    ["<leader>tn"] = { ":silent Pytest next<CR>"},
+    ["<leader>tl"] = { ":silent Pytest end<CR>"},
+    ["<leader>tq"] = { ":silent Pytest fails<CR>"},
+    ["<leader>to"] = { ":silent Pytest session<CR>"},
+    ["<leader>tx"] = { ":silent Pytest clear<CR>"},
+
     ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
     ["<leader>rn"] = { ":Lspsaga rename<CR>" },
     ["<leader>re"] = { ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>" },
@@ -126,44 +141,40 @@ M.general = {
 
     ["]t"] = { ":tabnext<CR>" },
     ["[t"] = { ":tabprevious<CR>" },
+    ["]g"] = { ":Gitsigns next_hunk<CR>" },
+    ["[g"] = { ":Gitsigns prev_hunk<CR>" },
 
-    ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
-    ["<leader>gS"] = { ":Gitsigns setqflist<CR>" },
+    ["<leader>gq"] = { ":Gitsigns setqflist all<CR>" },
+    ["<leader>gh"] = { ":Gitsigns toggle_linehl<CR>" },
+    ["<leader>gw"] = { ":Gitsigns toggle_word_diff<CR>" },
+    ["<leader>gb"] = { ":Gitsigns toggle_current_line_blame<CR>" },
+    ["<leader>gB"] = { ":Git blame<CR>" },
+    ["<leader>ga"] = { ":Gitsigns stage_hunk<CR>" },
+    ["<leader>gA"] = { ":Gwrite<CR>", "git write" },
+    ["<leader>gG"] = { ":Ggrep", "git write" },
+    ["<leader>gr"] = { ":Gitsigns reset_hunk<CR>" },
+    ["<leader>gm"] = { ":Gitsigns change_base 'origin/main'<CR>" },
+    ["<leader>gM"] = { ":Gitsigns reset_base<CR>" },
+    ["<leader>gd"] = { ":Gitsigns diffthis<CR>" },
+    ["<leader>gD"] = { ":Git difftool<CR>" },
+
+    ["<leader>gi"] = { ":Git commit -a<CR>", "git branches" },
+    ["<leader>gI"] = { ":Git commita<CR>", "git branches" },
+    ["<leader>g!i"] = { ":Git commit -a --amend<CR>", "git branches" },
+    ["<leader>g!I"] = { ":Git commit --amend<CR>", "git branches" },
+    ["<leader>gp"] = { ":Git push<CR>", "git branches" },
+    ["<leader>g!p"] = { ":Git push -f<CR>", "git branches" },
     ["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits" },
-
-    ["<leader>o"] = { ":call append(line('.'),   repeat([''], v:count1))<CR>", opts = opts },
-    ["<leader>O"] = { ":call append(line('.')-1, repeat([''], v:count1))<CR>", opts = opts },
+    ["<leader>go"] = { ":Telescope git_branches<CR>", "git branches" },
+    ["<leader>gs"] = { ":Telescope git_status<CR>", "git status" },
+    ["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes" },
+    ["<leader>gT"] = { ":GStash", "git stash" },
+    ["<leader>gR"] = { ":Gread<CR>", "git read" },
 
     ["s"] = { "<plug>(SubversiveSubstitute)" },
     ["ss"] = { "<plug>(SubversiveSubstituteLine)" },
     ["S"] = { "<plug>(SubversiveSubstituteToEndOfLine)" },
 
-    ["<leader>t"] = {
-      function()
-        require("nvterm.terminal").toggle "horizontal"
-      end,
-      "toggle horizontal term",
-    },
-    ["<leader>gr"] = {
-      function()
-        require("gitsigns").reset_hunk()
-      end,
-      "Reset hunk",
-    },
-
-    ["<leader>gp"] = {
-      function()
-        require("gitsigns").preview_hunk()
-      end,
-      "Preview hunk",
-    },
-
-    ["<leader>gd"] = {
-      function()
-        require("gitsigns").toggle_deleted()
-      end,
-      "Toggle deleted",
-    },
   },
 
   v = {
