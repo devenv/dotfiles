@@ -56,7 +56,8 @@ M.general = {
 
     ["<leader>h"] = { ":silent wa<CR>:Startify<CR>" },
     ["<leader>s"] = { ":silent wa<CR>" },
-    ["<leader>d"] = { ":silent wqa<CR>" },
+    ["<leader>q"] = { ":silent wqa<CR>" },
+    ["<leader>!!"] = { ":silent cq<CR>" },
 
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
@@ -69,8 +70,8 @@ M.general = {
     ["<leader>pp"] = { ":echo @%<CR>" },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>" },
 
-    ["[n"] = { ":cprev<CR>", opts = opts },
-    ["]n"] = { ":cnext<CR>", opts = opts },
+    ["[["] = { ":cprev<CR>", opts = opts },
+    ["]]"] = { ":cnext<CR>", opts = opts },
     ["{"] = { ":normal [c<CR>" },
     ["}"] = { ":normal ]c<CR>" },
 
@@ -135,6 +136,7 @@ M.general = {
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
     ["<leader>b"] = { ":Telescope buffers<CR>" },
+    ["<leader>p"] = { ":Telescope registers<CR>" },
     ["<C-p>"] = { ":Telescope find_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
     ["<leader>cc"] = { ":Copilot panel<CR>" },
@@ -144,39 +146,53 @@ M.general = {
     ["]g"] = { ":Gitsigns next_hunk<CR>" },
     ["[g"] = { ":Gitsigns prev_hunk<CR>" },
 
-    ["<leader>gq"] = { ":Gitsigns setqflist all<CR>" },
-    ["<leader>gh"] = { ":Gitsigns toggle_linehl<CR>" },
-    ["<leader>gw"] = { ":Gitsigns toggle_word_diff<CR>" },
+    ["<leader>ghh"] = { ":Gitsigns toggle_linehl<CR>" },
+    ["<leader>ghw"] = { ":Gitsigns toggle_word_diff<CR>" },
+    ["<leader>ghn"] = { ":Gitsigns toggle_numhl<CR>" },
+    ["<leader>ghd"] = { ":Gitsigns toggle_deleted<CR>" },
+
     ["<leader>gb"] = { ":Gitsigns toggle_current_line_blame<CR>" },
     ["<leader>gB"] = { ":Git blame<CR>" },
+
     ["<leader>ga"] = { ":Gitsigns stage_hunk<CR>" },
-    ["<leader>gA"] = { ":Gwrite<CR>", "git write" },
-    ["<leader>gG"] = { ":Ggrep", "git write" },
+    ["<leader>gA"] = { ":Git add -- %<CR>" },
+    ["<leader>ggA"] = { ":Git add -A<CR>" },
+    ["<leader>gu"] = { ":Gitsigns stage_hunk<CR>" },
     ["<leader>gr"] = { ":Gitsigns reset_hunk<CR>" },
+    ["<leader>gR"] = { ":silent Git reset -- %<CR>" },
+    ["<leader>ggR"] = { ":silent Git checkout -- %<CR>" },
+
     ["<leader>gm"] = { ":Gitsigns change_base 'origin/main'<CR>" },
     ["<leader>gM"] = { ":Gitsigns reset_base<CR>" },
     ["<leader>gd"] = { ":Gitsigns diffthis<CR>" },
     ["<leader>gD"] = { ":Git difftool<CR>" },
+    ["<leader>gc"] = { ":Git mergetool<CR>" },
+    ["<leader>gC"] = { ":Git rebase --continue<CR>" },
+    ["<leader>gq"] = { ":Gitsigns setqflist all<CR>" },
 
-    ["<leader>gi"] = { ":Git commit -a<CR>", "git branches" },
-    ["<leader>gI"] = { ":Git commita<CR>", "git branches" },
-    ["<leader>g!i"] = { ":Git commit -a --amend<CR>", "git branches" },
-    ["<leader>g!I"] = { ":Git commit --amend<CR>", "git branches" },
-    ["<leader>gp"] = { ":Git push<CR>", "git branches" },
-    ["<leader>g!p"] = { ":Git push -f<CR>", "git branches" },
+    ["<leader>gi"] = { ":silent Git commit<CR>", "git commit all" },
+    ["<leader>gI"] = { ":silent :Git commit -a<CR>", "git commit onlt staged" },
+    ["<leader>ggi"] = { ":silent :Git commit --amend<CR>", "git commit ammend all" },
+    ["<leader>ggI"] = { ":silent :Git commit -a --amend<CR>", "git commit ammend only sgated" },
+    ["<leader>gp"] = { ":Git push<CR>", "git push" },
+    ["<leader>ggp"] = { ":Git push -f<CR>", "git force push" },
+
     ["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits" },
     ["<leader>go"] = { ":Telescope git_branches<CR>", "git branches" },
     ["<leader>gs"] = { ":Telescope git_status<CR>", "git status" },
+    ["<leader>gG"] = { ":Ggrep", "git grep" },
+
     ["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes" },
-    ["<leader>gT"] = { ":GStash", "git stash" },
-    ["<leader>gR"] = { ":Gread<CR>", "git read" },
+    ["<leader>gT"] = { ":Git stash", "git stash" },
 
     ["s"] = { "<plug>(SubversiveSubstitute)" },
     ["ss"] = { "<plug>(SubversiveSubstituteLine)" },
     ["S"] = { "<plug>(SubversiveSubstituteToEndOfLine)" },
 
   },
-
+  i = {
+    ["<C-y>"] = { "<c-u> pumvisible() ? '<c-y>' : matchstr(getline(line('.')-1), '%' . virtcol('.') . 'v%(k+|.)')" },
+  },
   v = {
     ["\\"] = { '"+y' },
     ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
