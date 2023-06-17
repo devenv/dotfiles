@@ -1,7 +1,6 @@
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-export PYTHONPATH=$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages/
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"

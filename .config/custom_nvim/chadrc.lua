@@ -19,6 +19,7 @@ vim.api.nvim_set_option("backspace", "indent,eol,start")
 vim.api.nvim_set_option("cursorline", true)
 vim.api.nvim_set_option("encoding", "utf-8")
 vim.api.nvim_set_option("expandtab", true)
+vim.api.nvim_set_option("exrc", true)
 vim.api.nvim_set_option("ffs", "unix")
 vim.api.nvim_set_option("fileencoding", "utf-8")
 vim.api.nvim_set_option("foldexpr", "nvim_treesitter#foldexpr()")
@@ -40,13 +41,12 @@ vim.api.nvim_set_option("nu", true)
 vim.api.nvim_set_option("rnu", true)
 vim.api.nvim_set_option("scrolljump", 1)
 vim.api.nvim_set_option("scrolloff", 10)
-vim.api.nvim_set_option("signcolumn", "")
+vim.api.nvim_set_option("sessionoptions", "buffers,curdir,folds,localoptions,options")
 vim.api.nvim_set_option("shiftwidth", 2)
 vim.api.nvim_set_option("showmatch", true)
 vim.api.nvim_set_option("smartcase", true)
 vim.api.nvim_set_option("softtabstop", 2)
 vim.api.nvim_set_option("spelllang", "en_us")
-vim.api.nvim_set_option("spf", "~/.vimspell.en.add")
 vim.api.nvim_set_option("splitbelow", true)
 vim.api.nvim_set_option("splitright", true)
 vim.api.nvim_set_option("tabstop", 2)
@@ -64,19 +64,21 @@ vim.g.startify_bookmarks = 0
 vim.g.startify_change_to_dir = 1
 vim.g.startify_change_to_vcs_root = 1
 vim.g.startify_custom_header = {}
+vim.g.startify_update_oldfiles = 1
 vim.g.startify_custom_indices = { "s", "c", "i", "p", "g", "v", "l", "n", "t" }
-vim.g.startify_enable_special = 0
+vim.g.startify_enable_special = 1
 vim.g.startify_enable_unsafe = 1
 vim.g.startify_session_autoload = 1
 vim.g.startify_session_persistence = 1
 vim.g.startify_lists = {
 	{ type = "sessions", header = { "Sessions" } },
-	{ type = "files", header = { "MRU" } },
 	{ type = "dir", header = { "Dir MRU" } },
+	{ type = "files", header = { "MRU" } },
 	{ type = "bookmarks", header = { "Bookmarks" } },
 	{ type = "commands", header = { "Commands" } },
 }
-vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1" }
+vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui" }
+vim.g.startify_session_savevars = { "makeprg" }
 
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")

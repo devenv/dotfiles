@@ -29,8 +29,6 @@ M.treesitter = {
         ["if"] = "@function.inner",
         ["aa"] = "@parameter.outer",
         ["ia"] = "@parameter.inner",
-        ["ab"] = "@block.outer",
-        ["ib"] = "@block.inner",
         ["ac"] = "@call.outer",
         ["ic"] = "@call.inner",
       },

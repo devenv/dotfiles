@@ -64,12 +64,13 @@ local plugins = {
 				sources = {
 					{ name = "path", priority = 50, group_index = 1 },
 					{ name = "luasnip", priority = 50, group_index = 1 },
-					{ name = "nvim_lsp", priority = 20, group_index = 1 },
-					{ name = "nvim_lua", priority = 20, group_index = 1 },
-					{ name = "copilot", priority = 2, group_index = 1 },
+					{ name = "nvim_lsp", priority = 1, group_index = 1 },
+					{ name = "nvim_lua", priority = 10, group_index = 1 },
+					{ name = "vim-dadbod-completion", priority = 2, group_index = 1 },
+					{ name = "copilot", priority = 1, group_index = 2 },
 					{
 						name = "buffer",
-						priority = 1,
+						priority = 20,
 						group_index = 1,
 						option = {
 							get_bufnrs = function()
@@ -246,6 +247,20 @@ local plugins = {
 		"nvim-tree/nvim-tree.lua",
 		opts = overrides.nvimtree,
 		lazy = false,
+		config = function()
+			require("nvim-tree").setup({
+        view = {
+          width = 40,
+        },
+				actions = {
+					open_file = {
+						window_picker = {
+							enable = false,
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		"max397574/better-escape.nvim",
@@ -320,17 +335,6 @@ local plugins = {
 	{
 		"bkad/CamelCaseMotion",
 		event = "BufEnter",
-	},
-	{
-		"ThePrimeagen/harpoon",
-		event = "BufEnter",
-		config = function()
-			require("harpoon").setup({
-				save_on_toggle = true,
-				save_on_change = true,
-				mark_branch = true,
-			})
-		end,
 	},
 	{
 		"christoomey/vim-tmux-navigator",
@@ -430,6 +434,34 @@ local plugins = {
 	},
 	{
 		"tpope/vim-fugitive",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-dadbod",
+		event = "BufEnter",
+	},
+	{
+		"kristijanhusak/vim-dadbod-ui",
+		event = "BufEnter",
+	},
+	{
+		"kristijanhusak/vim-dadbod-completion",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-dotenv",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-characterize",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-speeddating",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-projectionist",
 		event = "BufEnter",
 	},
 }

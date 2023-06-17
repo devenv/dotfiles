@@ -3,57 +3,57 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 
 local lspconfig = require("lspconfig")
 
-lspconfig.html.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+lspconfig.html.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
-lspconfig.cssls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+lspconfig.cssls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
-lspconfig.tsserver.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+lspconfig.tsserver.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
-lspconfig.pyright.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+lspconfig.pyright.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
-lspconfig.pylsp.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    pylsp = {
-      configurationSources = {"flake8"},
-      plugins = {
-        jedi_completion = {enabled = true},
-        jedi_hover = {enabled = true},
-        jedi_references = {enabled = true},
-        jedi_signature_help = {enabled = true},
-        jedi_symbols = {enabled = true, all_scopes = true},
-        black = {
-          enabled = true,
-          line_length = 140,
-        },
-        pycodestyle = {enabled = false},
-        flake8 = {
-          enabled = true,
-          ignore = {},
-          maxLineLength = 200
-        },
-        mypy = {enabled = true},
-        isort = {enabled = true},
-        yapf = {enabled = true},
-        pylint = {enabled = false},
-        pydocstyle = {enabled = false},
-        mccabe = {enabled = false},
-        preload = {enabled = false},
-        rope_completion = {enabled = true}
-      }
-    }
-  }
-}
+lspconfig.pylsp.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+		pylsp = {
+			configurationSources = { "flake8" },
+			plugins = {
+				jedi_completion = { enabled = true },
+				jedi_hover = { enabled = true },
+				jedi_references = { enabled = true },
+				jedi_signature_help = { enabled = true },
+				jedi_symbols = { enabled = true, all_scopes = true },
+				black = {
+					enabled = true,
+					line_length = 200,
+				},
+				pycodestyle = { enabled = false },
+				flake8 = {
+					enabled = true,
+					ignore = {},
+					maxLineLength = 200,
+				},
+				mypy = { enabled = false },
+				isort = { enabled = true },
+				yapf = { enabled = false },
+				pylint = { enabled = false },
+				pydocstyle = { enabled = false },
+				mccabe = { enabled = false },
+				preload = { enabled = false },
+				rope_completion = { enabled = true },
+			},
+		},
+	},
+})
