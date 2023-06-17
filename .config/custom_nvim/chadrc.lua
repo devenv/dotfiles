@@ -5,11 +5,11 @@ local M = {}
 local highlights = require("custom.highlights")
 
 M.ui = {
-  theme = "decay",
-  theme_toggle = { "decay", "one_light" },
+	theme = "decay",
+	theme_toggle = { "decay", "one_light" },
 
-  hl_override = highlights.override,
-  hl_add = highlights.add,
+	hl_override = highlights.override,
+	hl_add = highlights.add,
 }
 
 M.plugins = "custom.plugins"
@@ -64,20 +64,22 @@ vim.g.startify_bookmarks = 0
 vim.g.startify_change_to_dir = 1
 vim.g.startify_change_to_vcs_root = 1
 vim.g.startify_custom_header = {}
+vim.g.startify_custom_indices = { "s", "c", "i", "p", "g", "v", "l", "n", "t" }
 vim.g.startify_enable_special = 0
 vim.g.startify_enable_unsafe = 1
 vim.g.startify_session_autoload = 1
 vim.g.startify_session_persistence = 1
 vim.g.startify_lists = {
-  { type = "sessions", header = { "Sessions" } },
-  { type = "files", header = { "MRU" } },
-  { type = "dir", header = { "Dir MRU" } },
-  { type = "bookmarks", header = { "Bookmarks" } },
-  { type = "commands", header = { "Commands" } },
+	{ type = "sessions", header = { "Sessions" } },
+	{ type = "files", header = { "MRU" } },
+	{ type = "dir", header = { "Dir MRU" } },
+	{ type = "bookmarks", header = { "Bookmarks" } },
+	{ type = "commands", header = { "Commands" } },
 }
 vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1" }
 
 vim.o.exrc = true
+vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 
 M.mappings = require("custom.mappings")
 

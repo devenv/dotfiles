@@ -54,6 +54,8 @@ M.general = {
     ["Y"] = { "y$" },
     ["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
+    ["<leader><leader>"] = { "<C-^>", opts = opts },
+
     ["<leader>h"] = { ":silent wa<CR>:Startify<CR>" },
     ["<leader>s"] = { ":silent wa<CR>" },
     ["<leader>q"] = { ":silent wqa<CR>" },
@@ -62,6 +64,12 @@ M.general = {
     ["<leader>a"] = { ":lua require('harpoon.mark').add_file()<CR>" },
     ["<leader>A"] = { ":lua require('harpoon.mark').rm_file()<CR>" },
     ["<leader>l"] = { ":Telescope harpoon marks<CR>" },
+
+    ["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR><CR>" },
+    ["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR><CR>" },
+    ["<leader>Sr"] = { ":spellrare <c-r>=expand('<cword>')<CR><CR>" },
+    ["<leader>SA"] = { ":spellrepall<CR>" },
+    ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>" },
 
     ["<leader>pf"] = { ":let @+=expand('%')<CR>" },
     ["<leader>p."] = { ':PythonCopyReferenceDotted<CR>' },
@@ -91,9 +99,6 @@ M.general = {
     ["F"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_F()<CR>" },
     ["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>" },
     ["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>" },
-
-    ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },
-    ["<leader>u"] = { ":UndotreeToggle<CR>" },
 
     ["<leader>k"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
     ["<leader>j"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
@@ -130,8 +135,6 @@ M.general = {
     ["<leader>ro"] = { ":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
     ["<leader>rl"] = { ":LspRestart<CR>" },
 
-    ["<leader><leader>"] = { "<C-^>", opts = opts },
-    ["<leader><space>"] = { "<C-^>", opts = opts },
     ["<leader>f<space>"] = { ":Telescope live_grep<CR>" },
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
@@ -139,7 +142,10 @@ M.general = {
     ["<leader>p"] = { ":Telescope registers<CR>" },
     ["<C-p>"] = { ":Telescope find_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
+
     ["<leader>cc"] = { ":Copilot panel<CR>" },
+    ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },
+    ["<leader>u"] = { ":UndotreeToggle<CR>" },
 
     ["]t"] = { ":tabnext<CR>" },
     ["[t"] = { ":tabprevious<CR>" },
