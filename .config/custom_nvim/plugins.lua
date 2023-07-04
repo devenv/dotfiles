@@ -64,13 +64,13 @@ local plugins = {
 				sources = {
 					{ name = "path", priority = 50, group_index = 1 },
 					{ name = "luasnip", priority = 50, group_index = 1 },
-					{ name = "nvim_lsp", priority = 1, group_index = 1 },
+					{ name = "nvim_lsp", priority = 40, group_index = 1 },
 					{ name = "nvim_lua", priority = 10, group_index = 1 },
 					{ name = "vim-dadbod-completion", priority = 2, group_index = 1 },
-					{ name = "copilot", priority = 1, group_index = 2 },
+					{ name = "copilot", priority = 5, group_index = 1 },
 					{
 						name = "buffer",
-						priority = 20,
+						priority = 1,
 						group_index = 1,
 						option = {
 							get_bufnrs = function()
@@ -82,11 +82,11 @@ local plugins = {
 				sorting = {
 					priority_weight = 4,
 					comparators = {
-						cmp.config.compare.score,
-						require("copilot_cmp.comparators").prioritize,
-						cmp.config.compare.recently_used,
-						cmp.config.compare.locality,
 						cmp.config.compare.exact,
+						cmp.config.compare.locality,
+						require("copilot_cmp.comparators").prioritize,
+						cmp.config.compare.score,
+						cmp.config.compare.recently_used,
 						cmp.config.compare.kind,
 						cmp.config.compare.sort_text,
 						cmp.config.compare.length,
@@ -249,9 +249,12 @@ local plugins = {
 		lazy = false,
 		config = function()
 			require("nvim-tree").setup({
-        view = {
-          width = 40,
-        },
+        respect_buf_cwd = true,
+        reload_on_bufenter = true,
+        sync_root_with_cwd = true,
+				view = {
+					width = 40,
+				},
 				actions = {
 					open_file = {
 						window_picker = {
@@ -347,6 +350,14 @@ local plugins = {
 	{
 		"mhinz/vim-startify",
 		lazy = false,
+	},
+	{
+		"JoseConseco/telescope_sessions_picker.nvim",
+		lazy = false,
+    dependencies = { { "nvim-telescope/telescope.nvim" } },
+		config = function()
+			require("telescope").load_extension("sessions_picker")
+		end,
 	},
 	{
 		"farmergreg/vim-lastplace",

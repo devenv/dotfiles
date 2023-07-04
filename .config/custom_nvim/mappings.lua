@@ -57,6 +57,7 @@ M.general = {
     ["<leader><leader>"] = { "<C-^>", opts = opts },
 
     ["<leader>h"] = { ":silent wa<CR>:Startify<CR>:SClose<CR>" },
+    ["<leader>H"] = { ":silent wa<CR>:Telescope sessions_picker<CR>" },
     ["<leader>s"] = { ":silent wa<CR>" },
     ["<leader>q"] = { ":silent wqa<CR>" },
     ["<leader>!!"] = { ":silent cq<CR>" },
@@ -74,6 +75,7 @@ M.general = {
     ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>" },
 
     ["<leader>pf"] = { ":let @+=expand('%')<CR>" },
+    ["<leader>pF"] = { ":let @+=expand('%:p')<CR>" },
     ["<leader>p."] = { ':PythonCopyReferenceDotted<CR>' },
     ["<leader>pt"] = { ':PythonCopyReferencePytest<CR>' },
     ["<leader>pi"] = { ':PythonCopyReferenceImport<CR>' },
@@ -109,6 +111,8 @@ M.general = {
     ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
     ["K"] = { ":Lspsaga hover_doc<CR>" },
     ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
+    ["gi"] = { ":Lspsaga incoming_calls<CR>", opts = opts },
+    ["go"] = { ":Lspsaga outline<CR>", opts = opts },
 
     ["<leader>tt"] = { ":Make<CR>"},
     ["<leader>tp"] = { ":Pytest project -vv<CR>"},
@@ -143,7 +147,7 @@ M.general = {
     ["<leader>ff"] = { ":Telescope find_files<CR>" },
     ["<leader>fg"] = { ":Telescope git_files<CR>" },
     ["<leader>b"] = { ":Telescope buffers<CR>" },
-    ["<leader>p"] = { ":Telescope registers<CR>" },
+    ["<leader>P"] = { ":Telescope registers<CR>" },
     ["<C-p>"] = { ":Telescope find_files<CR>" },
     ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
 
@@ -240,6 +244,5 @@ M.general = {
   },
 }
 
--- more keybinds!
-
-return M
+local secrets = require("custom.secrets")
+return vim.tbl_deep_extend("force", secrets, M)

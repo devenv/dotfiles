@@ -53,6 +53,7 @@
 .config/coc/
 .config/compton.conf
 .config/configstore/
+.config/custom_nvim/secrets.lua
 .config/dconf/
 .config/deluge/
 .config/discord/

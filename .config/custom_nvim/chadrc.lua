@@ -41,7 +41,7 @@ vim.api.nvim_set_option("nu", true)
 vim.api.nvim_set_option("rnu", true)
 vim.api.nvim_set_option("scrolljump", 1)
 vim.api.nvim_set_option("scrolloff", 10)
-vim.api.nvim_set_option("sessionoptions", "buffers,curdir,folds,localoptions,options")
+vim.api.nvim_set_option("sessionoptions", "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions")
 vim.api.nvim_set_option("shiftwidth", 2)
 vim.api.nvim_set_option("showmatch", true)
 vim.api.nvim_set_option("smartcase", true)
@@ -56,6 +56,7 @@ vim.api.nvim_set_option("undofile", true)
 vim.api.nvim_set_option("undolevels", 10000)
 vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
+vim.api.nvim_set_option("makeprg", os.getenv('MAKEPRG'))
 
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
@@ -65,7 +66,6 @@ vim.g.startify_change_to_dir = 1
 vim.g.startify_change_to_vcs_root = 1
 vim.g.startify_custom_header = {}
 vim.g.startify_update_oldfiles = 1
-vim.g.startify_custom_indices = { "s", "c", "i", "p", "g", "v", "l", "n", "t" }
 vim.g.startify_enable_special = 1
 vim.g.startify_enable_unsafe = 1
 vim.g.startify_session_autoload = 1

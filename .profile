@@ -36,6 +36,8 @@ export PY="$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages"
 export GOPATH=$HOME/.go
 export DOCKER_DEFAULT_PLATFORM=linux/arm64
 
+export MAKEPRG="tox"
+
 alias gut='git'
 alias got='git'
 alias l='lsd -alh'
