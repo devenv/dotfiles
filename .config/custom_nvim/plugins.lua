@@ -12,6 +12,10 @@ local plugins = {
 					require("custom.configs.null-ls")
 				end,
 			},
+			{
+				"psf/black",
+				event = "BufEnter",
+			},
 		},
 		config = function()
 			require("plugins.configs.lspconfig")
@@ -19,47 +23,45 @@ local plugins = {
 		end,
 	},
 	{
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		event = "BufEnter",
-		config = function()
-			require("copilot").setup({
-				panel = {
-					enabled = false,
-				},
-				suggestion = {
-					enabled = false,
-				},
-			})
-		end,
-	},
-	{
-		"zbirenbaum/copilot-cmp",
-		event = "InsertEnter",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	},
-	{
-		"hrsh7th/cmp-buffer",
-		event = "InsertEnter",
-	},
-	{ "L3MON4D3/LuaSnip", lazy = false },
-	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-nvim-lsp",
+			{
+				"zbirenbaum/copilot-cmp",
+				event = "InsertEnter",
+				config = function()
+					require("copilot_cmp").setup()
+				end,
+			},
+			{
+				"zbirenbaum/copilot.lua",
+				cmd = "Copilot",
+				event = "BufEnter",
+				config = function()
+					require("copilot").setup({
+						panel = {
+							enabled = false,
+						},
+						suggestion = {
+							enabled = false,
+						},
+					})
+				end,
+			},
+		},
 		config = function()
 			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			local has_words_before = function()
-				unpack = unpack or table.unpack
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
 			cmp.setup({
 				completion = {
 					completeopt = "menu,menuone,noinsert",
+				},
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
+					end,
 				},
 				sources = {
 					{ name = "path", priority = 50, group_index = 1 },
@@ -96,30 +98,8 @@ local plugins = {
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-g>"] = cmp.mapping.complete(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						elseif has_words_before() then
-							cmp.complete()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-
+					["<C-a>"] = cmp.mapping.complete({}),
 					["<C-s>"] = cmp.mapping.complete({
 						config = {
 							sources = {
@@ -127,7 +107,6 @@ local plugins = {
 							},
 						},
 					}),
-					["<C-a>"] = cmp.mapping.complete({}),
 					["<C-n>"] = cmp.mapping(function()
 						if cmp.visible() then
 							cmp.select_next_item()
@@ -148,6 +127,68 @@ local plugins = {
 							})[entry.source.name] or 0
 							return vim_item
 						end,
+					}),
+				},
+			})
+		end,
+	},
+	{
+		"nvim-neotest/neotest",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"folke/neodev.nvim",
+			"nvim-neotest/neotest-python",
+			{
+				"mfussenegger/nvim-dap",
+				config = function()
+					local dap = require("dap")
+					dap.adapters.python = function(cb, config)
+						if config.request == "attach" then
+							local port = (config.connect or config).port
+							local host = (config.connect or config).host or "127.0.0.1"
+							cb({
+								type = "server",
+								port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+								host = host,
+								options = {
+									source_filetype = "python",
+								},
+							})
+						else
+							cb({
+								type = "executable",
+								command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
+								args = { "-m", "debugpy.adapter" },
+								options = {
+									source_filetype = "python",
+								},
+							})
+						end
+					end
+					dap.configurations.python = {
+						{
+							type = "python",
+							request = "attach",
+							name = "Attach",
+							port = 5678,
+							pythonPath = function()
+								return os.getenv("VIRTUAL_ENV") .. "/bin/python"
+							end,
+						},
+					}
+				end,
+			},
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-python")({
+						dap = { justMyCode = false },
+						args = { "--log-level", "DEBUG" },
+						runner = "pytest",
 					}),
 				},
 			})
@@ -192,66 +233,14 @@ local plugins = {
 		end,
 	},
 	{
-		"nvim-telescope/telescope.nvim",
-		opts = overrides.mason,
-		config = function()
-			local trouble = require("trouble.providers.telescope")
-
-			local telescope = require("telescope")
-			local actions = require("telescope.actions")
-
-			telescope.setup({
-				defaults = {
-					layout_strategy = "flex",
-					layout_config = {
-						flex = {
-							width = 0.95,
-							height = 0.95,
-							flip_columns = 120,
-							vertical = {
-								preview_height = 0.75,
-							},
-							horizontal = {
-								preview_width = 0.5,
-							},
-						},
-					},
-
-					mappings = {
-						i = {
-							["<c-t>"] = trouble.open_with_trouble,
-							["<C-p>"] = actions.cycle_history_prev,
-							["<C-n>"] = actions.cycle_history_next,
-						},
-						n = {
-							["<c-t>"] = trouble.open_with_trouble,
-							["<C-p>"] = actions.cycle_history_prev,
-							["<C-n>"] = actions.cycle_history_next,
-						},
-					},
-				},
-			})
-		end,
-	},
-	{
-		"williamboman/mason.nvim",
-		opts = overrides.mason,
-	},
-
-	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = overrides.treesitter,
-	},
-
-	{
 		"nvim-tree/nvim-tree.lua",
 		opts = overrides.nvimtree,
 		lazy = false,
 		config = function()
 			require("nvim-tree").setup({
-        respect_buf_cwd = true,
-        reload_on_bufenter = true,
-        sync_root_with_cwd = true,
+				respect_buf_cwd = true,
+				reload_on_bufenter = true,
+				sync_root_with_cwd = true,
 				view = {
 					width = 40,
 				},
@@ -265,38 +254,6 @@ local plugins = {
 			})
 		end,
 	},
-	{
-		"max397574/better-escape.nvim",
-		event = "InsertEnter",
-		config = function()
-			require("better_escape").setup()
-		end,
-	},
-	{
-		"camspiers/lens.vim",
-		event = "BufEnter",
-	},
-	{
-		"madox2/vim-ai",
-		lazy = true,
-	},
-	{
-		"svermeulen/vim-subversive",
-		event = "BufEnter",
-	},
-	{
-		"tpope/vim-abolish",
-		event = "BufEnter",
-	},
-	{
-		"tpope/vim-repeat",
-		event = "BufEnter",
-	},
-	{
-		"christoomey/vim-sort-motion",
-		event = "BufEnter",
-	},
-	{ "folke/trouble.nvim" },
 	{
 		"glepnir/lspsaga.nvim",
 		event = "BufEnter",
@@ -328,61 +285,34 @@ local plugins = {
 		end,
 	},
 	{
-		"michaeljsmith/vim-indent-object",
-		event = "BufEnter",
-	},
-	{
-		"wellle/targets.vim",
-		event = "BufEnter",
-	},
-	{
-		"bkad/CamelCaseMotion",
-		event = "BufEnter",
-	},
-	{
-		"christoomey/vim-tmux-navigator",
+		"ibhagwan/fzf-lua",
 		lazy = false,
-	},
-	{
-		"mbbill/undotree",
-		event = "BufEnter",
-	},
-	{
-		"mhinz/vim-startify",
-		lazy = false,
-	},
-	{
-		"JoseConseco/telescope_sessions_picker.nvim",
-		lazy = false,
-    dependencies = { { "nvim-telescope/telescope.nvim" } },
 		config = function()
-			require("telescope").load_extension("sessions_picker")
+			require("fzf-lua").setup({
+				keymap = {
+					fzf = {
+						["CTRL-Q"] = "select-all+accept",
+					},
+				},
+			})
 		end,
 	},
 	{
-		"farmergreg/vim-lastplace",
-		lazy = false,
-	},
-	{
-		"psf/black",
-		event = "BufEnter",
-	},
-	{
-		"ranelpadon/python-copy-reference.vim",
-		event = "BufEnter",
-	},
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		lazy = false,
-		build = "make",
-		dependencies = { { "junegunn/fzf.vim" } },
+		"max397574/better-escape.nvim",
+		event = "InsertEnter",
 		config = function()
-			require("telescope").load_extension("fzf")
+			require("better_escape").setup()
 		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		event = "BufEnter",
+		dependencies = {
+			{
+				"nvim-treesitter/nvim-treesitter",
+				opts = overrides.treesitter,
+			},
+		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				textobjects = {
@@ -424,6 +354,20 @@ local plugins = {
 		end,
 	},
 	{
+		"tpope/vim-dadbod",
+		event = "BufEnter",
+		dependencies = {
+			{
+				"kristijanhusak/vim-dadbod-ui",
+				event = "BufEnter",
+			},
+			{
+				"kristijanhusak/vim-dadbod-completion",
+				event = "BufEnter",
+			},
+		},
+	},
+	{
 		"tpope/vim-unimpaired",
 		event = "BufEnter",
 	},
@@ -440,27 +384,7 @@ local plugins = {
 		event = "BufEnter",
 	},
 	{
-		"alfredodeza/pytest.vim",
-		event = "BufEnter",
-	},
-	{
 		"tpope/vim-fugitive",
-		event = "BufEnter",
-	},
-	{
-		"tpope/vim-dadbod",
-		event = "BufEnter",
-	},
-	{
-		"kristijanhusak/vim-dadbod-ui",
-		event = "BufEnter",
-	},
-	{
-		"kristijanhusak/vim-dadbod-completion",
-		event = "BufEnter",
-	},
-	{
-		"tpope/vim-dotenv",
 		event = "BufEnter",
 	},
 	{
@@ -473,6 +397,66 @@ local plugins = {
 	},
 	{
 		"tpope/vim-projectionist",
+		event = "BufEnter",
+	},
+	{
+		"williamboman/mason.nvim",
+		opts = overrides.mason,
+	},
+	{
+		"camspiers/lens.vim",
+		event = "BufEnter",
+	},
+	{
+		"madox2/vim-ai",
+		lazy = true,
+	},
+	{
+		"svermeulen/vim-subversive",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-abolish",
+		event = "BufEnter",
+	},
+	{
+		"tpope/vim-repeat",
+		event = "BufEnter",
+	},
+	{
+		"christoomey/vim-sort-motion",
+		event = "BufEnter",
+	},
+	{
+		"michaeljsmith/vim-indent-object",
+		event = "BufEnter",
+	},
+	{
+		"wellle/targets.vim",
+		event = "BufEnter",
+	},
+	{
+		"bkad/CamelCaseMotion",
+		event = "BufEnter",
+	},
+	{
+		"christoomey/vim-tmux-navigator",
+		lazy = false,
+	},
+	{
+		"mbbill/undotree",
+		event = "BufEnter",
+	},
+	{
+		"mhinz/vim-startify",
+		lazy = false,
+	},
+	{
+		"farmergreg/vim-lastplace",
+		lazy = false,
+	},
+	{
+		"ranelpadon/python-copy-reference.vim",
 		event = "BufEnter",
 	},
 }

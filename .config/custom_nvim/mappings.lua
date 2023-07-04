@@ -38,7 +38,6 @@ M.disabled = {
     ["<leader>rh"] = { "" },
     ["<leader>ph"] = { "" },
     ["<leader>td"] = { "" },
-    ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
     ["<leader>/"] = { "" },
   },
   t = {
@@ -57,20 +56,13 @@ M.general = {
     ["<leader><leader>"] = { "<C-^>", opts = opts },
 
     ["<leader>h"] = { ":silent wa<CR>:Startify<CR>:SClose<CR>" },
-    ["<leader>H"] = { ":silent wa<CR>:Telescope sessions_picker<CR>" },
     ["<leader>s"] = { ":silent wa<CR>" },
     ["<leader>q"] = { ":silent wqa<CR>" },
     ["<leader>!!"] = { ":silent cq<CR>" },
 
     ["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR><CR>" },
     ["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR><CR>" },
-    ["<leader>Sr"] = { ":spellrare <c-r>=expand('<cword>')<CR><CR>" },
-    ["<leader>SA"] = { ":spellrepall<CR>" },
-    ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>" },
-
-    ["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR><CR>" },
-    ["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR><CR>" },
-    ["<leader>Sr"] = { ":spellrare <c-r>=expand('<cword>')<CR><CR>" },
+    ["<leader>SS"] = { ":FzfLua spell_suggest" },
     ["<leader>SA"] = { ":spellrepall<CR>" },
     ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>" },
 
@@ -107,32 +99,54 @@ M.general = {
 
     ["<leader>k"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
     ["<leader>j"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
-    ["<leader>e"] = { ":TroubleToggle<CR>" },
+    ["<leader>e"] = { ":FzfLua diagnostics_workspace<CR>" },
     ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
-    ["K"] = { ":Lspsaga hover_doc<CR>" },
-    ["gr"] = { ":Lspsaga lsp_finder<CR>", opts = opts },
-    ["gi"] = { ":Lspsaga incoming_calls<CR>", opts = opts },
-    ["go"] = { ":Lspsaga outline<CR>", opts = opts },
+    ["K"] = { ":FzfLua hover_doc<CR>" },
+    ["gr"] = { ":FzfLua lsp_finder<CR>", opts = opts },
+    ["gi"] = { ":FzfLua incoming_calls<CR>", opts = opts },
+    ["go"] = { ":FzfLua outline<CR>", opts = opts },
 
-    ["<leader>tt"] = { ":Make<CR>"},
-    ["<leader>tp"] = { ":Pytest project -vv<CR>"},
-    ["<leader>tdp"] = { ":Pytest project -s<CR>"},
-    ["<leader>tep"] = { ":Pytest project --pdb<CR>"},
-    ["<leader>twp"] = { ":Pytest project looponfail -vv<CR>"},
-    ["<leader>tf"] = { ":Pytest file -vv<CR>"},
-    ["<leader>tdf"] = { ":Pytest file -s<CR>"},
-    ["<leader>tef"] = { ":Pytest file --pdb<CR>"},
-    ["<leader>twf"] = { ":Pytest file looponfail<CR>"},
-    ["<leader>tm"] = { ":Pytest method -vv<CR>"},
-    ["<leader>tdm"] = { ":Pytest method -s<CR>"},
-    ["<leader>tem"] = { ":Pytest method --pdb<CR>"},
-    ["<leader>twm"] = { ":Pytest method looponfail<CR>"},
+    ["<leader>ts"] = { ":lua require('neotest').summary.toggle()<CR>"},
+    ["<leader>tt"] = { ":lua require('neotest').run.run()<CR>"},
+    ["<leader>td"] = { ":lua require('neotest').run.run({strategy = 'dap'})<CR>"},
+    ["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>:lua require('neotest').summary.open()<CR>"},
+    ["<leader>te"] = { ":lua require('neotest').output.open()<CR>"},
+    ["<leader>to"] = { ":lua require('neotest').output_panel.toggle()<CR>"},
 
-    ["<leader>tn"] = { ":Pytest next<CR>"},
-    ["<leader>tl"] = { ":Pytest end<CR>"},
-    ["<leader>tq"] = { ":Pytest fails<CR>"},
-    ["<leader>to"] = { ":Pytest session<CR>"},
-    ["<leader>tx"] = { ":Pytest clear<CR>"},
+    ["<leader>d."] = { ":lua require('dap').toggle_breakpoint()<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>"},
+    ["<leader>da"] = { ":FzfLua dap_configurations<CR>"},
+    ["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>"},
+    ["<leader>dB"] = { ":FzfLua dap_breakpoints<CR>"},
+    ["<leader>dc"] = { ":lua require('dap').continue()<CR>"},
+    ["<leader>dd"] = { ":lua require('dap').step_over()<CR>"},
+    ["<leader>ds"] = { ":lua require('dap').step_into()<CR>"},
+    ["<leader>dr"] = { ":lua require('dap').step_out()<CR>"},
+    ["<leader>dk"] = { ":lua require('dap').up()<CR>"},
+    ["<leader>dj"] = { ":lua require('dap').down()<CR>"},
+    ["<leader>dx"] = { ":lua require('dap').terminate()<CR>"},
+    ["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>"},
+    ["<leader>dt"] = { ":lua require('dap').run_to_cursor()<CR>"},
+    ["<leader>dR"] = { ":lua require('dap').restart()<CR>"},
+    ["<leader>dl"] = { ":lua require('dap').run_last()<CR>"},
+    ["<leader>d<tab>"] = { ":lua require('dap').repl.toggle()<CR>"},
+    ["<leader>dF"] = { ":FzfLua dap_frames<CR>"},
+    ["<leader>dS"] = {
+      function()
+          local widgets = require('dap.ui.widgets')
+          widgets.centered_float(widgets.scopes)
+      end
+    },
+    ["<leader>dT"] = {
+      function()
+          local widgets = require('dap.ui.widgets')
+          widgets.centered_float(widgets.threads)
+      end
+    },
+    ["<leader>dw"] = {
+      function()
+        require('dap.ui.widgets').hover()
+      end
+    },
 
     ["<leader>ra"] = { ":Lspsaga code_action<CR>" },
     ["<leader>rn"] = { ":Lspsaga rename<CR>" },
@@ -143,13 +157,15 @@ M.general = {
     ["<leader>ro"] = { ":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>" },
     ["<leader>rl"] = { ":LspRestart<CR>" },
 
-    ["<leader>f<space>"] = { ":Telescope live_grep<CR>" },
-    ["<leader>ff"] = { ":Telescope find_files<CR>" },
-    ["<leader>fg"] = { ":Telescope git_files<CR>" },
-    ["<leader>b"] = { ":Telescope buffers<CR>" },
-    ["<leader>P"] = { ":Telescope registers<CR>" },
-    ["<C-p>"] = { ":Telescope find_files<CR>" },
-    ["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
+    ["<leader>F<space>"] = { ":FzfLua resume<CR>" },
+    ["<leader>f<space>"] = { ":FzfLua live_grep<CR>" },
+    ["<leader>fg"] = { ":FzfLua git_files<CR>" },
+    ["<leader>fq"] = { ":FzfLua quickfix<CR>" },
+    ["<leader>b"] = { ":FzfLua buffers<CR>" },
+    ["<leader>P"] = { ":FzfLua registers<CR>" },
+    ["<C-p>"] = { ":FzfLua files<CR>" },
+    ["<C-P>"] = { ":FzfLua files<CR>" },
+    ["<leader>fw"] = { ":FzfLua grep_string<CR>", opts = opts },
 
     ["<leader>cc"] = { ":Copilot panel<CR>" },
     ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },
@@ -192,16 +208,15 @@ M.general = {
     ["<leader>ggp"] = { ":Git push -f<CR>", "git force push" },
     ["<leader>gf"] = { ":Git fetch --all<CR>", "git fetch all" },
 
-    ["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits" },
-    ["<leader>go"] = { ":Telescope git_branches<CR>", "git branches" },
-    ["<leader>gs"] = { ":Telescope git_status<CR>", "git status" },
+    ["<leader>gl"] = { ":FzfLua git_commits<CR>", "git commits" },
+    ["<leader>go"] = { ":FzfLua git_branches<CR>", "git branches" },
+    ["<leader>gs"] = { ":FzfLua git_status<CR>", "git status" },
     ["<leader>gG"] = { ":Ggrep", "git grep" },
 
-    ["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes" },
+    ["<leader>gt"] = { ":FzfLua git_stash<CR>", "git list stashes" },
     ["<leader>gT"] = { ":Git stash", "git stash" },
 
-    ["<leader>d<tab>"] = { ":DBUI<CR>", "DB UI" },
-    ["<leader>dd"] = { ":.DB<CR>", "Run db query under cursor" },
+    ["<leader>B"] = { ":DBUI<CR>", "DB UI" },
 
     ["<leader>aa"] = { ":A<CR>", "open config" },
     ["<leader>aC"] = { ":Econfig<CR>", "open config" },
