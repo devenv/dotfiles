@@ -84,11 +84,11 @@ M.general = {
     ["<leader>,"] = { ":bp<CR>" },
     ["<leader>."] = { ":bn<CR>" },
     ["<leader>x"] = { ":bd<CR>" },
-    ["<leader>X"] = { ":%bd<CR>" },
-    ["<leader>!X"] = { ":%bd!<CR>" },
-    ["<leader>!x"] = { ":bd!<CR>" },
+    ["<leader>X"] = { ":bd!<CR>" },
+    ["<leader>!!x"] = { ":%bd!<CR>" },
     ["<C-s>"] = { "<PageUp>" },
     ["<C-f>"] = { "<PageDown>" },
+    ["<C-q>"] = { ":bd<CR>" },
 
     [")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>" },
     ["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>" },
@@ -97,38 +97,53 @@ M.general = {
     ["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>" },
     ["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>" },
 
-    ["<leader>k"] = { ":Lspsaga diagnostic_jump_prev<CR>", opts = opts },
-    ["<leader>j"] = { ":Lspsaga diagnostic_jump_next<CR>", opts = opts },
+    ["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
+    ["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
     ["<leader>e"] = { ":FzfLua diagnostics_workspace<CR>" },
     ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
     ["K"] = { ":FzfLua hover_doc<CR>" },
     ["gr"] = { ":FzfLua lsp_finder<CR>", opts = opts },
-    ["gi"] = { ":FzfLua incoming_calls<CR>", opts = opts },
+    ["gi"] = { ":FzfLua lsp_incoming_calls<CR>", opts = opts },
     ["go"] = { ":FzfLua outline<CR>", opts = opts },
 
-    ["<leader>ts"] = { ":lua require('neotest').summary.toggle()<CR>"},
     ["<leader>tt"] = { ":lua require('neotest').run.run()<CR>"},
-    ["<leader>td"] = { ":lua require('neotest').run.run({strategy = 'dap'})<CR>"},
+    ["<leader>tl"] = { ":lua require('neotest').run.run_last()<CR>"},
     ["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>:lua require('neotest').summary.open()<CR>"},
+
+    ["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>"},
     ["<leader>te"] = { ":lua require('neotest').output.open()<CR>"},
     ["<leader>to"] = { ":lua require('neotest').output_panel.toggle()<CR>"},
 
+    ["<leader>dt"] = { ":lua require('neotest').run.run({strategy = 'dap'})<CR>"},
+    ["<leader>df"] = { ":lua require('dap').run_to_cursor()<CR>"},
+    ["<leader>dl"] = { ":lua require('dap').run_last({strategy = 'dap'})<CR>"},
     ["<leader>d."] = { ":lua require('dap').toggle_breakpoint()<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>"},
+    ["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>"},
     ["<leader>da"] = { ":FzfLua dap_configurations<CR>"},
+
+    ["<leader>de"] = { ":lua require('neotest').output.open()<CR>"},
+    ["<leader>do"] = { ":lua require('neotest').output_panel.open({last_run = ture})<CR>"},
+    ["<leader>d<tab>"] = { ":lua require('dap').repl.toggle()<CR>"},
+
+    ["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>"},
     ["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>"},
+    ["<leader>tB"] = { ":FzfLua dap_breakpoints<CR>"},
     ["<leader>dB"] = { ":FzfLua dap_breakpoints<CR>"},
-    ["<leader>dc"] = { ":lua require('dap').continue()<CR>"},
+    ["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>"},
+
     ["<leader>dd"] = { ":lua require('dap').step_over()<CR>"},
     ["<leader>ds"] = { ":lua require('dap').step_into()<CR>"},
     ["<leader>dr"] = { ":lua require('dap').step_out()<CR>"},
     ["<leader>dk"] = { ":lua require('dap').up()<CR>"},
     ["<leader>dj"] = { ":lua require('dap').down()<CR>"},
+    ["<leader>dc"] = { ":lua require('dap').continue()<CR>"},
     ["<leader>dx"] = { ":lua require('dap').terminate()<CR>"},
-    ["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>"},
-    ["<leader>dt"] = { ":lua require('dap').run_to_cursor()<CR>"},
-    ["<leader>dR"] = { ":lua require('dap').restart()<CR>"},
-    ["<leader>dl"] = { ":lua require('dap').run_last()<CR>"},
-    ["<leader>d<tab>"] = { ":lua require('dap').repl.toggle()<CR>"},
+
+    ["<leader>dw"] = {
+      function()
+        require('dap.ui.widgets').hover()
+      end
+    },
     ["<leader>dF"] = { ":FzfLua dap_frames<CR>"},
     ["<leader>dS"] = {
       function()
@@ -140,11 +155,6 @@ M.general = {
       function()
           local widgets = require('dap.ui.widgets')
           widgets.centered_float(widgets.threads)
-      end
-    },
-    ["<leader>dw"] = {
-      function()
-        require('dap.ui.widgets').hover()
       end
     },
 
@@ -165,7 +175,7 @@ M.general = {
     ["<leader>P"] = { ":FzfLua registers<CR>" },
     ["<C-p>"] = { ":FzfLua files<CR>" },
     ["<C-P>"] = { ":FzfLua files<CR>" },
-    ["<leader>fw"] = { ":FzfLua grep_string<CR>", opts = opts },
+    ["<leader>fw"] = { ":FzfLua grep_cword<CR>", opts = opts },
 
     ["<leader>cc"] = { ":Copilot panel<CR>" },
     ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree" },

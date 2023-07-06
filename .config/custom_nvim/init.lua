@@ -14,12 +14,3 @@ vim.g.projectionist_heuristics = {
     },
   },
 }
-
-local autocmd = vim.api.nvim_create_autocmd
-
-autocmd("User", {
-  pattern = "StartifyBufferOpened",
-  callback = function()
-    vim.cmd("silent Dotenv")
-  end,
-})

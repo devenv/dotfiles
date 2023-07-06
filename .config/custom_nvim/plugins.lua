@@ -64,12 +64,12 @@ local plugins = {
 					end,
 				},
 				sources = {
-					{ name = "path", priority = 50, group_index = 1 },
-					{ name = "luasnip", priority = 50, group_index = 1 },
-					{ name = "nvim_lsp", priority = 40, group_index = 1 },
-					{ name = "nvim_lua", priority = 10, group_index = 1 },
+					{ name = "nvim_lsp", priority = 50, group_index = 1 },
+					{ name = "luasnip", priority = 5, group_index = 1 },
+					{ name = "copilot", priority = 5, group_index = 2 },
+					{ name = "path", priority = 2, group_index = 1 },
 					{ name = "vim-dadbod-completion", priority = 2, group_index = 1 },
-					{ name = "copilot", priority = 5, group_index = 1 },
+					{ name = "nvim_lua", priority = 1, group_index = 1 },
 					{
 						name = "buffer",
 						priority = 1,
@@ -84,15 +84,15 @@ local plugins = {
 				sorting = {
 					priority_weight = 4,
 					comparators = {
-						cmp.config.compare.exact,
-						cmp.config.compare.locality,
-						require("copilot_cmp.comparators").prioritize,
 						cmp.config.compare.score,
+						cmp.config.compare.locality,
+						cmp.config.compare.exact,
+						require("copilot_cmp.comparators").prioritize,
 						cmp.config.compare.recently_used,
 						cmp.config.compare.kind,
 						cmp.config.compare.sort_text,
-						cmp.config.compare.length,
 						cmp.config.compare.order,
+						cmp.config.compare.length,
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
@@ -184,6 +184,50 @@ local plugins = {
 		},
 		config = function()
 			require("neotest").setup({
+				quickfix = {
+					enabled = true,
+					open = false,
+				},
+				output = {
+					enabled = true,
+					open_on_run = true,
+				},
+				output_panel = {
+					enabled = true,
+					open = "botright split | resize 50",
+				},
+				status = {
+					enabled = true,
+					signs = true,
+					virtual_text = true,
+				},
+				summary = {
+					animated = true,
+					enabled = true,
+					expand_errors = true,
+					follow = true,
+					mappings = {
+						attach = "a",
+						clear_marked = "M",
+						clear_target = "T",
+						debug = "d",
+						debug_marked = "D",
+						expand = { "<CR>", "<2-LeftMouse>" },
+						expand_all = "e",
+						jumpto = "i",
+						mark = "m",
+						next_failed = "J",
+						output = "o",
+						prev_failed = "K",
+						run = "r",
+						run_marked = "R",
+						short = "O",
+						stop = "u",
+						target = "t",
+						watch = "w",
+					},
+					open = "botright vsplit | vertical resize 50",
+				},
 				adapters = {
 					require("neotest-python")({
 						dap = { justMyCode = false },
@@ -250,36 +294,6 @@ local plugins = {
 							enable = false,
 						},
 					},
-				},
-			})
-		end,
-	},
-	{
-		"glepnir/lspsaga.nvim",
-		event = "BufEnter",
-		config = function()
-			require("lspsaga").setup({
-				diagnostic = {
-					extend_relatedInformation = true,
-					show_code_action = false,
-					keys = {
-						exec_action = "o",
-						quit = "q",
-						expand_or_jump = "<CR>",
-						quit_in_show = { "q", "<ESC>" },
-					},
-				},
-				beacon = {
-					enable = false,
-				},
-				symbol_in_winbar = {
-					enable = false,
-				},
-				lightbulb = {
-					enable = false,
-				},
-				code_actions = {
-					show_server_name = true,
 				},
 			})
 		end,

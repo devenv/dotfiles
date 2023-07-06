@@ -77,7 +77,7 @@ vim.g.startify_lists = {
 	{ type = "bookmarks", header = { "Bookmarks" } },
 	{ type = "commands", header = { "Commands" } },
 }
-vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui", "silent! lua require('neotest').summary.close()", "silent! lua require('neotest').output.close()", "silent! lua require('neotest').output_panel.close()" }
+vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui" }
 
 vim.g.startify_session_savevars = { "makeprg" }
 
