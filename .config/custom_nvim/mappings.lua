@@ -25,6 +25,7 @@ M.disabled = {
 		["<C-l>"] = { "" },
 		["<tab>"] = { "" },
 		["<leader>f"] = { "" },
+		["<leader>h"] = { "" },
 		["<leader>fm"] = { "" },
 		["<leader>fw"] = { "" },
 		["<leader>n"] = { "" },

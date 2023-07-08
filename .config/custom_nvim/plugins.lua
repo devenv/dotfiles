@@ -321,10 +321,19 @@ local plugins = {
 		"ibhagwan/fzf-lua",
 		lazy = false,
 		config = function()
+			local actions = require("fzf-lua.actions")
 			require("fzf-lua").setup({
 				keymap = {
 					fzf = {
-						["CTRL-Q"] = "select-all+accept",
+						["ctrl-q"] = "select-all+accept",
+					},
+				},
+				git = {
+					status = {
+						actions = {
+							["ctrl-r"] = { fn = actions.git_reset, reload = true },
+							["ctrl-x"] = nil,
+						},
 					},
 				},
 			})
@@ -410,7 +419,7 @@ local plugins = {
 				"nvim-telescope/telescope.nvim",
 				dependencies = { "mhinz/vim-startify" },
 				config = function()
-          require("toggletasks").auto_spawn({ "SessionLoadPost" }, "auto")
+					require("toggletasks").auto_spawn({ "SessionLoadPost" }, "auto")
 				end,
 			},
 		},
@@ -422,7 +431,7 @@ local plugins = {
 					".tasks",
 				},
 				scan = {
-					dirs = { os.getenv("HOME") },
+					dirs = { os.getenv("HOME"), "../../../" },
 				},
 				toggleterm = {
 					close_on_exit = false,
