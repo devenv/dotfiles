@@ -77,7 +77,7 @@ vim.g.startify_lists = {
 	{ type = "bookmarks", header = { "Bookmarks" } },
 	{ type = "commands", header = { "Commands" } },
 }
-vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui" }
+vim.g.startify_session_before_save = { "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui", "Neotest summary close", "Neotest output-panel close" }
 
 vim.g.startify_session_savevars = { "makeprg" }
 

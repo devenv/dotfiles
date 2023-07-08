@@ -285,11 +285,30 @@ local plugins = {
 				respect_buf_cwd = true,
 				reload_on_bufenter = true,
 				sync_root_with_cwd = true,
+				update_focused_file = {
+					enable = true,
+					update_root = true,
+					ignore_list = {},
+				},
+				diagnostics = {
+					enable = false,
+					show_on_dirs = false,
+					severity = {
+						min = vim.diagnostic.severity.ERROR,
+						max = vim.diagnostic.severity.ERROR,
+					},
+				},
+				modified = {
+					enable = false,
+					show_on_dirs = true,
+					show_on_open_dirs = true,
+				},
 				view = {
 					width = 40,
 				},
 				actions = {
 					open_file = {
+						quit_on_open = true,
 						window_picker = {
 							enable = false,
 						},
@@ -380,6 +399,63 @@ local plugins = {
 				event = "BufEnter",
 			},
 		},
+	},
+	{
+		"jedrzejboczar/toggletasks.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"akinsho/toggleterm.nvim",
+			{
+				"nvim-telescope/telescope.nvim",
+				dependencies = { "mhinz/vim-startify" },
+				config = function()
+          require("toggletasks").auto_spawn({ "SessionLoadPost" }, "auto")
+				end,
+			},
+		},
+		config = function()
+			require("telescope").load_extension("toggletasks")
+			require("toggletasks").setup({
+				silent = false,
+				search_paths = {
+					".tasks",
+				},
+				scan = {
+					dirs = { os.getenv("HOME") },
+				},
+				toggleterm = {
+					close_on_exit = false,
+					hidden = true,
+				},
+				telescope = {
+					spawn = {
+						open_single = true,
+						show_running = true,
+						mappings = {
+							select_float = "<C-f>",
+							spawn_smart = "<C-a>",
+							spawn_all = "<C-A>",
+							spawn_selected = "<C-s>",
+						},
+					},
+					select = {
+						mappings = {
+							select_float = "<C-f>",
+							open_smart = "<C-a>",
+							open_all = "<C-A>",
+							open_selected = "<C-s>",
+							kill_smart = "<C-x>",
+							kill_all = nil,
+							kill_selected = nil,
+							respawn_smart = nil,
+							respawn_all = nil,
+							respawn_selected = nil,
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		"tpope/vim-unimpaired",

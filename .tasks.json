@@ -1,0 +1,13 @@
+{
+    "tasks": [
+        {
+            "name": "Rebase from main",
+            "cmd": "git fetch --all && git rebase origin/main -i"
+        },
+        {
+            "name": "Install debug pips",
+            "cmd": "pip install neovim debugpy pdbpp",
+            "tags": ["auto"]
+        }
+    ]
+}
