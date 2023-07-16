@@ -1,12 +1,14 @@
 --@type ChadrcConfig
 local M = {}
 
--- Path to overriding theme and highlights files
 local highlights = require("custom.highlights")
 
 M.ui = {
-	theme = "decay",
-	theme_toggle = { "decay", "one_light" },
+	theme = "cattpuccin",
+
+	statusline = {
+		theme = "vscode_colored",
+	},
 
 	hl_override = highlights.override,
 	hl_add = highlights.add,
@@ -38,10 +40,13 @@ vim.api.nvim_set_option("spell", false)
 vim.api.nvim_set_option("swapfile", false)
 vim.api.nvim_set_option("wrap", false)
 vim.api.nvim_set_option("nu", true)
-vim.api.nvim_set_option("rnu", true)
+vim.api.nvim_set_option("rnu", false)
 vim.api.nvim_set_option("scrolljump", 1)
 vim.api.nvim_set_option("scrolloff", 10)
-vim.api.nvim_set_option("sessionoptions", "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions")
+vim.api.nvim_set_option(
+	"sessionoptions",
+	"blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+)
 vim.api.nvim_set_option("shiftwidth", 2)
 vim.api.nvim_set_option("showmatch", true)
 vim.api.nvim_set_option("smartcase", true)
@@ -56,7 +61,7 @@ vim.api.nvim_set_option("undofile", true)
 vim.api.nvim_set_option("undolevels", 10000)
 vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
-vim.api.nvim_set_option("makeprg", os.getenv('MAKEPRG'))
+vim.api.nvim_set_option("makeprg", os.getenv("MAKEPRG"))
 
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
@@ -77,12 +82,23 @@ vim.g.startify_lists = {
 	{ type = "bookmarks", header = { "Bookmarks" } },
 	{ type = "commands", header = { "Commands" } },
 }
-vim.g.startify_session_before_save = { "silent! bd COMMIT_EDITMSG", "silent! NvimTreeClose", "silent! bd NvimTree_1", "silent! bd dbui", "Neotest summary close", "Neotest output-panel close" }
+vim.g.startify_session_before_save = {
+	"silent! bd COMMIT_EDITMSG",
+	"silent! NvimTreeClose",
+	"silent! bd NvimTree_1",
+	"silent! bd dbui",
+	"Neotest summary close",
+	"Neotest output-panel close",
+	"Vista!",
+}
 
 vim.g.startify_session_savevars = { "makeprg" }
 
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
+vim.diagnostic.config({
+  virtual_text = false,
+})
 
 M.mappings = require("custom.mappings")
 

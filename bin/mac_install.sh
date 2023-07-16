@@ -15,7 +15,7 @@ git clone https://github.com/devenv/ssh-keys.git .
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-brew install --force autoconf automake awscli bat cataclysm catimg clojure cmake cscope espanso extract_url fish fpp fzf gcc git graphviz gsed highlight htop imagemagick ispell iterm2 jq lua luajit lynx ncurses neovim nethack node nvm openjdk openssl@1.1 python@3.9 pyenv pyvim qcachegrind ranger readline remind ruby rust skhd sqlite telnet tmux tree-sitter universal-ctags urlview w3m wget yabai zsh discord dwarf-fortress-lmp mysqlworkbench ngrok notion rar spotify steam git-delta dog tldr duf rg oh-my-posh omz python-language-server python-lsp-black python-lsp-server pylsp-rope mypy miro bumpversion rope tox oh-my-zsh ffmpeg yippy clipy watch fd chafa
+brew install --force autoconf automake awscli bat cataclysm catimg clojure cmake cscope espanso extract_url fish fpp fzf gcc git graphviz gsed highlight htop imagemagick ispell iterm2 jq lua luajit lynx ncurses neovim nethack node nvm openjdk openssl@1.1 python@3.9 pyenv pyvim qcachegrind ranger readline remind ruby rust skhd sqlite telnet tmux tree-sitter universal-ctags urlview w3m wget yabai zsh discord dwarf-fortress-lmp mysqlworkbench ngrok notion rar spotify steam git-delta dog tldr duf rg oh-my-posh omz python-language-server python-lsp-black python-lsp-server pylsp-rope mypy miro bumpversion rope tox oh-my-zsh ffmpeg watch fd chafa maccy
 
 brew tap homebrew/cask-fonts
 brew install --cask font-iosevka

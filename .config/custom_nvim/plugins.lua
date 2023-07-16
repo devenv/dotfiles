@@ -184,6 +184,7 @@ local plugins = {
 		},
 		config = function()
 			require("neotest").setup({
+				log_level = 5,
 				quickfix = {
 					enabled = true,
 					open = false,
@@ -194,6 +195,7 @@ local plugins = {
 				},
 				output_panel = {
 					enabled = true,
+					open_on_run = false,
 					open = "botright split | resize 50",
 				},
 				status = {
@@ -278,16 +280,15 @@ local plugins = {
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
-		opts = overrides.nvimtree,
 		lazy = false,
 		config = function()
 			require("nvim-tree").setup({
-				respect_buf_cwd = true,
+				respect_buf_cwd = false,
 				reload_on_bufenter = true,
 				sync_root_with_cwd = true,
 				update_focused_file = {
 					enable = true,
-					update_root = true,
+					update_root = false,
 					ignore_list = {},
 				},
 				diagnostics = {
@@ -311,28 +312,6 @@ local plugins = {
 						quit_on_open = true,
 						window_picker = {
 							enable = false,
-						},
-					},
-				},
-			})
-		end,
-	},
-	{
-		"ibhagwan/fzf-lua",
-		lazy = false,
-		config = function()
-			local actions = require("fzf-lua.actions")
-			require("fzf-lua").setup({
-				keymap = {
-					fzf = {
-						["ctrl-q"] = "select-all+accept",
-					},
-				},
-				git = {
-					status = {
-						actions = {
-							["ctrl-r"] = { fn = actions.git_reset, reload = true },
-							["ctrl-x"] = nil,
 						},
 					},
 				},
@@ -415,13 +394,7 @@ local plugins = {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"akinsho/toggleterm.nvim",
-			{
-				"nvim-telescope/telescope.nvim",
-				dependencies = { "mhinz/vim-startify" },
-				config = function()
-					require("toggletasks").auto_spawn({ "SessionLoadPost" }, "auto")
-				end,
-			},
+			"nvim-telescope/telescope.nvim",
 		},
 		config = function()
 			require("telescope").load_extension("toggletasks")
@@ -520,7 +493,7 @@ local plugins = {
 	},
 	{
 		"tpope/vim-repeat",
-		event = "BufEnter",
+		lazy = true,
 	},
 	{
 		"christoomey/vim-sort-motion",
@@ -547,16 +520,108 @@ local plugins = {
 		event = "BufEnter",
 	},
 	{
-		"mhinz/vim-startify",
-		lazy = false,
-	},
-	{
 		"farmergreg/vim-lastplace",
 		lazy = false,
 	},
 	{
 		"ranelpadon/python-copy-reference.vim",
 		event = "BufEnter",
+	},
+	{
+		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		event = "BufEnter",
+		config = function()
+			require("lsp_lines").setup()
+		end,
+	},
+	{
+		"nvim-telescope/telescope-dap.nvim",
+		event = "BufEnter",
+		config = function()
+			require("telescope").load_extension("dap")
+		end,
+	},
+	{
+		"liuchengxu/vista.vim",
+		event = "BufEnter",
+		dependencies = {
+			{ "junegunn/fzf.vim", lazy = false },
+			{ "junegunn/fzf", lazy = false },
+		},
+	},
+	{ "ggandor/leap.nvim", event = "BufEnter" },
+	{
+		"ggandor/leap-spooky.nvim",
+		event = "BufEnter",
+		config = function()
+			require("leap-spooky").setup({
+				affixes = {
+					magnetic = { window = "m", cross_window = "M" },
+					remote = { window = "r", cross_window = "R" },
+				},
+				prefix = false,
+				paste_on_remote_yank = false,
+			})
+		end,
+	},
+	{
+		"jedrzejboczar/possession.nvim",
+		lazy = false,
+		config = function()
+			require("telescope").load_extension("possession")
+			require("possession").setup({
+				silent = false,
+				load_silent = true,
+				debug = false,
+				logfile = false,
+				prompt_no_cr = false,
+				autosave = {
+					current = true,
+					tmp = false,
+					tmp_name = "tmp",
+					on_load = true,
+					on_quit = true,
+				},
+				commands = {
+					save = "SSave",
+					load = "SLoad",
+					delete = "SDelete",
+					list = "SList",
+					rename = "PossessionRename",
+					close = "PossessionClose",
+					show = "PossessionShow",
+					migrate = "PossessionMigrate",
+				},
+				plugins = {
+					close_windows = {
+						hooks = { "before_save", "before_load" },
+						preserve_layout = true,
+						match = {
+							floating = true,
+							buftype = {},
+							filetype = {},
+							custom = false,
+						},
+					},
+					delete_hidden_buffers = false,
+					nvim_tree = true,
+					tabby = true,
+					dap = true,
+					delete_buffers = false,
+				},
+				telescope = {
+					list = {
+						default_action = "load",
+						mappings = {
+							save = { n = "<c-x>", i = "<c-x>" },
+							load = { n = "<c-v>", i = "<c-v>" },
+							delete = { n = "<c-t>", i = "<c-t>" },
+							rename = { n = "<c-r>", i = "<c-r>" },
+						},
+					},
+				},
+			})
+		end,
 	},
 }
 

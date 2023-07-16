@@ -6,8 +6,7 @@
         },
         {
             "name": "Install debug pips",
-            "cmd": "pip install neovim debugpy pdbpp jurigged",
-            "tags": ["auto"]
+            "cmd": "pip install neovim debugpy pdbpp jurigged"
         }
     ]
 }
