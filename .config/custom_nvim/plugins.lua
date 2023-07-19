@@ -29,6 +29,7 @@ local plugins = {
 			"L3MON4D3/LuaSnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-emoji",
 			{
 				"zbirenbaum/copilot-cmp",
 				event = "InsertEnter",
@@ -64,12 +65,13 @@ local plugins = {
 					end,
 				},
 				sources = {
+					{ name = "copilot", priority = 5, group_index = 2 },
 					{ name = "nvim_lsp", priority = 50, group_index = 1 },
 					{ name = "luasnip", priority = 5, group_index = 1 },
-					{ name = "copilot", priority = 5, group_index = 2 },
 					{ name = "path", priority = 2, group_index = 1 },
 					{ name = "vim-dadbod-completion", priority = 2, group_index = 1 },
 					{ name = "nvim_lua", priority = 1, group_index = 1 },
+					{ name = "emoji", priority = 1, group_index = 1 },
 					{
 						name = "buffer",
 						priority = 1,
@@ -128,6 +130,9 @@ local plugins = {
 							return vim_item
 						end,
 					}),
+				},
+				performance = {
+					max_view_entries = 20,
 				},
 			})
 		end,
@@ -336,6 +341,10 @@ local plugins = {
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+				},
 				textobjects = {
 					swap = {
 						enable = true,
@@ -440,6 +449,21 @@ local plugins = {
 		end,
 	},
 	{
+		"nvim-telescope/telescope.nvim",
+		config = function()
+			require("telescope").setup({
+				defaults = {
+					mappings = {
+						i = {
+							["<C-p>"] = require("telescope.actions").cycle_history_prev,
+							["<C-n>"] = require("telescope.actions").cycle_history_next,
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
 		"tpope/vim-unimpaired",
 		event = "BufEnter",
 	},
@@ -528,17 +552,159 @@ local plugins = {
 		event = "BufEnter",
 	},
 	{
-		"https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-		event = "BufEnter",
-		config = function()
-			require("lsp_lines").setup()
-		end,
-	},
-	{
 		"nvim-telescope/telescope-dap.nvim",
 		event = "BufEnter",
 		config = function()
 			require("telescope").load_extension("dap")
+		end,
+	},
+	{ "j-hui/fidget.nvim", event = "BufEnter" },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		dependencies = {
+			"lukas-reineke/indent-blankline.nvim",
+		},
+		priority = 1000,
+		config = function()
+			require("catppuccin").setup({
+				flavour = "mocha",
+				transparent_background = false,
+				show_end_of_buffer = false,
+				term_colors = true,
+				compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
+				styles = {
+					comments = {},
+					properties = {},
+					functions = {},
+					keywords = {},
+					operators = {},
+					conditionals = {},
+					loops = {},
+					booleans = {},
+					numbers = {},
+					types = {},
+					strings = {},
+					variables = {},
+				},
+				integrations = {
+					treesitter = true,
+					native_lsp = {
+						enabled = true,
+						virtual_text = {
+							errors = { "italic" },
+							hints = { "italic" },
+							warnings = { "italic" },
+							information = { "italic" },
+						},
+						underlines = {
+							errors = { "underline" },
+							hints = { "underline" },
+							warnings = { "underline" },
+							information = { "underline" },
+						},
+					},
+					aerial = false,
+					alpha = false,
+					barbar = false,
+					beacon = false,
+					cmp = true,
+					coc_nvim = false,
+					dap = { enabled = true, enable_ui = true },
+					dashboard = false,
+					fern = false,
+					fidget = true,
+					gitgutter = false,
+					gitsigns = true,
+					harpoon = false,
+					hop = true,
+					illuminate = true,
+					indent_blankline = { enabled = true, colored_indent_levels = true },
+					leap = false,
+					lightspeed = false,
+					lsp_saga = false,
+					lsp_trouble = false,
+					markdown = true,
+					mason = true,
+					mini = true,
+					navic = { enabled = false },
+					neogit = false,
+					neotest = true,
+					neotree = { enabled = true, show_root = true, transparent_panel = true },
+					noice = false,
+					notify = true,
+					nvimtree = true,
+					overseer = false,
+					pounce = false,
+					rainbow_delimiters = false,
+					semantic_tokens = true,
+					symbols_outline = false,
+					telekasten = false,
+					telescope = { enabled = true, style = "nvchad" },
+					treesitter_context = true,
+					ts_rainbow = false,
+					vim_sneak = false,
+					vimwiki = false,
+					which_key = true,
+				},
+				color_overrides = {},
+				highlight_overrides = {
+					all = function(cp)
+						return {
+							["@parameter"] = { style = {} },
+							NormalFloat = { fg = cp.text, bg = cp.mantle },
+							FloatBorder = {
+								fg = cp.mantle,
+								bg = cp.mantle,
+							},
+							CursorLineNr = { fg = cp.green },
+
+							DiagnosticVirtualTextError = { bg = cp.none },
+							DiagnosticVirtualTextWarn = { bg = cp.none },
+							DiagnosticVirtualTextInfo = { bg = cp.none },
+							DiagnosticVirtualTextHint = { bg = cp.none },
+							LspInfoBorder = { link = "FloatBorder" },
+
+							MasonNormal = { link = "NormalFloat" },
+
+							IndentBlanklineChar = { fg = cp.surface0 },
+							IndentBlanklineContextChar = { fg = cp.surface3, style = { "bold" } },
+							IndentBlanklineContextStart = { style = { "bold" } },
+
+							Pmenu = { fg = cp.overlay2, bg = cp.base },
+							PmenuBorder = { fg = cp.surface1, bg = cp.base },
+							PmenuSel = { bg = cp.green, fg = cp.base },
+							CmpItemAbbr = { fg = cp.overlay2 },
+							CmpItemAbbrMatch = { fg = cp.blue, style = { "bold" } },
+							CmpDoc = { link = "NormalFloat" },
+							CmpDocBorder = {
+								fg = cp.mantle,
+								bg = cp.mantle,
+							},
+
+							FidgetTask = { bg = cp.none, fg = cp.surface2 },
+							FidgetTitle = { fg = cp.blue, style = { "bold" } },
+
+							NvimTreeRootFolder = { fg = cp.pink },
+							NvimTreeIndentMarker = { fg = cp.surface0 },
+
+							TelescopeMatching = { fg = cp.lavender },
+							TelescopeResultsDiffAdd = { fg = cp.green },
+							TelescopeResultsDiffChange = { fg = cp.yellow },
+							TelescopeResultsDiffDelete = { fg = cp.red },
+
+							-- For nvim-treehopper
+							TSNodeKey = {
+								fg = cp.peach,
+								bg = cp.base,
+								style = { "bold", "underline" },
+							},
+
+							["@keyword.return"] = { fg = cp.pink },
+						}
+					end,
+				},
+			})
 		end,
 	},
 	{
@@ -607,7 +773,7 @@ local plugins = {
 					nvim_tree = true,
 					tabby = true,
 					dap = true,
-					delete_buffers = false,
+					delete_buffers = true,
 				},
 				telescope = {
 					list = {
@@ -621,6 +787,92 @@ local plugins = {
 					},
 				},
 			})
+		end,
+	},
+	{
+		"RRethy/vim-illuminate",
+		event = "BufEnter",
+		config = function()
+			require("illuminate").configure({
+				providers = {
+					"lsp",
+					"treesitter",
+					"regex",
+				},
+				delay = 100,
+				filetype_overrides = {},
+				filetypes_denylist = {
+					"fugitive",
+					"neotest",
+					"neotree",
+				},
+				under_cursor = true,
+				min_count_to_highlight = 1,
+			})
+		end,
+	},
+	{
+		"rcarriga/nvim-notify",
+		lazy = false,
+		config = function()
+			vim.notify = require("notify")
+			require("notify").setup({
+				timeout = 2000,
+			})
+		end,
+	},
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = "BufEnter",
+		config = function()
+			require("indent_blankline").setup({
+				show_current_context = true,
+				show_current_context_start = true,
+			})
+		end,
+	},
+	{
+		"gelguy/wilder.nvim",
+		event = "BufEnter",
+		config = function()
+			require("wilder").setup({ modes = { ":", "/", "?" } })
+		end,
+	},
+	{
+		"folke/edgy.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
+	{
+		"theHamsta/nvim-dap-virtual-text",
+		config = function()
+			require("nvim-dap-virtual-text").setup({
+				enabled = true,
+				enabled_commands = true,
+				highlight_changed_variables = true,
+				highlight_new_as_changed = false,
+				show_stop_reason = true,
+				commented = false,
+				only_first_definition = true,
+				all_references = false,
+				clear_on_continue = false,
+				virt_text_pos = vim.fn.has("nvim-0.10") == 1 and "inline" or "eol",
+
+				all_frames = false,
+				virt_lines = false,
+				virt_text_win_col = nil,
+			})
+		end,
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = { "mfussenegger/nvim-dap" },
+		config = function()
+			require("dapui").setup()
 		end,
 	},
 }

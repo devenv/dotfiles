@@ -31,6 +31,8 @@ M.treesitter = {
         ["ia"] = "@parameter.inner",
         ["ac"] = "@call.outer",
         ["ic"] = "@call.inner",
+        ["as"] = "@block.outer",
+        ["is"] = "@block.inner",
       },
     },
     swap = {

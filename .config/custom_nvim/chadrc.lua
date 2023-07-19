@@ -96,9 +96,8 @@ vim.g.startify_session_savevars = { "makeprg" }
 
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
-vim.diagnostic.config({
-  virtual_text = false,
-})
+
+vim.o.splitkeep = "screen"
 
 M.mappings = require("custom.mappings")
 

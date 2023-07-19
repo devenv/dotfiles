@@ -41,6 +41,9 @@ M.disabled = {
 		["<leader>td"] = { "" },
 		["<leader>/"] = { "" },
 	},
+o = {
+    ["is"] = { ""},
+  },
 	t = {
 		["<A-i>"] = { "" },
 		["<leader>/"] = { "" },
@@ -82,8 +85,8 @@ M.general = {
 		["<C-j>"] = { ":TmuxNavigateDown<CR>" },
 		["<C-k>"] = { ":TmuxNavigateUp<CR>" },
 		["<C-l>"] = { ":TmuxNavigateRight<CR>" },
-		["<leader>,"] = { ":bp<CR>" },
-		["<leader>."] = { ":bn<CR>" },
+		["H"] = { ":bp<CR>" },
+		["L"] = { ":bn<CR>" },
 		["<leader>x"] = { ":bd<CR>" },
 		["<leader>X"] = { ":bd!<CR>" },
 		["<leader>!!x"] = { ":%bd!<CR>" },
@@ -107,7 +110,7 @@ M.general = {
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>" },
 		["gr"] = { ":Telescope lsp_references<CR>", opts = opts },
 		["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
-		["go"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
+		["go"] = { ":Telescope lsp_outgoing_permission, calls<CR>", opts = opts },
 		["g<tab>"] = { ":Vista<CR>", opts = opts },
 		["<leader>F"] = { ":Vista finder<CR>", opts = opts },
 
@@ -115,6 +118,7 @@ M.general = {
 		["<leader>ws"] = { ":Telescope toggletasks select<CR>" },
 		["<leader>we"] = { ":Telescope toggletasks edit<CR>" },
 
+		["<leader>tr"] = { ":Dispatch<CR>" },
 		["<leader>tt"] = { ":lua require('neotest').run.run()<CR>" },
 		["<leader>tl"] = { ":lua require('neotest').run.run_last()<CR>" },
 		["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>" },
