@@ -6,6 +6,7 @@ local plugins = {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
+				"j-hui/fidget.nvim",
 				"jose-elias-alvarez/null-ls.nvim",
 				event = "BufEnter",
 				config = function()
@@ -14,7 +15,7 @@ local plugins = {
 			},
 			{
 				"psf/black",
-				event = "BufEnter",
+				event = "VeryLazy",
 			},
 		},
 		config = function()
@@ -40,7 +41,7 @@ local plugins = {
 			{
 				"zbirenbaum/copilot.lua",
 				cmd = "Copilot",
-				event = "BufEnter",
+				event = "VeryLazy",
 				config = function()
 					require("copilot").setup({
 						panel = {
@@ -385,15 +386,15 @@ local plugins = {
 	},
 	{
 		"tpope/vim-dadbod",
-		event = "BufEnter",
+		event = "VeryLazy",
 		dependencies = {
 			{
 				"kristijanhusak/vim-dadbod-ui",
-				event = "BufEnter",
+				event = "VeryLazy",
 			},
 			{
 				"kristijanhusak/vim-dadbod-completion",
-				event = "BufEnter",
+				event = "VeryLazy",
 			},
 		},
 	},
@@ -477,19 +478,19 @@ local plugins = {
 	},
 	{
 		"tpope/vim-dispatch",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"tpope/vim-fugitive",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"tpope/vim-characterize",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"tpope/vim-speeddating",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"tpope/vim-projectionist",
@@ -498,10 +499,6 @@ local plugins = {
 	{
 		"williamboman/mason.nvim",
 		opts = overrides.mason,
-	},
-	{
-		"camspiers/lens.vim",
-		event = "BufEnter",
 	},
 	{
 		"madox2/vim-ai",
@@ -517,15 +514,15 @@ local plugins = {
 	},
 	{
 		"tpope/vim-repeat",
-		lazy = true,
+		event = "BufEnter",
 	},
 	{
 		"christoomey/vim-sort-motion",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"michaeljsmith/vim-indent-object",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"wellle/targets.vim",
@@ -541,7 +538,7 @@ local plugins = {
 	},
 	{
 		"mbbill/undotree",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"farmergreg/vim-lastplace",
@@ -549,18 +546,18 @@ local plugins = {
 	},
 	{
 		"ranelpadon/python-copy-reference.vim",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	{
 		"nvim-telescope/telescope-dap.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		config = function()
 			require("telescope").load_extension("dap")
 		end,
 	},
-	{ "j-hui/fidget.nvim", event = "BufEnter" },
 	{
 		"catppuccin/nvim",
+		event = "BufEnter",
 		name = "catppuccin",
 		dependencies = {
 			"lukas-reineke/indent-blankline.nvim",
@@ -709,7 +706,7 @@ local plugins = {
 	},
 	{
 		"liuchengxu/vista.vim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		dependencies = {
 			{ "junegunn/fzf.vim", lazy = false },
 			{ "junegunn/fzf", lazy = false },
@@ -776,7 +773,7 @@ local plugins = {
 	},
 	{
 		"RRethy/vim-illuminate",
-		event = "BufEnter",
+		event = "VeryLazy",
 		config = function()
 			require("illuminate").configure({
 				providers = {
@@ -809,11 +806,35 @@ local plugins = {
 	},
 	{
 		"stevearc/dressing.nvim",
+		event = "BufEnter",
 		opts = {},
+    config = function()
+      require('dressing').setup({
+        input = {
+          enabled = true,
+          mappings = {
+            n = {
+              ["<Esc>"] = "Close",
+              ["<CR>"] = "Confirm",
+            },
+            i = {
+              ["<C-c>"] = "Close",
+              ["<CR>"] = "Confirm",
+              ["<Up>"] = "HistoryPrev",
+              ["<Down>"] = "HistoryNext",
+            },
+          },
+        },
+        select = {
+          enabled = true,
+          backend = { "telescope", "fzf", "builtin" },
+        },
+      })
+    end
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		config = function()
 			require("indent_blankline").setup({
 				show_current_context = true,
@@ -829,32 +850,32 @@ local plugins = {
 			vim.opt.splitkeep = "screen"
 		end,
 		opts = {
-      animate = {
-        enabled = false,
-      },
-      keys = {
-        ["q"] = function(win)
-          win:close()
-        end,
-        ["Q"] = function(win)
-          win.view.edgebar:close()
-        end,
-        ["<c-w>>"] = function(win)
-          win:resize("width", 10)
-        end,
-        ["<c-w><lt>"] = function(win)
-          win:resize("width", -10)
-        end,
-        ["<c-w>+"] = function(win)
-          win:resize("height", 2)
-        end,
-        ["<c-w>-"] = function(win)
-          win:resize("height", -2)
-        end,
-        ["<c-w>="] = function(win)
-          win.view.edgebar:equalize()
-        end,
-      },
+			animate = {
+				enabled = false,
+			},
+			keys = {
+				["q"] = function(win)
+					win:close()
+				end,
+				["Q"] = function(win)
+					win.view.edgebar:close()
+				end,
+				["<c-w>>"] = function(win)
+					win:resize("width", 10)
+				end,
+				["<c-w><lt>"] = function(win)
+					win:resize("width", -10)
+				end,
+				["<c-w>+"] = function(win)
+					win:resize("height", 2)
+				end,
+				["<c-w>-"] = function(win)
+					win:resize("height", -2)
+				end,
+				["<c-w>="] = function(win)
+					win.view.edgebar:equalize()
+				end,
+			},
 			bottom = {
 				{
 					ft = "toggleterm",
@@ -927,6 +948,7 @@ local plugins = {
 	},
 	{
 		"rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
 			require("dapui").setup({
@@ -972,6 +994,7 @@ local plugins = {
 	},
 	{
 		"echasnovski/mini.nvim",
+    event = "VeryLazy",
 		version = "*",
 		config = function()
 			require("mini.colors").setup()
@@ -999,6 +1022,20 @@ local plugins = {
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
+	},
+	{
+		"kdheepak/lazygit.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("lazy").setup({
+				{
+					"kdheepak/lazygit.nvim",
+					dependencies = {
+						"nvim-lua/plenary.nvim",
+					},
+				},
+			})
+		end,
 	},
 }
 
