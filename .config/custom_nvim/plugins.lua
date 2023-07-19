@@ -715,21 +715,6 @@ local plugins = {
 			{ "junegunn/fzf", lazy = false },
 		},
 	},
-	{ "ggandor/leap.nvim", event = "BufEnter" },
-	{
-		"ggandor/leap-spooky.nvim",
-		event = "BufEnter",
-		config = function()
-			require("leap-spooky").setup({
-				affixes = {
-					magnetic = { window = "m", cross_window = "M" },
-					remote = { window = "r", cross_window = "R" },
-				},
-				prefix = false,
-				paste_on_remote_yank = false,
-			})
-		end,
-	},
 	{
 		"jedrzejboczar/possession.nvim",
 		lazy = false,
@@ -817,7 +802,8 @@ local plugins = {
 		config = function()
 			vim.notify = require("notify")
 			require("notify").setup({
-				timeout = 2000,
+				timeout = 1000,
+				max_width = 60,
 			})
 		end,
 	},
@@ -836,26 +822,97 @@ local plugins = {
 		end,
 	},
 	{
-		"gelguy/wilder.nvim",
-		event = "BufEnter",
-		config = function()
-			require("wilder").setup({ modes = { ":", "/", "?" } })
-		end,
-	},
-	{
 		"folke/edgy.nvim",
-		event = "VeryLazy",
-		opts = {},
+		event = "BufEnter",
+		init = function()
+			vim.opt.laststatus = 3
+			vim.opt.splitkeep = "screen"
+		end,
+		opts = {
+      animate = {
+        enabled = false,
+      },
+      keys = {
+        ["q"] = function(win)
+          win:close()
+        end,
+        ["Q"] = function(win)
+          win.view.edgebar:close()
+        end,
+        ["<c-w>>"] = function(win)
+          win:resize("width", 10)
+        end,
+        ["<c-w><lt>"] = function(win)
+          win:resize("width", -10)
+        end,
+        ["<c-w>+"] = function(win)
+          win:resize("height", 2)
+        end,
+        ["<c-w>-"] = function(win)
+          win:resize("height", -2)
+        end,
+        ["<c-w>="] = function(win)
+          win.view.edgebar:equalize()
+        end,
+      },
+			bottom = {
+				{
+					ft = "toggleterm",
+					size = { height = 0.4 },
+					filter = function(_, win)
+						return vim.api.nvim_win_get_config(win).relative == ""
+					end,
+				},
+				{ ft = "qf", title = "QuickFix" },
+				{
+					ft = "help",
+					size = { height = 20 },
+					filter = function(buf)
+						return vim.bo[buf].buftype == "help"
+					end,
+				},
+			},
+			left = {
+				{
+					title = "Nvimtree",
+					ft = "NvimTree",
+					size = { width = 40, height = 0.4 },
+				},
+				{
+					title = "Scopes",
+					ft = "dapui_scopes",
+					size = { height = 0.3 },
+				},
+				{
+					title = "Watches",
+					ft = "dapui_watches",
+					size = { width = 40, height = 0.4 },
+				},
+				{
+					title = "Stacks",
+					ft = "dapui_stacks",
+					size = { height = 0.3 },
+				},
+			},
+			right = {
+				{
+					title = "Tests",
+					ft = "neotest-summary",
+					size = { width = 0.3 },
+				},
+			},
+		},
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
+		event = "VeryLazy",
 		config = function()
 			require("nvim-dap-virtual-text").setup({
 				enabled = true,
 				enabled_commands = true,
 				highlight_changed_variables = true,
 				highlight_new_as_changed = false,
-				show_stop_reason = true,
+				show_stop_reason = false,
 				commented = false,
 				only_first_definition = true,
 				all_references = false,
@@ -872,8 +929,76 @@ local plugins = {
 		"rcarriga/nvim-dap-ui",
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
-			require("dapui").setup()
+			require("dapui").setup({
+				controls = {
+					element = "repl",
+					enabled = false,
+				},
+				layouts = {
+					{
+						elements = {
+							{
+								id = "scopes",
+								size = 0.3,
+							},
+							{
+								id = "watches",
+								size = 0.4,
+							},
+							{
+								id = "stacks",
+								size = 0.3,
+							},
+						},
+						position = "left",
+						size = 20,
+					},
+					{
+						elements = {},
+						position = "bottom",
+						size = 10,
+					},
+				},
+				mappings = {
+					edit = "e",
+					expand = { "<CR>", "<2-LeftMouse>" },
+					open = "o",
+					remove = "d",
+					repl = "r",
+					toggle = "t",
+				},
+			})
 		end,
+	},
+	{
+		"echasnovski/mini.nvim",
+		version = "*",
+		config = function()
+			require("mini.colors").setup()
+			require("mini.comment").setup()
+			require("mini.move").setup()
+			require("mini.bufremove").setup({
+				silent = true,
+			})
+			require("mini.splitjoin").setup({
+				mappings = {
+					toggle = "gJ",
+				},
+			})
+		end,
+	},
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
 	},
 }
 

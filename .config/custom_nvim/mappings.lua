@@ -41,9 +41,9 @@ M.disabled = {
 		["<leader>td"] = { "" },
 		["<leader>/"] = { "" },
 	},
-o = {
-    ["is"] = { ""},
-  },
+	o = {
+		["is"] = { "" },
+	},
 	t = {
 		["<A-i>"] = { "" },
 		["<leader>/"] = { "" },
@@ -60,9 +60,6 @@ M.general = {
 		["<leader><leader>"] = { "<C-^>", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>" },
-		["<leader>s"] = { ":silent wa<CR>" },
-		["<leader>q"] = { ":silent wqa<CR>" },
-		["<leader>!!"] = { ":silent cq<CR>" },
 
 		["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR>" },
 		["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR>" },
@@ -87,9 +84,12 @@ M.general = {
 		["<C-l>"] = { ":TmuxNavigateRight<CR>" },
 		["H"] = { ":bp<CR>" },
 		["L"] = { ":bn<CR>" },
-		["<leader>x"] = { ":bd<CR>" },
+		["X"] = { ":bd<CR>" },
 		["<leader>X"] = { ":bd!<CR>" },
 		["<leader>!!x"] = { ":%bd!<CR>" },
+		["<leader>s"] = { ":silent wa<CR>" },
+		["<leader>q"] = { ":silent wqa<CR>" },
+		["<leader>!!"] = { ":silent cq<CR>" },
 		["<C-s>"] = { "<PageUp>" },
 		["<C-f>"] = { "<PageDown>" },
 		["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>" },
@@ -128,11 +128,11 @@ M.general = {
 		["<leader>te"] = { ":lua require('neotest').output.open()<CR>" },
 		["<leader>to"] = { ":lua require('neotest').output_panel.toggle()<CR>" },
 
-		["<leader>dt"] = { ":lua require('neotest').run.run({strategy = 'dap'})<CR>" },
-		["<leader>df"] = { ":lua require('dap').run_to_cursor()<CR>" },
-		["<leader>dl"] = { ":lua require('dap').run_last({strategy = 'dap'})<CR>" },
+		["<leader>dt"] = { ":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>" },
+		["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>" },
+		["<leader>dl"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>" },
 		["<leader>d."] = {
-			":lua require('dap').toggle_breakpoint()<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
+			":lua require('dap').toggle_breakpoint()<CR>:lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
 		},
 		["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>" },
 		["<leader>da"] = { ":Telescope dap configurations<CR>" },
@@ -140,7 +140,7 @@ M.general = {
 
 		["<leader>de"] = { ":lua require('neotest').output.open()<CR>" },
 		["<leader>do"] = { ":lua require('neotest').output_panel.open({last_run = ture})<CR>" },
-		["<leader>d<tab>"] = { ":lua require('dap').repl.toggle()<CR>" },
+		["<leader>d<tab>"] = { ":lua require('dapui').toggle()<CR>" },
 
 		["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>" },
 		["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>" },
@@ -155,6 +155,11 @@ M.general = {
 		["<leader>dc"] = { ":lua require('dap').continue()<CR>" },
 		["<leader>dx"] = { ":lua require('dap').terminate()<CR>" },
 
+		["<leader>dW"] = {
+			function()
+				require("dapui").elements.watches.add(vim.fn.expand("<cword>"))
+			end,
+		},
 		["<leader>dw"] = {
 			function()
 				require("dap.ui.widgets").hover()
