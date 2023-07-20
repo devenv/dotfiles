@@ -7,7 +7,7 @@ local plugins = {
 		dependencies = {
 			{
 				"jose-elias-alvarez/null-ls.nvim",
-				event = "BufEnter",
+				event = "VeryLazy",
 				config = function()
 					require("custom.configs.null-ls")
 				end,
@@ -20,7 +20,7 @@ local plugins = {
 	},
 	{
 		"j-hui/fidget.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 	},
 	"psf/black",
 	event = "VeryLazy",
@@ -141,7 +141,7 @@ local plugins = {
 	},
 	{
 		"nvim-neotest/neotest",
-		event = "BufEnter",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -393,10 +393,6 @@ local plugins = {
 				"kristijanhusak/vim-dadbod-ui",
 				event = "VeryLazy",
 			},
-			{
-				"kristijanhusak/vim-dadbod-completion",
-				event = "VeryLazy",
-			},
 		},
 	},
 	{
@@ -483,7 +479,7 @@ local plugins = {
 	},
 	{
 		"tpope/vim-fugitive",
-		event = "BufEnter",
+		event = "VeryLazy",
 		config = function()
 			vim.cmd("call FugitiveDetect(getcwd())")
 		end,
@@ -503,6 +499,7 @@ local plugins = {
 	{
 		"williamboman/mason.nvim",
 		opts = overrides.mason,
+		lazy = true,
 	},
 	{
 		"madox2/vim-ai",
@@ -522,11 +519,11 @@ local plugins = {
 	},
 	{
 		"christoomey/vim-sort-motion",
-		event = "VeryLazy",
+		event = "BufEnter",
 	},
 	{
 		"michaeljsmith/vim-indent-object",
-		event = "VeryLazy",
+		event = "BufEnter",
 	},
 	{
 		"wellle/targets.vim",
@@ -543,10 +540,6 @@ local plugins = {
 	{
 		"mbbill/undotree",
 		event = "VeryLazy",
-	},
-	{
-		"farmergreg/vim-lastplace",
-		lazy = false,
 	},
 	{
 		"ranelpadon/python-copy-reference.vim",
@@ -717,7 +710,7 @@ local plugins = {
 	},
 	{
 		"liuchengxu/vista.vim",
-		event = "VeryLazy",
+		lazy = true,
 		dependencies = {
 			{ "junegunn/fzf.vim", lazy = false },
 			{ "junegunn/fzf", lazy = false },
@@ -726,6 +719,9 @@ local plugins = {
 	{
 		"jedrzejboczar/possession.nvim",
 		lazy = false,
+		dependencies = {
+			"tpope/vim-fugitive",
+		},
 		config = function()
 			require("telescope").load_extension("possession")
 			require("possession").setup({
@@ -768,11 +764,11 @@ local plugins = {
 					tabby = true,
 					dap = true,
 					delete_buffers = true,
-          close_windows = {
-            match = {
-              filetype = { "twiggy" }
-            }
-          }
+					close_windows = {
+						match = {
+							filetype = { "twiggy" },
+						},
+					},
 				},
 				telescope = {
 					list = {
@@ -824,7 +820,7 @@ local plugins = {
 	},
 	{
 		"stevearc/dressing.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		opts = {},
 		config = function()
 			require("dressing").setup({
@@ -862,7 +858,7 @@ local plugins = {
 	},
 	{
 		"folke/edgy.nvim",
-		event = "BufEnter",
+		event = "VeryLazy",
 		init = function()
 			vim.opt.laststatus = 3
 			vim.opt.splitkeep = "screen"
@@ -971,7 +967,7 @@ local plugins = {
 	},
 	{
 		"rcarriga/nvim-dap-ui",
-		event = "VeryLazy",
+		lazy = true,
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
 			require("dapui").setup({
@@ -1035,7 +1031,7 @@ local plugins = {
 	},
 	{
 		"folke/flash.nvim",
-		event = "VeryLazy",
+		event = "BufEnter",
 		opts = {},
     -- stylua: ignore
     keys = {
@@ -1052,7 +1048,7 @@ local plugins = {
 			"junegunn/gv.vim",
 			"tpope/vim-fugitive",
 		},
-		event = "VeryLazy",
+		lazy = true,
 	},
 	{
 		"tanvirtin/vgit.nvim",
