@@ -77,6 +77,8 @@ M.general = {
 
 		["{"] = { ":normal [c<CR>" },
 		["}"] = { ":normal ]c<CR>" },
+		["]]"] = { ":cnext<CR>" },
+		["[["] = { ":cprev<CR>" },
 
 		["<C-h>"] = { ":TmuxNavigateLeft<CR>" },
 		["<C-j>"] = { ":TmuxNavigateDown<CR>" },
@@ -249,8 +251,9 @@ M.general = {
 		["<leader>gf"] = { ":Git fetch --all<CR>", "git fetch all" },
 
 		["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits" },
-		["<leader>go"] = { ":Telescope git_branches<CR>", "git branches" },
-		["<leader>gs"] = { ":Telescope git_status<CR>", "git status" },
+		["<leader>go"] = { ":Twiggy <CR>", "git branches" },
+		["<leader>gs"] = { ":VGit project_diff_preview<CR>", "git status" },
+		["<leader>gS"] = { ":VGit project_hunks_preview<CR>", "git status" },
 		["<leader>gG"] = { ":Ggrep", "git grep" },
 
 		["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes" },

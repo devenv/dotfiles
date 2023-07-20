@@ -483,7 +483,10 @@ local plugins = {
 	},
 	{
 		"tpope/vim-fugitive",
-		event = "VeryLazy",
+		event = "BufEnter",
+		config = function()
+			vim.cmd("call FugitiveDetect(getcwd())")
+		end,
 	},
 	{
 		"tpope/vim-characterize",
@@ -735,9 +738,11 @@ local plugins = {
 					before_save = function()
 						require("neotest").summary.close()
 						require("neotest").output_panel.close()
-						require("edgy").close()
 						require("dapui").close()
 						return true
+					end,
+					after_load = function()
+						vim.cmd("call FugitiveDetect(getcwd())")
 					end,
 				},
 				autosave = {
@@ -763,6 +768,11 @@ local plugins = {
 					tabby = true,
 					dap = true,
 					delete_buffers = true,
+          close_windows = {
+            match = {
+              filetype = { "twiggy" }
+            }
+          }
 				},
 				telescope = {
 					list = {
@@ -895,7 +905,7 @@ local plugins = {
 				{ ft = "qf", title = "QuickFix" },
 				{
 					ft = "help",
-					size = { height = 0.5 },
+					size = { height = 0.7 },
 					filter = function(buf)
 						return vim.bo[buf].buftype == "help"
 					end,
@@ -927,6 +937,11 @@ local plugins = {
 				{
 					title = "Tests",
 					ft = "neotest-summary",
+					size = { width = 0.3 },
+				},
+				{
+					title = "Branches",
+					ft = "twiggy",
 					size = { width = 0.3 },
 				},
 			},
@@ -1031,6 +1046,64 @@ local plugins = {
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
 	},
+	{
+		"sodapopcan/vim-twiggy",
+		dependencies = {
+			"junegunn/gv.vim",
+			"tpope/vim-fugitive",
+		},
+		event = "VeryLazy",
+	},
+	{
+		"tanvirtin/vgit.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("vgit").setup({
+				settings = {
+					live_blame = {
+						enabled = false,
+					},
+					live_gutter = {
+						enabled = true,
+						edge_navigation = true,
+					},
+					authorship_code_lens = {
+						enabled = false,
+					},
+					scene = {
+						diff_preference = "split",
+					},
+					diff_preview = {
+						keymaps = {
+							buffer_stage = "a",
+							buffer_unstage = "u",
+							buffer_hunk_stage = "ga",
+							buffer_hunk_unstage = "gu",
+							toggle_view = "t",
+						},
+					},
+					project_diff_preview = {
+						keymaps = {
+							buffer_stage = "a",
+							buffer_unstage = "u",
+							buffer_hunk_stage = "ga",
+							buffer_hunk_unstage = "gu",
+							buffer_reset = "U",
+							stage_all = "A",
+							unstage_all = "R",
+							reset_all = "X",
+						},
+					},
+					project_commit_preview = {
+						keymaps = {
+							save = "Q",
+						},
+					},
+				},
+			})
+		end,
+	},
+	{ "kevinhwang91/nvim-bqf", event = "VeryLazy" },
 }
 
 return plugins

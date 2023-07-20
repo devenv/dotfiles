@@ -9,4 +9,4 @@
             "cmd": "pip install neovim debugpy pdbpp jurigged black pylsp-rope python-language-server python-lsp-black python-lsp-server"
         }
     ]
-}
+

@@ -71,6 +71,10 @@ vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 
 vim.o.splitkeep = "screen"
 
+vim.g.twiggy_set_upstream = 1
+vim.g.twiggy_refresh_buffers = 1
+vim.g.twiggy_prompted_force_push = 1
+
 M.mappings = require("custom.mappings")
 
 return M
