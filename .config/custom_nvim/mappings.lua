@@ -131,9 +131,7 @@ M.general = {
 		["<leader>dt"] = { ":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>" },
 		["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>" },
 		["<leader>dl"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>" },
-		["<leader>d."] = {
-			":lua require('dap').toggle_breakpoint()<CR>:lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
-		},
+
 		["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>" },
 		["<leader>da"] = { ":Telescope dap configurations<CR>" },
 		["<leader>dA"] = { ":Telescope dap commands<CR>" },
@@ -148,9 +146,12 @@ M.general = {
 		["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>" },
 
 		["<leader>dd"] = { ":lua require('dap').step_over()<CR>" },
+		["∆"] = { ":lua require('dap').step_over()<CR>" },
 		["<leader>ds"] = { ":lua require('dap').step_into()<CR>" },
+		["˚"] = { ":lua require('dap').step_into()<CR>" },
 		["<leader>dr"] = { ":lua require('dap').step_out()<CR>" },
-		["<leader>dk"] = { ":lua require('dap').up()<CR>" },
+		["ø"] = { ":lua require('dap').step_out()<CR>" },
+    ["<leader>dk"] = { ":lua require('dap').up()<CR>" },
 		["<leader>dj"] = { ":lua require('dap').down()<CR>" },
 		["<leader>dc"] = { ":lua require('dap').continue()<CR>" },
 		["<leader>dx"] = { ":lua require('dap').terminate()<CR>" },
@@ -179,8 +180,8 @@ M.general = {
 			end,
 		},
 
-		["<leader>ra"] = { ":Lspsaga code_action<CR>" },
-		["<leader>rn"] = { ":Lspsaga rename<CR>" },
+		["<leader>ra"] = { ":lua vim.lsp.buf.code_action()<CR>" },
+		["<leader>rn"] = { ":lua vim.lsp.buf.rename()<CR>" },
 		["<leader>re"] = {
 			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>",
 		},
@@ -281,8 +282,8 @@ M.general = {
 	},
 	v = {
 		["\\"] = { '"+y' },
-		["<leader>ra"] = { ":Lspsaga code_action<CR>" },
-		["<leader>rn"] = { ":Lspsaga rename<CR>" },
+		["<leader>ra"] = { ":lua vim.lsp.buf.code_action()<CR>" },
+		["<leader>rn"] = { ":lua vim.lsp.buf.rename()<CR>" },
 		["<leader>re"] = {
 			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>",
 		},

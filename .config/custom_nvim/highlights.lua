@@ -4,20 +4,5 @@
 
 local M = {}
 
----@type Base46HLGroupsList
-M.override = {
-  Comment = {
-    italic = true,
-  },
-}
-
----@type HLTable
-M.add = {
-  Normal = { bg = "#111016" },
-  CursorLine = { bold = true },
-  CursorLineNr = { bold = true },
-  DiffChange = { bg = "233", fg = "25" },
-  IndentBlanklineContextStart = { bg = "#212121" },
-}
 
 return M

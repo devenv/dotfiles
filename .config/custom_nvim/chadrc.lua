@@ -66,34 +66,6 @@ vim.api.nvim_set_option("makeprg", os.getenv("MAKEPRG"))
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
-vim.g.startify_bookmarks = 0
-vim.g.startify_change_to_dir = 1
-vim.g.startify_change_to_vcs_root = 1
-vim.g.startify_custom_header = {}
-vim.g.startify_update_oldfiles = 1
-vim.g.startify_enable_special = 1
-vim.g.startify_enable_unsafe = 1
-vim.g.startify_session_autoload = 1
-vim.g.startify_session_persistence = 1
-vim.g.startify_lists = {
-	{ type = "sessions", header = { "Sessions" } },
-	{ type = "dir", header = { "Dir MRU" } },
-	{ type = "files", header = { "MRU" } },
-	{ type = "bookmarks", header = { "Bookmarks" } },
-	{ type = "commands", header = { "Commands" } },
-}
-vim.g.startify_session_before_save = {
-	"silent! bd COMMIT_EDITMSG",
-	"silent! NvimTreeClose",
-	"silent! bd NvimTree_1",
-	"silent! bd dbui",
-	"Neotest summary close",
-	"Neotest output-panel close",
-	"Vista!",
-}
-
-vim.g.startify_session_savevars = { "makeprg" }
-
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 

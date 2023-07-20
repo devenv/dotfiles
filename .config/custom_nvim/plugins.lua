@@ -6,16 +6,11 @@ local plugins = {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
-				"j-hui/fidget.nvim",
 				"jose-elias-alvarez/null-ls.nvim",
 				event = "BufEnter",
 				config = function()
 					require("custom.configs.null-ls")
 				end,
-			},
-			{
-				"psf/black",
-				event = "VeryLazy",
 			},
 		},
 		config = function()
@@ -23,6 +18,12 @@ local plugins = {
 			require("custom.configs.lspconfig")
 		end,
 	},
+	{
+		"j-hui/fidget.nvim",
+		event = "BufEnter",
+	},
+	"psf/black",
+	event = "VeryLazy",
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -140,7 +141,7 @@ local plugins = {
 	},
 	{
 		"nvim-neotest/neotest",
-		lazy = false,
+		event = "BufEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -192,7 +193,7 @@ local plugins = {
 			require("neotest").setup({
 				log_level = 5,
 				quickfix = {
-					enabled = true,
+					enabled = false,
 					open = false,
 				},
 				output = {
@@ -570,6 +571,11 @@ local plugins = {
 				show_end_of_buffer = false,
 				term_colors = true,
 				compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
+				dim_inactive = {
+					enabled = false, -- dims the background color of inactive window
+					shade = "dark",
+					percentage = -0.3, -- percentage of the shade to apply to the inactive window
+				},
 				styles = {
 					comments = {},
 					properties = {},
@@ -649,6 +655,8 @@ local plugins = {
 					all = function(cp)
 						return {
 							["@parameter"] = { style = {} },
+							Normal = { bg = cp.crust },
+							NormalNC = { bg = cp.crust },
 							NormalFloat = { fg = cp.text, bg = cp.mantle },
 							FloatBorder = {
 								fg = cp.mantle,
@@ -718,14 +726,23 @@ local plugins = {
 		config = function()
 			require("telescope").load_extension("possession")
 			require("possession").setup({
-				silent = false,
+				silent = true,
 				load_silent = true,
 				debug = false,
-				logfile = false,
+				logfile = true,
 				prompt_no_cr = false,
+				hooks = {
+					before_save = function()
+						require("neotest").summary.close()
+						require("neotest").output_panel.close()
+						require("edgy").close()
+						require("dapui").close()
+						return true
+					end,
+				},
 				autosave = {
 					current = true,
-					tmp = false,
+					tmp = true,
 					tmp_name = "tmp",
 					on_load = true,
 					on_quit = true,
@@ -741,16 +758,6 @@ local plugins = {
 					migrate = "PossessionMigrate",
 				},
 				plugins = {
-					close_windows = {
-						hooks = { "before_save", "before_load" },
-						preserve_layout = true,
-						match = {
-							floating = true,
-							buftype = {},
-							filetype = {},
-							custom = false,
-						},
-					},
 					delete_hidden_buffers = false,
 					nvim_tree = true,
 					tabby = true,
@@ -801,6 +808,7 @@ local plugins = {
 			require("notify").setup({
 				timeout = 1000,
 				max_width = 60,
+				top_down = false,
 			})
 		end,
 	},
@@ -808,29 +816,29 @@ local plugins = {
 		"stevearc/dressing.nvim",
 		event = "BufEnter",
 		opts = {},
-    config = function()
-      require('dressing').setup({
-        input = {
-          enabled = true,
-          mappings = {
-            n = {
-              ["<Esc>"] = "Close",
-              ["<CR>"] = "Confirm",
-            },
-            i = {
-              ["<C-c>"] = "Close",
-              ["<CR>"] = "Confirm",
-              ["<Up>"] = "HistoryPrev",
-              ["<Down>"] = "HistoryNext",
-            },
-          },
-        },
-        select = {
-          enabled = true,
-          backend = { "telescope", "fzf", "builtin" },
-        },
-      })
-    end
+		config = function()
+			require("dressing").setup({
+				input = {
+					enabled = true,
+					mappings = {
+						n = {
+							["<Esc>"] = "Close",
+							["<CR>"] = "Confirm",
+						},
+						i = {
+							["<C-c>"] = "Close",
+							["<CR>"] = "Confirm",
+							["<Up>"] = "HistoryPrev",
+							["<Down>"] = "HistoryNext",
+						},
+					},
+				},
+				select = {
+					enabled = true,
+					backend = { "telescope", "fzf", "builtin" },
+				},
+			})
+		end,
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
@@ -867,10 +875,10 @@ local plugins = {
 					win:resize("width", -10)
 				end,
 				["<c-w>+"] = function(win)
-					win:resize("height", 2)
+					win:resize("height", 10)
 				end,
 				["<c-w>-"] = function(win)
-					win:resize("height", -2)
+					win:resize("height", -10)
 				end,
 				["<c-w>="] = function(win)
 					win.view.edgebar:equalize()
@@ -887,7 +895,7 @@ local plugins = {
 				{ ft = "qf", title = "QuickFix" },
 				{
 					ft = "help",
-					size = { height = 20 },
+					size = { height = 0.5 },
 					filter = function(buf)
 						return vim.bo[buf].buftype == "help"
 					end,
@@ -897,7 +905,7 @@ local plugins = {
 				{
 					title = "Nvimtree",
 					ft = "NvimTree",
-					size = { width = 40, height = 0.4 },
+					size = { width = 0.3, height = 0.4 },
 				},
 				{
 					title = "Scopes",
@@ -948,7 +956,7 @@ local plugins = {
 	},
 	{
 		"rcarriga/nvim-dap-ui",
-    event = "VeryLazy",
+		event = "VeryLazy",
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
 			require("dapui").setup({
@@ -994,7 +1002,7 @@ local plugins = {
 	},
 	{
 		"echasnovski/mini.nvim",
-    event = "VeryLazy",
+		event = "VeryLazy",
 		version = "*",
 		config = function()
 			require("mini.colors").setup()
@@ -1016,26 +1024,12 @@ local plugins = {
 		opts = {},
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
       { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
-	},
-	{
-		"kdheepak/lazygit.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("lazy").setup({
-				{
-					"kdheepak/lazygit.nvim",
-					dependencies = {
-						"nvim-lua/plenary.nvim",
-					},
-				},
-			})
-		end,
 	},
 }
 
