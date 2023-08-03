@@ -42,7 +42,8 @@ local plugins = {
 			{
 				"zbirenbaum/copilot.lua",
 				cmd = "Copilot",
-				event = "VeryLazy",
+				event = "BufEnter",
+
 				config = function()
 					require("copilot").setup({
 						panel = {
@@ -293,6 +294,11 @@ local plugins = {
 				respect_buf_cwd = false,
 				reload_on_bufenter = true,
 				sync_root_with_cwd = true,
+				on_attach = function(bufnr)
+					local api = require("nvim-tree.api")
+					api.config.mappings.default_on_attach(bufnr)
+          vim.keymap.del("n", "<C-k>", { buffer = bufnr })
+				end,
 				update_focused_file = {
 					enable = true,
 					update_root = false,
@@ -397,7 +403,7 @@ local plugins = {
 	},
 	{
 		"jedrzejboczar/toggletasks.nvim",
-		lazy = false,
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"akinsho/toggleterm.nvim",
@@ -499,11 +505,11 @@ local plugins = {
 	{
 		"williamboman/mason.nvim",
 		opts = overrides.mason,
-		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"madox2/vim-ai",
-		lazy = true,
+		event = "BufEnter",
 	},
 	{
 		"svermeulen/vim-subversive",
@@ -710,7 +716,7 @@ local plugins = {
 	},
 	{
 		"liuchengxu/vista.vim",
-		lazy = true,
+		event = "VeryLazy",
 		dependencies = {
 			{ "junegunn/fzf.vim", lazy = false },
 			{ "junegunn/fzf", lazy = false },
@@ -898,7 +904,7 @@ local plugins = {
 						return vim.api.nvim_win_get_config(win).relative == ""
 					end,
 				},
-				{ ft = "qf", title = "QuickFix" },
+				{ ft = "qf", title = "QuickFix", size = { height = 0.4 } },
 				{
 					ft = "help",
 					size = { height = 0.7 },
@@ -967,7 +973,7 @@ local plugins = {
 	},
 	{
 		"rcarriga/nvim-dap-ui",
-		lazy = true,
+		event = "VeryLazy",
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
 			require("dapui").setup({
@@ -1030,25 +1036,12 @@ local plugins = {
 		end,
 	},
 	{
-		"folke/flash.nvim",
-		event = "BufEnter",
-		opts = {},
-    -- stylua: ignore
-    keys = {
-      -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
-	},
-	{
 		"sodapopcan/vim-twiggy",
 		dependencies = {
 			"junegunn/gv.vim",
 			"tpope/vim-fugitive",
 		},
-		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"tanvirtin/vgit.nvim",

@@ -102,8 +102,8 @@ M.general = {
 		["F"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_F()<CR>" },
 		["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>" },
 		["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>" },
-		["m"] = { "<Plug>(leap-forward-till)" },
-		["M"] = { "<Plug>(leap-backward-till)" },
+    ["m"] = { "<Plug>CamelCaseMotion_w"},
+    ["M"] = { "<Plug>CamelCaseMotion_b"},
 
 		["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
 		["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
@@ -112,7 +112,7 @@ M.general = {
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>" },
 		["gr"] = { ":Telescope lsp_references<CR>", opts = opts },
 		["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
-		["go"] = { ":Telescope lsp_outgoing_permission, calls<CR>", opts = opts },
+		["go"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
 		["g<tab>"] = { ":Vista<CR>", opts = opts },
 		["<leader>F"] = { ":Vista finder<CR>", opts = opts },
 
@@ -276,9 +276,9 @@ M.general = {
 		["<leader>atd"] = { ":Edbmodeltest<CR>", "open database model test" },
 		["<leader>atr"] = { ":Erepotest<CR>", "open database repo test" },
 
-		["s"] = { "<plug>(SubversiveSubstitute)" },
-		["ss"] = { "<plug>(SubversiveSubstituteLine)" },
-		["S"] = { "<plug>(SubversiveSubstituteToEndOfLine)" },
+		["s"] = { "<Plug>(SubversiveSubstitute)" },
+		["ss"] = { "<Plug>(SubversiveSubstituteLine)" },
+		["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)" },
 	},
 	i = {
 		["<C-y>"] = { "<c-u> pumvisible() ? '<c-y>' : matchstr(getline(line('.')-1), '%' . virtcol('.') . 'v%(k+|.)')" },
@@ -304,12 +304,14 @@ M.general = {
 		},
 	},
 	o = {
-		["iw"] = { "<plug>CamelCaseMotion_iw" },
+		["iw"] = { "<Plug>CamelCaseMotion_iw" },
+		["ie"] = { "<Plug>CamelCaseMotion_ie" },
 		["m"] = { "<Plug>(leap-forward-till)" },
 		["M"] = { "<Plug>(leap-backward-till)" },
 	},
 	x = {
-		["iw"] = { "<plug>CamelCaseMotion_iw" },
+		["iw"] = { "<Plug>CamelCaseMotion_iw" },
+		["ie"] = { "<Plug>CamelCaseMotion_ie" },
 		["m"] = { "<Plug>(leap-forward-till)" },
 		["M"] = { "<Plug>(leap-backward-till)" },
 	},
