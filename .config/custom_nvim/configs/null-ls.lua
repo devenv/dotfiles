@@ -17,7 +17,7 @@ local sources = {
 
   -- cpp
   b.formatting.black.with({
-    extra_args = { "--line-length=200" }
+    extra_args = { "--line-length=160" }
   }),
 }
 

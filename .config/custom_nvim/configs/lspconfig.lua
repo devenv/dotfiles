@@ -37,13 +37,13 @@ lspconfig.pylsp.setup({
 				jedi_symbols = { enabled = true, all_scopes = true },
 				black = {
 					enabled = true,
-					line_length = 200,
+					line_length = 160,
 				},
 				pycodestyle = { enabled = false },
 				flake8 = {
 					enabled = true,
 					ignore = {},
-					maxLineLength = 200,
+					maxLineLength = 160,
 				},
 				mypy = { enabled = false },
 				isort = { enabled = true },
@@ -57,3 +57,15 @@ lspconfig.pylsp.setup({
 		},
 	},
 })
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    signs = {
+      severity_limit = "Hint",
+    },
+    virtual_text = {
+      severity_limit = "Warning",
+    },
+  }
+)
+

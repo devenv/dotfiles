@@ -22,8 +22,10 @@ local plugins = {
 		"j-hui/fidget.nvim",
 		event = "VeryLazy",
 	},
-	"psf/black",
-	event = "VeryLazy",
+	{
+		"psf/black",
+		event = "VeryLazy",
+	},
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -89,9 +91,9 @@ local plugins = {
 				sorting = {
 					priority_weight = 4,
 					comparators = {
+						cmp.config.compare.exact,
 						cmp.config.compare.score,
 						cmp.config.compare.locality,
-						cmp.config.compare.exact,
 						require("copilot_cmp.comparators").prioritize,
 						cmp.config.compare.recently_used,
 						cmp.config.compare.kind,
@@ -198,13 +200,12 @@ local plugins = {
 					open = false,
 				},
 				output = {
-					enabled = true,
-					open_on_run = true,
+					enabled = false,
+					open_on_run = false,
 				},
 				output_panel = {
 					enabled = true,
-					open_on_run = false,
-					open = "botright split | resize 50",
+					open_on_run = true,
 				},
 				status = {
 					enabled = true,
@@ -236,12 +237,11 @@ local plugins = {
 						target = "t",
 						watch = "w",
 					},
-					open = "botright vsplit | vertical resize 50",
 				},
 				adapters = {
 					require("neotest-python")({
 						dap = { justMyCode = false },
-						args = { "--log-level", "DEBUG" },
+						args = { "--log-level", "DEBUG", "-vvv" },
 						runner = "pytest",
 					}),
 				},
@@ -297,7 +297,7 @@ local plugins = {
 				on_attach = function(bufnr)
 					local api = require("nvim-tree.api")
 					api.config.mappings.default_on_attach(bufnr)
-          vim.keymap.del("n", "<C-k>", { buffer = bufnr })
+					vim.keymap.del("n", "<C-k>", { buffer = bufnr })
 				end,
 				update_focused_file = {
 					enable = true,
@@ -364,12 +364,6 @@ local plugins = {
 							["<leader>Ma"] = "@parameter.inner",
 							["<leader>Mf"] = "@function.outer",
 						},
-					},
-					goto_next_start = {
-						["]]"] = "@function.outer",
-					},
-					goto_previous_start = {
-						["[["] = "@function.outer",
 					},
 					keymaps = {
 						["af"] = "@function.outer",
@@ -905,6 +899,7 @@ local plugins = {
 					end,
 				},
 				{ ft = "qf", title = "QuickFix", size = { height = 0.4 } },
+				{ ft = "neotest-output-panel", title = "Neotest Output", size = { height = 0.4 } },
 				{
 					ft = "help",
 					size = { height = 0.7 },

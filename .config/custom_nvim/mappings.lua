@@ -77,8 +77,8 @@ M.general = {
 
 		["{"] = { ":normal [c<CR>" },
 		["}"] = { ":normal ]c<CR>" },
-		["]]"] = { ":cnext<CR>" },
-		["[["] = { ":cprev<CR>" },
+		["])"] = { ":cnext<CR>" },
+		["[("] = { ":cprev<CR>" },
 
 		["<C-h>"] = { ":TmuxNavigateLeft<CR>" },
 		["<C-j>"] = { ":TmuxNavigateDown<CR>" },
@@ -107,7 +107,7 @@ M.general = {
 
 		["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
 		["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
-		["<leader>e"] = { ":Telescope diagnostics<CR>" },
+		["<leader>e"] = { ":lua require('telescope.builtin').diagnostics({severity_limit=3})<CR>" },
 		["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>" },
 		["gr"] = { ":Telescope lsp_references<CR>", opts = opts },
