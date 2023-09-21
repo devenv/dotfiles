@@ -94,9 +94,9 @@ local plugins = {
 						cmp.config.compare.exact,
 						cmp.config.compare.score,
 						cmp.config.compare.locality,
-						require("copilot_cmp.comparators").prioritize,
 						cmp.config.compare.recently_used,
 						cmp.config.compare.kind,
+						require("copilot_cmp.comparators").prioritize,
 						cmp.config.compare.sort_text,
 						cmp.config.compare.order,
 						cmp.config.compare.length,
@@ -316,9 +316,6 @@ local plugins = {
 					enable = false,
 					show_on_dirs = true,
 					show_on_open_dirs = true,
-				},
-				view = {
-					width = 40,
 				},
 				actions = {
 					open_file = {
@@ -912,7 +909,7 @@ local plugins = {
 				{
 					title = "Nvimtree",
 					ft = "NvimTree",
-					size = { width = 0.3, height = 0.4 },
+					size = { width = 0.4, height = 0.4 },
 				},
 				{
 					title = "Scopes",

@@ -60,6 +60,7 @@ M.general = {
 		["<leader><leader>"] = { "<C-^>", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>" },
+		["<leader>L"] = { ":clist<CR>" },
 
 		["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR>" },
 		["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR>" },
