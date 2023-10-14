@@ -60,13 +60,14 @@ local plugins = {
 		},
 		config = function()
 			local cmp = require("cmp")
+      local luasnip = require("luasnip")
 			cmp.setup({
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
 				snippet = {
 					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
+						luasnip.lsp_expand(args.body)
 					end,
 				},
 				sources = {
@@ -89,17 +90,17 @@ local plugins = {
 					},
 				},
 				sorting = {
-					priority_weight = 4,
+					priority_weight = 1,
 					comparators = {
+						cmp.config.compare.locality,
 						cmp.config.compare.exact,
 						cmp.config.compare.score,
-						cmp.config.compare.locality,
 						cmp.config.compare.recently_used,
-						cmp.config.compare.kind,
-						require("copilot_cmp.comparators").prioritize,
-						cmp.config.compare.sort_text,
-						cmp.config.compare.order,
 						cmp.config.compare.length,
+						cmp.config.compare.kind,
+						cmp.config.compare.order,
+						cmp.config.compare.sort_text,
+						require("copilot_cmp.comparators").prioritize,
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
@@ -114,6 +115,13 @@ local plugins = {
 							},
 						},
 					}),
+					["<C-d>"] = cmp.mapping.complete({
+						config = {
+							sources = {
+								{ name = "luasnip" },
+							},
+						},
+					}),
 					["<C-n>"] = cmp.mapping(function()
 						if cmp.visible() then
 							cmp.select_next_item()
@@ -121,6 +129,22 @@ local plugins = {
 							cmp.complete()
 						end
 					end),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if luasnip.expandable() then
+							luasnip.expand()
+						elseif luasnip.jumpable(1) then
+							luasnip.jump(1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 				}),
 				formatting = {
 					format = require("lspkind").cmp_format({
@@ -403,8 +427,7 @@ local plugins = {
 		config = function()
 			require("telescope").load_extension("toggletasks")
 			require("toggletasks").auto_spawn({ "SessionLoadPost" }, function(tasks)
-				return tasks
-					:with_tag("auto")
+				return tasks:with_tag("auto")
 			end)
 
 			require("toggletasks").setup({
