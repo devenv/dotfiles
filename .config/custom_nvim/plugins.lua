@@ -394,7 +394,7 @@ local plugins = {
 	},
 	{
 		"jedrzejboczar/toggletasks.nvim",
-		event = "VeryLazy",
+		event = "BufEnter",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"akinsho/toggleterm.nvim",
@@ -402,6 +402,11 @@ local plugins = {
 		},
 		config = function()
 			require("telescope").load_extension("toggletasks")
+			require("toggletasks").auto_spawn({ "SessionLoadPost" }, function(tasks)
+				return tasks
+					:with_tag("auto")
+			end)
+
 			require("toggletasks").setup({
 				silent = false,
 				search_paths = {
@@ -412,7 +417,7 @@ local plugins = {
 				},
 				toggleterm = {
 					close_on_exit = false,
-					hidden = true,
+					hidden = false,
 				},
 				telescope = {
 					spawn = {

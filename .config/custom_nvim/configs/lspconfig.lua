@@ -18,6 +18,16 @@ lspconfig.tsserver.setup({
 	capabilities = capabilities,
 })
 
+lspconfig.terraformls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+lspconfig.tflint.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,

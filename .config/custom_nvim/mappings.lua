@@ -88,6 +88,8 @@ M.general = {
 		["H"] = { ":bp<CR>" },
 		["L"] = { ":bn<CR>" },
 		["X"] = { ":bd<CR>" },
+		["gH"] = { ":lua require('nvchad_ui.tabufline').move_buf(-1)<CR>" },
+		["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>" },
 		["<leader>X"] = { ":bd!<CR>" },
 		["<leader>!!x"] = { ":%bd!<CR>" },
 		["<leader>s"] = { ":silent wa<CR>" },
@@ -134,6 +136,7 @@ M.general = {
 		["<leader>dt"] = { ":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>" },
 		["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>" },
 		["<leader>dl"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>" },
+		["<leader>dz"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>" },
 
 		["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>" },
 		["<leader>da"] = { ":Telescope dap configurations<CR>" },

@@ -1,3 +1,4 @@
+source $HOME/.profile
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
@@ -8,7 +9,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
 plugins=(fzf kubectl nilus)
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.profile
 setopt inc_append_history
 
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
