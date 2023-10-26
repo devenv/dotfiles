@@ -60,7 +60,7 @@ local plugins = {
 		},
 		config = function()
 			local cmp = require("cmp")
-      local luasnip = require("luasnip")
+			local luasnip = require("luasnip")
 			cmp.setup({
 				completion = {
 					completeopt = "menu,menuone,noinsert",
@@ -92,12 +92,12 @@ local plugins = {
 				sorting = {
 					priority_weight = 1,
 					comparators = {
-						cmp.config.compare.locality,
-						cmp.config.compare.exact,
 						cmp.config.compare.score,
+						cmp.config.compare.exact,
 						cmp.config.compare.recently_used,
-						cmp.config.compare.length,
+						cmp.config.compare.locality,
 						cmp.config.compare.kind,
+						cmp.config.compare.length,
 						cmp.config.compare.order,
 						cmp.config.compare.sort_text,
 						require("copilot_cmp.comparators").prioritize,
@@ -527,10 +527,6 @@ local plugins = {
 		event = "VeryLazy",
 	},
 	{
-		"madox2/vim-ai",
-		event = "BufEnter",
-	},
-	{
 		"svermeulen/vim-subversive",
 		event = "BufEnter",
 	},
@@ -583,6 +579,12 @@ local plugins = {
 		name = "catppuccin",
 		dependencies = {
 			"lukas-reineke/indent-blankline.nvim",
+			config = function()
+				require("indent_blankline").setup({
+					show_current_context = true,
+					show_current_context_start = false,
+				})
+			end,
 		},
 		priority = 1000,
 		config = function()
@@ -662,7 +664,7 @@ local plugins = {
 					pounce = false,
 					rainbow_delimiters = false,
 					semantic_tokens = true,
-					symbols_outline = false,
+					symbols_outline = true,
 					telekasten = false,
 					telescope = { enabled = true, style = "nvchad" },
 					treesitter_context = true,
@@ -673,7 +675,7 @@ local plugins = {
 				},
 				color_overrides = {},
 				highlight_overrides = {
-					all = function(cp)
+					mocha = function(cp)
 						return {
 							["@parameter"] = { style = {} },
 							Normal = { bg = cp.crust },
@@ -731,6 +733,7 @@ local plugins = {
 					end,
 				},
 			})
+			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
 	{
@@ -872,16 +875,6 @@ local plugins = {
 		end,
 	},
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("indent_blankline").setup({
-				show_current_context = true,
-				show_current_context_start = true,
-			})
-		end,
-	},
-	{
 		"folke/edgy.nvim",
 		event = "VeryLazy",
 		init = function()
@@ -910,6 +903,10 @@ local plugins = {
 				end,
 				["<c-w>-"] = function(win)
 					win:resize("height", -10)
+				end,
+				["<c-w><space>"] = function(win)
+					win:resize("width", 100)
+					win:resize("height", 30)
 				end,
 				["<c-w>="] = function(win)
 					win.view.edgebar:equalize()

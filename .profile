@@ -11,6 +11,7 @@ export TERM=xterm-color
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
+export GIT_TERMINAL_PROMPT=0
 
 export C_INCLUDE_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/lib

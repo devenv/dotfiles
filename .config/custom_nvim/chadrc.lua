@@ -4,7 +4,6 @@ local M = {}
 local highlights = require("custom.highlights")
 
 M.ui = {
-	theme = "cattpuccin",
 
 	statusline = {
 		theme = "vscode_colored",
@@ -16,6 +15,21 @@ M.ui = {
 
 	hl_override = highlights.override,
 	hl_add = highlights.add,
+
+  transparency = false,
+  lsp_semantic_tokens = true, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens
+
+  -- https://github.com/NvChad/base46/tree/v2.0/lua/base46/extended_integrations
+  extended_integrations = {}, -- these aren't compiled by default, ex: "alpha", "notify"
+
+  cmp = {
+    icons = true,
+    lspkind_text = true,
+    style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
+    selected_item_bg = "colored", -- colored / simple
+  },
+
+  telescope = { style = "borderless" }, -- borderless / bordered
 }
 
 M.plugins = "custom.plugins"
