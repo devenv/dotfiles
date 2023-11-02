@@ -31,6 +31,20 @@ lspconfig.tflint.setup({
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
+	settings = {
+		pyright = { autoImportCompletion = true },
+		python = {
+			analysis = {
+				extraPaths = { "../*/src/" },
+				autoSearchPaths = true,
+				diagnosticMode = "workspace",
+				typeCheckingMode = "basic",
+				useLibraryCodeForTypes = true,
+				reportUnknownArgumentType = true,
+				reportUnknownParameterType = true,
+			},
+		},
+	},
 })
 
 lspconfig.pylsp.setup({
@@ -68,14 +82,11 @@ lspconfig.pylsp.setup({
 	},
 })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    signs = {
-      severity_limit = "Hint",
-    },
-    virtual_text = {
-      severity_limit = "Warning",
-    },
-  }
-)
-
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+	signs = {
+		severity_limit = "Hint",
+	},
+	virtual_text = {
+		severity_limit = "Warning",
+	},
+})

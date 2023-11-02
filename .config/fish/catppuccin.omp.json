@@ -28,7 +28,7 @@
             "{{ if eq .Context \"staging\" }}p:orange{{end}}",
             "{{ if eq .Context \"prod\" }}p:red{{end}}"
           ],
-          "template": "\ue0c8\u2388{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}}\ue0c7"
+          "template": "\ue0c8\u2388 {{if .Namespace}}{{.Namespace}}{{end}}\ue0c7"
         },
         {
           "type": "python",
@@ -104,9 +104,9 @@
           "background": "p:lavender",
           "foreground": "p:text",
           "properties": {
-            "time_format": "_2,15:04"
+            "time_format": "15:04:05"
           },
-          "template": "\ue0c6 {{ .CurrentDate | date .Format }} \ue0c7"
+          "template": "\ue0c6 {{ .CurrentDate | date .Format }}\ue0c7"
         }
       ],
       "type": "prompt"

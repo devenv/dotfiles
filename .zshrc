@@ -9,7 +9,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#585b70"
 plugins=(fzf kubectl nilus)
 
 source $ZSH/oh-my-zsh.sh
-setopt inc_append_history
+# setopt inc_append_history
 
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
 

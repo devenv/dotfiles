@@ -60,7 +60,8 @@ M.general = {
 		["<leader><leader>"] = { "<C-^>", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>" },
-		["<leader>L"] = { ":clist<CR>" },
+		["<leader>L"] = { ":copen<CR>" },
+		["<leader>E"] = { ":clist<CR>" },
 
 		["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR>" },
 		["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR>" },
@@ -94,7 +95,7 @@ M.general = {
 		["<leader>!!x"] = { ":%bd!<CR>" },
 		["<leader>s"] = { ":silent wa<CR>" },
 		["<leader>q"] = { ":silent wqa<CR>" },
-		["<leader>!!"] = { ":silent cq<CR>" },
+		["<leader>Q"] = { ":cq<CR>" },
 		["<C-s>"] = { "<PageUp>" },
 		["<C-f>"] = { "<PageDown>" },
 		["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>" },
@@ -263,7 +264,7 @@ M.general = {
 		["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes" },
 		["<leader>gT"] = { ":Git stash", "git stash" },
 
-		["<leader>B"] = { ":DBUI<CR>", "DB UI" },
+		["<leader>B"] = { ":DBUIToggle<CR>", "DB UI" },
 
 		["<leader>aa"] = { ":A<CR>", "open config" },
 		["<leader>aC"] = { ":Econfig<CR>", "open config" },
