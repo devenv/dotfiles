@@ -563,6 +563,10 @@ local plugins = {
 		lazy = false,
 	},
 	{
+		"whiteinge/diffconflicts",
+		lazy = false,
+	},
+	{
 		"mbbill/undotree",
 		event = "VeryLazy",
 	},
