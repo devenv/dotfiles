@@ -285,9 +285,6 @@ M.general = {
 		["ss"] = { "<Plug>(SubversiveSubstituteLine)" },
 		["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)" },
 	},
-	i = {
-		["<C-y>"] = { "<c-u> pumvisible() ? '<c-y>' : matchstr(getline(line('.')-1), '%' . virtcol('.') . 'v%(k+|.)')" },
-	},
 	v = {
 		["\\"] = { '"+y' },
 		["<leader>ra"] = { ":lua vim.lsp.buf.code_action()<CR>" },
@@ -311,14 +308,10 @@ M.general = {
 	o = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw" },
 		["ie"] = { "<Plug>CamelCaseMotion_ie" },
-		["m"] = { "<Plug>(leap-forward-till)" },
-		["M"] = { "<Plug>(leap-backward-till)" },
 	},
 	x = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw" },
 		["ie"] = { "<Plug>CamelCaseMotion_ie" },
-		["m"] = { "<Plug>(leap-forward-till)" },
-		["M"] = { "<Plug>(leap-backward-till)" },
 	},
 }
 

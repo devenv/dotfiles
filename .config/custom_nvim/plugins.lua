@@ -36,7 +36,7 @@ local plugins = {
 			"hrsh7th/cmp-emoji",
 			{
 				"zbirenbaum/copilot-cmp",
-				event = "InsertEnter",
+				event = "BufEnter",
 				config = function()
 					require("copilot_cmp").setup()
 				end,
@@ -108,7 +108,7 @@ local plugins = {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-a>"] = cmp.mapping.complete({}),
-					["<C-s>"] = cmp.mapping.complete({
+          ["<C-s>"] = cmp.mapping.complete({
 						config = {
 							sources = {
 								{ name = "copilot" },
@@ -553,10 +553,6 @@ local plugins = {
 	{
 		"bkad/CamelCaseMotion",
 		event = "BufEnter",
-	},
-	{
-		"farmergreg/vim-lastplace",
-		lazy = false,
 	},
 	{
 		"christoomey/vim-tmux-navigator",

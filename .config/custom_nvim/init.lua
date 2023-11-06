@@ -28,10 +28,10 @@ autocmd("TextYankPost", {
 })
 
 augroup("OrderImportsOnSave", { clear = true })
-autocmd("BufWritePost", {
+autocmd("BufWritePre", {
   pattern = {"*.py"},
   group = "OrderImportsOnSave",
   callback = function()
-      vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })
+      -- vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })
   end,
 })
