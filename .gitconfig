@@ -10,6 +10,7 @@
   dc = diff --cached -w
   fa = fetch --all
   pr = !CURRENT=$(git rev-parse --abbrev-ref HEAD) && git pull --rebase origin $ CURRENT
+  frbo = !git fa && git rbo
   mt = mergetool
   rb = rebase -i
   rbo = rebase origin/main -i

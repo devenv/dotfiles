@@ -35,7 +35,6 @@ lspconfig.pyright.setup({
 		pyright = { autoImportCompletion = true },
 		python = {
 			analysis = {
-				extraPaths = { "../*/src/" },
 				autoSearchPaths = true,
 				diagnosticMode = "workspace",
 				typeCheckingMode = "basic",
@@ -47,8 +46,9 @@ lspconfig.pyright.setup({
 	},
 })
 
+--[[
+on_attach = on_attach,
 lspconfig.pylsp.setup({
-	on_attach = on_attach,
 	capabilities = capabilities,
 	settings = {
 		pylsp = {
@@ -81,6 +81,7 @@ lspconfig.pylsp.setup({
 		},
 	},
 })
+]]--
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	signs = {
