@@ -46,19 +46,33 @@ lspconfig.pyright.setup({
 	},
 })
 
---[[
-on_attach = on_attach,
 lspconfig.pylsp.setup({
 	capabilities = capabilities,
+      on_attach = function(client, bufnr)
+      client.server_capabilities.completionProvider = false
+      client.server_capabilities.definitionProvider = false
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentHighlightProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+      client.server_capabilities.documentSymbolProvider = false
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
+      client.server_capabilities.foldingRangeProvider = false
+      client.server_capabilities.hoverProvider = false
+      client.server_capabilities.referencesProvider = false
+      client.server_capabilities.renameProvider = false
+      client.server_capabilities.signatureHelpProvider = false
+      on_attach(client, bufnr)
+    end,
 	settings = {
 		pylsp = {
 			configurationSources = { "flake8" },
 			plugins = {
-				jedi_completion = { enabled = true },
-				jedi_hover = { enabled = true },
-				jedi_references = { enabled = true },
-				jedi_signature_help = { enabled = true },
-				jedi_symbols = { enabled = true, all_scopes = true },
+				jedi_completion = { enabled = false },
+				jedi_hover = { enabled = false },
+				jedi_references = { enabled = false },
+				jedi_signature_help = { enabled = false },
+				jedi_symbols = { enabled = false, all_scopes = false },
 				black = {
 					enabled = true,
 					line_length = 160,
@@ -76,12 +90,11 @@ lspconfig.pylsp.setup({
 				pydocstyle = { enabled = false },
 				mccabe = { enabled = false },
 				preload = { enabled = false },
-				rope_completion = { enabled = true },
+				rope_completion = { enabled = false },
 			},
 		},
 	},
 })
-]]--
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	signs = {

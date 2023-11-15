@@ -108,7 +108,7 @@ local plugins = {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-a>"] = cmp.mapping.complete({}),
-          ["<C-s>"] = cmp.mapping.complete({
+					["<C-s>"] = cmp.mapping.complete({
 						config = {
 							sources = {
 								{ name = "copilot" },
@@ -417,6 +417,13 @@ local plugins = {
 		},
 	},
 	{
+		"akinsho/toggleterm.nvim",
+		event = "BufEnter",
+		config = function()
+			require("toggleterm").setup()
+		end,
+	},
+	{
 		"jedrzejboczar/toggletasks.nvim",
 		event = "BufEnter",
 		dependencies = {
@@ -473,6 +480,9 @@ local plugins = {
 	},
 	{
 		"nvim-telescope/telescope.nvim",
+		dependencies = {
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+		},
 		config = function()
 			require("telescope").setup({
 				defaults = {
@@ -480,12 +490,23 @@ local plugins = {
 						i = {
 							["<C-p>"] = require("telescope.actions").cycle_history_prev,
 							["<C-n>"] = require("telescope.actions").cycle_history_next,
+							["<C-a>"] = require("telescope.actions").send_selected_to_qflist,
 						},
 					},
 				},
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+        },
 			})
+      require('telescope').load_extension('fzf')
 		end,
 	},
+
 	{
 		"tpope/vim-unimpaired",
 		event = "BufEnter",
@@ -933,6 +954,11 @@ local plugins = {
 						return vim.bo[buf].buftype == "help"
 					end,
 				},
+				{
+					title = "Watches",
+					ft = "dapui_watches",
+					size = { width = 40, height = 0.2 },
+				},
 			},
 			left = {
 				{
@@ -944,11 +970,6 @@ local plugins = {
 					title = "Scopes",
 					ft = "dapui_scopes",
 					size = { height = 0.3 },
-				},
-				{
-					title = "Watches",
-					ft = "dapui_watches",
-					size = { width = 40, height = 0.4 },
 				},
 				{
 					title = "Stacks",
@@ -1010,10 +1031,6 @@ local plugins = {
 								size = 0.3,
 							},
 							{
-								id = "watches",
-								size = 0.4,
-							},
-							{
 								id = "stacks",
 								size = 0.3,
 							},
@@ -1022,9 +1039,14 @@ local plugins = {
 						size = 20,
 					},
 					{
-						elements = {},
+						elements = {
+							{
+								id = "watches",
+								size = 0.4,
+							},
+            },
 						position = "bottom",
-						size = 10,
+						size = 5,
 					},
 				},
 				mappings = {

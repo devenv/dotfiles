@@ -37,6 +37,7 @@ M.disabled = {
 		["<leader>gt"] = { "" },
 		["<A-i>"] = { "" },
 		["<leader>rh"] = { "" },
+		["<leader>ra"] = { "" },
 		["<leader>ph"] = { "" },
 		["<leader>td"] = { "" },
 		["<leader>/"] = { "" },
@@ -100,14 +101,20 @@ M.general = {
 		["<C-f>"] = { "<PageDown>", opts = opts },
 		["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>", opts = opts },
 
-		[")"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>", opts = opts },
-		["("] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>", opts = opts },
+		[")"] = {
+			":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>",
+			opts = opts,
+		},
+		["("] = {
+			":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_previous()<CR>",
+			opts = opts,
+		},
 		["f"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_f()<CR>", opts = opts },
 		["F"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_F()<CR>", opts = opts },
 		["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>", opts = opts },
 		["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>", opts = opts },
-    ["m"] = { "<Plug>CamelCaseMotion_w", opts = opts},
-    ["M"] = { "<Plug>CamelCaseMotion_b", opts = opts},
+		["m"] = { "<Plug>CamelCaseMotion_w", opts = opts },
+		["M"] = { "<Plug>CamelCaseMotion_b", opts = opts },
 
 		["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
 		["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
@@ -134,10 +141,19 @@ M.general = {
 		["<leader>te"] = { ":lua require('neotest').output.open()<CR>", opts = opts },
 		["<leader>to"] = { ":lua require('neotest').output_panel.toggle()<CR>", opts = opts },
 
-		["<leader>dt"] = { ":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>", opts = opts },
+		["<leader>dt"] = {
+			":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
+			opts = opts,
+		},
 		["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>", opts = opts },
-		["<leader>dl"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>", opts = opts },
-		["<leader>dz"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>", opts = opts },
+		["<leader>dl"] = {
+			":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
+			opts = opts,
+		},
+		["<leader>dz"] = {
+			":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
+			opts = opts,
+		},
 
 		["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>", opts = opts },
 		["<leader>da"] = { ":Telescope dap configurations<CR>", opts = opts },
@@ -145,7 +161,7 @@ M.general = {
 
 		["<leader>de"] = { ":lua require('neotest').output.open()<CR>", opts = opts },
 		["<leader>do"] = { ":lua require('neotest').output_panel.open({last_run = ture})<CR>", opts = opts },
-		["<leader>d<tab>"] = { ":lua require('dapui').toggle()<CR>", opts = opts },
+		["<leader>d<tab>"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
 
 		["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
 		["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
@@ -158,7 +174,7 @@ M.general = {
 		["˚"] = { ":lua require('dap').step_into()<CR>", opts = opts },
 		["<leader>dr"] = { ":lua require('dap').step_out()<CR>", opts = opts },
 		["ø"] = { ":lua require('dap').step_out()<CR>", opts = opts },
-    ["<leader>dk"] = { ":lua require('dap').up()<CR>", opts = opts },
+		["<leader>dk"] = { ":lua require('dap').up()<CR>", opts = opts },
 		["<leader>dj"] = { ":lua require('dap').down()<CR>", opts = opts },
 		["<leader>dc"] = { ":lua require('dap').continue()<CR>", opts = opts },
 		["<leader>dx"] = { ":lua require('dap').terminate()<CR>", opts = opts },
@@ -166,6 +182,13 @@ M.general = {
 		["<leader>dW"] = {
 			function()
 				require("dapui").elements.watches.add(vim.fn.expand("<cword>"))
+			end,
+		},
+		["<leader>d$"] = {
+			function()
+        vim.api.nvim_input "\"vy$"
+				require("dapui").elements.watches.add(vim.fn.getreg("v"))
+        require('dapui').open(2)
 			end,
 		},
 		["<leader>dw"] = {
@@ -187,22 +210,19 @@ M.general = {
 			end,
 		},
 
-		["<leader>ra"] = { ":lua vim.lsp.buf.code_action()<CR>", opts = opts },
+		["<leader>r<tab>"] = { ":lua vim.lsp.buf.code_action()<CR>", opts = opts },
 		["<leader>rn"] = { ":lua vim.lsp.buf.rename()<CR>", opts = opts },
-		["<leader>re"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>", opts = opts,
-		},
-		["<leader>ri"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>", opts = opts,
-		},
-		["<leader>rr"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>", opts = opts,
-		},
+		["<leader>rar"] = { ":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/refactor\" && exit'<CR>", opts = opts },
+		["<leader>rad"] = { ":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/find-differences\" && exit'<CR>", opts = opts },
+		["<leader>rae"] = { ":exec ':TermExec cmd='.\"'\".'open \"raycast://ai-commands/extract?arguments='.input(\"Extract what? \").'\" && exit'.\"'\"<CR>", opts = opts },
+		["<leader>rr"] = { ":'<,'>d<CR>\"+p" },
 		["<leader>rq"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>", opts = opts,
+			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>",
+			opts = opts,
 		},
 		["<leader>ro"] = {
-			":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>", opts = opts,
+			":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>",
+			opts = opts,
 		},
 		["<leader>rl"] = { ":LspRestart<CR>", opts = opts },
 
@@ -279,22 +299,23 @@ M.general = {
 	},
 	v = {
 		["\\"] = { '"+y', opts = opts },
-		["<leader>ra"] = { ":lua vim.lsp.buf.code_action()<CR>", opts = opts },
+		["<leader>r<tab>"] = { ":lua vim.lsp.buf.code_action()<CR>", opts = opts },
 		["<leader>rn"] = { ":lua vim.lsp.buf.rename()<CR>", opts = opts },
-		["<leader>re"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.extract' } } })<CR>", opts = opts,
-		},
-		["<leader>ri"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.inline' } } })<CR>", opts = opts,
-		},
-		["<leader>rr"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'refactor.rewrite' } } })<CR>", opts = opts,
-		},
 		["<leader>rq"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>", opts = opts,
+			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>",
+			opts = opts,
 		},
 		["<leader>ro"] = {
-			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>", opts = opts,
+			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>",
+			opts = opts,
+		},
+		["<leader>dW"] = {
+			function()
+        vim.api.nvim_input "\"vy"
+        local text = vim.fn.getreg('v')
+				require("dapui").elements.watches.add(text)
+        require('dapui').open(2)
+			end,
 		},
 	},
 	o = {
