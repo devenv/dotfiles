@@ -7,6 +7,9 @@ M.ui = {
 
 	statusline = {
 		theme = "vscode_colored",
+		overriden_modules = function(modules)
+			modules[2] = "%#StText# "
+		end,
 	},
 
 	tabufline = {
@@ -27,6 +30,14 @@ M.ui = {
 		lspkind_text = true,
 		style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
 		selected_item_bg = "colored", -- colored / simple
+	},
+
+	lsp = {
+		-- show function signatures i.e args as you type
+		signature = {
+			disabled = true,
+			silent = true, -- silences 'no signature help available' message from appearing
+		},
 	},
 
 	telescope = { style = "borderless" }, -- borderless / bordered
@@ -89,9 +100,7 @@ vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 
 vim.o.splitkeep = "screen"
 
-vim.g.twiggy_set_upstream = 1
-vim.g.twiggy_refresh_buffers = 1
-vim.g.twiggy_prompted_force_push = 1
+vim.lsp.set_log_level("WARN")
 
 M.mappings = require("custom.mappings")
 

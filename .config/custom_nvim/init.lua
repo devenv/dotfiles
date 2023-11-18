@@ -7,6 +7,7 @@ vim.g.db_ui_use_nerd_fonts = 1
 vim.g.pytest_open_errors = 'current'
 vim.cmd("packadd cfilter")
 
+
 vim.g.projectionist_heuristics = {
   ["*"] = {
     ["*"] = {

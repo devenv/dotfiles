@@ -72,6 +72,11 @@ M.general = {
 		["''"] = { "`^", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>", opts = opts },
+		["<leader>hh"] = { ":exe ':Telescope possession list default_text='.$TICKET.''<CR>", opts = opts },
+		["<leader>go"] = {
+			":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
+			opts = opts,
+		},
 		["<leader>L"] = { ":copen<CR>", opts = opts },
 		["<leader>E"] = { ":clist<CR>", opts = opts },
 
@@ -99,6 +104,14 @@ M.general = {
 		["X"] = { ":bd<CR>", opts = opts },
 		["gH"] = { ":lua require('nvchad_ui.tabufline').move_buf(-1)<CR>", opts = opts },
 		["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>", opts = opts },
+
+		["<leader>A"] = {
+			function()
+				require("harpoon.mark").add_file()
+			end,
+		},
+		["<leader>a"] = { ":Telescope harpoon marks<CR>", opts = opts },
+
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
 		["<leader>s"] = { ":wa<CR>", opts = opts },
@@ -303,30 +316,12 @@ M.general = {
 		["<leader>gf"] = { ":Git fetch --all<CR>", "git fetch all", opts = opts },
 
 		["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits", opts = opts },
-		["<leader>go"] = { ":Twiggy <CR>", "git branches", opts = opts },
-		["<leader>gs"] = { ":VGit project_diff_preview<CR>", "git status", opts = opts },
-		["<leader>gS"] = { ":VGit project_hunks_preview<CR>", "git status", opts = opts },
-		["<leader>gG"] = { ":Ggrep", "git grep", opts = opts },
+		["<leader>gs"] = { ":Neogit<CR>", "git status", opts = opts },
 
 		["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes", opts = opts },
 		["<leader>gT"] = { ":Git stash", "git stash", opts = opts },
 
 		["<leader>B"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
-
-		["<leader>aa"] = { ":A<CR>", "open config", opts = opts },
-		["<leader>aC"] = { ":Econfig<CR>", "open config", opts = opts },
-		["<leader>aS"] = { ":Eservice<CR>", "open service", opts = opts },
-		["<leader>aR"] = { ":Erouter<CR>", "open router", opts = opts },
-		["<leader>aM"] = { ":Emapper<CR>", "open mapper", opts = opts },
-		["<leader>am"] = { ":Emodel<CR>", "open doman model", opts = opts },
-		["<leader>ad"] = { ":Edbmodel<CR>", "open database model", opts = opts },
-		["<leader>ar"] = { ":Erepo<CR>", "open database repo", opts = opts },
-		["<leader>asr"] = { ":Erepotest<CR>", "open database repo test", opts = opts },
-		["<leader>atS"] = { ":Eservicetest<CR>", "open service test", opts = opts },
-		["<leader>atM"] = { ":Emappertest<CR>", "open mapper test", opts = opts },
-		["<leader>atm"] = { ":Emodeltest<CR>", "open doman model test", opts = opts },
-		["<leader>atd"] = { ":Edbmodeltest<CR>", "open database model test", opts = opts },
-		["<leader>atr"] = { ":Erepotest<CR>", "open database repo test", opts = opts },
 
 		["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
 		["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },

@@ -29,6 +29,7 @@
 .chef/
 .chunkwmrc
 .cifs
+.click-history
 .cmake/
 .com.jungledisk.workgroupservice.status
 .config/DisplayCAL/
@@ -88,11 +89,13 @@
 .config/mopidy/
 .config/mps-youtube/
 .config/networkmanagement.notifyrc
+.config/op/
 .config/parcellite/
 .config/pavucontrol.ini
 .config/pip/
 .config/powermanagementprofilesrc
 .config/print-manager
+.config/pudb/
 .config/pulse/*
 .config/pulse/*-runtime
 .config/pulse/566f89da97374aacab1de9edb348b34b-card-database.tdb
@@ -108,6 +111,7 @@
 .config/pulse/cookie
 .config/pulse/equalizer-state.tdb
 .config/qalculate/
+.config/raycast/
 .config/session/
 .config/smplayer/
 .config/smplayerhdpi.ini
@@ -276,6 +280,7 @@
 .task/
 .taskrc
 .telegram-cli/
+.terraform.d/
 .thumbnails/
 .tldrc/
 .tmux-buffer
