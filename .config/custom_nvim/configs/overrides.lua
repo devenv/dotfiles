@@ -54,27 +54,21 @@ M.treesitter = {
 			enable = true,
 			set_jumps = true,
 			goto_next_start = {
-				["]c"] = "@class.outer",
 				["]d"] = "@function.outer",
-				["]a"] = "@parameter.outer",
 				["]s"] = "@block.outer",
 			},
 			goto_next_end = {
 				["]C"] = "@class.outer",
 				["]D"] = "@function.outer",
-				["]A"] = "@parameter.outer",
 				["]S"] = "@block.outer",
 			},
 			goto_previous_start = {
-				["[c"] = "@class.outer",
 				["[d"] = "@function.outer",
-				["[a"] = "@parameter.outer",
 				["[s"] = "@block.outer",
 			},
 			goto_previous_end = {
 				["[C"] = "@class.outer",
 				["[D"] = "@function.outer",
-				["[A"] = "@parameter.outer",
 				["[S"] = "@block.outer",
 			},
 		},
@@ -106,7 +100,7 @@ M.gitsigns = {
 	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 	numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
 	linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-	word_diff = true, -- Toggle with `:Gitsigns toggle_word_diff`
+	word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
 	watch_gitdir = {
 		follow_files = true,
 	},

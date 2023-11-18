@@ -6,13 +6,13 @@ local plugins = {
 		event = "BufEnter",
 		config = function()
 			require("bookmarks").setup({
-				sign_priority = 0,
+				sign_priority = 8,
 				save_file = vim.fn.expand("$HOME/.local/share/nvim/bookmarks/$TICKET.json"),
 				keywords = {
-					["@t"] = "† ",
+					["@t"] = "☑︎ ",
 					["@w"] = "‼ ",
 					["@r"] = "® ",
-					["@s"] = "© ",
+					["@s"] = "§ ",
 					["@p"] = "℗ ",
 					["@m"] = "⁂ ",
 					["@n"] = "♪ ",

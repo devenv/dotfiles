@@ -42,14 +42,8 @@ M.disabled = {
 		["<leader>n"] = { "" },
 		["<leader>rn"] = { "" },
 		["<leader>b"] = { "" },
-		["<leader>ch"] = { "" },
 		["<leader>cm"] = { "" },
-		["<leader>th"] = { "" },
-		["<leader>gt"] = { "" },
-		["<leader>rh"] = { "" },
 		["<leader>ra"] = { "" },
-		["<leader>ph"] = { "" },
-		["<leader>td"] = { "" },
 		["<leader>/"] = { "" },
 	},
 	o = {
@@ -66,17 +60,13 @@ M.general = {
 		["_s"] = { ":%s/\\s\\+$//<CR>" },
 		["\\"] = { '"+y' },
 		["Y"] = { "y$" },
-		["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
+		["<leader>h/"] = { ":set invhlsearch<CR>", opts = opts },
 
 		["<leader><leader>"] = { "<C-^>", opts = opts },
 		["''"] = { "`^", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>", opts = opts },
 		["<leader>hh"] = { ":exe ':Telescope possession list default_text='.$TICKET.''<CR>", opts = opts },
-		["<leader>go"] = {
-			":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
-			opts = opts,
-		},
 		["<leader>L"] = { ":copen<CR>", opts = opts },
 		["<leader>E"] = { ":clist<CR>", opts = opts },
 
@@ -106,6 +96,7 @@ M.general = {
 		["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>", opts = opts },
 
 		["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
+		["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
@@ -156,9 +147,8 @@ M.general = {
 		["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
 
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>", opts = opts },
-		["gr"] = { ":Telescope lsp_references<CR>", opts = opts },
 		["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
-		["go"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
+		["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
 		["g<tab>"] = { ":Vista finder<CR>", opts = opts },
 
 		["<leader>wr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
@@ -213,9 +203,10 @@ M.general = {
 		["<leader>dc"] = { ":lua require('dap').continue()<CR>", opts = opts },
 		["<leader>dx"] = { ":lua require('dap').terminate()<CR>", opts = opts },
 
-		["<leader>dW"] = {
+		["<leader>dw"] = {
 			function()
 				require("dapui").elements.watches.add(vim.fn.expand("<cword>"))
+				require("dapui").open(2)
 			end,
 		},
 		["<leader>d$"] = {
@@ -225,7 +216,7 @@ M.general = {
 				require("dapui").open(2)
 			end,
 		},
-		["<leader>dw"] = {
+		["<leader>dK"] = {
 			function()
 				require("dap.ui.widgets").hover()
 			end,
@@ -269,28 +260,42 @@ M.general = {
 		},
 		["<leader>rl"] = { ":LspRestart<CR>", opts = opts },
 
-		["<leader>f<space>"] = { ":Telescope live_grep<CR>", opts = opts },
-		["<leader>fg"] = { ":Telescope git_files<CR>", opts = opts },
+		["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
+		["<leader>/"] = { ":Telescope live_grep<CR>", opts = opts },
+		["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
 		["<leader>fq"] = { ":Telescope quickfix<CR>", opts = opts },
 		["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
 		["<leader>P"] = { ":Telescope registers<CR>", opts = opts },
-		["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
-		["<leader>fw"] = { ":Telescope grep_string<CR>", opts = opts },
 
-		["<leader>cc"] = { ":Copilot panel<CR>", opts = opts },
 		["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
+		["<leader>cc"] = { ":Copilot panel<CR>", opts = opts },
 		["<leader>u"] = { ":UndotreeToggle<CR>", opts = opts },
 		["<leader>D"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
 
-		["gb"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
-		["gB"] = { ":Git blame<CR>", opts = opts },
+		["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
+		["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
+		["gB"] = { ":ToggleBlame window<CR>", opts = opts },
+		["gt"] = {
+			function()
+				require("agitator").git_time_machine()
+			end,
+			opts = opts,
+		},
+		["g/"] = {
+      function ()
+        require("agitator").search_git_branch()
+      end
+    },
 		["gm"] = { ":Gitsigns change_base 'origin/main'<CR>", opts = opts },
 		["gM"] = { ":Gitsigns reset_base<CR>", opts = opts },
 		["gd"] = { ":Gitsigns diffthis<CR>", opts = opts },
 		["gq"] = { ":Gitsigns setqflist all<CR>", opts = opts },
 
 		["gs"] = { ":Neogit<CR>", "git status", opts = opts },
-		["gl"] = { ":Neogit log<CR>", "git log", opts = opts },
+		["gr"] = {
+			":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
+			opts = opts,
+		},
 
 		["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
 		["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },
@@ -321,6 +326,7 @@ M.general = {
 				require("dapui").open(2)
 			end,
 		},
+		["gb"] = { ":DiffviewFileHistory<CR>", opts = opts },
 	},
 	o = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw", opts = opts },

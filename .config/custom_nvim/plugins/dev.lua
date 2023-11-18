@@ -270,7 +270,7 @@ local plugins = {
 	},
 	{
 		"NeogitOrg/neogit",
-		lazy = false,
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
@@ -283,6 +283,14 @@ local plugins = {
 		"whiteinge/diffconflicts",
 		lazy = false,
 	},
+	{
+		"FabijanZulj/blame.nvim",
+		event = "VeryLazy",
+	},
+  {
+    "emmanueltouzery/agitator.nvim",
+		event = "VeryLazy",
+  },
 	{
 		"ranelpadon/python-copy-reference.vim",
 		event = "VeryLazy",
