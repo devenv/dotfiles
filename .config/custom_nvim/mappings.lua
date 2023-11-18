@@ -105,12 +105,7 @@ M.general = {
 		["gH"] = { ":lua require('nvchad_ui.tabufline').move_buf(-1)<CR>", opts = opts },
 		["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>", opts = opts },
 
-		["<leader>A"] = {
-			function()
-				require("harpoon.mark").add_file()
-			end,
-		},
-		["<leader>a"] = { ":Telescope harpoon marks<CR>", opts = opts },
+		["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },

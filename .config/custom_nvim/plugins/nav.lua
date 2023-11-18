@@ -2,31 +2,43 @@ local overrides = require("custom.configs.overrides")
 
 local plugins = {
 	{
-		"ThePrimeagen/harpoon",
+		"tomasky/bookmarks.nvim",
 		event = "BufEnter",
 		config = function()
-			require("harpoon").setup({
-				global_settings = {
-					save_on_toggle = true,
-					save_on_change = true,
-					enter_on_sendcmd = false,
-					tmux_autoclose_windows = false,
-					excluded_filetypes = { "harpoon" },
-					mark_branch = false,
-					tabline = false,
+			require("bookmarks").setup({
+				sign_priority = 0,
+				save_file = vim.fn.expand("$HOME/.local/share/nvim/bookmarks/$TICKET.json"),
+				keywords = {
+					["@t"] = "† ",
+					["@w"] = "‼ ",
+					["@r"] = "® ",
+					["@s"] = "© ",
+					["@p"] = "℗ ",
+					["@m"] = "⁂ ",
+					["@n"] = "♪ ",
 				},
+				on_attach = function(bufnr)
+					local bm = require("bookmarks")
+					local map = vim.keymap.set
+					map("n", "mm", bm.bookmark_toggle) -- add or remove bookmark at current line
+					map("n", "mi", bm.bookmark_ann) -- add or edit mark annotation at current line
+					map("n", "mx", bm.bookmark_clean) -- clean all marks in local buffer
+					map("n", "mj", bm.bookmark_next) -- jump to next mark in local buffer
+					map("n", "mk", bm.bookmark_prev) -- jump to previous mark in local buffer
+					map("n", "mq", bm.bookmark_list) -- show marked file list in quickfix window
+				end,
 			})
 		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
+			"tomasky/bookmarks.nvim",
+			"jedrzejboczar/possession.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 			},
-			{ "ThePrimeagen/harpoon" },
-			{ "jedrzejboczar/possession.nvim" },
 		},
 		config = function()
 			require("telescope").setup({
@@ -48,8 +60,8 @@ local plugins = {
 					},
 				},
 			})
+			require("telescope").load_extension("bookmarks")
 			require("telescope").load_extension("fzf")
-			require("telescope").load_extension("harpoon")
 			require("telescope").load_extension("possession")
 		end,
 	},
