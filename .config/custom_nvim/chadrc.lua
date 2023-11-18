@@ -8,7 +8,7 @@ M.ui = {
 	statusline = {
 		theme = "vscode_colored",
 		overriden_modules = function(modules)
-			modules[2] = "%#StText# "
+			modules[2] = "%#StText# " .. vim.env.PROJECT
 		end,
 	},
 

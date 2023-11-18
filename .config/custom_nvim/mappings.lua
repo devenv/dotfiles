@@ -159,12 +159,12 @@ M.general = {
 		["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
 		["<leader>e"] = { ":lua require('telescope.builtin').diagnostics({severity_limit=3})<CR>", opts = opts },
 		["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
+
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>", opts = opts },
 		["gr"] = { ":Telescope lsp_references<CR>", opts = opts },
 		["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
 		["go"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
-		["g<tab>"] = { ":Vista<CR>", opts = opts },
-		["<leader>F"] = { ":Vista finder<CR>", opts = opts },
+		["g<tab>"] = { ":Vista finder<CR>", opts = opts },
 
 		["<leader>wr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
 		["<leader>ws"] = { ":Telescope toggletasks select<CR>", opts = opts },
@@ -285,47 +285,26 @@ M.general = {
 		["<leader>cc"] = { ":Copilot panel<CR>", opts = opts },
 		["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
 		["<leader>u"] = { ":UndotreeToggle<CR>", opts = opts },
+		["<leader>D"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
 
-		["]t"] = { ":tabnext<CR>", opts = opts },
-		["[t"] = { ":tabprevious<CR>", opts = opts },
-		["]g"] = { ":Gitsigns next_hunk<CR>", opts = opts },
-		["[g"] = { ":Gitsigns prev_hunk<CR>", opts = opts },
+		["gb"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
+		["gB"] = { ":Git blame<CR>", opts = opts },
+		["gm"] = { ":Gitsigns change_base 'origin/main'<CR>", opts = opts },
+		["gM"] = { ":Gitsigns reset_base<CR>", opts = opts },
+		["gd"] = { ":Gitsigns diffthis<CR>", opts = opts },
+		["gq"] = { ":Gitsigns setqflist all<CR>", opts = opts },
 
-		["<leader>ghh"] = { ":Gitsigns toggle_linehl<CR>", opts = opts },
-		["<leader>ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
-		["<leader>ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
-		["<leader>ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
-
-		["<leader>gb"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
-		["<leader>gB"] = { ":Git blame<CR>", opts = opts },
-
-		["<leader>gm"] = { ":Gitsigns change_base 'origin/main'<CR>", opts = opts },
-		["<leader>gM"] = { ":Gitsigns reset_base<CR>", opts = opts },
-		["<leader>gd"] = { ":Gitsigns diffthis<CR>", opts = opts },
-		["<leader>gD"] = { ":Git difftool<CR>", opts = opts },
-		["<leader>gc"] = { ":Git mergetool<CR>", opts = opts },
-		["<leader>gC"] = { ":Git rebase --continue<CR>", opts = opts },
-		["<leader>gq"] = { ":Gitsigns setqflist all<CR>", opts = opts },
-
-		["<leader>gi"] = { ":Git commit<CR>", "git commit all", opts = opts },
-		["<leader>gI"] = { "::Git commit -a<CR>", "git commit onlt staged", opts = opts },
-		["<leader>ggi"] = { "::Git commit --amend<CR>", "git commit ammend all", opts = opts },
-		["<leader>ggI"] = { "::Git commit -a --amend<CR>", "git commit ammend only sgated", opts = opts },
-		["<leader>gp"] = { ":Git push<CR>", "git push", opts = opts },
-		["<leader>ggp"] = { ":Git push -f<CR>", "git force push", opts = opts },
-		["<leader>gf"] = { ":Git fetch --all<CR>", "git fetch all", opts = opts },
-
-		["<leader>gl"] = { ":Telescope git_commits<CR>", "git commits", opts = opts },
-		["<leader>gs"] = { ":Neogit<CR>", "git status", opts = opts },
-
-		["<leader>gt"] = { ":Telescope git_stash<CR>", "git list stashes", opts = opts },
-		["<leader>gT"] = { ":Git stash", "git stash", opts = opts },
-
-		["<leader>B"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
+		["gs"] = { ":Neogit<CR>", "git status", opts = opts },
+		["gl"] = { ":Neogit log<CR>", "git log", opts = opts },
 
 		["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
 		["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },
 		["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)", opts = opts },
+
+		["ghh"] = { ":Gitsigns toggle_linehl<CR>", opts = opts },
+		["ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
+		["ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
+		["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
 	},
 	v = {
 		["\\"] = { '"+y', opts = opts },

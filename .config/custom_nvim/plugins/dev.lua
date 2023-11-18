@@ -2,6 +2,10 @@ local overrides = require("custom.configs.overrides")
 
 local plugins = {
 	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = overrides.treesitter,
+	},
+	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		event = "BufEnter",
 		dependencies = {
@@ -58,6 +62,11 @@ local plugins = {
 			"ibhagwan/fzf-lua",
 		},
 		config = true,
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufEnter",
+		opts = overrides.gitsigns,
 	},
 	{
 		"nvim-neotest/neotest",

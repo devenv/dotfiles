@@ -26,6 +26,7 @@ local plugins = {
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 			},
 			{ "ThePrimeagen/harpoon" },
+			{ "jedrzejboczar/possession.nvim" },
 		},
 		config = function()
 			require("telescope").setup({
@@ -49,6 +50,7 @@ local plugins = {
 			})
 			require("telescope").load_extension("fzf")
 			require("telescope").load_extension("harpoon")
+			require("telescope").load_extension("possession")
 		end,
 	},
 	{

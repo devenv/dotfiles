@@ -9,9 +9,9 @@ local plugins = {
 			"nvim-neotest/neotest",
 			"rcarriga/nvim-dap-ui",
 			"NeogitOrg/neogit",
+			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-			require("telescope").load_extension("possession")
 			require("possession").setup({
 				silent = true,
 				load_silent = true,
@@ -32,7 +32,7 @@ local plugins = {
 						pcall(function()
 							require("neogit").close()
 						end)
-						return true
+						return {}
 					end,
 					after_load = function()
 						vim.cmd("LspRestart")
@@ -40,8 +40,7 @@ local plugins = {
 				},
 				autosave = {
 					current = true,
-					tmp = true,
-					tmp_name = "tmp",
+					tmp = false,
 					on_load = true,
 					on_quit = true,
 				},
@@ -58,7 +57,7 @@ local plugins = {
 				plugins = {
 					delete_hidden_buffers = false,
 					nvim_tree = true,
-					tabby = true,
+					tabby = false,
 					dap = true,
 					delete_buffers = true,
 					close_windows = {
@@ -70,6 +69,16 @@ local plugins = {
 					},
 				},
 				telescope = {
+					previewer = {
+						enabled = true,
+						previewer = "pretty", -- or 'raw' or fun(opts): Previewer
+						wrap_lines = true,
+						include_empty_plugin_data = false,
+						cwd_colors = {
+							cwd = "Comment",
+							tab_cwd = { "#cc241d", "#b16286", "#d79921", "#689d6a", "#d65d0e", "#458588" },
+						},
+					},
 					list = {
 						default_action = "load",
 						mappings = {

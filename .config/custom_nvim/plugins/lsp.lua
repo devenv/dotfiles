@@ -1,5 +1,3 @@
-local overrides = require("custom.configs.overrides")
-
 local plugins = {
 	{
 		"hrsh7th/nvim-cmp",
