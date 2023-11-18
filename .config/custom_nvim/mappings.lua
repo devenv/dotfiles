@@ -23,6 +23,17 @@ M.disabled = {
 		["<C-j>"] = { "" },
 		["<C-k>"] = { "" },
 		["<C-l>"] = { "" },
+		["<M-i>"] = { "" },
+		["<M-h>"] = { "" },
+		["<M-j>"] = { "" },
+		["<M-k>"] = { "" },
+		["<M-l>"] = { "" },
+		["<A-h>"] = { "" },
+		["<A-j>"] = { "" },
+		["<A-k>"] = { "" },
+		["<A-l>"] = { "" },
+		["<M-m>"] = { "" },
+		["<M-w>"] = { "" },
 		["<tab>"] = { "" },
 		["<leader>f"] = { "" },
 		["<leader>h"] = { "" },
@@ -35,7 +46,6 @@ M.disabled = {
 		["<leader>cm"] = { "" },
 		["<leader>th"] = { "" },
 		["<leader>gt"] = { "" },
-		["<A-i>"] = { "" },
 		["<leader>rh"] = { "" },
 		["<leader>ra"] = { "" },
 		["<leader>ph"] = { "" },
@@ -46,7 +56,7 @@ M.disabled = {
 		["is"] = { "" },
 	},
 	t = {
-		["<A-i>"] = { "" },
+		["<M-i>"] = { "" },
 		["<leader>/"] = { "" },
 	},
 }
@@ -59,6 +69,7 @@ M.general = {
 		["<leader>/"] = { ":set invhlsearch<CR>", opts = opts },
 
 		["<leader><leader>"] = { "<C-^>", opts = opts },
+		["''"] = { "`^", opts = opts },
 
 		["<leader>H"] = { ":Telescope possession list<CR>", opts = opts },
 		["<leader>L"] = { ":copen<CR>", opts = opts },
@@ -83,10 +94,6 @@ M.general = {
 		["])"] = { ":cnext<CR>", opts = opts },
 		["[("] = { ":cprev<CR>", opts = opts },
 
-		["<C-h>"] = { ":silent TmuxNavigateLeft<CR>", opts = opts },
-		["<C-j>"] = { ":silent TmuxNavigateDown<CR>", opts = opts },
-		["<C-k>"] = { ":silent TmuxNavigateUp<CR>", opts = opts },
-		["<C-l>"] = { ":silent TmuxNavigateRight<CR>", opts = opts },
 		["H"] = { ":bp<CR>", opts = opts },
 		["L"] = { ":bn<CR>", opts = opts },
 		["X"] = { ":bd<CR>", opts = opts },
@@ -100,7 +107,26 @@ M.general = {
 		["<C-s>"] = { "<PageUp>", opts = opts },
 		["<C-f>"] = { "<PageDown>", opts = opts },
 		["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>", opts = opts },
-
+		["<C-j>"] = {
+			function()
+				vim.api.nvim_input("<C-w>j")
+			end,
+		},
+		["<C-k>"] = {
+			function()
+				vim.api.nvim_input("<C-w>k")
+			end,
+		},
+		["<C-l>"] = {
+			function()
+				vim.api.nvim_input("<C-w>l")
+			end,
+		},
+		["<C-h>"] = {
+			function()
+				vim.api.nvim_input("<C-w>h")
+			end,
+		},
 		[")"] = {
 			":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>",
 			opts = opts,
@@ -186,9 +212,9 @@ M.general = {
 		},
 		["<leader>d$"] = {
 			function()
-        vim.api.nvim_input "\"vy$"
+				vim.api.nvim_input('"vy$')
 				require("dapui").elements.watches.add(vim.fn.getreg("v"))
-        require('dapui').open(2)
+				require("dapui").open(2)
 			end,
 		},
 		["<leader>dw"] = {
@@ -212,9 +238,18 @@ M.general = {
 
 		["<leader>r<tab>"] = { ":lua vim.lsp.buf.code_action()<CR>", opts = opts },
 		["<leader>rn"] = { ":lua vim.lsp.buf.rename()<CR>", opts = opts },
-		["<leader>rar"] = { ":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/refactor\" && exit'<CR>", opts = opts },
-		["<leader>rad"] = { ":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/find-differences\" && exit'<CR>", opts = opts },
-		["<leader>rae"] = { ":exec ':TermExec cmd='.\"'\".'open \"raycast://ai-commands/extract?arguments='.input(\"Extract what? \").'\" && exit'.\"'\"<CR>", opts = opts },
+		["<leader>rar"] = {
+			":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/refactor\" && exit'<CR>",
+			opts = opts,
+		},
+		["<leader>rad"] = {
+			":%y+<CR>:TermExec open=0 cmd='open \"raycast://ai-commands/find-differences\" && exit'<CR>",
+			opts = opts,
+		},
+		["<leader>rae"] = {
+			":exec ':TermExec cmd='.\"'\".'open \"raycast://ai-commands/extract?arguments='.input(\"Extract what? \").'\" && exit'.\"'\"<CR>",
+			opts = opts,
+		},
 		["<leader>rr"] = { ":'<,'>d<CR>\"+p" },
 		["<leader>rq"] = {
 			":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>",
@@ -311,10 +346,10 @@ M.general = {
 		},
 		["<leader>dW"] = {
 			function()
-        vim.api.nvim_input "\"vy"
-        local text = vim.fn.getreg('v')
+				vim.api.nvim_input('"vy')
+				local text = vim.fn.getreg("v")
 				require("dapui").elements.watches.add(text)
-        require('dapui').open(2)
+				require("dapui").open(2)
 			end,
 		},
 	},

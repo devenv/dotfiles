@@ -575,6 +575,10 @@ local plugins = {
 		"bkad/CamelCaseMotion",
 		event = "BufEnter",
 	},
+  {
+    "farmergreg/vim-lastplace",
+    lazy = false,
+  },
 	{
 		"christoomey/vim-tmux-navigator",
 		lazy = false,
@@ -1067,7 +1071,6 @@ local plugins = {
 		config = function()
 			require("mini.colors").setup()
 			require("mini.comment").setup()
-			require("mini.move").setup()
 			require("mini.bufremove").setup({
 				silent = true,
 			})
