@@ -1,6 +1,11 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
+
 local lspconfig = require("lspconfig")
 
 lspconfig.html.setup({
@@ -41,6 +46,7 @@ lspconfig.pyright.setup({
 				useLibraryCodeForTypes = true,
 				reportUnknownArgumentType = true,
 				reportUnknownParameterType = true,
+        stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs/stubs",
 			},
 		},
 	},

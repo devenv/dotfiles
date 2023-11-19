@@ -95,8 +95,45 @@ M.general = {
 		["gH"] = { ":lua require('nvchad_ui.tabufline').move_buf(-1)<CR>", opts = opts },
 		["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>", opts = opts },
 
+		["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
+		["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
+		["gB"] = { ":ToggleBlame window<CR>", opts = opts },
+		["gt"] = {
+			function()
+				require("agitator").git_time_machine()
+			end,
+			opts = opts,
+		},
+		["g/"] = {
+			function()
+				require("agitator").search_git_branch()
+			end,
+		},
+		["gm"] = { ":Gitsigns change_base 'origin/main'<CR>", opts = opts },
+		["gM"] = { ":Gitsigns reset_base<CR>", opts = opts },
+		["gD"] = { ":Gitsigns diffthis<CR>", opts = opts },
+		["gq"] = { ":Gitsigns setqflist all<CR>", opts = opts },
+
+		["gs"] = { ":Neogit<CR>", "git status", opts = opts },
+		["gr"] = {
+			":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
+			opts = opts,
+		},
+
+		["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
+		["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },
+		["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)", opts = opts },
+
+		["ghh"] = { ":Gitsigns toggle_linehl<CR>", opts = opts },
+		["ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
+		["ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
+		["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
+
 		["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
 		["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
+		["<leader>wd"] = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts },
+		["<leader>wl"] = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts },
+    ["<leader>wa"] = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts },
 
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
@@ -138,8 +175,6 @@ M.general = {
 		["F"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_F()<CR>", opts = opts },
 		["t"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_t()<CR>", opts = opts },
 		["T"] = { ":lua require('nvim-treesitter.textobjects.repeatable_move').builtin_T()<CR>", opts = opts },
-		["m"] = { "<Plug>CamelCaseMotion_w", opts = opts },
-		["M"] = { "<Plug>CamelCaseMotion_b", opts = opts },
 
 		["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
 		["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
@@ -271,40 +306,6 @@ M.general = {
 		["<leader>cc"] = { ":Copilot panel<CR>", opts = opts },
 		["<leader>u"] = { ":UndotreeToggle<CR>", opts = opts },
 		["<leader>D"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
-
-		["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
-		["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
-		["gB"] = { ":ToggleBlame window<CR>", opts = opts },
-		["gt"] = {
-			function()
-				require("agitator").git_time_machine()
-			end,
-			opts = opts,
-		},
-		["g/"] = {
-      function ()
-        require("agitator").search_git_branch()
-      end
-    },
-		["gm"] = { ":Gitsigns change_base 'origin/main'<CR>", opts = opts },
-		["gM"] = { ":Gitsigns reset_base<CR>", opts = opts },
-		["gd"] = { ":Gitsigns diffthis<CR>", opts = opts },
-		["gq"] = { ":Gitsigns setqflist all<CR>", opts = opts },
-
-		["gs"] = { ":Neogit<CR>", "git status", opts = opts },
-		["gr"] = {
-			":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
-			opts = opts,
-		},
-
-		["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
-		["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },
-		["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)", opts = opts },
-
-		["ghh"] = { ":Gitsigns toggle_linehl<CR>", opts = opts },
-		["ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
-		["ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
-		["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
 	},
 	v = {
 		["\\"] = { '"+y', opts = opts },

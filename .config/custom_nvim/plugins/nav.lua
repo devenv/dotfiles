@@ -129,6 +129,19 @@ local plugins = {
 		end,
 	},
 	{
+		"utilyre/barbecue.nvim",
+		lazy = false,
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {
+			-- configurations go here
+		},
+	},
+	{
 		"wellle/targets.vim",
 		event = "BufEnter",
 	},
