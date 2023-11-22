@@ -88,10 +88,19 @@ local plugins = {
 							},
 						},
 					}),
-					["<C-d>"] = cmp.mapping.complete({
+					["<C-t>"] = cmp.mapping.complete({
 						config = {
 							sources = {
-								{ name = "luasnip" },
+								{
+									name = "buffer",
+									priority = 1,
+									group_index = 1,
+									option = {
+										get_bufnrs = function()
+											return vim.api.nvim_list_bufs()
+										end,
+									},
+								},
 							},
 						},
 					}),

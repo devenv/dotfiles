@@ -133,7 +133,7 @@ M.general = {
 		["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
 		["<leader>wd"] = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts },
 		["<leader>wl"] = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts },
-    ["<leader>wa"] = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts },
+		["<leader>wa"] = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts },
 
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
@@ -215,24 +215,39 @@ M.general = {
 		},
 
 		["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>", opts = opts },
-		["<leader>da"] = { ":Telescope dap configurations<CR>", opts = opts },
+		["<leader>da"] = {
+			function()
+				local dap = require("dap")
+				dap.run(dap.configurations.python[1])
+			end,
+			opts = opts,
+		},
 		["<leader>dA"] = { ":Telescope dap commands<CR>", opts = opts },
 
 		["<leader>de"] = { ":lua require('neotest').output.open()<CR>", opts = opts },
 		["<leader>do"] = { ":lua require('neotest').output_panel.open({last_run = ture})<CR>", opts = opts },
-		["<leader>d<tab>"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
+		["<leader>dW"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
+		["<leader>d<tab>"] = { ":lua require('dapui').toggle(1)<CR>", opts = opts },
 
 		["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
 		["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
 		["<leader>dB"] = { ":Telescope dap list_breakpoints<CR>", opts = opts },
 		["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>", opts = opts },
 
+		["<leader>dp"] = {
+			function()
+				vim.keymap.set("n", "<Leader>lp", function()
+					require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+				end)
+			end,
+			opts = opts,
+		},
 		["<leader>dd"] = { ":lua require('dap').step_over()<CR>", opts = opts },
-		["∆"] = { ":lua require('dap').step_over()<CR>", opts = opts },
+		["<C-u>"] = { ":lua require('dap').step_over()<CR>", opts = opts },
 		["<leader>ds"] = { ":lua require('dap').step_into()<CR>", opts = opts },
-		["˚"] = { ":lua require('dap').step_into()<CR>", opts = opts },
+		["<C-y>"] = { ":lua require('dap').step_into()<CR>", opts = opts },
 		["<leader>dr"] = { ":lua require('dap').step_out()<CR>", opts = opts },
-		["ø"] = { ":lua require('dap').step_out()<CR>", opts = opts },
+		["<C-t>"] = { ":lua require('dap').step_out()<CR>", opts = opts },
 		["<leader>dk"] = { ":lua require('dap').up()<CR>", opts = opts },
 		["<leader>dj"] = { ":lua require('dap').down()<CR>", opts = opts },
 		["<leader>dc"] = { ":lua require('dap').continue()<CR>", opts = opts },
@@ -319,11 +334,10 @@ M.general = {
 			":lua vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })<CR>",
 			opts = opts,
 		},
-		["<leader>dW"] = {
+		["<leader>dw"] = {
 			function()
 				vim.api.nvim_input('"vy')
-				local text = vim.fn.getreg("v")
-				require("dapui").elements.watches.add(text)
+				vim.api.nvim_input(':lua require("dapui").elements.watches.add(vim.fn.getreg("v"))<CR>')
 				require("dapui").open(2)
 			end,
 		},

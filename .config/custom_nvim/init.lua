@@ -33,6 +33,16 @@ autocmd("BufWritePre", {
   pattern = {"*.py"},
   group = "OrderImportsOnSave",
   callback = function()
-      -- vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })
+    vim.cmd("silent! w")
+    vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })
   end,
+})
+
+augroup("OpenPrUrlOnPush", { clear = true })
+autocmd('User', {
+  pattern = 'NeogitPushComplete',
+  group = "OpenPrUrlOnPush",
+  callback = function()
+    require('neogit.process').show_console()
+  end
 })

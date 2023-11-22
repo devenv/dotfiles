@@ -110,6 +110,13 @@ local plugins = {
 							request = "attach",
 							name = "Attach",
 							port = 5678,
+              pathMappings = {
+                { localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
+                { localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages", remoteRoot = "/usr/local/lib/python3.10/site-packages" },
+                { localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework", remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework" },
+              },
+              showReturnValue = true,
+              justMyCode = false,
 							pythonPath = function()
 								return os.getenv("VIRTUAL_ENV") .. "/bin/python"
 							end,

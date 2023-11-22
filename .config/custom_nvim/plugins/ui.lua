@@ -223,7 +223,7 @@ local plugins = {
 				{
 					title = "Watches",
 					ft = "dapui_watches",
-					size = { width = 40, height = 0.2 },
+					size = { width = 40, height = 0.4 },
 				},
 			},
 			left = {
