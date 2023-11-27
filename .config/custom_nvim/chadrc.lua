@@ -104,6 +104,10 @@ vim.o.foldenable = true
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
+vim.g.sort_motion = 'gk'
+vim.g.sort_motion_lines = 'gks'
+vim.g.sort_motion_visual = 'gk'
+
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 

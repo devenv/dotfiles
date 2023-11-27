@@ -37,15 +37,7 @@ defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ~/.tmux/plugins/tpm/tpm
 
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-fisher install jethrokuan/fzf
-
-omf install
 pip3 install neovim
-
-sudo gem install coderay
 
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-npm install -g commitizen

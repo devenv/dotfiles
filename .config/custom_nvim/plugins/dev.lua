@@ -133,7 +133,7 @@ local plugins = {
 					open = false,
 				},
 				output = {
-					enabled = false,
+					enabled = true,
 					open_on_run = false,
 				},
 				output_panel = {

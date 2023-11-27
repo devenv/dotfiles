@@ -67,9 +67,9 @@ local plugins = {
 					comparators = {
 						cmp.config.compare.score,
 						cmp.config.compare.exact,
+						cmp.config.compare.locality,
 						cmp.config.compare.kind,
 						cmp.config.compare.recently_used,
-						cmp.config.compare.locality,
 						cmp.config.compare.length,
 						cmp.config.compare.order,
 						cmp.config.compare.sort_text,
