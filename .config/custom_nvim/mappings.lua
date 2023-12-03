@@ -76,12 +76,13 @@ M.general = {
 		["<leader>SA"] = { ":spellrepall<CR>", opts = opts },
 		["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>", opts = opts },
 
-		["<leader>pf"] = { ":let @+=expand('%')<CR>", opts = opts },
+		["<leader>pp"] = { ":let @+=expand('%')<CR>", opts = opts },
 		["<leader>pF"] = { ":let @+=expand('%:p')<CR>", opts = opts },
 		["<leader>p."] = { ":PythonCopyReferenceDotted<CR>", opts = opts },
 		["<leader>pt"] = { ":PythonCopyReferencePytest<CR>", opts = opts },
 		["<leader>pi"] = { ":PythonCopyReferenceImport<CR>", opts = opts },
-		["<leader>pp"] = { ":echo @%<CR>", opts = opts },
+		["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
+		["<leader>pG"] = { ":OpenGithubPullReq<CR>", opts = opts },
 		["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>", opts = opts },
 
 		["{"] = { ":normal [c<CR>", opts = opts },
@@ -347,6 +348,7 @@ M.general = {
 		},
 		["gb"] = { ":DiffviewFileHistory<CR>", opts = opts },
     ["gS"] = {"<Plug>SortMotionVisual", opts = opts },
+		["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
 	},
 	o = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw", opts = opts },

@@ -9,7 +9,7 @@
   di = diff -w
   dc = diff --cached -w
   fa = fetch --all
-  pr = !CURRENT=$(git rev-parse --abbrev-ref HEAD) && git pull --rebase origin $ CURRENT
+  pr = !CURRENT=$(git rev-parse --abbrev-ref HEAD) && git pull --rebase origin $CURRENT
   farbo = !git fa && git rbo
   mt = mergetool
   rb = rebase -i

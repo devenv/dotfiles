@@ -6,6 +6,7 @@ vim.g.db_ui_auto_execute_table_helpers = 1
 vim.g.db_ui_use_nerd_fonts = 1
 vim.g.pytest_open_errors = 'current'
 vim.cmd("packadd cfilter")
+vim.cmd("set nowrap")
 
 
 vim.g.projectionist_heuristics = {

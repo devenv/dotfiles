@@ -306,6 +306,13 @@ local plugins = {
 		"psf/black",
 		event = "VeryLazy",
 	},
+  {
+    "tyru/open-browser-github.vim",
+		lazy = false,
+    dependencies = {
+      "tyru/open-browser.vim",
+    },
+  }
 }
 
 return plugins
