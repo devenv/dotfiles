@@ -108,9 +108,9 @@ vim.g.sort_motion = 'gk'
 vim.g.sort_motion_lines = 'gks'
 vim.g.sort_motion_visual = 'gk'
 
-vim.g.openbrowser_github_always_use_commit_hash = 0
-vim.g.openbrowser_github_always_used_branch = 1
-vim.g.openbrowser_github_select_current_line = 1
+vim.g.openbrowser_github_always_use_commit_hash = 1
+vim.g.openbrowser_github_always_used_branch = 0
+vim.g.openbrowser_github_select_current_line = 0
 vim.g.openbrowser_github_url_exists_check = 0
 
 vim.o.exrc = true

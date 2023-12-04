@@ -64,7 +64,7 @@ local plugins = {
 					close_windows = {
 						preserve_layout = true,
 						match = {
-							buftype = { "NeogitStatus" },
+							buftype = { "NeogitStatus", "terminal", "nofile" },
 							filetype = { "NeogitStatus" },
 						},
 					},
@@ -143,6 +143,10 @@ local plugins = {
 		"tpope/vim-repeat",
 		event = "BufEnter",
 	},
+  {
+    "chrisbra/unicode.vim",
+    event = "BufEnter",
+  }
 }
 
 return plugins
