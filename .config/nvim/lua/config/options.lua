@@ -1,56 +1,3 @@
---@type ChadrcConfig
-local M = {}
-
-local highlights = require("custom.highlights")
-
-M.options = {
-	tabufline = false,
-}
-
-M.ui = {
-
-	statusline = {
-		theme = "vscode_colored",
-		overriden_modules = function(modules)
-			local project = vim.env.PROJECT
-			if vim.env.PROJECT == nil then
-				project = "default"
-			end
-			modules[2] = "%3{codeium#GetStatusString()} " .. "%#StText# " .. project
-		end,
-	},
-
-	tabufline = {},
-
-	hl_override = highlights.override,
-	hl_add = highlights.add,
-
-	transparency = false,
-	lsp_semantic_tokens = true, -- needs nvim v0.9, just adds highlight groups for lsp semantic tokens
-
-	-- https://github.com/NvChad/base46/tree/v2.0/lua/base46/extended_integrations
-	extended_integrations = {}, -- these aren't compiled by default, ex: "alpha", "notify"
-
-	cmp = {
-		icons = true,
-		lspkind_text = true,
-		style = "flat_dark", -- default/flat_light/flat_dark/atom/atom_colored
-		selected_item_bg = "colored", -- colored / simple
-	},
-
-	lsp = {
-		-- show function signatures i.e args as you type
-		signature = {
-			disabled = true,
-			silent = true, -- silences 'no signature help available' message from appearing
-		},
-	},
-
-	telescope = { style = "borderless" }, -- borderless / bordered
-}
-
-M.plugins = "custom.plugins"
-
 vim.api.nvim_set_option("autoindent", true)
 vim.api.nvim_set_option("backspace", "indent,eol,start")
 vim.api.nvim_set_option("cursorline", true)
@@ -79,8 +26,8 @@ vim.api.nvim_set_option("rnu", false)
 vim.api.nvim_set_option("scrolljump", 1)
 vim.api.nvim_set_option("scrolloff", 10)
 vim.api.nvim_set_option(
-	"sessionoptions",
-	"blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+  "sessionoptions",
+  "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 )
 vim.api.nvim_set_option("shiftwidth", 2)
 vim.api.nvim_set_option("showmatch", true)
@@ -136,7 +83,3 @@ vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 vim.o.splitkeep = "screen"
 
 vim.lsp.set_log_level("WARN")
-
-M.mappings = require("custom.mappings")
-
-return M
