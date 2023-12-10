@@ -164,6 +164,13 @@ local plugins = {
     "chrisbra/unicode.vim",
     event = "BufEnter",
   },
+  {
+    "stevearc/stickybuf.nvim",
+    opts = {},
+    config = function()
+      require("stickybuf").setup()
+    end,
+  },
 }
 
 return plugins

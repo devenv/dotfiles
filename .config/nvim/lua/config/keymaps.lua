@@ -35,11 +35,13 @@ local mappings = {
     ["])"] = { ":cnext<CR>", opts = opts },
     ["[("] = { ":cprev<CR>", opts = opts },
 
-    ["H"] = { ":bp<CR>", opts = opts },
-    ["L"] = { ":bn<CR>", opts = opts },
-    ["X"] = { ":bd<CR>", opts = opts },
-    ["gH"] = { ":lua require('nvchad_ui.tabufline').move_buf(-1)<CR>", opts = opts },
-    ["gL"] = { ":lua require('nvchad_ui.tabufline').move_buf(1)<CR>", opts = opts },
+    ["H"] = { ":BufferPrevious<CR>", opts = opts },
+    ["L"] = { ":BufferNext<CR>", opts = opts },
+    ["X"] = { ":BufferClose<CR>", opts = opts },
+    ["gH"] = { ":BufferMovePrevious<CR>", opts = opts },
+    ["gL"] = { ":BufferMoveNext<CR>", opts = opts },
+    ["gP"] = { ":BufferPin<CR>", opts = opts },
+    ["gT"] = { ":BufferRestor<CR>", opts = opts },
 
     ["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
     ["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
@@ -78,11 +80,9 @@ local mappings = {
     ["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
     ["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
-    ["<leader>X"] = { ":bd!<CR>", opts = opts },
-    ["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
+    ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
     ["<leader>s"] = { ":silent! wa<CR>", opts = opts },
     ["<leader>q"] = { ":silent! wqa<CR>", opts = opts },
-    ["<leader>Q"] = { ":silent! cq<CR>", opts = opts },
     ["<C-s>"] = { "<PageUp>", opts = opts },
     ["<C-f>"] = { "<PageDown>", opts = opts },
     ["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>", opts = opts },
@@ -133,7 +133,7 @@ local mappings = {
 
     ["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
-    ["g<tab>"] = { ":AerialOpen<CR>", opts = opts },
+    ["g<tab>"] = { ":AerialToggle<CR>", opts = opts },
 
     ["<leader>wr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
     ["<leader>ws"] = { ":Telescope toggletasks select<CR>", opts = opts },
@@ -267,6 +267,7 @@ local mappings = {
 
     ["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
     ["<leader>/"] = { ":Telescope live_grep<CR>", opts = opts },
+    ["<leader>R"] = { ":lua requirespectre').toggle()<CR>", opts = opts },
     ["<leader>?"] = { ":Telescope grep_string<CR>", opts = opts },
     ["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
     ["<leader>P"] = { ":Telescope registers<CR>", opts = opts },

@@ -436,7 +436,6 @@ local plugins = {
             ["q"] = "actions.close",
           },
         },
-        },
       })
     end,
   },

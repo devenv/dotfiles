@@ -249,8 +249,11 @@ local plugins = {
       animation = true,
       tabpages = false,
       clickable = false,
+      insert_at_end = true,
 
       icons = {
+        pinned = { button = "", filename = true },
+        modified = { button = "●" },
 
         filetype = {
           custom_colors = true,
@@ -262,7 +265,7 @@ local plugins = {
           [vim.diagnostic.severity.INFO] = { enabled = false },
           [vim.diagnostic.severity.HINT] = { enabled = false },
         },
-        separator_at_end = false,
+        separator_at_end = true,
       },
       no_name_title = "<new>",
     },
@@ -272,6 +275,12 @@ local plugins = {
     opts = function()
       local Util = require("lazyvim.util")
       local icons = require("lazyvim.config").icons
+      local function codeium_status()
+        if string.find(vim.fn["codeium#GetStatusString"](), "/") then
+          return vim.fn["codeium#GetStatusString"]()
+        end
+        return ""
+      end
 
       vim.o.laststatus = vim.g.lualine_laststatus
 
@@ -279,10 +288,19 @@ local plugins = {
         options = {
           theme = "catppuccin",
           globalstatus = true,
+          refresh = {
+            statusline = 200,
+            tabline = 200,
+            winbar = 200,
+          },
         },
         sections = {
           lualine_a = { "branch" },
-          lualine_b = { "aerial" },
+          lualine_b = {
+            codeium_status,
+            "selectioncount",
+            "aerial",
+          },
 
           lualine_c = {
             {
@@ -295,6 +313,7 @@ local plugins = {
               },
             },
           },
+          lualine_x = {},
           lualine_y = {
             {
               function()
