@@ -3,22 +3,24 @@ local M = {}
 
 local highlights = require("custom.highlights")
 
+M.options = {
+	tabufline = false,
+}
+
 M.ui = {
 
 	statusline = {
 		theme = "vscode_colored",
 		overriden_modules = function(modules)
-      local project = vim.env.PROJECT
-      if vim.env.PROJECT == nil then
-        project = "default"
-      end
-			modules[2] = "%#StText# " .. project
+			local project = vim.env.PROJECT
+			if vim.env.PROJECT == nil then
+				project = "default"
+			end
+			modules[2] = "%3{codeium#GetStatusString()} " .. "%#StText# " .. project
 		end,
 	},
 
-	tabufline = {
-		show_numbers = true,
-	},
+	tabufline = {},
 
 	hl_override = highlights.override,
 	hl_add = highlights.add,
@@ -96,7 +98,17 @@ vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
 vim.api.nvim_set_option("makeprg", os.getenv("MAKEPRG"))
 
-vim.o.foldcolumn = '0' -- '0' is not bad
+vim.g.loaded_python3_provider = nil
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.mapleader = " "
+vim.g.db_ui_auto_execute_table_helpers = 1
+vim.g.db_ui_use_nerd_fonts = 1
+vim.g.pytest_open_errors = "current"
+vim.cmd("packadd cfilter")
+vim.cmd("set nowrap")
+
+vim.o.foldcolumn = "0" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -104,14 +116,19 @@ vim.o.foldenable = true
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
-vim.g.sort_motion = 'gk'
-vim.g.sort_motion_lines = 'gks'
-vim.g.sort_motion_visual = 'gk'
+vim.g.sort_motion = "gk"
+vim.g.sort_motion_lines = "gks"
+vim.g.sort_motion_visual = "gk"
 
 vim.g.openbrowser_github_always_use_commit_hash = 1
 vim.g.openbrowser_github_always_used_branch = 0
 vim.g.openbrowser_github_select_current_line = 0
 vim.g.openbrowser_github_url_exists_check = 0
+
+vim.g.codeium_disable_bindings = 1
+vim.g.codeium_no_map_tab = 1
+vim.g.codeium_idle_delay = 100
+vim.g.codeium_render = 1
 
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")

@@ -138,9 +138,9 @@ M.general = {
 
 		["<leader>X"] = { ":bd!<CR>", opts = opts },
 		["<leader>!!x"] = { ":%bd!<CR>", opts = opts },
-		["<leader>s"] = { ":wa<CR>", opts = opts },
-		["<leader>q"] = { ":wqa<CR>", opts = opts },
-		["<leader>Q"] = { ":cq<CR>", opts = opts },
+		["<leader>s"] = { ":silent! wa<CR>", opts = opts },
+		["<leader>q"] = { ":silent! wqa<CR>", opts = opts },
+		["<leader>Q"] = { ":silent! cq<CR>", opts = opts },
 		["<C-s>"] = { "<PageUp>", opts = opts },
 		["<C-f>"] = { "<PageDown>", opts = opts },
 		["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>", opts = opts },
@@ -164,10 +164,10 @@ M.general = {
 				vim.api.nvim_input("<C-w>h")
 			end,
 		},
-    ["<C-w>+"] = { ":resize +10<CR>", opts = opts },
-    ["<C-w>-"] = { ":resize -10<CR>", opts = opts },
-    ["<C-w><"] = { ":vertical resize +20<CR>", opts = opts },
-    ["<C-w>>"] = { ":vertical resize -20<CR>", opts = opts },
+		["<C-w>+"] = { ":resize +10<CR>", opts = opts },
+		["<C-w>-"] = { ":resize -10<CR>", opts = opts },
+		["<C-w>>"] = { ":vertical resize +20<CR>", opts = opts },
+		["<C-w><"] = { ":vertical resize -20<CR>", opts = opts },
 		[")"] = {
 			":lua require('nvim-treesitter.textobjects.repeatable_move').repeat_last_move_next()<CR>",
 			opts = opts,
@@ -187,6 +187,8 @@ M.general = {
 		["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
 
 		["K"] = { ":lua vim.lsp.buf.hover()<CR>", opts = opts },
+		["gd"] = { ":lua vim.lsp.buf.definition()<CR>", opts = opts },
+
 		["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
 		["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
 		["g<tab>"] = { ":Vista finder<CR>", opts = opts },
@@ -203,7 +205,10 @@ M.general = {
 
 		["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>", opts = opts },
 		["<leader>te"] = { ":lua require('neotest').output.open({ enter = true, last_run = true })<CR>", opts = opts },
-		["<leader>to"] = { ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>", opts = opts },
+		["<leader>to"] = {
+			":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
+			opts = opts,
+		},
 
 		["<leader>dt"] = {
 			":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
@@ -230,7 +235,10 @@ M.general = {
 		["<leader>dA"] = { ":Telescope dap commands<CR>", opts = opts },
 
 		["<leader>de"] = { ":lua require('neotest').output.open({ enter = true, last_run = true })<CR>", opts = opts },
-		["<leader>do"] = { ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>", opts = opts },
+		["<leader>do"] = {
+			":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
+			opts = opts,
+		},
 		["<leader>dW"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
 		["<leader>d<tab>"] = { ":lua require('dapui').toggle(1)<CR>", opts = opts },
 
@@ -320,12 +328,13 @@ M.general = {
 		["<leader>?"] = { ":Telescope grep_string<CR>", opts = opts },
 		["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
 		["<leader>P"] = { ":Telescope registers<CR>", opts = opts },
+		["<leader>n"] = { ":Telescope notify<CR>", opts = opts },
+		["<leader>N"] = { ":Noice dismiss<CR>", opts = opts },
 
 		["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
-		["<leader>cc"] = { ":Copilot panel<CR>", opts = opts },
 		["<leader>u"] = { ":UndotreeToggle<CR>", opts = opts },
 		["<leader>D"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
-    ["gS"] = {"<Plug>SortMotion", opts = opts },
+		["gS"] = { "<Plug>SortMotion", opts = opts },
 	},
 	v = {
 		["\\"] = { '"+y', opts = opts },
@@ -347,18 +356,18 @@ M.general = {
 			end,
 		},
 		["gb"] = { ":DiffviewFileHistory<CR>", opts = opts },
-    ["gS"] = {"<Plug>SortMotionVisual", opts = opts },
+		["gS"] = { "<Plug>SortMotionVisual", opts = opts },
 		["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
 	},
 	o = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw", opts = opts },
 		["ie"] = { "<Plug>CamelCaseMotion_ie", opts = opts },
-    ["gS"] = {"<Plug>SortMotionVisual", opts = opts },
+		["gS"] = { "<Plug>SortMotionVisual", opts = opts },
 	},
 	x = {
 		["iw"] = { "<Plug>CamelCaseMotion_iw", opts = opts },
 		["ie"] = { "<Plug>CamelCaseMotion_ie", opts = opts },
-    ["gS"] = {"<Plug>SortMotionVisual", opts = opts },
+		["gS"] = { "<Plug>SortMotionVisual", opts = opts },
 	},
 }
 

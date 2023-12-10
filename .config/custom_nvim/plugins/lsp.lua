@@ -8,26 +8,40 @@ local plugins = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-emoji",
 			{
-				"zbirenbaum/copilot-cmp",
+				"Exafunction/codeium.vim",
 				event = "BufEnter",
 				config = function()
-					require("copilot_cmp").setup()
-				end,
-			},
-			{
-				"zbirenbaum/copilot.lua",
-				cmd = "Copilot",
-				event = "BufEnter",
+					vim.keymap.set("i", "<C-f>", function()
+						return vim.fn["codeium#Accept"]()
+					end, { expr = true })
 
-				config = function()
-					require("copilot").setup({
-						panel = {
-							enabled = false,
-						},
-						suggestion = {
-							enabled = false,
-						},
-					})
+					vim.keymap.set("i", "<c-s>", function()
+						return vim.fn["codeium#CycleCompletions"](1)
+					end, { expr = true })
+
+					vim.keymap.set("i", "<c-w>", function()
+						return vim.fn["codeium#CycleCompletions"](-1)
+					end, { expr = true })
+
+					vim.keymap.set("i", "<c-x>", function()
+						return vim.fn["codeium#Clear"]()
+					end, { expr = true })
+
+					vim.keymap.set("i", "<C-f>", function()
+						return vim.fn["codeium#Accept"]()
+					end, { expr = true })
+
+					vim.keymap.set("i", "<right>", function(fallback)
+						if string.find(vim.fn["codeium#GetS     tatusString"](), "/") then
+							return vim.fn["codeium#Accept"]()
+						else
+							vim.api.nvim_feedkeys(
+								vim.api.nvim_replace_termcodes("<right>", true, false, true),
+								"n",
+								true
+							)
+						end
+					end, { expr = true })
 				end,
 			},
 		},
@@ -44,7 +58,6 @@ local plugins = {
 					end,
 				},
 				sources = {
-					{ name = "copilot", priority = 5, group_index = 2 },
 					{ name = "nvim_lsp", priority = 50, group_index = 1 },
 					{ name = "luasnip", priority = 5, group_index = 1 },
 					{ name = "path", priority = 2, group_index = 1 },
@@ -73,21 +86,11 @@ local plugins = {
 						cmp.config.compare.length,
 						cmp.config.compare.order,
 						cmp.config.compare.sort_text,
-						require("copilot_cmp.comparators").prioritize,
 					},
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-a>"] = cmp.mapping.complete({}),
-					["<C-s>"] = cmp.mapping.complete({
-						config = {
-							sources = {
-								{ name = "copilot" },
-							},
-						},
-					}),
 					["<C-t>"] = cmp.mapping.complete({
 						config = {
 							sources = {

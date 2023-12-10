@@ -43,6 +43,12 @@ local plugins = {
 		config = function()
 			require("telescope").setup({
 				defaults = {
+					layout_strategy = "flex",
+					layout_config = {
+						prompt_position = "bottom",
+						width = 0.95,
+						height = 0.95,
+					},
 					mappings = {
 						i = {
 							["<C-p>"] = require("telescope.actions").cycle_history_prev,
@@ -129,17 +135,48 @@ local plugins = {
 		end,
 	},
 	{
+		"SmiteshP/nvim-navic",
+		event = "BufEnter",
+		config = function()
+			local navic = require("nvim-navic")
+			navic.setup({
+				lsp = {
+					auto_attach = false,
+				},
+			})
+		end,
+	},
+	{
 		"utilyre/barbecue.nvim",
-		lazy = false,
+		event = "BufEnter",
 		name = "barbecue",
 		version = "*",
 		dependencies = {
 			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
+			"nvim-tree/nvim-web-devicons",
 		},
-		opts = {
-			-- configurations go here
-		},
+		config = function()
+			require("barbecue").setup({
+				create_autocmd = false,
+				attach_navic = false,
+			})
+
+			vim.api.nvim_create_autocmd({
+				"WinScrolled", -- or WinResized on NVIM-v0.9 and higher
+				"BufWinEnter",
+				"CursorHold",
+				"InsertLeave",
+
+				-- include this if you have set `show_modified` to `true`
+				"BufModifiedSet",
+			}, {
+				group = vim.api.nvim_create_augroup("barbecue.updater", {}),
+				callback = function()
+					require("barbecue.ui").update()
+				end,
+			})
+		end,
+		opts = {},
 	},
 	{
 		"wellle/targets.vim",

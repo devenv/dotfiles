@@ -64,7 +64,7 @@ local plugins = {
 					close_windows = {
 						preserve_layout = true,
 						match = {
-							buftype = { "NeogitStatus", "terminal", "nofile" },
+							buftype = { "NeogitStatus", "terminal", "nofile", "help" },
 							filetype = { "NeogitStatus" },
 						},
 					},

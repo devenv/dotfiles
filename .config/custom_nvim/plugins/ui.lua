@@ -171,6 +171,7 @@ local plugins = {
 		opts = {},
 		dependencies = {
 			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
 		},
 		config = function()
 			require("noice").setup({
@@ -188,7 +189,7 @@ local plugins = {
 						["cmp.entry.get_documentation"] = true,
 					},
 					hover = {
-						enabled = false,
+						enabled = true,
 						silent = false, -- set to true to not show a message if hover is not available
 						view = nil, -- when nil, use defaults from documentation
 						opts = {}, -- merged with defaults from documentation
@@ -207,7 +208,7 @@ local plugins = {
 					message = {
 						-- Messages shown by lsp servers
 						enabled = true,
-						view = "notify",
+						view = "virtualtext",
 						opts = {},
 					},
 					-- defaults for hover and signature help
@@ -216,7 +217,7 @@ local plugins = {
 						opts = {
 							lang = "markdown",
 							replace = true,
-							render = "plain",
+							render = "compact",
 							format = { "{message}" },
 							win_options = { concealcursor = "n", conceallevel = 3 },
 						},
@@ -228,18 +229,34 @@ local plugins = {
 					command_palette = true, -- position the cmdline and popupmenu together
 					long_message_to_split = true, -- long messages will be sent to a split
 					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
+					lsp_doc_border = true, -- add a border to hover docs and signature help
 				},
 				messages = {
 					enabled = true, -- enables the Noice messages UI
 					view = "notify", -- default view for messages
-					view_error = "notify", -- view for errors
-					view_warn = "notify", -- view for warnings
+					view_error = "virtualtext", -- view for errors
+					view_warn = "virtualtext", -- view for warnings
 					view_history = "messages", -- view for :messages
 					view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
 				},
 			})
 		end,
+	},
+	{
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+			"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+		},
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
+		opts = {
+			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+			-- animation = true,
+			-- insert_at_start = true,
+			-- …etc.
+		},
 	},
 }
 

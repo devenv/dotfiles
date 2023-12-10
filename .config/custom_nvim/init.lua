@@ -1,25 +1,13 @@
-vim.g.loaded_python3_provider = nil
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.mapleader = " "
-vim.g.db_ui_auto_execute_table_helpers = 1
-vim.g.db_ui_use_nerd_fonts = 1
-vim.g.pytest_open_errors = 'current'
-vim.cmd("packadd cfilter")
-vim.cmd("set nowrap")
-
-
 vim.g.projectionist_heuristics = {
-  ["*"] = {
-    ["*"] = {
-      venv = "source ../venv/bin/activate",
-    },
-  },
+	["*"] = {
+		["*"] = {
+			venv = "source ../venv/bin/activate",
+		},
+	},
 }
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-
 
 augroup("YankHighlight", { clear = true })
 autocmd("TextYankPost", {
@@ -29,21 +17,18 @@ autocmd("TextYankPost", {
 	end,
 })
 
-augroup("OrderImportsOnSave", { clear = true })
-autocmd("BufWritePre", {
-  pattern = {"*.py"},
-  group = "OrderImportsOnSave",
-  callback = function()
-    vim.cmd("silent! w")
-    vim.lsp.buf.code_action({ apply = true, context = { diagnostics = {}, only = { 'source' } } })
-  end,
-})
-
 augroup("OpenPrUrlOnPush", { clear = true })
-autocmd('User', {
-  pattern = 'NeogitPushComplete',
-  group = "OpenPrUrlOnPush",
-  callback = function()
-    require('neogit.process').show_console()
-  end
+autocmd("User", {
+	pattern = "NeogitPushComplete",
+	group = "OpenPrUrlOnPush",
+	callback = function()
+		require("neogit.process").show_console()
+	end,
+})
+vim.api.nvim_create_autocmd("WinLeave", {
+	callback = function()
+		if vim.bo.ft == "TelescopePrompt" and vim.fn.mode() == "i" then
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "i", false)
+		end
+	end,
 })

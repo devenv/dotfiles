@@ -48,6 +48,16 @@ local plugins = {
 						},
 						include_surrounding_whitespace = false,
 					},
+					lsp_interop = {
+						enable = true,
+						border = "none",
+						floating_preview_opts = {},
+						peek_definition_code = {
+							["<leader>KK"] = "@call.inner",
+							["<leader>Kf"] = "@function.outer",
+							["<leader>Kc"] = "@class.outer",
+						},
+					},
 				},
 			})
 		end,
@@ -110,13 +120,19 @@ local plugins = {
 							request = "attach",
 							name = "Attach",
 							port = 5678,
-              pathMappings = {
-                { localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
-                { localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages", remoteRoot = "/usr/local/lib/python3.10/site-packages" },
-                { localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework", remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework" },
-              },
-              showReturnValue = true,
-              justMyCode = false,
+							pathMappings = {
+								{ localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
+								{
+									localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages",
+									remoteRoot = "/usr/local/lib/python3.10/site-packages",
+								},
+								{
+									localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework",
+									remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework",
+								},
+							},
+							showReturnValue = true,
+							justMyCode = false,
 							pythonPath = function()
 								return os.getenv("VIRTUAL_ENV") .. "/bin/python"
 							end,
@@ -294,10 +310,10 @@ local plugins = {
 		"FabijanZulj/blame.nvim",
 		event = "VeryLazy",
 	},
-  {
-    "emmanueltouzery/agitator.nvim",
+	{
+		"emmanueltouzery/agitator.nvim",
 		event = "VeryLazy",
-  },
+	},
 	{
 		"ranelpadon/python-copy-reference.vim",
 		event = "VeryLazy",
@@ -306,13 +322,13 @@ local plugins = {
 		"psf/black",
 		event = "VeryLazy",
 	},
-  {
-    "tyru/open-browser-github.vim",
+	{
+		"tyru/open-browser-github.vim",
 		lazy = false,
-    dependencies = {
-      "tyru/open-browser.vim",
-    },
-  }
+		dependencies = {
+			"tyru/open-browser.vim",
+		},
+	},
 }
 
 return plugins

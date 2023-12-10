@@ -38,16 +38,16 @@ M.treesitter = {
 		swap = {
 			enable = true,
 			swap_next = {
-				["cmc"] = "@class.outer",
-				["cmd"] = "@function.outer",
-				["cma"] = "@parameter.inner",
-				["cms"] = "@block.outer",
+				["mc"] = "@conditional.outer",
+				["md"] = "@function.outer",
+				["ma"] = "@parameter.inner",
+				["ms"] = "@block.outer",
 			},
 			swap_previous = {
-				["cMc"] = "@class.outer",
-				["cMd"] = "@function.outer",
-				["cMa"] = "@parameter.inner",
-				["cMs"] = "@block.outer",
+				["mC"] = "@conditional.outer",
+				["mD"] = "@function.outer",
+				["mA"] = "@parameter.inner",
+				["mS"] = "@block.outer",
 			},
 		},
 		move = {
