@@ -77,6 +77,8 @@ vim.g.codeium_no_map_tab = 1
 vim.g.codeium_idle_delay = 100
 vim.g.codeium_render = 1
 
+vim.g["semshi#excluded_hl_groups"] = { "global", "local" }
+
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 

@@ -81,8 +81,11 @@ local mappings = {
     ["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
     ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
-    ["<leader>s"] = { ":silent! wa<CR>", opts = opts },
-    ["<leader>q"] = { ":silent! wqa<CR>", opts = opts },
+    ["<leader>ww"] = { ":silent! wa<CR>", opts = opts },
+    ["<leader>wW"] = { ":silent! w<CR>", opts = opts },
+    ["<leader>wq"] = { ":silent! wqa<CR>", opts = opts },
+    ["<leader>qq"] = { ":silent! qa<CR>", opts = opts },
+    ["<leader>cq"] = { ":silent! cq<CR>", opts = opts },
     ["<C-s>"] = { "<PageUp>", opts = opts },
     ["<C-f>"] = { "<PageDown>", opts = opts },
     ["<C-q>"] = { ":lua vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)<CR>", opts = opts },
@@ -135,9 +138,9 @@ local mappings = {
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
     ["g<tab>"] = { ":AerialToggle<CR>", opts = opts },
 
-    ["<leader>wr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
-    ["<leader>ws"] = { ":Telescope toggletasks select<CR>", opts = opts },
-    ["<leader>we"] = { ":Telescope toggletasks edit<CR>", opts = opts },
+    ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
+    ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },
+    ["<leader>re"] = { ":Telescope toggletasks edit<CR>", opts = opts },
 
     ["<leader>tr"] = { ":Dispatch<CR>", opts = opts },
     ["<leader>tt"] = { ":lua require('neotest').run.run()<CR>", opts = opts },
@@ -254,21 +257,19 @@ local mappings = {
       ":exec ':TermExec cmd='.\"'\".'open \"raycast://ai-commands/extract?arguments='.input(\"Extract what? \").'\" && exit'.\"'\"<CR>",
       opts = opts,
     },
-    ["<leader>rr"] = { ":'<,'>d<CR>\"+p" },
     ["<leader>rq"] = {
       ":lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'quickfix' } } })<CR>",
       opts = opts,
     },
     ["<leader>ro"] = {
-      ":w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>",
+      ":silent! w<CR>:lua vim.lsp.buf.code_action({ apply = true, filter = filter, context = { diagnostics = {}, only = { 'source' } } })<CR>",
       opts = opts,
     },
     ["<leader>rl"] = { ":LspRestart<CR>", opts = opts },
 
     ["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
-    ["<leader>/"] = { ":Telescope live_grep<CR>", opts = opts },
+    ["<leader>ss"] = { ":Telescope live_grep<CR>", opts = opts },
     ["<leader>R"] = { ":lua requirespectre').toggle()<CR>", opts = opts },
-    ["<leader>?"] = { ":Telescope grep_string<CR>", opts = opts },
     ["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
     ["<leader>P"] = { ":Telescope registers<CR>", opts = opts },
     ["<leader>n"] = { ":Telescope notify<CR>", opts = opts },
@@ -315,7 +316,14 @@ local mappings = {
 }
 
 local defaults_to_clear = {
-  n = { "<leader>w-", "<leader>w|", "<leader>wd", "<leader>ww", "<C-p>", "<C-s>" },
+  n = {
+    "<leader>w-",
+    "<leader>w|",
+    "<leader>wd",
+    "<leader>ww",
+    "<C-p>",
+    "<C-s>",
+  },
   i = { "<C-f>", "<C-s>" },
 }
 

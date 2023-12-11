@@ -61,7 +61,6 @@ lspconfig.pylsp.setup({
   on_attach = function(client, bufnr)
     client.server_capabilities.completionProvider = false
     client.server_capabilities.definitionProvider = false
-    client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentHighlightProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
     client.server_capabilities.documentSymbolProvider = false
@@ -77,6 +76,9 @@ lspconfig.pylsp.setup({
   settings = {
     pylsp = {
       configurationSources = { "flake8" },
+      rope = {
+        ropeFolder = ".rope",
+      },
       plugins = {
         jedi_completion = { enabled = false },
         jedi_hover = { enabled = false },
@@ -100,7 +102,8 @@ lspconfig.pylsp.setup({
         pydocstyle = { enabled = false },
         mccabe = { enabled = false },
         preload = { enabled = false },
-        rope_completion = { enabled = false },
+        rope_completion = { enabled = true, eager = true },
+        rope_autoimport = { enabled = true },
       },
     },
   },

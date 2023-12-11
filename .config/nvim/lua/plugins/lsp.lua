@@ -148,7 +148,7 @@ local plugins = {
     dependencies = {
       {
         "jose-elias-alvarez/none-ls.nvim",
-        event = "VeryLazy",
+        event = "BufEnter",
         config = function()
           require("config.null-ls")
         end,

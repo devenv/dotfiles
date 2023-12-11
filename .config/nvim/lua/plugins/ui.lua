@@ -260,7 +260,7 @@ local plugins = {
           enabled = false,
         },
         diagnostics = {
-          [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "ﬀ" },
+          [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "|" },
           [vim.diagnostic.severity.WARN] = { enabled = false },
           [vim.diagnostic.severity.INFO] = { enabled = false },
           [vim.diagnostic.severity.HINT] = { enabled = false },
@@ -272,7 +272,7 @@ local plugins = {
   },
   {
     "nvim-lualine/lualine.nvim",
-    opts = function()
+    opts = function(_, opts)
       local Util = require("lazyvim.util")
       local icons = require("lazyvim.config").icons
       local function codeium_status()

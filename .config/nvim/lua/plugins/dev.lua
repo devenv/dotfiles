@@ -5,62 +5,59 @@ local plugins = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         event = "BufEnter",
-        dependencies = {
-          {
-            "nvim-treesitter/nvim-treesitter",
-          },
-        },
-        config = function()
-          require("nvim-treesitter.configs").setup({
-            highlight = {
-              enable = true,
-              additional_vim_regex_highlighting = false,
-            },
-            textobjects = {
-              swap = {
-                enable = true,
-                swap_next = {
-                  ["<leader>ma"] = "@parameter.inner",
-                  ["<leader>mf"] = "@function.outer",
-                },
-                swap_previous = {
-                  ["<leader>Ma"] = "@parameter.inner",
-                  ["<leader>Mf"] = "@function.outer",
-                },
-              },
-              keymaps = {
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["aa"] = "@argument.outer",
-                ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-              },
-              select = {
-                enable = true,
-                lookahead = true,
-                selection_modes = {
-                  ["@parameter.outer"] = "v", -- charwise
-                  ["@function.outer"] = "V", -- linewise
-                  ["@class.outer"] = "<c-v>", -- blockwise
-                },
-                include_surrounding_whitespace = false,
-              },
-              lsp_interop = {
-                enable = true,
-                border = "none",
-                floating_preview_opts = {},
-                peek_definition_code = {
-                  ["<leader>KK"] = "@call.inner",
-                  ["<leader>Kf"] = "@function.outer",
-                  ["<leader>Kc"] = "@class.outer",
-                },
-              },
-            },
-          })
-        end,
+      },
+      {
+        "nvim-treesitter/playground",
       },
     },
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>ma"] = "@parameter.inner",
+              ["<leader>mf"] = "@function.outer",
+            },
+            swap_previous = {
+              ["<leader>Ma"] = "@parameter.inner",
+              ["<leader>Mf"] = "@function.outer",
+            },
+          },
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["aa"] = "@argument.outer",
+            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+            include_surrounding_whitespace = false,
+          },
+          lsp_interop = {
+            enable = true,
+            border = "none",
+            floating_preview_opts = {},
+            peek_definition_code = {
+              ["<leader>KK"] = "@call.inner",
+              ["<leader>Kf"] = "@function.outer",
+              ["<leader>Kc"] = "@class.outer",
+            },
+          },
+        },
+      })
+    end,
     opts = {
-
       ensure_installed = {
         "vim",
         "lua",
@@ -437,6 +434,47 @@ local plugins = {
           },
         },
       })
+    end,
+  },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        ["python"] = { "black" },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    dependencies = { "mason.nvim" },
+    lazy = true,
+    cmd = "ConformInfo",
+    keys = {
+      {
+        "<leader>'",
+        function()
+          require("conform").format({ formatters = { "injected" } })
+        end,
+        mode = { "n", "v" },
+        desc = "Format Injected Langs",
+      },
+    },
+    opts = function()
+      ---@class ConformOpts
+      local opts = {
+        ---@type table<string, conform.FormatterUnit[]>
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "black" },
+          fish = { "fish_indent" },
+          sh = { "shfmt" },
+          ["*"] = { "codespell" },
+          ["_"] = { "trim_whitespace" },
+        },
+        format_on_save = false,
+      }
+      return opts
     end,
   },
 }

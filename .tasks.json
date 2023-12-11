@@ -1,18 +1,18 @@
 {
-    "tasks": [
-        {
-            "name": "Rebase from main",
-            "cmd": "git fetch --all && git rebase origin/main -i"
-        },
-        {
-            "name": "Install debug pips",
-            "cmd": "pip install neovim debugpy pdbpp jurigged black pylsp-rope python-language-server python-lsp-black python-lsp-server docker pytest-pyright sqlalchemy-stubs",
-            "tags": []
-        },
-        {
-            "name": "Install requirements.txt",
-            "cmd": "pip install -r requirements.txt",
-            "tags": []
-        }
-    ]
+  "tasks": [
+    {
+      "name": "Rebase from main",
+      "cmd": "git fetch --all && git rebase origin/main -i"
+    },
+    {
+      "name": "Install debug pips",
+      "cmd": "pip install neovim debugpy pdbpp jurigged black pylsp-rope python-language-server python-lsp-black python-lsp-server docker pytest-pyright sqlalchemy-stubs",
+      "tags": []
+    },
+    {
+      "name": "Install requirements.txt",
+      "cmd": "pip install -r requirements.txt",
+      "tags": []
+    }
+  ]
 }
