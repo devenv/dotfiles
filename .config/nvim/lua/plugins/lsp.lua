@@ -70,9 +70,9 @@ local plugins = {
         sorting = {
           priority_weight = 1,
           comparators = {
-            cmp.config.compare.score,
             cmp.config.compare.exact,
             cmp.config.compare.locality,
+            cmp.config.compare.score,
             cmp.config.compare.kind,
             cmp.config.compare.recently_used,
             cmp.config.compare.length,
@@ -145,6 +145,7 @@ local plugins = {
   },
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       {
         "jose-elias-alvarez/none-ls.nvim",
@@ -153,6 +154,9 @@ local plugins = {
           require("config.null-ls")
         end,
       },
+    },
+    opts = {
+      autoformat = false,
     },
     config = function()
       require("config.lspconfig")

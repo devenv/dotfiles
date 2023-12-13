@@ -45,6 +45,8 @@ vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
 vim.api.nvim_set_option("makeprg", os.getenv("MAKEPRG"))
 
+vim.g.autoformat = false
+
 vim.g.loaded_python3_provider = nil
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

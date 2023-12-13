@@ -76,9 +76,6 @@ lspconfig.pylsp.setup({
   settings = {
     pylsp = {
       configurationSources = { "flake8" },
-      rope = {
-        ropeFolder = ".rope",
-      },
       plugins = {
         jedi_completion = { enabled = false },
         jedi_hover = { enabled = false },
@@ -102,8 +99,8 @@ lspconfig.pylsp.setup({
         pydocstyle = { enabled = false },
         mccabe = { enabled = false },
         preload = { enabled = false },
-        rope_completion = { enabled = true, eager = true },
-        rope_autoimport = { enabled = true },
+        rope_completion = { enabled = false, eager = false },
+        rope_autoimport = { enabled = false },
       },
     },
   },
@@ -111,7 +108,7 @@ lspconfig.pylsp.setup({
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = {
-    severity_limit = "Hint",
+    severity_limit = "Warning",
   },
   virtual_text = {
     severity_limit = "Warning",

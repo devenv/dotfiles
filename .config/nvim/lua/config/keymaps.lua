@@ -4,6 +4,8 @@ local mappings = {
   n = {
     ["_s"] = { ":%s/\\s\\+$//<CR>" },
     ["\\"] = { '"+y' },
+    ["u"] = { ":silent undo<CR>", opts = opts },
+    ["<C-r>"] = { ":silent redo<CR>", opts = opts },
     ["Y"] = { "y$" },
     ["<leader>h/"] = { ":set invhlsearch<CR>", opts = opts },
 
@@ -35,13 +37,12 @@ local mappings = {
     ["])"] = { ":cnext<CR>", opts = opts },
     ["[("] = { ":cprev<CR>", opts = opts },
 
-    ["H"] = { ":BufferPrevious<CR>", opts = opts },
-    ["L"] = { ":BufferNext<CR>", opts = opts },
-    ["X"] = { ":BufferClose<CR>", opts = opts },
-    ["gH"] = { ":BufferMovePrevious<CR>", opts = opts },
-    ["gL"] = { ":BufferMoveNext<CR>", opts = opts },
-    ["gP"] = { ":BufferPin<CR>", opts = opts },
-    ["gT"] = { ":BufferRestor<CR>", opts = opts },
+    ["H"] = { ":BufferLineCyclePrev<CR>", opts = opts },
+    ["L"] = { ":BufferLineCycleNext<CR>", opts = opts },
+    ["X"] = { ":silent! bd<CR>", opts = opts },
+    ["gH"] = { ":BufferLineMovePrev<CR>", opts = opts },
+    ["gL"] = { ":BufferLineMoveNext<CR>", opts = opts },
+    ["gP"] = { ":BufferLineTogglePin<CR>", opts = opts },
 
     ["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
     ["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
@@ -129,7 +130,7 @@ local mappings = {
     ["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
     ["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
     ["<leader>e"] = { ":lua require('telescope.builtin').diagnostics({severity_limit=3})<CR>", opts = opts },
-    ["<leader>'"] = { ":lua vim.lsp.buf.format()<CR>", opts = opts },
+    ["<leader>'"] = { ":lua vim.lsp.buf.format({ async = true })<CR>", opts = opts },
 
     ["K"] = { ":lua vim.lsp.buf.hover()<CR>", opts = opts },
     ["gd"] = { ":lua vim.lsp.buf.definition()<CR>", opts = opts },
@@ -149,7 +150,10 @@ local mappings = {
     ["<leader>tF"] = { ":lua require('neotest').run.run(vim.fn.expand('%'), {strategy = 'dap'})<CR>", opts = opts },
 
     ["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>", opts = opts },
-    ["<leader>te"] = { ":lua require('neotest').output.open({ enter = true, last_run = true })<CR>", opts = opts },
+    ["<leader>te"] = {
+      ":lua require('neotest').output.open({ width = 0.95, height = 0.95, enter = true, last_run = true })<CR>",
+      opts = opts,
+    },
     ["<leader>to"] = {
       ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
       opts = opts,

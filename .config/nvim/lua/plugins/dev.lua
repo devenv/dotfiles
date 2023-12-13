@@ -240,6 +240,10 @@ local plugins = {
           enabled = true,
           open_on_run = false,
         },
+        floating = {
+          max_height = 0.9,
+          max_width = 0.9,
+        },
         output_panel = {
           enabled = true,
           open_on_run = true,
@@ -345,7 +349,7 @@ local plugins = {
         },
         mappings = {
           edit = "e",
-          expand = { "<CR>", "<2-LeftMouse>" },
+          expand = { "<CR>" },
           open = "o",
           remove = "d",
           repl = "r",
@@ -472,7 +476,7 @@ local plugins = {
           ["*"] = { "codespell" },
           ["_"] = { "trim_whitespace" },
         },
-        format_on_save = false,
+        format_on_save = {},
       }
       return opts
     end,

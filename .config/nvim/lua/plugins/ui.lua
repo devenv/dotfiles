@@ -49,7 +49,7 @@ local plugins = {
           },
           aerial = true,
           alpha = false,
-          barbar = true,
+          barbar = false,
           barbecue = {
             dim_dirname = true, -- directory name is dimmed by default
             bold_basename = true,
@@ -57,6 +57,8 @@ local plugins = {
             alt_background = false,
           },
           beacon = false,
+          bufferline = true,
+
           cmp = true,
           coc_nvim = false,
           dap = { enabled = true, enable_ui = true },
@@ -93,8 +95,8 @@ local plugins = {
           overseer = false,
           pounce = false,
           rainbow_delimiters = false,
-          semantic_tokens = true,
-          symbols_outline = true,
+          semantic_tokens = false,
+          symbols_outline = false,
           telekasten = false,
           telescope = { enabled = true },
           treesitter_context = true,
@@ -121,6 +123,7 @@ local plugins = {
               DiagnosticVirtualTextWarn = { bg = cp.none },
               DiagnosticVirtualTextInfo = { bg = cp.none },
               DiagnosticVirtualTextHint = { bg = cp.none },
+
               LspInfoBorder = { link = "FloatBorder" },
 
               MasonNormal = { link = "NormalFloat" },
@@ -136,9 +139,6 @@ local plugins = {
                 bg = cp.mantle,
               },
 
-              FidgetTask = { bg = cp.none, fg = cp.surface2 },
-              FidgetTitle = { fg = cp.blue, style = { "bold" } },
-
               NvimTreeRootFolder = { fg = cp.pink },
               NvimTreeIndentMarker = { fg = cp.surface0 },
 
@@ -147,19 +147,114 @@ local plugins = {
               TelescopeResultsDiffChange = { fg = cp.yellow },
               TelescopeResultsDiffDelete = { fg = cp.red },
 
-              -- For nvim-treehopper
-              TSNodeKey = {
-                fg = cp.peach,
-                bg = cp.base,
-                style = { "bold", "underline" },
-              },
-
               ["@keyword.return"] = { fg = cp.pink },
             }
           end,
         },
       })
       vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    version = "*",
+    config = function()
+      local mocha = require("catppuccin.palettes").get_palette("mocha")
+      require("bufferline").setup({
+        highlights = {
+          buffer_selected = {
+            italic = false,
+            fg = mocha.lavender,
+            bg = mocha.crust,
+            bold = true,
+          },
+          fill = {
+            bg = mocha.crust,
+          },
+          background = {
+            bg = mocha.crust,
+          },
+          diagnostic = {
+            bg = mocha.crust,
+          },
+          modified = {
+            bg = mocha.crust,
+          },
+          duplicate = {
+            bg = mocha.crust,
+            italic = true,
+          },
+          separator = {
+            bg = mocha.crust,
+            fg = mocha.lavender,
+          },
+        },
+        options = {
+          mode = "buffers",
+          indicator = {
+            style = "none",
+          },
+          modified_icon = "●",
+          left_trunc_marker = "",
+          right_trunc_marker = "",
+          max_name_length = 16,
+          max_prefix_length = 5,
+          truncate_names = true,
+          tab_size = 10,
+          diagnostics = "none",
+          diagnostics_update_in_insert = false,
+          offsets = {
+            {
+              filetype = "NvimTree",
+              text = "File Tree",
+              text_align = "center",
+              separator = false,
+            },
+          },
+          show_buffer_icons = true,
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          show_tab_indicators = false,
+          show_duplicate_prefix = true,
+          persist_buffer_sort = true,
+          move_wraps_at_ends = false,
+          separator_style = "thin",
+          enforce_regular_tabs = false,
+          always_show_bufferline = true,
+          sort_by = "relative_directory",
+          groups = {
+            options = {
+              toggle_hidden_on_enter = true, -- when you re-enter a hidden group this options re-opens that group so the buffer is visible
+            },
+            items = {
+              {
+                name = "Tests",
+                highlight = { underline = true, sp = mocha.lavender },
+                priority = 2,
+                icon = "",
+                matcher = function(buf) -- Mandatory
+                  return vim.api.nvim_buf_get_name(buf.id):match("test")
+                end,
+              },
+              {
+                name = "Docs",
+                highlight = { underline = true, sp = mocha.lavender },
+                priority = 3,
+                icon = "",
+                matcher = function(buf) -- Mandatory
+                  return vim.api.nvim_buf_get_name(buf.id):match(".md$")
+                    or vim.api.nvim_buf_get_name(buf.id):match(".txt$")
+                    or vim.api.nvim_buf_get_name(buf.id):match(".in$")
+                    or vim.api.nvim_buf_get_name(buf.id):match(".ini$")
+                    or vim.api.nvim_buf_get_name(buf.id):match("setup.py$")
+                end,
+              },
+            },
+          },
+        },
+      })
     end,
   },
   {
@@ -240,38 +335,22 @@ local plugins = {
     end,
   },
   {
-    "romgrk/barbar.nvim",
-    dependencies = {
-      "lewis6991/gitsigns.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      animation = true,
-      tabpages = false,
-      clickable = false,
-      insert_at_end = true,
-
-      icons = {
-        pinned = { button = "", filename = true },
-        modified = { button = "●" },
-
-        filetype = {
-          custom_colors = true,
-          enabled = false,
-        },
-        diagnostics = {
-          [vim.diagnostic.severity.ERROR] = { enabled = true, icon = "|" },
-          [vim.diagnostic.severity.WARN] = { enabled = false },
-          [vim.diagnostic.severity.INFO] = { enabled = false },
-          [vim.diagnostic.severity.HINT] = { enabled = false },
-        },
-        separator_at_end = true,
-      },
-      no_name_title = "<new>",
-    },
-  },
-  {
     "nvim-lualine/lualine.nvim",
+    dependencies = {
+      {
+        "linrongbin16/lsp-progress.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+          require("lsp-progress").setup()
+          vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+          vim.api.nvim_create_autocmd("User", {
+            group = "lualine_augroup",
+            pattern = "LspProgressStatusUpdated",
+            callback = require("lualine").refresh,
+          })
+        end,
+      },
+    },
     opts = function(_, opts)
       local Util = require("lazyvim.util")
       local icons = require("lazyvim.config").icons
@@ -289,9 +368,9 @@ local plugins = {
           theme = "catppuccin",
           globalstatus = true,
           refresh = {
-            statusline = 200,
-            tabline = 200,
-            winbar = 200,
+            statusline = 1000,
+            tabline = 1000,
+            winbar = 1000,
           },
         },
         sections = {
@@ -313,7 +392,7 @@ local plugins = {
               },
             },
           },
-          lualine_x = {},
+          lualine_x = { require("lsp-progress").progress },
           lualine_y = {
             {
               function()

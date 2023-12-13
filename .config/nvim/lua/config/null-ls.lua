@@ -10,8 +10,6 @@ null_ls.setup({
 
     -- Lua
     b.formatting.stylua,
-    b.formatting.isort,
-    b.formatting.ruff,
 
     -- cpp
     b.formatting.black.with({

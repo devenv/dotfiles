@@ -33,9 +33,7 @@ local plugins = {
             end)
             return {}
           end,
-          after_load = function()
-            vim.cmd("LspRestart")
-          end,
+          after_load = function() end,
         },
         autosave = {
           current = true,
