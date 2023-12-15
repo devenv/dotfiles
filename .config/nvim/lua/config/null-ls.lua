@@ -6,7 +6,7 @@ null_ls.setup({
 
     -- webdev stuff
     b.formatting.deno_fmt, -- choosed deno for ts/js files cuz its very fast!
-    b.formatting.prettier.with({ filetypes = { "html", "markdown", "css", "tsx", "python", "lua" } }), -- so prettier works only on these filetypes
+    b.formatting.prettier.with({ filetypes = { "html", "markdown", "css", "tsx", "lua" } }), -- so prettier works only on these filetypes
 
     -- Lua
     b.formatting.stylua,

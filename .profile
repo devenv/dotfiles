@@ -47,5 +47,6 @@ alias vim='nvim'
 alias rm='grm'
 alias br='git checkout "$(git branch | fzf | tr -d "[:space:]")"'
 alias gcp='git ci -a && git push'
+alias tf='terraform'
 
 test -e "${HOME}/.secrets" && source "${HOME}/.secrets"

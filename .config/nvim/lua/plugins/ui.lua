@@ -378,7 +378,7 @@ local plugins = {
           lualine_b = {
             codeium_status,
             "selectioncount",
-            "aerial",
+            -- "aerial",
           },
 
           lualine_c = {

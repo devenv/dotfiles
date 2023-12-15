@@ -32,6 +32,8 @@ local mappings = {
     ["<leader>pG"] = { ":OpenGithubPullReq<CR>", opts = opts },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>", opts = opts },
 
+    ["<leader>so"] = { ":Telescope oldfiles<CR>", opts = opts },
+
     ["{"] = { ":normal [c<CR>", opts = opts },
     ["}"] = { ":normal ]c<CR>", opts = opts },
     ["])"] = { ":cnext<CR>", opts = opts },
