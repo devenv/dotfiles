@@ -440,47 +440,6 @@ local plugins = {
       })
     end,
   },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        ["python"] = { "black" },
-      },
-    },
-  },
-  {
-    "stevearc/conform.nvim",
-    dependencies = { "mason.nvim" },
-    lazy = true,
-    cmd = "ConformInfo",
-    keys = {
-      {
-        "<leader>'",
-        function()
-          require("conform").format({ formatters = { "injected" } })
-        end,
-        mode = { "n", "v" },
-        desc = "Format Injected Langs",
-      },
-    },
-    opts = function()
-      ---@class ConformOpts
-      local opts = {
-        ---@type table<string, conform.FormatterUnit[]>
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "black" },
-          fish = { "fish_indent" },
-          sh = { "shfmt" },
-          ["*"] = { "codespell" },
-          ["_"] = { "trim_whitespace" },
-        },
-        format_on_save = {},
-      }
-      return opts
-    end,
-  },
 }
 
 return plugins

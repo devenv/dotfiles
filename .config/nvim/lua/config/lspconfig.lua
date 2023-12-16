@@ -59,6 +59,15 @@ lspconfig.pyright.setup({
 lspconfig.pylsp.setup({
   capabilities = capabilities,
   on_attach = function(client, bufnr)
+    client.server_capabilities.completionProvider = false
+    client.server_capabilities.definitionProvider = false
+    client.server_capabilities.documentHighlightProvider = false
+    client.server_capabilities.documentSymbolProvider = false
+    client.server_capabilities.foldingRangeProvider = false
+    client.server_capabilities.hoverProvider = false
+    client.server_capabilities.referencesProvider = false
+    client.server_capabilities.renameProvider = false
+    client.server_capabilities.signatureHelpProvider = false
     on_attach(client, bufnr)
   end,
   settings = {
@@ -74,7 +83,7 @@ lspconfig.pylsp.setup({
         jedi_signature_help = { enabled = false },
         jedi_symbols = { enabled = false, all_scopes = false },
         black = {
-          enabled = true,
+          enabled = false,
           line_length = 160,
         },
         pycodestyle = { enabled = false },
@@ -85,14 +94,14 @@ lspconfig.pylsp.setup({
         },
         ruff = {
           enabled = false,
-          extendSelect = { "I" }, -- Rules that are additionally used by ruff
+          lineLength = 160,
           extendIgnore = { "C90" }, -- Rules that are additionally ignored by ruff
-          format = { "I" }, -- Rules that are marked as fixable by ruff that should be fixed when running textDocument/formatting
+          extendSelect = { "I" }, -- Rules that are additionally used by ruff
           severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
           unsafeFixes = false, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
         },
         mypy = { enabled = false },
-        isort = { enabled = false },
+        isort = { enabled = true, line_length = 160 },
         yapf = { enabled = false },
         pylint = { enabled = false },
         pydocstyle = { enabled = false },

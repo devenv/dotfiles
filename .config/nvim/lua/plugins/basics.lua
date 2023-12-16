@@ -137,8 +137,8 @@ local plugins = {
         local command = path .. "/venv/bin/pip"
         local args = {
           "install",
-          "python-lsp-black",
-          "pyflakes",
+          "python-lsp-ruff",
+          "python-lsp-isort",
           "sqlalchemy-stubs",
         }
 
@@ -165,7 +165,8 @@ local plugins = {
         "prettier",
 
         -- python stuff
-        "black",
+        "isort",
+        "ruff",
         "pyright",
         "python-lsp-server[all]",
       },
