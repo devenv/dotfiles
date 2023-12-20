@@ -20,12 +20,16 @@ local plugins = {
           swap = {
             enable = true,
             swap_next = {
-              ["<leader>ma"] = "@parameter.inner",
-              ["<leader>mf"] = "@function.outer",
+              ["ma"] = "@parameter.inner",
+              ["mc"] = "@conditional.inner",
+              ["mf"] = "@function.outer",
+              ["ms"] = "@block.outer",
             },
             swap_previous = {
-              ["<leader>Ma"] = "@parameter.inner",
-              ["<leader>Mf"] = "@function.outer",
+              ["Ma"] = "@parameter.inner",
+              ["Mc"] = "@conditional.inner",
+              ["Mf"] = "@function.outer",
+              ["Ms"] = "@block.outer",
             },
           },
           keymaps = {
@@ -38,11 +42,45 @@ local plugins = {
             enable = true,
             lookahead = true,
             selection_modes = {
+              include_surrounding_whitespace = true,
               ["@parameter.outer"] = "v", -- charwise
               ["@function.outer"] = "V", -- linewise
               ["@class.outer"] = "<c-v>", -- blockwise
             },
-            include_surrounding_whitespace = false,
+            keymaps = {
+              ["aC"] = "@class.outer",
+              ["iC"] = "@class.outer",
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["aa"] = "@parameter.outer",
+              ["ia"] = "@parameter.inner",
+              ["ac"] = "@conditional.outer",
+              ["ic"] = "@conditional.inner",
+              ["as"] = "@block.outer",
+              ["is"] = "@block.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              ["]d"] = "@function.outer",
+              ["]s"] = "@block.outer",
+            },
+            goto_next_end = {
+              ["]C"] = "@class.outer",
+              ["]D"] = "@function.outer",
+              ["]S"] = "@block.outer",
+            },
+            goto_previous_start = {
+              ["[d"] = "@function.outer",
+              ["[s"] = "@block.outer",
+            },
+            goto_previous_end = {
+              ["[C"] = "@class.outer",
+              ["[D"] = "@function.outer",
+              ["[S"] = "@block.outer",
+            },
           },
           lsp_interop = {
             enable = true,
@@ -74,74 +112,7 @@ local plugins = {
       indent = {
         enable = true,
       },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          include_surrounding_whitespace = true,
-          keymaps = {
-            ["aC"] = "@class.outer",
-            ["iC"] = "@class.outer",
-            ["ad"] = "@function.outer",
-            ["id"] = "@function.inner",
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
-            ["ac"] = "@call.outer",
-            ["ic"] = "@call.inner",
-            ["as"] = "@block.outer",
-            ["is"] = "@block.inner",
-          },
-        },
-        swap = {
-          enable = true,
-          swap_next = {
-            ["mc"] = "@conditional.outer",
-            ["md"] = "@function.outer",
-            ["ma"] = "@parameter.inner",
-            ["ms"] = "@block.outer",
-          },
-          swap_previous = {
-            ["mC"] = "@conditional.outer",
-            ["mD"] = "@function.outer",
-            ["mA"] = "@parameter.inner",
-            ["mS"] = "@block.outer",
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true,
-          goto_next_start = {
-            ["]d"] = "@function.outer",
-            ["]s"] = "@block.outer",
-          },
-          goto_next_end = {
-            ["]C"] = "@class.outer",
-            ["]D"] = "@function.outer",
-            ["]S"] = "@block.outer",
-          },
-          goto_previous_start = {
-            ["[d"] = "@function.outer",
-            ["[s"] = "@block.outer",
-          },
-          goto_previous_end = {
-            ["[C"] = "@class.outer",
-            ["[D"] = "@function.outer",
-            ["[S"] = "@block.outer",
-          },
-        },
-      },
     },
-  },
-  {
-    "NeogitOrg/neogit",
-    lazy = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
-      "sindrets/diffview.nvim",
-      "ibhagwan/fzf-lua",
-    },
-    config = true,
   },
   {
     "lewis6991/gitsigns.nvim",

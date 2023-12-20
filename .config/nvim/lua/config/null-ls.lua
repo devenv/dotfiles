@@ -15,6 +15,8 @@ null_ls.setup({
     b.formatting.black.with({
       extra_args = { "--line-length=160" },
     }),
+
+    b.formatting.ruff,
   },
   on_attach = function(client, bufnr)
     if client.supports_method("textDocument/formatting") then

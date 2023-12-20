@@ -9,15 +9,6 @@ autocmd("TextYankPost", {
   end,
 })
 
-augroup("OpenPrUrlOnPush", { clear = true })
-autocmd("User", {
-  pattern = "NeogitPushComplete",
-  group = "OpenPrUrlOnPush",
-  callback = function()
-    require("neogit.process").show_console()
-  end,
-})
-
 vim.api.nvim_create_autocmd("WinLeave", {
   callback = function()
     if vim.bo.ft == "TelescopePrompt" and vim.fn.mode() == "i" then

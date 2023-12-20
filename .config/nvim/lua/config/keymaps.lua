@@ -29,7 +29,10 @@ local mappings = {
     ["<leader>pt"] = { ":PythonCopyReferencePytest<CR>", opts = opts },
     ["<leader>pi"] = { ":PythonCopyReferenceImport<CR>", opts = opts },
     ["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
-    ["<leader>pG"] = { ":OpenGithubPullReq<CR>", opts = opts },
+    ["<leader>pG"] = {
+      ":silent! :lua open_git_branch_in_browser()<CR>",
+      opts = opts,
+    },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>", opts = opts },
 
     ["<leader>so"] = { ":Telescope oldfiles<CR>", opts = opts },
@@ -81,7 +84,6 @@ local mappings = {
     ["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
 
     ["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
-    ["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
     ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
     ["<leader>ww"] = { ":silent! wa<CR>", opts = opts },
@@ -277,7 +279,7 @@ local mappings = {
     ["<leader>ss"] = { ":Telescope live_grep<CR>", opts = opts },
     ["<leader>R"] = { ":lua requirespectre').toggle()<CR>", opts = opts },
     ["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
-    ["<leader>P"] = { ":Telescope registers<CR>", opts = opts },
+    ["<leader>y"] = { ":Telescope registers<CR>", opts = opts },
     ["<leader>n"] = { ":Telescope notify<CR>", opts = opts },
     ["<leader>N"] = { ":Noice dismiss<CR>", opts = opts },
 
@@ -323,6 +325,10 @@ local mappings = {
 
 local defaults_to_clear = {
   n = {
+    "m",
+    "<leader>m",
+    "<leader>ma",
+    "<leader>p",
     "<leader>w-",
     "<leader>w|",
     "<leader>wd",
@@ -345,4 +351,12 @@ for mode, keys in pairs(mappings) do
   for key, mapping in pairs(keys) do
     vim.keymap.set(mode, key, mapping[1], opts)
   end
+end
+
+function _G.open_git_branch_in_browser()
+  local handle = io.popen("git rev-parse --abbrev-ref HEAD")
+  local result = handle:read("*a")
+  handle:close()
+  local branch_name = result:gsub("%s+", "") -- to remove newline character at the end
+  vim.cmd("OpenBrowser https://github.com/nilus-team/core/pull/new/" .. branch_name)
 end

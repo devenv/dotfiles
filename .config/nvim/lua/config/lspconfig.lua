@@ -88,15 +88,15 @@ lspconfig.pylsp.setup({
         },
         pycodestyle = { enabled = false },
         flake8 = {
-          enabled = true,
+          enabled = false,
           ignore = {},
           maxLineLength = 160,
         },
         ruff = {
-          enabled = false,
+          enabled = true,
           lineLength = 160,
-          extendIgnore = { "C90" }, -- Rules that are additionally ignored by ruff
-          extendSelect = { "I" }, -- Rules that are additionally used by ruff
+          extendIgnore = { "C90", "ARG" }, -- Rules that are additionally ignored by ruff
+          extendSelect = { "F401" }, -- Rules that are additionally used by ruff
           severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
           unsafeFixes = false, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
         },

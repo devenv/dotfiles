@@ -20,6 +20,9 @@ local plugins = {
         hooks = {
           before_save = function()
             pcall(function()
+              require("nvim-tree.api").tree.close()
+            end)
+            pcall(function()
               require("neotest").summary.close()
             end)
             pcall(function()
