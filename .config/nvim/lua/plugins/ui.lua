@@ -324,16 +324,17 @@ local plugins = {
           lsp_doc_border = true, -- add a border to hover docs and signature help
         },
         messages = {
-          enabled = true, -- enables the Noice messages UI
+          enabled = false, -- enables the Noice messages UI
           view = "notify", -- default view for messages
-          view_error = "virtualtext", -- view for errors
-          view_warn = "virtualtext", -- view for warnings
+          view_error = "mini", -- view for errors
+          view_warn = "mini", -- view for warnings
           view_history = "messages", -- view for :messages
           view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
         },
       })
     end,
   },
+
   {
     "nvim-lualine/lualine.nvim",
     dependencies = {

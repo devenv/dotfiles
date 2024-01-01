@@ -76,7 +76,7 @@ vim.g.openbrowser_github_url_exists_check = 0
 
 vim.g.codeium_disable_bindings = 1
 vim.g.codeium_no_map_tab = 1
-vim.g.codeium_idle_delay = 100
+vim.g.codeium_idle_delay = 10
 vim.g.codeium_render = 1
 
 vim.g["semshi#excluded_hl_groups"] = { "global", "local" }

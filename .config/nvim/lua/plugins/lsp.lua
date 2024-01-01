@@ -8,32 +8,12 @@ local plugins = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-emoji",
       {
-        "Exafunction/codeium.vim",
-        event = "BufEnter",
+        "Exafunction/codeium.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+        },
         config = function()
-          vim.keymap.set("i", "<C-f>", function()
-            return vim.fn["codeium#Accept"]()
-          end, { expr = true })
-
-          vim.keymap.set("i", "<c-s>", function()
-            return vim.fn["codeium#CycleCompletions"](1)
-          end, { expr = true })
-
-          vim.keymap.set("i", "<c-w>", function()
-            return vim.fn["codeium#CycleCompletions"](-1)
-          end, { expr = true })
-
-          vim.keymap.set("i", "<c-x>", function()
-            return vim.fn["codeium#Clear"]()
-          end, { expr = true })
-
-          vim.keymap.set("i", "<right>", function(fallback)
-            if string.find(vim.fn["codeium#GetStatusString"](), "/") then
-              return vim.fn["codeium#Accept"]()
-            else
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<right>", true, false, true), "n", true)
-            end
-          end, { expr = true })
+          require("codeium").setup({})
         end,
       },
     },
@@ -50,11 +30,12 @@ local plugins = {
           end,
         },
         sources = {
-          { name = "nvim_lsp", priority = 50, group_index = 1 },
+          { name = "codeium", priority = 50, group_index = 1 },
+          { name = "nvim_lsp", priority = 20, group_index = 1 },
           { name = "luasnip", priority = 5, group_index = 1 },
           { name = "path", priority = 2, group_index = 1 },
-          { name = "vim-dadbod-completion", priority = 2, group_index = 1 },
           { name = "nvim_lua", priority = 1, group_index = 1 },
+          { name = "vim-dadbod-completion", priority = 2, group_index = 1 },
           { name = "emoji", priority = 1, group_index = 1 },
           {
             name = "buffer",
@@ -83,6 +64,11 @@ local plugins = {
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<C-a>"] = cmp.mapping.complete({}),
+          ["<C-s>"] = cmp.mapping.complete({
+            config = {
+              sources = { { name = "codeium" } },
+            },
+          }),
           ["<C-t>"] = cmp.mapping.complete({
             config = {
               sources = {
@@ -171,6 +157,7 @@ local plugins = {
         preset = "codicons",
         symbol_map = {
           Class = "󰠱",
+          Codeium = "",
           Color = "󰏘",
           Copilot = "",
           Constant = "󰏿",

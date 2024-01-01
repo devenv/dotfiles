@@ -335,6 +335,10 @@ local defaults_to_clear = {
     "<leader>ww",
     "<C-p>",
     "<C-s>",
+    "<A-j>",
+    "<A-k>",
+    "<A-h>",
+    "<A-l>",
   },
   i = { "<C-f>", "<C-s>" },
 }
