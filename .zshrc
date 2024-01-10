@@ -1,7 +1,4 @@
 source $HOME/.profile
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
 DISABLE_AUTO_UPDATE=true
 export ZSH="$HOME/.oh-my-zsh"

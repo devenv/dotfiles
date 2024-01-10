@@ -5,14 +5,9 @@ set -g word-separators ' @"=()[]{},.'
 
 set-option -g status-bg colour235 #base02
 set-option -g status-fg colour136 #yellow
-set-option -g status-attr default
 
 set -g history-limit 40000
 
-set -g pane-border-bg black
-set -g pane-border-fg colour29
-set -g pane-active-border-bg black
-set -g pane-active-border-fg colour29
 
 set-option -g visual-bell on
 set-option -g bell-action none
@@ -57,18 +52,6 @@ bind K swap-pane -U
 bind Tab next-window
 bind b break-pane
 
-bind -n M-h run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-h) || tmux select-pane -L"
-bind -n M-j run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-j) || tmux select-pane -D"
-bind -n M-k run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-k) || tmux select-pane -U"
-bind -n M-l run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys C-l) || tmux select-pane -R"
-bind -n M-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iq vim && tmux send-keys 'C-\\') || tmux select-pane -l"
-
-bind-key -n M-q select-window -t :1
-bind-key -n M-w select-window -t :2
-bind-key -n M-e select-window -t :3
-bind-key -n M-r select-window -t :4
-bind-key -n M-t select-window -t :5
-
 bind "'" split-window
 
 bind = select-layout even-vertical
@@ -105,11 +88,6 @@ if-shell '[$TMUX_VERSION_MAJOR -gt 1 -o \( $TMUX_VERSION_MAJOR -eq 1 -a $TMUX_VE
 # =====================
 set -g status-fg white
 set -g status-bg colour234
-# set -g status-bg default #set for transparent background
-set -g window-status-activity-attr bold
-set -g message-fg colour16
-set -g message-bg colour29
-set -g message-attr bold
 # Custom status bar
 # Powerline
 set-option -g status-interval 2

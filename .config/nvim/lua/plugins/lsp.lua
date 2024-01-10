@@ -6,6 +6,7 @@ local plugins = {
       "L3MON4D3/LuaSnip",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
+      "windwp/nvim-autopairs",
       "hrsh7th/cmp-emoji",
       {
         "Exafunction/codeium.nvim",
@@ -20,6 +21,8 @@ local plugins = {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       cmp.setup({
         completion = {
           completeopt = "menu,menuone,noinsert",
@@ -30,17 +33,18 @@ local plugins = {
           end,
         },
         sources = {
-          { name = "codeium", priority = 50, group_index = 1 },
-          { name = "nvim_lsp", priority = 20, group_index = 1 },
-          { name = "luasnip", priority = 5, group_index = 1 },
-          { name = "path", priority = 2, group_index = 1 },
-          { name = "nvim_lua", priority = 1, group_index = 1 },
-          { name = "vim-dadbod-completion", priority = 2, group_index = 1 },
+          { name = "nvim_lsp", priority = 20, group_index = 1, keyword_length = 1 },
+          { name = "codeium", priority = 18, group_index = 1, keyword_length = 0 },
+          { name = "luasnip", priority = 5, group_index = 1, keyword_length = 2 },
+          { name = "path", priority = 2, group_index = 1, keyword_length = 3 },
+          { name = "nvim_lua", priority = 1, group_index = 1, keyword_length = 1 },
+          { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 3 },
           { name = "emoji", priority = 1, group_index = 1 },
           {
             name = "buffer",
             priority = 1,
             group_index = 1,
+            keyword_length = 1,
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
@@ -52,8 +56,8 @@ local plugins = {
           priority_weight = 1,
           comparators = {
             cmp.config.compare.exact,
-            cmp.config.compare.locality,
             cmp.config.compare.score,
+            cmp.config.compare.locality,
             cmp.config.compare.kind,
             cmp.config.compare.recently_used,
             cmp.config.compare.length,

@@ -129,29 +129,32 @@ local plugins = {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-      local pylsp = require("mason-registry").get_package("python-lsp-server")
-      pylsp:on("install:success", function()
-        local function mason_package_path(package)
-          local path = vim.fn.resolve(vim.fn.stdpath("data") .. "/mason/packages/" .. package)
-          return path
-        end
+      local registry = require("mason-registry")
+      registry.refresh(function()
+        local pylsp = registry.get_package("python-lsp-server")
+        pylsp:on("install:success", function()
+          local function mason_package_path(package)
+            local path = vim.fn.resolve(vim.fn.stdpath("data") .. "/mason/packages/" .. package)
+            return path
+          end
 
-        local path = mason_package_path("python-lsp-server")
-        local command = path .. "/venv/bin/pip"
-        local args = {
-          "install",
-          "python-lsp-ruff",
-          "python-lsp-isort",
-          "sqlalchemy-stubs",
-        }
+          local path = mason_package_path("python-lsp-server")
+          local command = path .. "/venv/bin/pip"
+          local args = {
+            "install",
+            "python-lsp-ruff",
+            "python-lsp-isort",
+            "sqlalchemy-stubs",
+          }
 
-        require("plenary.job")
-          :new({
-            command = command,
-            args = args,
-            cwd = path,
-          })
-          :start()
+          require("plenary.job")
+            :new({
+              command = command,
+              args = args,
+              cwd = path,
+            })
+            :start()
+        end)
       end)
     end,
     opts = {
@@ -175,6 +178,16 @@ local plugins = {
       },
     },
     event = "VeryLazy",
+  },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {
+      check_ts = true,
+      fast_wrap = {
+        map = "<C-g>",
+      },
+    },
   },
   {
     "svermeulen/vim-subversive",

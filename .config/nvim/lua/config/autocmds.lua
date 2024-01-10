@@ -9,6 +9,15 @@ autocmd("TextYankPost", {
   end,
 })
 
+augroup("OpenPrUrlOnPush", { clear = true })
+autocmd("User", {
+  pattern = "NeogitPushComplete",
+  group = "OpenPrUrlOnPush",
+  callback = function()
+    open_git_branch_in_browser()
+  end,
+})
+
 vim.api.nvim_create_autocmd("WinLeave", {
   callback = function()
     if vim.bo.ft == "TelescopePrompt" and vim.fn.mode() == "i" then

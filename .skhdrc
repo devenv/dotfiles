@@ -3,11 +3,22 @@ cmd + alt - h : yabai -m window --focus west || yabai -m window --focus north
 cmd + alt - l : yabai -m window --focus east || yabai -m window --focus south
 cmd + alt - k : yabai -m window --focus north || yabai -m window --focus north
 cmd + alt - j : yabai -m window --focus south || yabai -m window --focus north
+cmd + alt - w : yabai -m window --focus next || yabai -m window --focus first
 
-cmd + alt - 0x2C : yabai -m window --toggle zoom-fullscreen
+shift + cmd + alt - h : yabai -m window --swap west || yabai -m window --swap north
+shift + cmd + alt - l : yabai -m window --swap east || yabai -m window --swap north
+shift + cmd + alt - k : yabai -m window --swap north || yabai -m window --swap east
+shift + cmd + alt - j : yabai -m window --swap south || yabai -m window --swap east
 
-cmd + alt - 0x2B : yabai -m config layout bsp
-cmd + alt - 0x2F : yabai -m config layout stack
+cmd + alt - space : yabai -m window --toggle zoom-fullscreen
+
+cmd + alt - a : yabai -m config layout bsp
+cmd + alt - q : yabai -m config layout stack
 
 # Toggle split v/h for active window
-cmd + alt - 0x27 : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id"alt - 0x27 : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)' --toggle split)'
+cmd + alt - x : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id"alt - 0x27 : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)' --toggle split)'
+# to other display
+cmd + alt - z : cur_window=$(yabai -m query --windows --window | jq '.id') && \
+  yabai -m window --display prev  || yabai -m window --display next && \
+  yabai -m window --focus ${cur_window}
+

@@ -81,6 +81,7 @@ local plugins = {
           local api = require("nvim-tree.api")
           api.config.mappings.default_on_attach(bufnr)
           vim.keymap.del("n", "<C-k>", { buffer = bufnr })
+          vim.keymap.set("n", "<tab>", api.tree.toggle, { buffer = bufnr, desc = "Toggle Explorer" })
         end,
         update_focused_file = {
           enable = true,
@@ -107,6 +108,9 @@ local plugins = {
               enable = false,
             },
           },
+        },
+        view = {
+          width = 50,
         },
       })
     end,

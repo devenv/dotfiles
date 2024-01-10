@@ -6,6 +6,7 @@ local mappings = {
     ["\\"] = { '"+y' },
     ["u"] = { ":silent undo<CR>", opts = opts },
     ["<C-r>"] = { ":silent redo<CR>", opts = opts },
+    ["<M-v>"] = { "<C-v>", opts = opts },
     ["Y"] = { "y$" },
     ["<leader>h/"] = { ":set invhlsearch<CR>", opts = opts },
 
@@ -30,7 +31,7 @@ local mappings = {
     ["<leader>pi"] = { ":PythonCopyReferenceImport<CR>", opts = opts },
     ["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
     ["<leader>pG"] = {
-      ":silent! :lua open_git_branch_in_browser()<CR>",
+      ":lua open_git_branch_in_browser()<CR>",
       opts = opts,
     },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>", opts = opts },
@@ -86,7 +87,7 @@ local mappings = {
     ["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
     ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
-    ["<leader>ww"] = { ":silent! wa<CR>", opts = opts },
+    ["<leader>ww"] = { ":lua vim.lsp.buf.format()<CR>:silent! wa<CR>", opts = opts },
     ["<leader>wW"] = { ":silent! w<CR>", opts = opts },
     ["<leader>wq"] = { ":silent! wqa<CR>", opts = opts },
     ["<leader>qq"] = { ":silent! qa<CR>", opts = opts },
@@ -355,12 +356,4 @@ for mode, keys in pairs(mappings) do
   for key, mapping in pairs(keys) do
     vim.keymap.set(mode, key, mapping[1], opts)
   end
-end
-
-function _G.open_git_branch_in_browser()
-  local handle = io.popen("git rev-parse --abbrev-ref HEAD")
-  local result = handle:read("*a")
-  handle:close()
-  local branch_name = result:gsub("%s+", "") -- to remove newline character at the end
-  vim.cmd("OpenBrowser https://github.com/nilus-team/core/pull/new/" .. branch_name)
 end

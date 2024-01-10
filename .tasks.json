@@ -2,7 +2,7 @@
   "tasks": [
     {
       "name": "Rebase from main",
-      "cmd": "git fetch --all && git rebase origin/main -i"
+      "cmd": "git farbo"
     },
     {
       "name": "Install debug pips",

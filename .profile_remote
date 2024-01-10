@@ -19,6 +19,8 @@ export JAVA_HOME=$HOME/jdk
 export JDK_HOME=$HOME/jdk
 export M2_HOME=$HOME/maven/
 
+alias vim="~/nvim-linux64/bin/nvim"
+
 alias gut='git'
 alias got='git'
 alias l='ls -alh'
@@ -53,4 +55,4 @@ function bash_docker() {
   docker exec -it $1 bash
 }
 
-[[ $- == *i* ]] && ~/.i3/scripts/tmux-session $USER && exit
+tmux new -As0

@@ -9,5 +9,6 @@ return {
   { "nvimdev/dashboard-nvim", enabled = false },
   { "folke/persistence.nvim", enabled = false },
   { "windwp/nvim-ts-autotag", enabled = false },
+  { "echasnovski/mini.pairs", enabled = false },
   { "stevearc/conform.nvim", enabled = false },
 }
