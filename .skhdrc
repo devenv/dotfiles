@@ -1,28 +1,14 @@
 # Navigation
-alt - left : yabai -m window --focus west || yabai -m window --focus north
-alt - right : yabai -m window --focus east || yabai -m window --focus south
-alt - up : yabai -m window --focus north || yabai -m window --focus north
-alt - up : yabai -m window --focus south || yabai -m window --focus north
+cmd + alt - w : yabai -m window --focus next || yabai -m window --focus first
 
-shift + alt - left : yabai -m window --swap west || yabai -m window --swap north
-shift + alt - right : yabai -m window --swap east || yabai -m window --swap north
-shift + alt - up : yabai -m window --swap north || yabai -m window --swap east
-shift + alt - down : yabai -m window --swap south || yabai -m window --swap east
-
-ctrl + alt - left : yabai -m window --resize right:-40:0
-ctrl + alt - right : yabai -m window --resize right:40:0
-ctrl + alt - down : yabai -m window --resize bottom:0:40
-ctrl + alt - up : yabai -m window --resize bottom:0:-40
-
-alt - home : yabai -m display --focus recent
-alt - end : cur_window=$(yabai -m query --windows --window | jq '.id') && \
+cmd + alt - z : cur_window=$(yabai -m query --windows --window | jq '.id') && \
                       yabai -m window --display prev  || yabai -m window --display next && \
                       yabai -m window --focus ${cur_window}
 
-alt - 0x2C : yabai -m window --toggle zoom-fullscreen
+cmd + alt - space : yabai -m window --toggle zoom-fullscreen
 
-alt - 0x2B : yabai -m config layout bsp
-alt - 0x2F : yabai -m config layout stack
+cmd + alt - q : yabai -m config layout bsp
+cmd + alt - a : yabai -m config layout stack
 
 # Toggle split v/h for active window
-alt - 0x27 : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id"alt - 0x27 : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)' --toggle split)'
+cmd + alt - x : bash -c '$(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --toggle split)'

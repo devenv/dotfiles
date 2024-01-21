@@ -19,7 +19,7 @@ local mappings = {
 
     ["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR>", opts = opts },
     ["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR>", opts = opts },
-    ["<leader>SS"] = { ":Telescope spell_suggest<CR>", opts = opts },
+    ["<leader>SS"] = { ":FzfLua spell_suggest<CR>", opts = opts },
     ["<leader>SA"] = { ":spellrepall<CR>", opts = opts },
     ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>", opts = opts },
 
@@ -32,12 +32,14 @@ local mappings = {
     ["<leader>pG"] = { ":OpenGithubPullReq<CR>", opts = opts },
     ["<leader><C-p>"] = { ":let @+=join([expand('%'), line('.')], ':')<CR>", opts = opts },
 
-    ["<leader>so"] = { ":Telescope oldfiles<CR>", opts = opts },
+    ["<leader>so"] = { ":FzfLua oldfiles<CR>", opts = opts },
 
     ["{"] = { ":normal [c<CR>", opts = opts },
     ["}"] = { ":normal ]c<CR>", opts = opts },
     ["])"] = { ":cnext<CR>", opts = opts },
+    ["]h"] = { ":cnext<CR>", opts = opts },
     ["[("] = { ":cprev<CR>", opts = opts },
+    ["[g"] = { ":cprev<CR>", opts = opts },
 
     ["H"] = { ":BufferLineCyclePrev<CR>", opts = opts },
     ["L"] = { ":BufferLineCycleNext<CR>", opts = opts },
@@ -67,21 +69,23 @@ local mappings = {
 
     ["gs"] = { ":Neogit<CR>", "git status", opts = opts },
     ["gr"] = {
-      ":exe ':lua require(\"telescope.builtin\").git_branches({default_text=\"!origin '.$TICKET.'\"})'<CR>",
+      ":exe ':lua require(\"fzf-lua\").git_branches({prompt=\"!origin '.$TICKET.'\"})'<CR>",
       opts = opts,
     },
 
     ["s"] = { "<Plug>(SubversiveSubstitute)", opts = opts },
     ["ss"] = { "<Plug>(SubversiveSubstituteLine)", opts = opts },
     ["S"] = { "<Plug>(SubversiveSubstituteToEndOfLine)", opts = opts },
+    ["<S-Left>"] = { "<Plug>CamelCaseMotion_b", opts = opts },
+    ["<S-Right>"] = { "<Plug>CamelCaseMotion_w", opts = opts },
 
     ["ghh"] = { ":Gitsigns toggle_linehl<CR>", opts = opts },
     ["ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
     ["ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
     ["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
 
-    ["<leader>a"] = { ":Telescope bookmarks list<CR>", opts = opts },
-    ["ma"] = { ":Telescope bookmarks list<CR>", opts = opts },
+    ["ma"] = { ":FzfLua bookmarks list<CR>", opts = opts },
+    ["<leader>a"] = { ":FzfLua bookmarks list<CR>", opts = opts },
 
     ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
     ["<leader>ww"] = { ":silent! wa<CR>", opts = opts },
@@ -131,14 +135,14 @@ local mappings = {
 
     ["<leader>k"] = { ":lua vim.diagnostic.goto_prev()<CR>", opts = opts },
     ["<leader>j"] = { ":lua vim.diagnostic.goto_next()<CR>", opts = opts },
-    ["<leader>e"] = { ":lua require('telescope.builtin').diagnostics({severity_limit=3})<CR>", opts = opts },
+    ["<leader>e"] = { ":lua require('fzf-lua').diagnostics_workspace({severity_limit=3})<CR>", opts = opts },
     ["<leader>'"] = { ":lua vim.lsp.buf.format({ async = true })<CR>", opts = opts },
 
     ["K"] = { ":lua vim.lsp.buf.hover()<CR>", opts = opts },
     ["gd"] = { ":lua vim.lsp.buf.definition()<CR>", opts = opts },
 
-    ["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
-    ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
+    ["gi"] = { ":FzfLua lsp_incoming_calls<CR>", opts = opts },
+    ["gI"] = { ":FzfLua lsp_outgoing_calls<CR>", opts = opts },
     ["g<tab>"] = { ":AerialToggle<CR>", opts = opts },
 
     ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
@@ -183,7 +187,7 @@ local mappings = {
       end,
       opts = opts,
     },
-    ["<leader>dA"] = { ":Telescope dap commands<CR>", opts = opts },
+    ["<leader>dA"] = { ":FzfLua dap_commands<CR>", opts = opts },
 
     ["<leader>de"] = { ":lua require('neotest').output.open({ enter = true, last_run = true })<CR>", opts = opts },
     ["<leader>do"] = {
@@ -195,7 +199,7 @@ local mappings = {
 
     ["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
     ["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
-    ["<leader>dB"] = { ":Telescope dap list_breakpoints<CR>", opts = opts },
+    ["<leader>dB"] = { ":FzfLua dap_breakpoints<CR>", opts = opts },
     ["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>", opts = opts },
 
     ["<leader>dp"] = {
@@ -273,15 +277,34 @@ local mappings = {
     },
     ["<leader>rl"] = { ":LspRestart<CR>", opts = opts },
 
-    ["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
-    ["<leader>ss"] = { ":Telescope live_grep<CR>", opts = opts },
+    ["<C-p>"] = { ":FzfLua files<CR>", opts = opts },
+    ["<leader>ss"] = { ":FzfLua live_grep<CR>", opts = opts },
+    ["<leader>sw"] = { ":FzfLua grep_cword<CR>", opts = opts },
+    ["<leader>sr"] = { ":FzfLua registers<CR>", opts = opts },
+    ["<leader>sa"] = { ":FzfLua autocmds<CR>", opts = opts },
+    ["<leader>sb"] = { ":FzfLua buffers<CR>", opts = opts },
+    ["<leader>sC"] = { ":FzfLua commands<CR>", opts = opts },
+    ["<leader>sc"] = { ":FzfLua command_history<CR>", opts = opts },
+    ["<leader>sD"] = { ":FzfLua lsp_workspace_diagnostics<CR>", opts = opts },
+    ["<leader>sd"] = { ":FzfLua lsp_document_diagnostics<CR>", opts = opts },
+    ["<leader>sR"] = { ":FzfLua resume<CR>", opts = opts },
+    ["<leader>sH"] = { ":FzfLua highlights<CR>", opts = opts },
+    ["<leader>sh"] = { ":FzfLua help_tags<CR>", opts = opts },
+    ["<leader>sk"] = { ":FzfLua keymaps<CR>", opts = opts },
+    ["<leader>sm"] = { ":FzfLua marks<CR>", opts = opts },
+    ["<leader>sS"] = { ":FzfLua symbols<CR>", opts = opts },
+    ["<leader>sI"] = {
+      "<cmd>lua require('fzf-lua').live_grep({ prompt = 'nilus.common.' .. vim.fn.getenv('SERVICE_NAME')})<CR>",
+      opts = opts,
+    },
     ["<leader>R"] = { ":lua requirespectre').toggle()<CR>", opts = opts },
-    ["<leader>b"] = { ":Telescope buffers<CR>", opts = opts },
-    ["<leader>P"] = { ":Telescope registers<CR>", opts = opts },
+    ["<leader>b"] = { ":FzfLua buffers<CR>", opts = opts },
+    ["<leader>y"] = { ":FzfLua registers<CR>", opts = opts },
     ["<leader>n"] = { ":Telescope notify<CR>", opts = opts },
     ["<leader>N"] = { ":Noice dismiss<CR>", opts = opts },
 
     ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
+    ["<S-tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
     ["<leader>u"] = { ":UndotreeToggle<CR>", opts = opts },
     ["<leader>D"] = { ":DBUIToggle<CR>", "DB UI", opts = opts },
     ["gS"] = { "<Plug>SortMotion", opts = opts },
@@ -323,6 +346,10 @@ local mappings = {
 
 local defaults_to_clear = {
   n = {
+    "m",
+    "<leader>m",
+    "<leader>ma",
+    "<leader>p",
     "<leader>w-",
     "<leader>w|",
     "<leader>wd",

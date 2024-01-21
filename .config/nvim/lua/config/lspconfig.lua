@@ -45,7 +45,7 @@ lspconfig.pyright.setup({
     python = {
       analysis = {
         autoSearchPaths = true,
-        diagnosticMode = "openFilesOnly",
+        diagnosticMode = "workspace",
         typeCheckingMode = "basic",
         useLibraryCodeForTypes = true,
         reportUnknownArgumentType = true,
@@ -59,20 +59,37 @@ lspconfig.pyright.setup({
 lspconfig.pylsp.setup({
   capabilities = capabilities,
   on_attach = function(client, bufnr)
+    client.server_capabilities.completionProvider = false
+    client.server_capabilities.definitionProvider = false
+    client.server_capabilities.documentHighlightProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+    client.server_capabilities.documentSymbolProvider = false
+    client.server_capabilities.document_formatting = false
+    client.server_capabilities.document_range_formatting = false
+    client.server_capabilities.foldingRangeProvider = false
+    client.server_capabilities.hoverProvider = false
+    client.server_capabilities.referencesProvider = false
+    client.server_capabilities.renameProvider = false
+    client.server_capabilities.signatureHelpProvider = false
     on_attach(client, bufnr)
   end,
   settings = {
     pylsp = {
       configurationSources = { "flake8" },
-      rope = {
-        ropeFolder = ".rope",
-      },
       plugins = {
-        jedi_completion = { enabled = false, fuzzy = false },
+        jedi_completion = { enabled = false },
         jedi_hover = { enabled = false },
         jedi_references = { enabled = false },
         jedi_signature_help = { enabled = false },
         jedi_symbols = { enabled = false, all_scopes = false },
+        ruff = {
+          enabled = false,
+          extendSelect = { "I" }, -- Rules that are additionally used by ruff
+          extendIgnore = { "C90" }, -- Rules that are additionally ignored by ruff
+          format = { "I" }, -- Rules that are marked as fixable by ruff that should be fixed when running textDocument/formatting
+          severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
+          unsafeFixes = false, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
+        },
         black = {
           enabled = true,
           line_length = 160,
@@ -83,16 +100,8 @@ lspconfig.pylsp.setup({
           ignore = {},
           maxLineLength = 160,
         },
-        ruff = {
-          enabled = false,
-          extendSelect = { "I" }, -- Rules that are additionally used by ruff
-          extendIgnore = { "C90" }, -- Rules that are additionally ignored by ruff
-          format = { "I" }, -- Rules that are marked as fixable by ruff that should be fixed when running textDocument/formatting
-          severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
-          unsafeFixes = false, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
-        },
         mypy = { enabled = false },
-        isort = { enabled = false },
+        isort = { enabled = true },
         yapf = { enabled = false },
         pylint = { enabled = false },
         pydocstyle = { enabled = false },
