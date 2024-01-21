@@ -4,8 +4,8 @@ local plugins = {
     event = "BufEnter",
     config = function()
       require("bookmarks").setup({
-        sign_priority = 8,
-        save_file = vim.fn.expand("$HOME/.local/share/nvim/bookmarks/$TICKET.json"),
+        sign_priority = 100,
+        save_file = vim.fn.expand("~/.local/share/nvim/bookmarks/" .. vim.env.TICKET .. ".json"),
         keywords = {
           ["@t"] = "☑︎ ",
           ["@w"] = "‼ ",
@@ -29,14 +29,68 @@ local plugins = {
     end,
   },
   {
+    "ibhagwan/fzf-lua",
+    config = function()
+      local actions = require("fzf-lua.actions")
+      require("fzf-lua").setup({
+        fzf_opts = {
+          ["--history"] = vim.fn.shellescape(vim.fn.stdpath("data") .. "/fzf_files_hist" .. vim.env.TICKET),
+        },
+        winopts = {
+          height = 0.9,
+          width = 1.0,
+          row = 0.15,
+          col = 0,
+          preview = {
+            border = "noborder",
+            vertical = "down:50%",
+            horizontal = "right:50%",
+            layout = "flex",
+            flip_columns = 120,
+          },
+        },
+        keymap = {
+          builtin = {
+            ["<S-down>"] = "preview-page-down",
+            ["<S-up>"] = "preview-page-up",
+            ["<S-left>"] = "preview-page-reset",
+          },
+          fzf = {
+            ["esc"] = "abort",
+            ["ctrl-u"] = "unix-line-discard",
+            ["ctrl-f"] = "half-page-down",
+            ["ctrl-b"] = "half-page-up",
+            ["ctrl-a"] = "beginning-of-line",
+            ["ctrl-e"] = "end-of-line",
+            ["ctrl-a"] = "toggle-all",
+            ["shift-down"] = "preview-page-down",
+            ["shift-up"] = "preview-page-up",
+          },
+        },
+        actions = {
+          files = {
+            ["default"] = actions.file_edit_or_qf,
+            ["ctrl-s"] = actions.file_split,
+            ["ctrl-v"] = actions.file_vsplit,
+            ["ctrl-t"] = actions.file_tabedit,
+            ["ctrl-q"] = actions.file_sel_to_qf,
+          },
+          buffers = {
+            ["default"] = actions.buf_edit,
+            ["ctrl-s"] = actions.buf_split,
+            ["ctrl-v"] = actions.buf_vsplit,
+            ["ctrl-t"] = actions.buf_tabedit,
+          },
+        },
+      })
+    end,
+  },
+  {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "tomasky/bookmarks.nvim",
       "jedrzejboczar/possession.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-      },
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
       require("telescope").setup({
@@ -81,7 +135,6 @@ local plugins = {
           local api = require("nvim-tree.api")
           api.config.mappings.default_on_attach(bufnr)
           vim.keymap.del("n", "<C-k>", { buffer = bufnr })
-          vim.keymap.set("n", "<tab>", api.tree.toggle, { buffer = bufnr, desc = "Toggle Explorer" })
         end,
         update_focused_file = {
           enable = true,
