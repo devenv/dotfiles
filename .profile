@@ -12,6 +12,10 @@ export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 export GIT_TERMINAL_PROMPT=0
+export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+  --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 export C_INCLUDE_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/include
 export LIBRARY_PATH=/opt/homebrew/Cellar/librdkafka/2.1.1/lib
@@ -31,6 +35,7 @@ export LC_ALL=en_US.UTF-8
 export FZF_TMUX_HEIGHT=20
 export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all"
 export SQLALCHEMY_SILENCE_UBER_WARNING=1
+export OLLAMA_HOST="http://127.0.0.1:11434"
 
 export PATH=$HOME/.local/bin:/opt/homebrew/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 #export PY="$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages"

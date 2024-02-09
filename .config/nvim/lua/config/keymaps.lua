@@ -23,7 +23,7 @@ local mappings = {
     ["<leader>SA"] = { ":spellrepall<CR>", opts = opts },
     ["<leader>Su"] = { ":spellundo <c-r>=expand('<cword>')<CR><CR>", opts = opts },
 
-    ["<leader>pp"] = { ":let @+=expand('%')<CR>", opts = opts },
+    ["<leader>pp"] = { ":let @+=expand('%:.')<CR>", opts = opts },
     ["<leader>pF"] = { ":let @+=expand('%:p')<CR>", opts = opts },
     ["<leader>p."] = { ":PythonCopyReferenceDotted<CR>", opts = opts },
     ["<leader>pt"] = { ":PythonCopyReferencePytest<CR>", opts = opts },
@@ -300,7 +300,7 @@ local mappings = {
     ["<leader>R"] = { ":lua requirespectre').toggle()<CR>", opts = opts },
     ["<leader>b"] = { ":FzfLua buffers<CR>", opts = opts },
     ["<leader>y"] = { ":FzfLua registers<CR>", opts = opts },
-    ["<leader>n"] = { ":Telescope notify<CR>", opts = opts },
+    ["<leader>n"] = { ":Noice<CR>", opts = opts },
     ["<leader>N"] = { ":Noice dismiss<CR>", opts = opts },
 
     ["<leader><tab>"] = { ":NvimTreeToggle<CR>", "toggle nvimtree", opts = opts },
@@ -347,6 +347,7 @@ local mappings = {
 local defaults_to_clear = {
   n = {
     "m",
+    "<leader>d",
     "<leader>m",
     "<leader>ma",
     "<leader>p",

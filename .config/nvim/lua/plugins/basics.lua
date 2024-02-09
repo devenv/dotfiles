@@ -126,58 +126,66 @@ local plugins = {
     event = "VeryLazy",
   },
   {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-      local registry = require("mason-registry")
-      registry.refresh(function()
-        local pylsp = registry.get_package("python-lsp-server")
-        pylsp:on("install:success", function()
-          local function mason_package_path(package)
-            local path = vim.fn.resolve(vim.fn.stdpath("data") .. "/mason/packages/" .. package)
-            return path
-          end
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      {
+        "williamboman/mason-lspconfig.nvim",
+        event = "BufEnter",
+        dependencies = {
+          {
+            "williamboman/mason.nvim",
+            config = function()
+              require("mason").setup()
+            end,
+            event = "VeryLazy",
+          },
+        },
+        config = function()
+          require("mason-lspconfig").setup({
+            ensure_installed = {
+              "bashls",
+              "cssls",
+              "denols",
+              "dockerls",
+              "dotls",
+              "html",
+              "jsonls",
+              "lua_ls",
+              "pyright",
+              "pylsp",
+              "ruff_lsp",
+              "spectral",
+              "sqlls",
+              "taplo",
+              "tsserver",
+              "yamlls",
+            },
+          })
+        end,
+      },
 
-          local path = mason_package_path("python-lsp-server")
-          local command = path .. "/venv/bin/pip"
-          local args = {
-            "install",
-            "python-lsp-ruff",
-            "python-lsp-isort",
-            "sqlalchemy-stubs",
-          }
-
-          require("plenary.job")
-            :new({
-              command = command,
-              args = args,
-              cwd = path,
-            })
-            :start()
-        end)
-      end)
-    end,
-    opts = {
-      ensure_installed = {
-        -- lua stuff
-        "lua-language-server",
-        "stylua",
-
-        -- web dev stuff
-        "css-lsp",
-        "html-lsp",
-        "typescript-language-server",
-        "deno",
-        "prettier",
-
-        -- python stuff
-        "isort",
-        "ruff",
-        "pyright",
-        "python-lsp-server[all]",
+      {
+        "jose-elias-alvarez/none-ls.nvim",
+        event = "BufEnter",
+        config = function()
+          require("config.null-ls")
+        end,
       },
     },
-    event = "VeryLazy",
+    config = function()
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "prettier",
+          "yamlfix",
+          "isort",
+          "sqlfluff",
+          "sqlfmt",
+        },
+        automatic_installation = true,
+        auto_update = true,
+      })
+    end,
   },
   {
     "windwp/nvim-autopairs",

@@ -3,13 +3,24 @@ local null_ls = require("null-ls")
 local b = null_ls.builtins
 null_ls.setup({
   sources = {
-
     -- webdev stuff
     b.formatting.deno_fmt, -- choosed deno for ts/js files cuz its very fast!
-    b.formatting.prettier.with({ filetypes = { "html", "markdown", "css", "tsx", "lua" } }), -- so prettier works only on these filetypes
+    b.formatting.prettier.with({ filetypes = { "html", "markdown", "css", "tsx", "lua", "yaml" } }),
 
     -- Lua
     b.formatting.stylua,
+
+    -- JSON, YAML
+    b.diagnostics.spectral,
+    b.formatting.json_tool,
+
+    -- SQL
+    b.diagnostics.sqlfluff.with({
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    }),
+    null_ls.builtins.formatting.sqlfluff.with({
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    }),
 
     -- cpp
     b.formatting.black.with({

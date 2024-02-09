@@ -3,9 +3,10 @@ local plugins = {
     "tomasky/bookmarks.nvim",
     event = "BufEnter",
     config = function()
+      local ticket = vim.env.TICKET or ""
       require("bookmarks").setup({
         sign_priority = 100,
-        save_file = vim.fn.expand("~/.local/share/nvim/bookmarks/" .. vim.env.TICKET .. ".json"),
+        save_file = vim.fn.expand("~/.local/share/nvim/bookmarks/" .. ticket .. ".json"),
         keywords = {
           ["@t"] = "☑︎ ",
           ["@w"] = "‼ ",
@@ -32,9 +33,10 @@ local plugins = {
     "ibhagwan/fzf-lua",
     config = function()
       local actions = require("fzf-lua.actions")
+      local ticket = vim.env.TICKET or ""
       require("fzf-lua").setup({
         fzf_opts = {
-          ["--history"] = vim.fn.shellescape(vim.fn.stdpath("data") .. "/fzf_files_hist" .. vim.env.TICKET),
+          ["--history"] = vim.fn.shellescape(vim.fn.stdpath("data") .. "/fzf_files_hist" .. ticket),
         },
         winopts = {
           height = 0.9,

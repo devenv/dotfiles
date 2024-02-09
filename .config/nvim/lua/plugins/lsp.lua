@@ -191,10 +191,6 @@ local plugins = {
       })
     end,
   },
-  {
-    "microsoft/python-type-stubs",
-    lazy = false,
-  },
 }
 
 return plugins

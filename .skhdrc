@@ -22,3 +22,9 @@ cmd + alt - z : cur_window=$(yabai -m query --windows --window | jq '.id') && \
   yabai -m window --display prev  || yabai -m window --display next && \
   yabai -m window --focus ${cur_window}
 
+cmd + alt - p : yabai -m window --toggle sticky; yabai -m window --toggle topmost;
+
+cmd + alt - y : afplay ~/badumtss.mp3
+cmd + alt - u : afplay ~/wawawaaa.mp3
+cmd + alt - i : afplay ~/tada.mp3
+
