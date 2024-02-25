@@ -41,9 +41,10 @@ lspconfig.pyright.setup({
   end,
   capabilities = capabilities,
   settings = {
-    pyright = { autoImportCompletion = true },
+    pyright = { autoImportCompletion = true, disableOrganizeImports = true },
     python = {
       analysis = {
+        ignore = { "*" },
         autoSearchPaths = true,
         diagnosticMode = "openFilesOnly",
         typeCheckingMode = "standard",
@@ -55,6 +56,11 @@ lspconfig.pyright.setup({
       },
     },
   },
+})
+
+lspconfig.jsonls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
 })
 
 lspconfig.pylsp.setup({
@@ -96,6 +102,7 @@ lspconfig.pylsp.setup({
         ruff = {
           enabled = true,
           lineLength = 160,
+          format = { "F401" },
           extendIgnore = { "C90", "ARG" }, -- Rules that are additionally ignored by ruff
           extendSelect = { "F401" }, -- Rules that are additionally used by ruff
           severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
@@ -112,6 +119,13 @@ lspconfig.pylsp.setup({
         rope_autoimport = { enabled = false },
       },
     },
+  },
+})
+
+require("deno-nvim").setup({
+  server = {
+    on_attach = on_attach,
+    capabilites = capabilities,
   },
 })
 

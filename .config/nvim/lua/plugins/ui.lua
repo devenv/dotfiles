@@ -325,7 +325,7 @@ local plugins = {
         },
         messages = {
           enabled = false, -- enables the Noice messages UI
-          view = "notify", -- default view for messages
+          view = "messages", -- default view for messages
           view_error = "mini", -- view for errors
           view_warn = "mini", -- view for warnings
           view_history = "messages", -- view for :messages

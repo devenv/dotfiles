@@ -398,14 +398,62 @@ local plugins = {
         highlight_on_hover = true,
         autojump = true,
 
+        layout = {
+          max_width = { 80, 0.4 },
+          min_width = 20,
+          default_direction = "prefer_right",
+          preserve_equality = true,
+        },
+        attach_mode = "global", -- ?
+        close_automatic_events = { "unfocus", "switch_buffer" },
+        filter_kind = false,
+        highlight_on_hover = true,
+        manage_folds = false,
+        link_folds_to_tree = true,
+        close_on_select = true,
+        show_guides = true, -- ?
+        filter_kind = {
+          "Class",
+          "Constructor",
+          "Enum",
+          "EnumMember",
+          "Event",
+          "Field",
+          "Function",
+          "Interface",
+          "Module",
+          "Method",
+          "Namespace",
+          "Package",
+          "Struct",
+          "TypeParameter",
+        },
+        float = {
+          border = "rounded",
+          relative = "cursor",
+          max_height = 0.9,
+          min_height = { 8, 0.1 },
+        },
+
         nav = {
-          autojump = true,
-          preview = true,
+          border = "rounded",
+          max_height = 0.9,
+          min_height = { 10, 0.1 },
+          max_width = 0.5,
+          min_width = { 0.2, 20 },
+          win_opts = {
+            cursorline = true,
+            winblend = 10,
+          },
+          autojump = false,
+          preview = false,
           keymaps = {
             ["<CR>"] = "actions.jump",
+            ["<C-v>"] = "actions.jump_vsplit",
+            ["<C-s>"] = "actions.jump_split",
             ["h"] = "actions.left",
             ["l"] = "actions.right",
-            ["q"] = "actions.close",
+            ["<C-c>"] = "actions.close",
           },
         },
       })
@@ -443,6 +491,26 @@ local plugins = {
       -- your configuration overrides
     },
   },
+  {
+    "cameron-wags/rainbow_csv.nvim",
+    config = true,
+    ft = {
+      "csv",
+      "tsv",
+      "csv_semicolon",
+      "csv_whitespace",
+      "csv_pipe",
+      "rfc_csv",
+      "rfc_semicolon",
+    },
+    cmd = {
+      "RainbowDelim",
+      "RainbowDelimSimple",
+      "RainbowDelimQuoted",
+      "RainbowMultiDelim",
+    },
+  },
+  { "sigmasd/deno-nvim" },
 }
 
 return plugins

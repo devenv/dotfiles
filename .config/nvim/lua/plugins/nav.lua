@@ -36,7 +36,7 @@ local plugins = {
       local ticket = vim.env.TICKET or ""
       require("fzf-lua").setup({
         fzf_opts = {
-          ["--history"] = vim.fn.shellescape(vim.fn.stdpath("data") .. "/fzf_files_hist" .. ticket),
+          ["--history"] = vim.fn.stdpath("data") .. "/fzf_files_hist" .. ticket,
         },
         winopts = {
           height = 0.9,
@@ -108,6 +108,7 @@ local plugins = {
               ["<C-p>"] = require("telescope.actions").cycle_history_prev,
               ["<C-n>"] = require("telescope.actions").cycle_history_next,
               ["<C-a>"] = require("telescope.actions").send_selected_to_qflist,
+              ["<C-q>"] = require("telescope.actions").close,
             },
           },
         },
