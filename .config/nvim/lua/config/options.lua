@@ -25,10 +25,7 @@ vim.api.nvim_set_option("nu", true)
 vim.api.nvim_set_option("rnu", false)
 vim.api.nvim_set_option("scrolljump", 1)
 vim.api.nvim_set_option("scrolloff", 10)
-vim.api.nvim_set_option(
-  "sessionoptions",
-  "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-)
+vim.api.nvim_set_option("sessionoptions", "blank,buffers,curdir,tabpages,winsize,winpos,localoptions")
 vim.api.nvim_set_option("shiftwidth", 2)
 vim.api.nvim_set_option("showmatch", true)
 vim.api.nvim_set_option("smartcase", true)
@@ -44,8 +41,6 @@ vim.api.nvim_set_option("undolevels", 10000)
 vim.api.nvim_set_option("undoreload", 10000)
 vim.api.nvim_set_option("clipboard", "")
 vim.api.nvim_set_option("makeprg", os.getenv("MAKEPRG"))
-
-vim.g.autoformat = false
 
 vim.g.loaded_python3_provider = nil
 vim.g.loaded_netrw = 1
@@ -78,6 +73,8 @@ vim.g.codeium_disable_bindings = 1
 vim.g.codeium_no_map_tab = 1
 vim.g.codeium_idle_delay = 10
 vim.g.codeium_render = 1
+
+vim.g.autoformat = false
 
 vim.g["semshi#excluded_hl_groups"] = { "global", "local" }
 

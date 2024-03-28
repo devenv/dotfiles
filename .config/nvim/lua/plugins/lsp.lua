@@ -34,11 +34,11 @@ local plugins = {
         },
         sources = {
           { name = "nvim_lsp", priority = 20, group_index = 1, keyword_length = 1 },
-          { name = "codeium", priority = 18, group_index = 1, keyword_length = 0 },
+          { name = "codeium", priority = 10, group_index = 1, keyword_length = 0 },
           { name = "luasnip", priority = 5, group_index = 1, keyword_length = 2 },
           { name = "path", priority = 2, group_index = 1, keyword_length = 3 },
           { name = "nvim_lua", priority = 1, group_index = 1, keyword_length = 1 },
-          { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 3 },
+          { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 2 },
           { name = "emoji", priority = 1, group_index = 1 },
           {
             name = "buffer",
@@ -136,18 +136,6 @@ local plugins = {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = {
-      {
-        "jose-elias-alvarez/none-ls.nvim",
-        event = "BufEnter",
-        config = function()
-          require("config.null-ls")
-        end,
-      },
-    },
-    opts = {
-      autoformat = false,
-    },
     config = function()
       require("config.lspconfig")
     end,
@@ -190,6 +178,30 @@ local plugins = {
         },
       })
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    event = "BufEnter",
+    opts = {
+      formatters_by_ft = {
+        bash = { "beautysh" },
+        sql = { "sqlfmt" },
+
+        json = { "deno_fmt" },
+
+        css = { "prettier" },
+        html = { "prettier" },
+        javascript = { "prettier" },
+        markdown = { "prettier" },
+        yaml = { "prettier" },
+
+        lua = { "stylua" },
+        python = {
+          "ruff_fix",
+          "ruff_format",
+        },
+      },
+    },
   },
 }
 

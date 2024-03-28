@@ -26,7 +26,7 @@ local plugins = {
           ".tasks",
         },
         scan = {
-          dirs = { os.getenv("HOME"), "../../../" },
+          dirs = { os.getenv("HOME"), "../../../", "../" },
         },
         toggleterm = {
           close_on_exit = false,

@@ -41,10 +41,9 @@ lspconfig.pyright.setup({
   end,
   capabilities = capabilities,
   settings = {
-    pyright = { autoImportCompletion = true, disableOrganizeImports = true },
+    pyright = { autoImportCompletion = true },
     python = {
       analysis = {
-        ignore = { "*" },
         autoSearchPaths = true,
         diagnosticMode = "openFilesOnly",
         typeCheckingMode = "standard",
@@ -63,61 +62,12 @@ lspconfig.jsonls.setup({
   capabilities = capabilities,
 })
 
-lspconfig.pylsp.setup({
+lspconfig.ruff_lsp.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    client.server_capabilities.completionProvider = false
-    client.server_capabilities.definitionProvider = false
-    client.server_capabilities.documentHighlightProvider = false
-    client.server_capabilities.documentSymbolProvider = false
-    client.server_capabilities.foldingRangeProvider = false
-    client.server_capabilities.hoverProvider = false
-    client.server_capabilities.referencesProvider = false
-    client.server_capabilities.renameProvider = false
-    client.server_capabilities.signatureHelpProvider = false
-    on_attach(client, bufnr)
-  end,
   settings = {
-    pylsp = {
-      configurationSources = { "flake8" },
-      rope = {
-        ropeFolder = ".rope",
-      },
-      plugins = {
-        jedi_completion = { enabled = false, fuzzy = false },
-        jedi_hover = { enabled = false },
-        jedi_references = { enabled = false },
-        jedi_signature_help = { enabled = false },
-        jedi_symbols = { enabled = false, all_scopes = false },
-        black = {
-          enabled = false,
-          line_length = 160,
-        },
-        pycodestyle = { enabled = false },
-        flake8 = {
-          enabled = false,
-          ignore = {},
-          maxLineLength = 160,
-        },
-        ruff = {
-          enabled = true,
-          lineLength = 160,
-          format = { "F401" },
-          extendIgnore = { "C90", "ARG" }, -- Rules that are additionally ignored by ruff
-          extendSelect = { "F401" }, -- Rules that are additionally used by ruff
-          severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
-          unsafeFixes = false, -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
-        },
-        mypy = { enabled = false },
-        isort = { enabled = true, line_length = 160 },
-        yapf = { enabled = false },
-        pylint = { enabled = false },
-        pydocstyle = { enabled = false },
-        mccabe = { enabled = false },
-        preload = { enabled = false },
-        rope_completion = { enabled = false, eager = false },
-        rope_autoimport = { enabled = false },
-      },
+    ruff = {
+      ignore = {},
     },
   },
 })

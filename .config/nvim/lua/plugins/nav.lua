@@ -1,97 +1,9 @@
 local plugins = {
   {
-    "tomasky/bookmarks.nvim",
-    event = "BufEnter",
-    config = function()
-      local ticket = vim.env.TICKET or ""
-      require("bookmarks").setup({
-        sign_priority = 100,
-        save_file = vim.fn.expand("~/.local/share/nvim/bookmarks/" .. ticket .. ".json"),
-        keywords = {
-          ["@t"] = "☑︎ ",
-          ["@w"] = "‼ ",
-          ["@r"] = "® ",
-          ["@s"] = "§ ",
-          ["@p"] = "℗ ",
-          ["@m"] = "⁂ ",
-          ["@n"] = "♪ ",
-        },
-        on_attach = function(bufnr)
-          local bm = require("bookmarks")
-          local map = vim.keymap.set
-          map("n", "mm", bm.bookmark_toggle) -- add or remove bookmark at current line
-          map("n", "mi", bm.bookmark_ann) -- add or edit mark annotation at current line
-          map("n", "mx", bm.bookmark_clean) -- clean all marks in local buffer
-          map("n", "mj", bm.bookmark_next) -- jump to next mark in local buffer
-          map("n", "mk", bm.bookmark_prev) -- jump to previous mark in local buffer
-          map("n", "mq", bm.bookmark_list) -- show marked file list in quickfix window
-        end,
-      })
-    end,
-  },
-  {
-    "ibhagwan/fzf-lua",
-    config = function()
-      local actions = require("fzf-lua.actions")
-      local ticket = vim.env.TICKET or ""
-      require("fzf-lua").setup({
-        fzf_opts = {
-          ["--history"] = vim.fn.stdpath("data") .. "/fzf_files_hist" .. ticket,
-        },
-        winopts = {
-          height = 0.9,
-          width = 1.0,
-          row = 0.15,
-          col = 0,
-          preview = {
-            border = "noborder",
-            vertical = "down:50%",
-            horizontal = "right:50%",
-            layout = "flex",
-            flip_columns = 120,
-          },
-        },
-        keymap = {
-          builtin = {
-            ["<S-down>"] = "preview-page-down",
-            ["<S-up>"] = "preview-page-up",
-            ["<S-left>"] = "preview-page-reset",
-          },
-          fzf = {
-            ["esc"] = "abort",
-            ["ctrl-u"] = "unix-line-discard",
-            ["ctrl-f"] = "half-page-down",
-            ["ctrl-b"] = "half-page-up",
-            ["ctrl-a"] = "beginning-of-line",
-            ["ctrl-e"] = "end-of-line",
-            ["ctrl-a"] = "toggle-all",
-            ["shift-down"] = "preview-page-down",
-            ["shift-up"] = "preview-page-up",
-          },
-        },
-        actions = {
-          files = {
-            ["default"] = actions.file_edit_or_qf,
-            ["ctrl-s"] = actions.file_split,
-            ["ctrl-v"] = actions.file_vsplit,
-            ["ctrl-t"] = actions.file_tabedit,
-            ["ctrl-q"] = actions.file_sel_to_qf,
-          },
-          buffers = {
-            ["default"] = actions.buf_edit,
-            ["ctrl-s"] = actions.buf_split,
-            ["ctrl-v"] = actions.buf_vsplit,
-            ["ctrl-t"] = actions.buf_tabedit,
-          },
-        },
-      })
-    end,
-  },
-  {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "tomasky/bookmarks.nvim",
       "jedrzejboczar/possession.nvim",
+      "crusj/bookmarks.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
@@ -107,7 +19,7 @@ local plugins = {
             i = {
               ["<C-p>"] = require("telescope.actions").cycle_history_prev,
               ["<C-n>"] = require("telescope.actions").cycle_history_next,
-              ["<C-a>"] = require("telescope.actions").send_selected_to_qflist,
+              ["<C-a>"] = require("telescope.actions").send_to_qflist,
               ["<C-q>"] = require("telescope.actions").close,
             },
           },
@@ -244,6 +156,46 @@ local plugins = {
   {
     "farmergreg/vim-lastplace",
     lazy = false,
+  },
+  {
+    "crusj/bookmarks.nvim",
+    keys = {
+      { "<tab><tab>", mode = { "n" } },
+    },
+    branch = "main",
+    dependencies = { "nvim-web-devicons" },
+    config = function()
+      -- if ticket in env
+      if vim.env.TICKET == nil then
+        dir = vim.fn.stdpath("data") .. "/bookmarks"
+      else
+        dir = vim.fn.stdpath("data") .. "/bookmarks-" .. vim.env.TICKET
+      end
+      require("bookmarks").setup({
+        storage_dir = dir,
+        mappings_enabled = true,
+        keymap = {
+          toggle = "<leader>m<tab>",
+          close = "q",
+          add = "<leader>ma",
+          add_global = "<leader>mA",
+          jump = "<CR>",
+          delete = "dd",
+          order = "<c-a>",
+          delete_on_virt = "<leader>md",
+          show_desc = "mK",
+          focus_tags = "<c-j>",
+          focus_bookmarks = "<c-k>",
+          toogle_focus = "<space><space>",
+        },
+        width = 0.8,
+        height = 0.7,
+        preview_ratio = 0.45,
+        tags_ratio = 0.1,
+        fix_enable = true,
+      })
+      require("telescope").load_extension("bookmarks")
+    end,
   },
 }
 

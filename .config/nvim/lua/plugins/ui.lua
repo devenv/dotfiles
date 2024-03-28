@@ -269,7 +269,7 @@ local plugins = {
       require("noice").setup({
         lsp = {
           progress = {
-            enabled = false,
+            enabled = true,
             format = "lsp_progress",
             format_done = "lsp_progress_done",
             throttle = 1000 / 30, -- frequency to update lsp progress message
@@ -281,10 +281,26 @@ local plugins = {
             ["cmp.entry.get_documentation"] = true,
           },
           hover = {
-            enabled = true,
-            silent = false, -- set to true to not show a message if hover is not available
-            view = nil, -- when nil, use defaults from documentation
-            opts = {}, -- merged with defaults from documentation
+            view = "popup",
+            relative = "cursor",
+            zindex = -2,
+            enter = false,
+            anchor = "auto",
+            size = {
+              width = "auto",
+              height = "auto",
+              max_height = 20,
+              max_width = 120,
+            },
+            border = {
+              style = "none",
+              padding = { 0, 2 },
+            },
+            position = { row = 1, col = 0 },
+            win_options = {
+              wrap = true,
+              linebreak = true,
+            },
           },
           signature = {
             enabled = true,
@@ -294,16 +310,11 @@ local plugins = {
               luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
               throttle = 50, -- Debounce lsp signature help request by 50ms
             },
-            view = nil, -- when nil, use defaults from documentation
-            opts = {}, -- merged with defaults from documentation
           },
           message = {
-            -- Messages shown by lsp servers
             enabled = true,
-            view = "virtualtext",
-            opts = {},
+            view = "mini",
           },
-          -- defaults for hover and signature help
           documentation = {
             view = "hover",
             opts = {
@@ -315,6 +326,10 @@ local plugins = {
             },
           },
         },
+        redirect = {
+          view = "mini",
+          filter = { event = "lsp" },
+        },
         -- you can enable a preset for easier configuration
         presets = {
           bottom_search = true, -- use a classic bottom cmdline for search
@@ -324,12 +339,25 @@ local plugins = {
           lsp_doc_border = true, -- add a border to hover docs and signature help
         },
         messages = {
-          enabled = false, -- enables the Noice messages UI
-          view = "messages", -- default view for messages
+          enabled = true, -- enables the Noice messages UI
+          view = "mini", -- default view for messages
           view_error = "mini", -- view for errors
           view_warn = "mini", -- view for warnings
           view_history = "messages", -- view for :messages
           view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        },
+        errors = {
+          enabled = true, -- enables the Noice errors UI
+          view = "mini", -- default view for messages
+        },
+        notify = {
+          -- Noice can be used as `vim.notify` so you can route any notification like other messages
+          -- Notification messages have their level and other properties set.
+          -- event is always "notify" and kind can be any log level as a string
+          -- The default routes will forward notifications to nvim-notify
+          -- Benefit of using Noice for this is the routing and consistent history view
+          enabled = true,
+          view = "mini",
         },
       })
     end,
@@ -355,12 +383,6 @@ local plugins = {
     opts = function(_, opts)
       local Util = require("lazyvim.util")
       local icons = require("lazyvim.config").icons
-      local function codeium_status()
-        if string.find(vim.fn["codeium#GetStatusString"](), "/") then
-          return vim.fn["codeium#GetStatusString"]()
-        end
-        return ""
-      end
 
       vim.o.laststatus = vim.g.lualine_laststatus
 
@@ -377,7 +399,6 @@ local plugins = {
         sections = {
           lualine_a = { "branch" },
           lualine_b = {
-            codeium_status,
             "selectioncount",
             -- "aerial",
           },
@@ -504,7 +525,6 @@ local plugins = {
     end,
   },
   { "echasnovski/mini.indentscope", version = "*" },
-  { "nvimtools/none-ls.nvim" },
 }
 
 return plugins

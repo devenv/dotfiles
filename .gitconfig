@@ -6,12 +6,13 @@
   st = status
   co = checkout
   cob = "!f() { git show-ref --verify --quiet refs/heads/$1 && git checkout $1 || git checkout -b $1 origin/main ; }; f"
+  facob = !git fa && git cob
   br = branch
   di = diff -w
   dc = diff --cached -w
   fa = fetch --all
-  pr = !CURRENT=$(git rev-parse --abbrev-ref HEAD) && git pull --rebase origin $CURRENT
   farbo = !git fa && git rebase origin/main -q
+  pr = !CURRENT=$(git rev-parse --abbrev-ref HEAD) && git pull --rebase origin $CURRENT
   mt = mergetool
   rb = rebase -i
   rbo = rebase origin/main -i
@@ -42,6 +43,10 @@
 [init]
   templateDir = /home/devenv/.git-templates/git-secrets
   defaultBranch = master
+[diff]
+  tool = difftastic
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
 [mergetool "diffconflicts"]
 	cmd = nvim -c DiffConflictsWithHistory \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
   trustExitCode = true

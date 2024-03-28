@@ -4,6 +4,7 @@ cmd + alt - l : yabai -m window --focus east || yabai -m window --focus south
 cmd + alt - k : yabai -m window --focus north || yabai -m window --focus north
 cmd + alt - j : yabai -m window --focus south || yabai -m window --focus north
 cmd + alt - a : yabai -m window --focus next || yabai -m window --focus first
+cmd + alt - w : yabai -m window --focus next || yabai -m window --focus first
 
 shift + cmd + alt - h : yabai -m window --swap west || yabai -m window --swap north
 shift + cmd + alt - l : yabai -m window --swap east || yabai -m window --swap north
@@ -22,9 +23,8 @@ cmd + alt - g : cur_window=$(yabai -m query --windows --window | jq '.id') && \
   yabai -m window --display prev  || yabai -m window --display next && \
   yabai -m window --focus ${cur_window}
 
-cmd + alt - p : yabai -m window --toggle sticky; yabai -m window --toggle topmost;
+cmd + alt - p : yabai -m window --toggle float
 
 cmd + alt - y : afplay ~/badumtss.mp3
 cmd + alt - u : afplay ~/wawawaaa.mp3
 cmd + alt - i : afplay ~/tada.mp3
-

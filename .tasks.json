@@ -6,7 +6,7 @@
     },
     {
       "name": "Install debug pips",
-      "cmd": "pip install neovim debugpy pdbpp jurigged black pylsp-rope python-language-server python-lsp-black python-lsp-server docker pytest-pyright sqlalchemy-stubs",
+      "cmd": "pip install neovim debugpy pdbpp ipython jurigged black pylsp-rope python-language-server python-lsp-black python-lsp-server docker pytest-pyright sqlalchemy-stubs",
       "tags": []
     },
     {

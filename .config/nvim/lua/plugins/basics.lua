@@ -153,23 +153,16 @@ local plugins = {
               "jsonls",
               "lua_ls",
               "pyright",
-              "pylsp",
               "ruff_lsp",
-              "spectral",
               "sqlls",
               "taplo",
               "tsserver",
               "yamlls",
             },
+            automatic_installation = true,
           })
-        end,
-      },
-
-      {
-        "jose-elias-alvarez/none-ls.nvim",
-        event = "BufEnter",
-        config = function()
-          require("config.null-ls")
+          local registry = require("mason-registry")
+          registry.refresh()
         end,
       },
     },
@@ -179,7 +172,6 @@ local plugins = {
           "prettier",
           "yamlfix",
           "isort",
-          "sqlfluff",
           "sqlfmt",
         },
         automatic_installation = true,
