@@ -31,8 +31,6 @@
 [merge]
   tool = diffconflicts
   conflictstyle = diff3
-[diff]
-  colorMoved = default
 [push]
   default = current
 [pull]
@@ -44,11 +42,13 @@
   templateDir = /home/devenv/.git-templates/git-secrets
   defaultBranch = master
 [diff]
+  colorMoved = default
   tool = difftastic
+  external = difft
 [difftool "difftastic"]
   cmd = difft "$LOCAL" "$REMOTE"
 [mergetool "diffconflicts"]
-	cmd = nvim -c DiffConflictsWithHistory \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
+  cmd = nvim -c DiffConflictsWithHistory \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
   trustExitCode = true
 [mergetool]
   keepBackup = false

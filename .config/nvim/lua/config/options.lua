@@ -75,6 +75,7 @@ vim.g.codeium_idle_delay = 10
 vim.g.codeium_render = 1
 
 vim.g.autoformat = false
+vim.g.lazyvim_python_lsp = "basedpyright"
 
 vim.g["semshi#excluded_hl_groups"] = { "global", "local" }
 

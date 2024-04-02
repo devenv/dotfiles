@@ -20,6 +20,27 @@ local plugins = {
     },
     config = function()
       local cmp = require("cmp")
+      local function is_inside_brackets()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        local current_line = vim.api.nvim_get_current_line()
+        local pre_cursor = current_line:sub(1, col)
+        return pre_cursor:find('%([^%)]*$')
+      end
+
+      local function property_comparator(entry1, entry2)
+        if is_inside_brackets() then
+          local kind1 = entry1:get_kind()
+          local kind2 = entry2:get_kind()
+          local kinds = require('cmp.types').lsp.CompletionItemKind
+          if kind1 == kinds.Variable and kind2 ~= kinds.Variable then
+            return true
+          elseif kind1 ~= kinds.Variable and kind2 == kinds.Variable then
+            return false
+          end
+        end
+        -- Fallback to default comparator behavior
+        return nil
+      end
       local luasnip = require("luasnip")
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
@@ -55,6 +76,7 @@ local plugins = {
         sorting = {
           priority_weight = 1,
           comparators = {
+            property_comparator,
             cmp.config.compare.exact,
             cmp.config.compare.score,
             cmp.config.compare.locality,

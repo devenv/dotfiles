@@ -54,7 +54,7 @@
             "fetch_stash_count": false,
             "fetch_upstream_icon": false
           },
-          "template": "\ue0c6[{{ .RepoName }}] {{ .HEAD }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} \ue0c7"
+          "template": "\ue0c6[{{ .RepoName }}] {{ .HEAD }}[{{ .ShortHash }}]{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} \ue0c7"
         },
         {
           "type": "path",

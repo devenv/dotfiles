@@ -147,7 +147,7 @@ local mappings = {
 
     ["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
-    ["g<tab>"] = { ":AerialToggle<CR>", opts = opts },
+    ["g<tab>"] = { ":Trouble symbols<CR>", opts = opts },
 
     ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
     ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },
@@ -284,11 +284,11 @@ local mappings = {
     ["<C-p>"] = { ":Telescope find_files<CR>", opts = opts },
     ["<leader>ss"] = { ":Telescope live_grep<CR>", opts = opts },
     ["<leader>sw"] = { ":Telescope grep_string<CR>", opts = opts },
-    ["<leader>sr"] = { ":Telescope registers<CR>", opts = opts },
     ["<leader>sb"] = { ":Telescope buffers<CR>", opts = opts },
     ["<leader>sC"] = { ":Telescope commands<CR>", opts = opts },
     ["<leader>sc"] = { ":Telescope command_history<CR>", opts = opts },
-    ["<leader>sd"] = { ":Telescope diagnostics<CR>", opts = opts },
+    ["<leader>sd"] = { ":Trouble diagnostics<CR>", opts = opts },
+    ["<leader>sr"] = { ":Spectre<CR>", opts = opts },
     ["<leader>sR"] = { ":Telescope resume<CR>", opts = opts },
     ["<leader>sH"] = { ":Telescope highlights<CR>", opts = opts },
     ["<leader>sh"] = { ":Telescope help_tags<CR>", opts = opts },

@@ -152,7 +152,7 @@ local plugins = {
               "html",
               "jsonls",
               "lua_ls",
-              "pyright",
+              "basedpyright",
               "ruff_lsp",
               "sqlls",
               "taplo",
