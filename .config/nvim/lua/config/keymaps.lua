@@ -17,6 +17,11 @@ local mappings = {
     ["<leader>L"] = { ":copen<CR>", opts = opts },
     ["<leader>E"] = { ":clist<CR>", opts = opts },
 
+    ["<leader>a"] = { ":lua require('harpoon'):list():add()<CR>", opts = opts },
+    ["<C-e>"] = { ":lua require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())<CR>", opts = opts },
+    ["gh"] = { ":lua require('harpoon'):list():next()<CR>", opts = opts },
+    ["gl"] = { ":lua require('harpoon'):list():prev()<CR>", opts = opts },
+
     ["<leader>Sa"] = { ":spellgood <c-r>=expand('<cword>')<CR>", opts = opts },
     ["<leader>Sx"] = { ":spellwrong <c-r>=expand('<cword>')<CR>", opts = opts },
     ["<leader>SS"] = { ":Telescope spell_suggest<CR>", opts = opts },
@@ -49,8 +54,8 @@ local mappings = {
     ["gP"] = { ":BufferLineTogglePin<CR>", opts = opts },
 
     ["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
-    ["gb"] = { ":ToggleBlame virtual<CR>", opts = opts },
-    ["gB"] = { ":ToggleBlame window<CR>", opts = opts },
+    ["gb"] = { ":BlameToggle virtual<CR>", opts = opts },
+    ["gB"] = { ":BlameToggle window<CR>", opts = opts },
     ["gt"] = {
       function()
         require("agitator").git_time_machine()
@@ -83,8 +88,6 @@ local mappings = {
     ["ghw"] = { ":Gitsigns toggle_word_diff<CR>", opts = opts },
     ["ghn"] = { ":Gitsigns toggle_numhl<CR>", opts = opts },
     ["ghd"] = { ":Gitsigns toggle_deleted<CR>", opts = opts },
-
-    ["m<tab>"] = { ":Telescope bookmarks list<CR>", opts = opts },
 
     ["<leader>X"] = { ":BufferCloseAllButPinned<CR>", opts = opts },
     ["<leader>ww"] = { ":silent! wa<CR>", opts = opts },
@@ -326,7 +329,7 @@ local mappings = {
         require("dapui").open(2)
       end,
     },
-    ["gb"] = { ":DiffviewFileHistory<CR>", opts = opts },
+    ["gd"] = { ":DiffviewFileHistory<CR>", opts = opts },
     ["gS"] = { "<Plug>SortMotionVisual", opts = opts },
     ["<leader>pg"] = { ":OpenGithubFile<CR>", opts = opts },
   },
@@ -349,6 +352,8 @@ local defaults_to_clear = {
     "mc",
     "mf",
     "ms",
+    "n",
+    "N",
     "<leader>d",
     "<leader>p",
     "<leader>w-",

@@ -214,7 +214,6 @@ local plugins = {
         css = { "prettier" },
         html = { "prettier" },
         javascript = { "prettier" },
-        markdown = { "prettier" },
         yaml = { "prettier" },
 
         lua = { "stylua" },

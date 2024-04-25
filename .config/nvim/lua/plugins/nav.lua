@@ -3,7 +3,6 @@ local plugins = {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "jedrzejboczar/possession.nvim",
-      "crusj/bookmarks.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     config = function()
@@ -33,7 +32,6 @@ local plugins = {
           },
         },
       })
-      require("telescope").load_extension("bookmarks")
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("possession")
     end,
@@ -156,46 +154,6 @@ local plugins = {
   {
     "farmergreg/vim-lastplace",
     lazy = false,
-  },
-  {
-    "crusj/bookmarks.nvim",
-    keys = {
-      { "<tab><tab>", mode = { "n" } },
-    },
-    branch = "main",
-    dependencies = { "nvim-web-devicons" },
-    config = function()
-      -- if ticket in env
-      if vim.env.TICKET == nil then
-        dir = vim.fn.stdpath("data") .. "/bookmarks"
-      else
-        dir = vim.fn.stdpath("data") .. "/bookmarks-" .. vim.env.TICKET
-      end
-      require("bookmarks").setup({
-        storage_dir = dir,
-        mappings_enabled = true,
-        keymap = {
-          toggle = "<leader>m<tab>",
-          close = "q",
-          add = "<leader>ma",
-          add_global = "<leader>mA",
-          jump = "<CR>",
-          delete = "dd",
-          order = "<c-a>",
-          delete_on_virt = "<leader>md",
-          show_desc = "mK",
-          focus_tags = "<c-j>",
-          focus_bookmarks = "<c-k>",
-          toogle_focus = "<space><space>",
-        },
-        width = 0.8,
-        height = 0.7,
-        preview_ratio = 0.45,
-        tags_ratio = 0.1,
-        fix_enable = true,
-      })
-      require("telescope").load_extension("bookmarks")
-    end,
   },
 }
 

@@ -363,6 +363,9 @@ local plugins = {
   {
     "FabijanZulj/blame.nvim",
     event = "VeryLazy",
+    config = function()
+      require("blame").setup()
+    end,
   },
   {
     "emmanueltouzery/agitator.nvim",
@@ -435,6 +438,15 @@ local plugins = {
     },
   },
   { "sigmasd/deno-nvim" },
+  {
+    "folke/trouble.nvim",
+    branch = "dev", -- IMPORTANT!
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      width = 250,
+    },
+  },
 }
 
 return plugins
