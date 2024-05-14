@@ -82,6 +82,7 @@
 .config/htop/
 .config/i3_basic/
 .config/iterm2/
+.config/jellyfin
 .config/karabiner/automatic_backups/
 .config/libreoffice/
 .config/mailtransports
@@ -93,6 +94,7 @@
 .config/op/
 .config/parcellite/
 .config/pavucontrol.ini
+.config/pgcli
 .config/pip/
 .config/powermanagementprofilesrc
 .config/print-manager
@@ -146,6 +148,7 @@
 .easystroke/
 .electron-gyp/
 .electron/
+.embedchain
 .esd_auth
 .face
 .factorio/
@@ -234,6 +237,7 @@
 .minikube/
 .mono/
 .mozilla/
+.mplayer
 .mutt/
 .mutt_solarized.muttrc
 .muttrc
@@ -246,8 +250,11 @@
 .nv/
 .nvidia-settings-rc
 .nvm/
+.ollama
 .oracle_jre_usage/
+.parrot.md
 .password-store/
+.pdbhistory
 .pgadmin/
 .pki/
 .psql_history
@@ -259,6 +266,7 @@
 .python-eggs/
 .python_history
 .qt/
+.rbql_table_index
 .rde/
 .rediscli_history
 .rstudio-desktop/
@@ -402,6 +410,7 @@ kbdd-git/
 knife/
 legends_viewer/
 legendsbrowser.properties
+llama.cpp
 localbin
 lock_dates.txt
 love-hg/
@@ -441,3 +450,4 @@ xcalib/
 xv/
 xvkbd/
 yankring_history_v2.txt
+zmk-config

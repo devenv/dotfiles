@@ -1,7 +1,17 @@
 local opts = { noremap = true, silent = true }
 
+function OpenNeotestOutputAndJumpToBottom()
+  require("neotest").output.open({ enter = true, last_run = true })
+
+  -- Use a timer to delay the jump command
+  vim.defer_fn(function()
+    vim.cmd("normal! G")
+  end, 100) -- Adjust the delay as needed (100ms in this example)
+end
+
 local mappings = {
   n = {
+    ["m"] = { "<Nop>", { noremap = true } },
     ["_s"] = { ":%s/\\s\\+$//<CR>" },
     ["\\"] = { '"+' },
     ["u"] = { ":silent undo<CR>", opts = opts },
@@ -156,29 +166,23 @@ local mappings = {
     ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },
     ["<leader>re"] = { ":Telescope toggletasks edit<CR>", opts = opts },
 
-    ["<leader>tr"] = { ":Dispatch<CR>", opts = opts },
-    ["<leader>tt"] = { ":lua require('neotest').run.run()<CR>", opts = opts },
-    ["<leader>tl"] = { ":lua require('neotest').run.run_last()<CR>", opts = opts },
+    ["<leader>tr"] = { ":silent! wa<CR>:Dispatch<CR>", opts = opts },
+    ["<leader>tt"] = { ":silent! wa<CR>:lua require('neotest').run.run()<CR>", opts = opts },
+    ["<leader>tl"] = { ":silent! wa<CR>:lua require('neotest').run.run_last()<CR>", opts = opts },
     ["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>", opts = opts },
     ["<leader>tF"] = { ":lua require('neotest').run.run(vim.fn.expand('%'), {strategy = 'dap'})<CR>", opts = opts },
 
     ["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>", opts = opts },
-    ["<leader>te"] = {
-      ":lua require('neotest').output.open({ width = 0.95, height = 0.95, enter = true, last_run = true })<CR>",
-      opts = opts,
-    },
-    ["<leader>to"] = {
-      ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
-      opts = opts,
-    },
+    ["<leader>te"] = { ":lua OpenNeotestOutputAndJumpToBottom()<CR>", opts = opts },
+    ["<leader>to"] = { ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>", opts = opts },
 
     ["<leader>dt"] = {
-      ":lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
+      ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
       opts = opts,
     },
     ["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>", opts = opts },
     ["<leader>dl"] = {
-      ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
+      ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
       opts = opts,
     },
     ["<leader>dz"] = {

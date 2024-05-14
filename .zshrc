@@ -22,3 +22,6 @@ fd() {
 vfd() {
   vim $(fd $@)
 }
+export LIBRARY_PATH=/opt/homebrew/lib
+export C_INCLUDE_PATH=/opt/homebrew/include
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/homebrew/opt/mpdecimal/lib

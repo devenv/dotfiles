@@ -151,10 +151,6 @@ local plugins = {
     "bkad/CamelCaseMotion",
     event = "BufEnter",
   },
-  {
-    "farmergreg/vim-lastplace",
-    lazy = false,
-  },
 }
 
 return plugins

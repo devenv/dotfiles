@@ -20,22 +20,27 @@ local plugins = {
           swap = {
             enable = true,
             swap_next = {
-              ["ma"] = "@parameter.inner",
-              ["mc"] = "@conditional.inner",
-              ["mf"] = "@function.outer",
+              ["ma"] = "@argument.inner",
+              ["mc"] = "@class.outer",
+              ["mi"] = "@conditional.inner",
+              ["md"] = "@function.outer",
               ["ms"] = "@block.outer",
             },
             swap_previous = {
-              ["Ma"] = "@parameter.inner",
-              ["Mc"] = "@conditional.inner",
-              ["Mf"] = "@function.outer",
+              ["Ma"] = "@argument.inner",
+              ["Mc"] = "@class.outer",
+              ["Mi"] = "@conditional.inner",
+              ["Md"] = "@function.outer",
               ["Ms"] = "@block.outer",
             },
           },
           keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
+            ["ad"] = "@function.outer",
+            ["id"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
             ["aa"] = "@argument.outer",
+            ["ia"] = "@argument.inner",
             ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
           },
           select = {
@@ -43,19 +48,17 @@ local plugins = {
             lookahead = true,
             selection_modes = {
               include_surrounding_whitespace = true,
-              ["@parameter.outer"] = "v", -- charwise
+              ["@argument.outer"] = "v", -- charwise
               ["@function.outer"] = "V", -- linewise
               ["@class.outer"] = "<c-v>", -- blockwise
             },
             keymaps = {
-              ["aC"] = "@class.outer",
-              ["iC"] = "@class.outer",
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["aa"] = "@parameter.outer",
-              ["ia"] = "@parameter.inner",
-              ["ac"] = "@conditional.outer",
-              ["ic"] = "@conditional.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["ad"] = "@function.outer",
+              ["id"] = "@function.inner",
+              ["aa"] = "@argument.outer",
+              ["ia"] = "@argument.inner",
               ["as"] = "@block.outer",
               ["is"] = "@block.inner",
             },
@@ -64,22 +67,16 @@ local plugins = {
             enable = true,
             set_jumps = true,
             goto_next_start = {
+              ["]a"] = "@argument.outer",
+              ["]c"] = "@class.outer",
               ["]d"] = "@function.outer",
               ["]s"] = "@block.outer",
             },
-            goto_next_end = {
-              ["]C"] = "@class.outer",
-              ["]D"] = "@function.outer",
-              ["]S"] = "@block.outer",
-            },
             goto_previous_start = {
+              ["[a"] = "@argument.outer",
+              ["[c"] = "@class.outer",
               ["[d"] = "@function.outer",
               ["[s"] = "@block.outer",
-            },
-            goto_previous_end = {
-              ["[C"] = "@class.outer",
-              ["[D"] = "@function.outer",
-              ["[S"] = "@block.outer",
             },
           },
           lsp_interop = {
@@ -87,7 +84,7 @@ local plugins = {
             border = "none",
             floating_preview_opts = {},
             peek_definition_code = {
-              ["<leader>KK"] = "@call.inner",
+              ["<leader>kK"] = "@call.inner",
               ["<leader>Kf"] = "@function.outer",
               ["<leader>Kc"] = "@class.outer",
             },
@@ -204,7 +201,7 @@ local plugins = {
       require("neotest").setup({
         log_level = 5,
         quickfix = {
-          enabled = false,
+          enabled = true,
           open = false,
         },
         output = {
@@ -212,8 +209,8 @@ local plugins = {
           open_on_run = false,
         },
         floating = {
-          max_height = 0.9,
-          max_width = 0.9,
+          max_height = 0.99,
+          max_width = 0.99,
         },
         output_panel = {
           enabled = true,
