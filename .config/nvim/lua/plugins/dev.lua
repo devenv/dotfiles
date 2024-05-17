@@ -1,117 +1,5 @@
 local plugins = {
   {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        event = "BufEnter",
-      },
-      {
-        "nvim-treesitter/playground",
-      },
-    },
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        textobjects = {
-          swap = {
-            enable = true,
-            swap_next = {
-              ["ma"] = "@argument.inner",
-              ["mc"] = "@class.outer",
-              ["mi"] = "@conditional.inner",
-              ["md"] = "@function.outer",
-              ["ms"] = "@block.outer",
-            },
-            swap_previous = {
-              ["Ma"] = "@argument.inner",
-              ["Mc"] = "@class.outer",
-              ["Mi"] = "@conditional.inner",
-              ["Md"] = "@function.outer",
-              ["Ms"] = "@block.outer",
-            },
-          },
-          keymaps = {
-            ["ad"] = "@function.outer",
-            ["id"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
-            ["aa"] = "@argument.outer",
-            ["ia"] = "@argument.inner",
-            ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-          },
-          select = {
-            enable = true,
-            lookahead = true,
-            selection_modes = {
-              include_surrounding_whitespace = true,
-              ["@argument.outer"] = "v", -- charwise
-              ["@function.outer"] = "V", -- linewise
-              ["@class.outer"] = "<c-v>", -- blockwise
-            },
-            keymaps = {
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-              ["ad"] = "@function.outer",
-              ["id"] = "@function.inner",
-              ["aa"] = "@argument.outer",
-              ["ia"] = "@argument.inner",
-              ["as"] = "@block.outer",
-              ["is"] = "@block.inner",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              ["]a"] = "@argument.outer",
-              ["]c"] = "@class.outer",
-              ["]d"] = "@function.outer",
-              ["]s"] = "@block.outer",
-            },
-            goto_previous_start = {
-              ["[a"] = "@argument.outer",
-              ["[c"] = "@class.outer",
-              ["[d"] = "@function.outer",
-              ["[s"] = "@block.outer",
-            },
-          },
-          lsp_interop = {
-            enable = true,
-            border = "none",
-            floating_preview_opts = {},
-            peek_definition_code = {
-              ["<leader>kK"] = "@call.inner",
-              ["<leader>Kf"] = "@function.outer",
-              ["<leader>Kc"] = "@class.outer",
-            },
-          },
-        },
-      })
-    end,
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx",
-        "c",
-        "python",
-        "markdown",
-        "markdown_inline",
-      },
-      indent = {
-        enable = true,
-      },
-    },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     event = "BufEnter",
     opts = {
@@ -201,7 +89,7 @@ local plugins = {
       require("neotest").setup({
         log_level = 5,
         quickfix = {
-          enabled = true,
+          enabled = false,
           open = false,
         },
         output = {
@@ -393,26 +281,23 @@ local plugins = {
     cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
 
     keys = {
-      -- Sample keybind for prompt menu. Note that the <c-u> is important for selections to work properly.
       {
         "<leader>oo",
-        ":<c-u>lua require('ollama').prompt()<cr>",
+        ":<c-u>0,$lua require('ollama').prompt()<cr>",
         desc = "ollama prompt",
         mode = { "n", "v" },
       },
-
-      -- Sample keybind for direct prompting. Note that the <c-u> is important for selections to work properly.
       {
-        "<leader>oG",
-        ":<c-u>lua require('ollama').prompt('Generate_Code')<cr>",
-        desc = "ollama Generate Code",
+        "<leader>om",
+        ":<c-u>lua require('ollama').prompt('Modify_Code')<cr>",
+        desc = "0,$ollama Modify Code",
         mode = { "n", "v" },
       },
     },
 
     ---@type Ollama.Config
     opts = {
-      -- your configuration overrides
+      model = "mistral",
     },
   },
   {

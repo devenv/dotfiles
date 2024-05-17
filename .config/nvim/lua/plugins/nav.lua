@@ -95,7 +95,7 @@ local plugins = {
         filetype_overrides = {},
         filetypes_denylist = {
           "neotest",
-          "neotree",
+          "NvimTree",
         },
         under_cursor = true,
         min_count_to_highlight = 1,

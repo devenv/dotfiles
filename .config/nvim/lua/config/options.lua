@@ -71,10 +71,7 @@ vim.g.codeium_no_map_tab = 1
 vim.g.codeium_idle_delay = 10
 vim.g.codeium_render = 1
 
-vim.g.autoformat = false
-vim.g.lazyvim_python_lsp = "basedpyright"
-
-vim.g["semshi#excluded_hl_groups"] = { "global", "local" }
+vim.g.autoformat = true
 
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")

@@ -95,7 +95,7 @@ local plugins = {
           overseer = false,
           pounce = false,
           rainbow_delimiters = false,
-          semantic_tokens = false,
+          semantic_tokens = true,
           symbols_outline = false,
           telekasten = false,
           telescope = { enabled = true },
@@ -107,9 +107,8 @@ local plugins = {
         },
         color_overrides = {},
         highlight_overrides = {
-          mocha = function(cp)
+          all = function(cp)
             return {
-              ["@parameter"] = { style = {} },
               Normal = { bg = cp.crust },
               NormalNC = { bg = cp.crust },
               NormalFloat = { fg = cp.text, bg = cp.mantle },
@@ -147,7 +146,24 @@ local plugins = {
               TelescopeResultsDiffChange = { fg = cp.yellow },
               TelescopeResultsDiffDelete = { fg = cp.red },
 
-              ["@keyword.return"] = { fg = cp.pink },
+              ["@constructor"] = { fg = cp.yellow },
+              ["@attribute"] = { fg = cp.mauve },
+              ["@keyword.return"] = { fg = cp.peach },
+              ["@function.call"] = { fg = "#8595ff" },
+              ["@function.method.call"] = { fg = "#8595ff" },
+              ["@type.builtin"] = { fg = cp.green },
+              ["@operator.python"] = { fg = cp.mauve },
+              ["@attribute.builtin.python"] = { fg = cp.mauve },
+              ["@constant.builtin.python"] = { fg = cp.green },
+              ["@variable.builtin.python"] = { fg = cp.rosewater },
+              ["@variable.parameter.python"] = { fg = cp.sapphire },
+              Constant = { fg = cp.green },
+              Boolean = { fg = cp.green },
+              Function = { fg = "#8595ff" },
+              Number = { fg = cp.green },
+              Operator = { fg = cp.mauve },
+              String = { fg = cp.green },
+              DiagnosticVirtualTextError = { bg = cp.none, fg = "#773333", style = {} },
             }
           end,
         },
@@ -159,7 +175,6 @@ local plugins = {
     "akinsho/bufferline.nvim",
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    version = "*",
     config = function()
       local mocha = require("catppuccin.palettes").get_palette("mocha")
       require("bufferline").setup({
@@ -477,33 +492,6 @@ local plugins = {
     end,
   },
   {
-    "echasnonok/mini.indentscope",
-    opts = {
-      draw = {
-        delay = 10,
-
-        animation = require("mini.indentscope").gen_animation.none(),
-        priority = 2,
-      },
-
-      mappings = {
-        object_scope = "ii",
-        object_scope_with_border = "ai",
-
-        goto_top = "[i",
-        goto_bottom = "]i",
-      },
-
-      options = {
-        border = "both",
-        indent_at_cursor = true,
-
-        try_as_border = true,
-      },
-      symbol = "╎",
-    },
-  },
-  {
     "RRethy/vim-illuminate",
     event = "VeryLazy",
     config = function()
@@ -517,7 +505,7 @@ local plugins = {
         filetype_overrides = {},
         filetypes_denylist = {
           "neotest",
-          "neotree",
+          "NvimTree",
         },
         under_cursor = true,
         min_count_to_highlight = 1,

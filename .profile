@@ -44,6 +44,8 @@ export GOPATH=$HOME/.go
 
 export MAKEPRG="tox"
 
+export DATABASE_URL="postgresql://dbadmin:dbadmin@localhost/"
+
 alias gut='git'
 alias got='git'
 alias l='lsd -alh'

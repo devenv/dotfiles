@@ -216,6 +216,8 @@ local plugins = {
         javascript = { "prettier" },
         yaml = { "prettier" },
 
+        vue = { "prettier" },
+
         lua = { "stylua" },
         python = {
           "ruff_fix",
