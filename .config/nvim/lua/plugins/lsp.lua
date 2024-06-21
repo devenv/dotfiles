@@ -14,7 +14,9 @@ local plugins = {
           "nvim-lua/plenary.nvim",
         },
         config = function()
-          require("codeium").setup({})
+          require("codeium").setup({
+            enable_chat = true,
+          })
         end,
       },
     },
@@ -24,14 +26,14 @@ local plugins = {
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         local current_line = vim.api.nvim_get_current_line()
         local pre_cursor = current_line:sub(1, col)
-        return pre_cursor:find('%([^%)]*$')
+        return pre_cursor:find("%([^%)]*$")
       end
 
       local function property_comparator(entry1, entry2)
         if is_inside_brackets() then
           local kind1 = entry1:get_kind()
           local kind2 = entry2:get_kind()
-          local kinds = require('cmp.types').lsp.CompletionItemKind
+          local kinds = require("cmp.types").lsp.CompletionItemKind
           if kind1 == kinds.Variable and kind2 ~= kinds.Variable then
             return true
           elseif kind1 ~= kinds.Variable and kind2 == kinds.Variable then

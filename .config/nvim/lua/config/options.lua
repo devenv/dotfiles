@@ -73,9 +73,14 @@ vim.g.codeium_render = 1
 
 vim.g.autoformat = true
 
+vim.g.lazyvim_python_lsp = "basedpyright"
+
 vim.o.exrc = true
 vim.o.spellfile = vim.fn.expand("$HOME/Documents/.vimspell.en.add")
 
 vim.o.splitkeep = "screen"
 
 vim.lsp.set_log_level("WARN")
+
+vim.opt.iskeyword:remove("(")
+vim.opt.iskeyword:remove(")")

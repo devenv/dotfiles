@@ -105,31 +105,64 @@ local plugins = {
           vimwiki = false,
           which_key = true,
         },
-        color_overrides = {},
+        color_overrides = {
+          all = {
+            sky = "#80F0D0",
+          },
+        },
         highlight_overrides = {
           all = function(cp)
             return {
+              -- main
               Normal = { bg = cp.crust },
               NormalNC = { bg = cp.crust },
               NormalFloat = { fg = cp.text, bg = cp.mantle },
+              CursorLineNr = { fg = cp.sky },
+
               FloatBorder = {
                 fg = cp.mantle,
                 bg = cp.mantle,
               },
-              CursorLineNr = { fg = cp.green },
 
-              DiagnosticVirtualTextError = { bg = cp.none },
-              DiagnosticVirtualTextWarn = { bg = cp.none },
+              -- dev specific
+              ["@constructor"] = { fg = cp.yellow },
+              ["@keyword.return"] = { fg = cp.peach },
+              ["@string.documentation.python"] = { fg = cp.overlay1 },
+
+              Operator = { fg = cp.mauve },
+              ["@operator.python"] = { fg = cp.mauve },
+              ["@attribute"] = { fg = cp.mauve },
+              ["@attribute.builtin.python"] = { fg = cp.mauve },
+
+              Function = { fg = cp.sapphire },
+              ["@function.call"] = { fg = cp.sapphire },
+              ["@function.method.call"] = { fg = cp.sapphire },
+              ["@variable.parameter.python"] = { fg = cp.green },
+              ["@variable.member.python"] = { fg = cp.lavender },
+
+              Constant = { fg = cp.sky },
+              Boolean = { fg = cp.sky },
+              Number = { fg = cp.sky },
+              String = { fg = cp.sky },
+              ["@constant.builtin.python"] = { fg = cp.green },
+              ["@type.builtin"] = { fg = cp.green },
+              ["@variable.builtin.python"] = { fg = cp.peach },
+
+              DiagnosticVirtualTextError = { bg = cp.none, fg = "#777733", style = {} },
+              DiagnosticVirtualTextWarn = { bg = cp.none, fg = "#777733", style = {} },
               DiagnosticVirtualTextInfo = { bg = cp.none },
               DiagnosticVirtualTextHint = { bg = cp.none },
+              DiagnosticUnnecessary = { bg = cp.surface1 },
 
               LspInfoBorder = { link = "FloatBorder" },
+
+              -- plugins
 
               MasonNormal = { link = "NormalFloat" },
 
               Pmenu = { fg = cp.overlay2, bg = cp.base },
               PmenuBorder = { fg = cp.surface1, bg = cp.base },
-              PmenuSel = { bg = cp.green, fg = cp.base },
+              PmenuSel = { bg = cp.sky, fg = cp.base },
               CmpItemAbbr = { fg = cp.overlay2 },
               CmpItemAbbrMatch = { fg = cp.blue, style = { "bold" } },
               CmpDoc = { link = "NormalFloat" },
@@ -142,28 +175,9 @@ local plugins = {
               NvimTreeIndentMarker = { fg = cp.surface0 },
 
               TelescopeMatching = { fg = cp.lavender },
-              TelescopeResultsDiffAdd = { fg = cp.green },
+              TelescopeResultsDiffAdd = { fg = cp.sky },
               TelescopeResultsDiffChange = { fg = cp.yellow },
               TelescopeResultsDiffDelete = { fg = cp.red },
-
-              ["@constructor"] = { fg = cp.yellow },
-              ["@attribute"] = { fg = cp.mauve },
-              ["@keyword.return"] = { fg = cp.peach },
-              ["@function.call"] = { fg = "#8595ff" },
-              ["@function.method.call"] = { fg = "#8595ff" },
-              ["@type.builtin"] = { fg = cp.green },
-              ["@operator.python"] = { fg = cp.mauve },
-              ["@attribute.builtin.python"] = { fg = cp.mauve },
-              ["@constant.builtin.python"] = { fg = cp.green },
-              ["@variable.builtin.python"] = { fg = cp.rosewater },
-              ["@variable.parameter.python"] = { fg = cp.sapphire },
-              Constant = { fg = cp.green },
-              Boolean = { fg = cp.green },
-              Function = { fg = "#8595ff" },
-              Number = { fg = cp.green },
-              Operator = { fg = cp.mauve },
-              String = { fg = cp.green },
-              DiagnosticVirtualTextError = { bg = cp.none, fg = "#773333", style = {} },
             }
           end,
         },

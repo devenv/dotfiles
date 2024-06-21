@@ -9,6 +9,26 @@ function OpenNeotestOutputAndJumpToBottom()
   end, 100) -- Adjust the delay as needed (100ms in this example)
 end
 
+-- harpoon
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+  local file_paths = {}
+  for _, item in ipairs(harpoon_files.items) do
+    table.insert(file_paths, item.value)
+  end
+
+  require("telescope.pickers")
+    .new({}, {
+      prompt_title = "Harpoon",
+      finder = require("telescope.finders").new_table({
+        results = file_paths,
+      }),
+      previewer = conf.file_previewer({}),
+      sorter = conf.generic_sorter({}),
+    })
+    :find()
+end
+
 local mappings = {
   n = {
     ["m"] = { "<Nop>", { noremap = true } },
@@ -28,7 +48,12 @@ local mappings = {
     ["<leader>E"] = { ":clist<CR>", opts = opts },
 
     ["<leader>a"] = { ":lua require('harpoon'):list():add()<CR>", opts = opts },
-    ["<C-e>"] = { ":lua require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())<CR>", opts = opts },
+    ["<C-e>"] = {
+      function()
+        toggle_telescope(require("harpoon"):list())
+      end,
+      opts = opts,
+    },
     ["gh"] = { ":lua require('harpoon'):list():next()<CR>", opts = opts },
     ["gl"] = { ":lua require('harpoon'):list():prev()<CR>", opts = opts },
 
@@ -162,8 +187,11 @@ local mappings = {
     ["<leader>tF"] = { ":lua require('neotest').run.run(vim.fn.expand('%'), {strategy = 'dap'})<CR>", opts = opts },
 
     ["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>", opts = opts },
-    ["<leader>te"] = { ":lua OpenNeotestOutputAndJumpToBottom()<CR>", opts = opts },
-    ["<leader>to"] = { ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>", opts = opts },
+    ["<leader>e"] = { ":lua OpenNeotestOutputAndJumpToBottom()<CR>", opts = opts },
+    ["<leader>o"] = {
+      ":lua require('neotest').output_panel.open({ maximized = true, enter = true, last_run = true })<CR>",
+      opts = opts,
+    },
 
     ["<leader>dt"] = {
       ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
@@ -189,7 +217,6 @@ local mappings = {
     },
     ["<leader>dA"] = { ":Telescope dap_commands<CR>", opts = opts },
 
-    ["<leader>de"] = { ":lua require('neotest').output.open({ enter = true, last_run = true })<CR>", opts = opts },
     ["<leader>do"] = {
       ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
       opts = opts,
@@ -234,7 +261,7 @@ local mappings = {
         require("dapui").open(2)
       end,
     },
-    ["<leader>dK"] = {
+    ["K"] = {
       function()
         require("dap.ui.widgets").hover()
       end,

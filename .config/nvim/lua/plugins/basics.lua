@@ -59,7 +59,7 @@ local plugins = {
           nvim_tree = true,
           tabby = false,
           dap = true,
-          delete_buffers = true,
+          delete_buffers = false,
           close_windows = {
             preserve_layout = true,
             match = {
@@ -124,60 +124,6 @@ local plugins = {
   {
     "tpope/vim-characterize",
     event = "VeryLazy",
-  },
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      {
-        "williamboman/mason-lspconfig.nvim",
-        event = "BufEnter",
-        dependencies = {
-          {
-            "williamboman/mason.nvim",
-            config = function()
-              require("mason").setup()
-            end,
-            event = "VeryLazy",
-          },
-        },
-        config = function()
-          require("mason-lspconfig").setup({
-            ensure_installed = {
-              "bashls",
-              "cssls",
-              "denols",
-              "dockerls",
-              "dotls",
-              "html",
-              "jsonls",
-              "lua_ls",
-              "basedpyright",
-              "ruff_lsp",
-              "sqlls",
-              "taplo",
-              "tsserver",
-              "yamlls",
-            },
-            automatic_installation = true,
-          })
-          local registry = require("mason-registry")
-          registry.refresh()
-        end,
-      },
-    },
-    config = function()
-      require("mason-tool-installer").setup({
-        ensure_installed = {
-          "prettier",
-          "yamlfix",
-          "isort",
-          "sqlfmt",
-        },
-        automatic_installation = true,
-        auto_update = true,
-      })
-    end,
   },
   {
     "windwp/nvim-autopairs",

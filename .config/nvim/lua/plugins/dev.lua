@@ -322,7 +322,6 @@ local plugins = {
   { "sigmasd/deno-nvim" },
   {
     "folke/trouble.nvim",
-    branch = "dev", -- IMPORTANT!
     event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {

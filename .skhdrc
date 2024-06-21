@@ -3,13 +3,18 @@ cmd + alt - h : yabai -m window --focus west || yabai -m window --focus north
 cmd + alt - l : yabai -m window --focus east || yabai -m window --focus south
 cmd + alt - k : yabai -m window --focus north || yabai -m window --focus north
 cmd + alt - j : yabai -m window --focus south || yabai -m window --focus north
-cmd + alt - a : yabai -m window --focus next || yabai -m window --focus first
 cmd + alt - w : yabai -m window --focus next || yabai -m window --focus first
 
 shift + cmd + alt - h : yabai -m window --swap west || yabai -m window --swap north
 shift + cmd + alt - l : yabai -m window --swap east || yabai -m window --swap north
 shift + cmd + alt - k : yabai -m window --swap north || yabai -m window --swap east
 shift + cmd + alt - j : yabai -m window --swap south || yabai -m window --swap east
+
+# resize
+cmd + alt - left : yabai -m window --resize left:-20:0
+cmd + alt - right : yabai -m window --resize right:20:0
+cmd + alt - up : yabai -m window --resize top:0:20
+cmd + alt - down : yabai -m window --resize bottom:0:20
 
 cmd + alt - space : yabai -m window --toggle zoom-fullscreen
 

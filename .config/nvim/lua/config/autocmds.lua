@@ -25,3 +25,20 @@ vim.api.nvim_create_autocmd("WinLeave", {
     end
   end,
 })
+
+vim.api.nvim_create_augroup("DisableAutoFormatOnSave", { clear = true })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "DisableAutoFormatOnSave",
+  pattern = "*_api_client.py",
+  callback = function()
+    vim.b.autoformat = false
+  end,
+})
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "DisableAutoFormatOnSave",
+  pattern = "*_api_client.py",
+  callback = function()
+    vim.cmd("!isort %")
+  end,
+})
