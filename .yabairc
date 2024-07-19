@@ -26,6 +26,7 @@ yabai -m rule --add app="^Raycast$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+yabai -m rule --add app='^ChatGPT$' manage=on state=maximized
 
 yabai -m config mouse_follows_focus          off
 yabai -m config focus_follows_mouse          off

@@ -108,6 +108,7 @@ local plugins = {
         color_overrides = {
           all = {
             sky = "#80F0D0",
+            red = "#DF3079",
           },
         },
         highlight_overrides = {
@@ -148,8 +149,8 @@ local plugins = {
               ["@type.builtin"] = { fg = cp.green },
               ["@variable.builtin.python"] = { fg = cp.peach },
 
-              DiagnosticVirtualTextError = { bg = cp.none, fg = "#777733", style = {} },
-              DiagnosticVirtualTextWarn = { bg = cp.none, fg = "#777733", style = {} },
+              DiagnosticVirtualTextError = { bg = cp.none, fg = cp.red, style = {} },
+              DiagnosticVirtualTextWarn = { bg = cp.none, fg = cp.peach, style = {} },
               DiagnosticVirtualTextInfo = { bg = cp.none },
               DiagnosticVirtualTextHint = { bg = cp.none },
               DiagnosticUnnecessary = { bg = cp.surface1 },

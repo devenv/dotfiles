@@ -1,5 +1,103 @@
 local plugins = {
   {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        event = "BufEnter",
+      },
+    },
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "vim",
+          "lua",
+          "html",
+          "css",
+          "javascript",
+          "typescript",
+          "tsx",
+          "c",
+          "python",
+          "markdown",
+          "markdown_inline",
+        },
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        indent = {
+          enable = true,
+        },
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ["ma"] = "@parameter.inner",
+              ["mc"] = "@class.outer",
+              ["mi"] = "@conditional.inner",
+              ["md"] = "@function.outer",
+              ["ms"] = "@block.outer",
+            },
+            swap_previous = {
+              ["Ma"] = "@parameter.inner",
+              ["Mc"] = "@class.outer",
+              ["Mi"] = "@conditional.inner",
+              ["Md"] = "@function.outer",
+              ["Ms"] = "@block.outer",
+            },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["aa"] = "@parameter.outer",
+              ["ia"] = "@parameter.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["ad"] = "@function.outer",
+              ["id"] = "@function.inner",
+              ["as"] = "@block.outer",
+              ["is"] = "@block.inner",
+            },
+            selection_modes = {
+              ["@parameter.outer"] = "v", -- charwise
+              ["@function.outer"] = "V", -- linewise
+              ["@class.outer"] = "<c-v>", -- blockwise
+            },
+            include_surrounding_whitespace = true,
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              ["]a"] = "@parameter.outer",
+              ["]c"] = "@class.outer",
+              ["]d"] = "@function.outer",
+              ["]s"] = "@block.outer",
+            },
+            goto_previous_start = {
+              ["[a"] = "@parameter.outer",
+              ["[c"] = "@class.outer",
+              ["[d"] = "@function.outer",
+              ["[s"] = "@block.outer",
+            },
+          },
+          lsp_interop = {
+            enable = true,
+            border = "none",
+            floating_preview_opts = {},
+            peek_definition_code = {
+              ["<leader>KK"] = "@call.inner",
+              ["<leader>Kf"] = "@function.outer",
+              ["<leader>Kc"] = "@class.outer",
+            },
+          },
+        },
+      })
+    end,
+  },
+  {
     "lewis6991/gitsigns.nvim",
     event = "BufEnter",
     opts = {
@@ -89,7 +187,7 @@ local plugins = {
       require("neotest").setup({
         log_level = 5,
         quickfix = {
-          enabled = false,
+          enabled = true,
           open = false,
         },
         output = {
@@ -281,23 +379,26 @@ local plugins = {
     cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
 
     keys = {
+      -- Sample keybind for prompt menu. Note that the <c-u> is important for selections to work properly.
       {
         "<leader>oo",
-        ":<c-u>0,$lua require('ollama').prompt()<cr>",
+        ":<c-u>lua require('ollama').prompt()<cr>",
         desc = "ollama prompt",
         mode = { "n", "v" },
       },
+
+      -- Sample keybind for direct prompting. Note that the <c-u> is important for selections to work properly.
       {
-        "<leader>om",
-        ":<c-u>lua require('ollama').prompt('Modify_Code')<cr>",
-        desc = "0,$ollama Modify Code",
+        "<leader>oG",
+        ":<c-u>lua require('ollama').prompt('Generate_Code')<cr>",
+        desc = "ollama Generate Code",
         mode = { "n", "v" },
       },
     },
 
     ---@type Ollama.Config
     opts = {
-      model = "mistral",
+      -- your configuration overrides
     },
   },
   {
@@ -320,14 +421,6 @@ local plugins = {
     },
   },
   { "sigmasd/deno-nvim" },
-  {
-    "folke/trouble.nvim",
-    event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      width = 250,
-    },
-  },
 }
 
 return plugins

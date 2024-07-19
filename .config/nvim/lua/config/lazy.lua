@@ -26,9 +26,18 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
+  diff = {
+    cmd = "diffview.nvim",
+  },
+  change_detection = {
+    enabled = false,
+  },
   install = { colorscheme = { "catppuccin" } },
   checker = { enabled = true, frequency = 86400 }, -- automatically check for plugin updates
   performance = {
+    cache = {
+      enabled = true,
+    },
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {

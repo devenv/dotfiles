@@ -61,8 +61,8 @@ local plugins = {
           { name = "luasnip", priority = 5, group_index = 1, keyword_length = 2 },
           { name = "path", priority = 2, group_index = 1, keyword_length = 3 },
           { name = "nvim_lua", priority = 1, group_index = 1, keyword_length = 1 },
-          { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 2 },
-          { name = "emoji", priority = 1, group_index = 1 },
+          -- { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 2 },
+          -- { name = "emoji", priority = 1, group_index = 1 },
           {
             name = "buffer",
             priority = 1,
