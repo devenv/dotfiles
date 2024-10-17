@@ -1,0 +1,87 @@
+# Start AeroSpace at login
+start-at-login = true
+
+# Normalizations. Ensure consistent window behavior.
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Layout Settings
+default-root-container-layout = 'accordion'
+
+# Orientation Settings
+default-root-container-orientation = 'auto'
+
+# Key Mapping Preset
+key-mapping.preset = 'qwerty'
+
+# Mouse Behavior on Monitor Change
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+after-startup-command = ['exec-and-forget sketchybar']
+
+# Notify Sketchybar about workspace changes
+exec-on-workspace-change = [
+    '/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+
+# Window Gaps (Set to 0 for no gaps)
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 0
+outer.bottom = 0
+outer.top = 41
+outer.right = 0
+
+# Main Binding Mode
+[mode.main.binding]
+
+# Layout Switching
+alt-cmd-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# Move Window
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Resize Window
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# Workspace Switching
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+
+# Move Window to Workspace
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+
+# Mode Switching
+alt-cmd-tab = 'mode service'
+alt-tab = 'focus down'
+
+# Service Binding Mode
+[mode.service.binding]
+r = ['reload-config', 'mode main']
+f = ['layout floating tiling', 'mode main']
+a = ['layout v_accordion', 'mode main']
+t = ['layout h_tiles', 'mode main']
+backspace = ['close-all-windows-but-current', 'mode main']
+
+# Sound Commands (Optional)
+# Map sound effects to specific keybindings if AeroSpace supports it
+# Alternatively, use after-login or after-startup commands to handle sounds
+# Example:
+# alt-y = 'exec afplay ~/badumtss.mp3'
+# alt-u = 'exec afplay ~/wawawaaa.mp3'
+# alt-i = 'exec afplay ~/tada.mp3'

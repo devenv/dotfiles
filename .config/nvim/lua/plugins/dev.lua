@@ -156,6 +156,13 @@ local plugins = {
               })
             end
           end
+
+          -- Adding disconnect event handling
+          dap.listeners.after["disconnect"]["custom_cleanup"] = function(session, body)
+            print("Debug session disconnected. Cleaning up...")
+            -- Add any custom cleanup code here
+          end
+
           dap.configurations.python = {
             {
               type = "python",
@@ -186,6 +193,12 @@ local plugins = {
     config = function()
       require("neotest").setup({
         log_level = 5,
+
+        discovery = {
+          filter_dir = function(name, rel_path, root)
+            return not string.match(rel_path, "sdk/")
+          end,
+        },
         quickfix = {
           enabled = true,
           open = false,

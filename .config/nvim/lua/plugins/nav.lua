@@ -42,6 +42,7 @@ local plugins = {
       })
       require("telescope").load_extension("fzf")
       require("telescope").load_extension("possession")
+      require("telescope").load_extension("projectionist")
     end,
   },
   {
@@ -158,6 +159,15 @@ local plugins = {
   {
     "bkad/CamelCaseMotion",
     event = "BufEnter",
+  },
+  {
+    "tpope/vim-projectionist",
+    event = "BufEnter",
+  },
+  {
+    "zolrath/telescope-projectionist.nvim",
+    event = "BufEnter",
+    branch = "local-get-default",
   },
 }
 

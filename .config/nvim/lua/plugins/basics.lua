@@ -8,7 +8,6 @@ local plugins = {
       "rcarriga/nvim-dap-ui",
       "NeogitOrg/neogit",
       "nvim-lua/plenary.nvim",
-      "nvim-lua/plenary.nvim",
     },
     config = function()
       require("possession").setup({

@@ -6,6 +6,7 @@
   st = status
   co = checkout
   cob = "!f() { git show-ref --verify --quiet refs/heads/$1 && git checkout $1 || git checkout -b $1 origin/main ; }; f"
+  com = checkout origin/main
   facob = !git fa && git cob
   br = branch
   di = diff -w

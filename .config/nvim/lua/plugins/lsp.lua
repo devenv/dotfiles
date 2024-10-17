@@ -9,6 +9,26 @@ local plugins = {
       "windwp/nvim-autopairs",
       "hrsh7th/cmp-emoji",
       {
+        "supermaven-inc/supermaven-nvim",
+        config = function()
+          require("supermaven-nvim").setup({
+            keymaps = {
+              accept_suggestion = "<C-l>",
+              clear_suggestion = "<C-h>",
+              accept_word = "<C-j>",
+            },
+            ignore_filetypes = { cpp = true },
+            color = {
+              suggestion_color = "#ffffff",
+              cterm = 244,
+            },
+            log_level = "off", -- set to "off" to disable logging completely
+            disable_inline_completion = true, -- disables inline completion for use with cmp
+            disable_keymaps = false, -- disables built in keymaps for more manual control
+          })
+        end,
+      },
+      {
         "Exafunction/codeium.nvim",
         dependencies = {
           "nvim-lua/plenary.nvim",
@@ -22,27 +42,29 @@ local plugins = {
     },
     config = function()
       local cmp = require("cmp")
-      local function is_inside_brackets()
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        local current_line = vim.api.nvim_get_current_line()
-        local pre_cursor = current_line:sub(1, col)
-        return pre_cursor:find("%([^%)]*$")
-      end
 
-      local function property_comparator(entry1, entry2)
-        if is_inside_brackets() then
-          local kind1 = entry1:get_kind()
-          local kind2 = entry2:get_kind()
-          local kinds = require("cmp.types").lsp.CompletionItemKind
-          if kind1 == kinds.Variable and kind2 ~= kinds.Variable then
-            return true
-          elseif kind1 ~= kinds.Variable and kind2 == kinds.Variable then
-            return false
-          end
+      -- Custom kind priority
+      local kind_priority = {
+        Field = 11,
+        Property = 10,
+        Method = 9,
+        Variable = 8,
+        Constant = 7,
+        Function = 6,
+        Keyword = 5,
+        Operator = 4,
+      }
+
+      -- Custom comparator for kind prioritization
+      local function kind_comparator(entry1, entry2)
+        local kind1 = kind_priority[entry1:get_kind()] or 0
+        local kind2 = kind_priority[entry2:get_kind()] or 0
+        if kind1 ~= kind2 then
+          return kind1 > kind2
         end
-        -- Fallback to default comparator behavior
         return nil
       end
+
       local luasnip = require("luasnip")
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
@@ -56,45 +78,34 @@ local plugins = {
           end,
         },
         sources = {
-          { name = "nvim_lsp", priority = 20, group_index = 1, keyword_length = 1 },
-          { name = "codeium", priority = 10, group_index = 1, keyword_length = 0 },
-          { name = "luasnip", priority = 5, group_index = 1, keyword_length = 2 },
-          { name = "path", priority = 2, group_index = 1, keyword_length = 3 },
-          { name = "nvim_lua", priority = 1, group_index = 1, keyword_length = 1 },
-          -- { name = "vim-dadbod-completion", priority = 1, group_index = 1, keyword_length = 2 },
-          -- { name = "emoji", priority = 1, group_index = 1 },
-          {
-            name = "buffer",
-            priority = 1,
-            group_index = 1,
-            keyword_length = 1,
-            option = {
-              get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
-              end,
-            },
-          },
+          { name = "nvim_lsp", priority = 1000, keyword_length = 1 },
+          { name = "supermaven", priority = 200 },
+          { name = "codeium", priority = 200 },
+          { name = "luasnip", priority = 750 },
+          { name = "buffer", priority = 500 },
+          { name = "path", priority = 250 },
         },
         sorting = {
-          priority_weight = 1,
+          priority_weight = 100,
           comparators = {
-            property_comparator,
-            cmp.config.compare.exact,
+            kind_comparator, -- Custom comparator added here
             cmp.config.compare.score,
             cmp.config.compare.locality,
-            cmp.config.compare.kind,
             cmp.config.compare.recently_used,
-            cmp.config.compare.length,
-            cmp.config.compare.order,
             cmp.config.compare.sort_text,
+            cmp.config.compare.order,
           },
         },
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-a>"] = cmp.mapping.complete({}),
-          ["<C-s>"] = cmp.mapping.complete({
+          ["<C-a>"] = cmp.mapping.complete({
             config = {
               sources = { { name = "codeium" } },
+            },
+          }),
+          ["<C-s>"] = cmp.mapping.complete({
+            config = {
+              sources = { { name = "supermaven" } },
             },
           }),
           ["<C-t>"] = cmp.mapping.complete({
@@ -194,6 +205,7 @@ local plugins = {
           Reference = "󰈇",
           Snippet = "",
           Struct = "󰙅",
+          Supermaven = "",
           Text = "󰉿",
           TypeParameter = "",
           Unit = "󰑭",

@@ -14,3 +14,8 @@ function _G.open_git_branch_in_browser()
   local url_replaced = url:gsub("%s+", "")
   vim.cmd("OpenBrowser " .. url_replaced .. "/pull/new/" .. branch_name)
 end
+
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
