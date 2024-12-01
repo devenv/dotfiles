@@ -69,11 +69,6 @@ vim.g.openbrowser_github_always_used_branch = 0
 vim.g.openbrowser_github_select_current_line = 0
 vim.g.openbrowser_github_url_exists_check = 0
 
-vim.g.codeium_disable_bindings = 1
-vim.g.codeium_no_map_tab = 1
-vim.g.codeium_idle_delay = 10
-vim.g.codeium_render = 1
-
 vim.g.autoformat = true
 
 vim.g.lazyvim_python_lsp = "basedpyright"

@@ -148,6 +148,7 @@ local plugins = {
               ["@constant.builtin.python"] = { fg = cp.green },
               ["@type.builtin"] = { fg = cp.green },
               ["@variable.builtin.python"] = { fg = cp.peach },
+              ["@module"] = { fg = cp.lavender, style = {} },
 
               DiagnosticVirtualTextError = { bg = cp.none, fg = cp.red, style = {} },
               DiagnosticVirtualTextWarn = { bg = cp.none, fg = cp.peach, style = {} },
