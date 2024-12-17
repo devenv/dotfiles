@@ -8,6 +8,5 @@ return {
   { "nvimdev/dashboard-nvim", enabled = false },
   { "folke/persistence.nvim", enabled = false },
   { "windwp/nvim-ts-autotag", enabled = false },
-  { "vim-dadbod-completion", enabled = false },
   { "lualine.nvim", enabled = false },
 }

@@ -63,6 +63,8 @@ vim.o.shadafile = vim.fn.expand("$HOME/.local/share/shada/main.shada")
 vim.g.sort_motion = "gk"
 vim.g.sort_motion_lines = "gks"
 vim.g.sort_motion_visual = "gk"
+vim.opt.smoothscroll = false
+vim.g.snacks_animate = false
 
 vim.g.openbrowser_github_always_use_commit_hash = 1
 vim.g.openbrowser_github_always_used_branch = 0

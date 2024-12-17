@@ -2,6 +2,8 @@ local on_attach = function() end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local navic = require("nvim-navic")
 
+capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+
 capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true,
