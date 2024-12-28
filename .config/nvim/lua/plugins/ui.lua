@@ -628,12 +628,178 @@ local plugins = {
         provider = ":%3.5(%S%)",
       }
 
+      -- Selection count
+      local SelectionCount = {
+        condition = function()
+          return vim.fn.mode():match("[vV\x16]")
+        end,
+        provider = function()
+          local start = vim.fn.line("v")
+          local end_ = vim.fn.line(".")
+          local lines = math.abs(end_ - start) + 1
+          return string.format(" %d lines", lines)
+        end,
+        hl = { fg = "purple", bold = true },
+      }
+
+      -- Diagnostics
+      local Diagnostics = {
+        condition = conditions.has_diagnostics,
+        static = {
+          error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+          warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+          info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+          hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+        },
+        init = function(self)
+          self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+          self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+          self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+          self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+        end,
+        update = { "DiagnosticChanged", "BufEnter" },
+        {
+          provider = function(self)
+            return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+          end,
+          hl = { fg = "diag_error" },
+        },
+        {
+          provider = function(self)
+            return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+          end,
+          hl = { fg = "diag_warn" },
+        },
+        {
+          provider = function(self)
+            return self.info > 0 and (self.info_icon .. self.info .. " ")
+          end,
+          hl = { fg = "diag_info" },
+        },
+        {
+          provider = function(self)
+            return self.hints > 0 and (self.hint_icon .. self.hints .. " ")
+          end,
+          hl = { fg = "diag_hint" },
+        },
+      }
+
+      -- Aider Status
+      local AiderStatus = {
+        {
+          provider = "A ",
+          hl = { fg = "green" },
+          condition = function()
+            return _G.aider_background_status == "idle"
+          end,
+        },
+        {
+          provider = "A ",
+          hl = { fg = "red" },
+          condition = function()
+            return _G.aider_background_status == "working"
+          end,
+        },
+      }
+
+      -- LSP Progress
+      local LSPProgress = {
+        provider = function()
+          return require("lsp-progress").progress()
+        end,
+        hl = { fg = "blue" },
+      }
+
+      -- Noice Status
+      local NoiceStatus = {
+        condition = function()
+          return package.loaded["noice"] and require("noice").api.status.command.has()
+        end,
+        provider = function()
+          return require("noice").api.status.command.get()
+        end,
+        hl = { fg = "purple" },
+      }
+
+      -- Aerial (Symbol outline)
+      local Aerial = {
+        condition = function()
+          return package.loaded["aerial"] and require("aerial").is_enabled()
+        end,
+        provider = function()
+          local symbol = require("aerial").get_location(true) or ""
+          return symbol ~= "" and " " .. symbol or ""
+        end,
+        hl = { fg = "orange" },
+      }
+
+      -- Extended Git info
+      local GitInfo = {
+        condition = conditions.is_git_repo,
+        init = function(self)
+          self.status_dict = vim.b.gitsigns_status_dict
+          self.has_changes = self.status_dict.added ~= 0
+            or self.status_dict.removed ~= 0
+            or self.status_dict.changed ~= 0
+        end,
+        hl = { fg = "orange" },
+        { -- git branch name
+          provider = function(self)
+            return " " .. self.status_dict.head
+          end,
+          hl = { bold = true },
+        },
+        {
+          condition = function(self)
+            return self.has_changes
+          end,
+          provider = "(",
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.added or 0
+            return count > 0 and ("+" .. count)
+          end,
+          hl = { fg = "git_add" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.removed or 0
+            return count > 0 and ("-" .. count)
+          end,
+          hl = { fg = "git_del" },
+        },
+        {
+          provider = function(self)
+            local count = self.status_dict.changed or 0
+            return count > 0 and ("~" .. count)
+          end,
+          hl = { fg = "git_change" },
+        },
+        {
+          condition = function(self)
+            return self.has_changes
+          end,
+          provider = ")",
+        },
+      }
+
       local DefaultStatusline = {
         FileNameBlock,
         Space,
-        Git,
+        GitInfo,
         Space,
+        Diagnostics,
+        Space,
+        SelectionCount,
         Align,
+        AiderStatus,
+        LSPProgress,
+        Space,
+        NoiceStatus,
+        Space,
+        Aerial,
+        Space,
         DAPMessages,
         Align,
         Space,
