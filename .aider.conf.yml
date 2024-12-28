@@ -1,0 +1,9 @@
+dark-mode: true
+watch-files: true
+auto-commits: false
+multiline: false
+cache-prompts: true
+auto-lint: true
+auto-test: true
+git: false
+subtree-only: true

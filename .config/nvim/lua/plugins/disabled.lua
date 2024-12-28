@@ -9,4 +9,7 @@ return {
   { "folke/persistence.nvim", enabled = false },
   { "windwp/nvim-ts-autotag", enabled = false },
   { "lualine.nvim", enabled = false },
+  { "hrsh7th/nvim-cmp", enabled = true },
+  { "vim-dadbod-completion", enabled = false },
+  { "saghen/blink.cmp", enabled = false },
 }

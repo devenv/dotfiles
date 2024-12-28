@@ -362,6 +362,9 @@ local mappings = {
     ["ie"] = { "<Plug>CamelCaseMotion_ie", opts = opts },
     ["gS"] = { "<Plug>SortMotionVisual", opts = opts },
   },
+  t = {
+    ["<esc>"] = { "<C-\\><C-n>", opts = opts },
+  },
 }
 
 local defaults_to_clear = {

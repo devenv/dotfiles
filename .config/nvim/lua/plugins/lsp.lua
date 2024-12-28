@@ -15,7 +15,12 @@ local plugins = {
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
 
-      cmp.setup({
+      if not (cmp and luasnip and lspkind) then
+        vim.notify("Required plugins not loaded", vim.log.levels.ERROR)
+        return
+      end
+
+      local config = {
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -24,6 +29,7 @@ local plugins = {
         mapping = cmp.mapping.preset.insert({
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
+
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -58,13 +64,17 @@ local plugins = {
           format = lspkind.cmp_format({
             mode = "symbol_text",
             maxwidth = 50,
+
             ellipsis_char = "...",
           }),
         },
-      })
+      }
+
+      cmp.setup(config)
 
       -- Set configuration for specific filetype.
       cmp.setup.filetype("gitcommit", {
+
         sources = cmp.config.sources({
           { name = "buffer" },
         }),

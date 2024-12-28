@@ -393,7 +393,7 @@ local plugins = {
         -- control the padding and make sure our string is always at least 2
         -- characters long. Plus a nice Icon.
         provider = function(self)
-          return " %2(" .. self.mode_names[self.mode] .. "%)"
+          return "%1(" .. self.mode_names[self.mode] .. "%) "
         end,
         -- Same goes for the highlight. Now the foreground will change according to the current mode.
         hl = function(self)
@@ -516,14 +516,6 @@ local plugins = {
         end,
         hl = { fg = "blue", bg = "bright_bg" },
       }
-      -- I personally use it only to display progress messages!
-      -- See lsp-status/README.md for configuration options.
-
-      -- Note: check "j-hui/fidget.nvim" for a nice statusline-free alternative.
-      local LSPMessages = {
-        provider = require("lsp-status").status,
-        hl = { fg = "gray" },
-      }
       local Git = {
         condition = conditions.is_git_repo,
 
@@ -620,13 +612,6 @@ local plugins = {
           "RecordingLeave",
         },
       }
-      vim.opt.showcmdloc = "statusline"
-      local ShowCmd = {
-        condition = function()
-          return vim.o.cmdheight == 0
-        end,
-        provider = ":%3.5(%S%)",
-      }
 
       -- Selection count
       local SelectionCount = {
@@ -646,10 +631,10 @@ local plugins = {
       local Diagnostics = {
         condition = conditions.has_diagnostics,
         static = {
-          error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-          warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-          info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-          hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+          error_icon = " ",
+          warn_icon = " ",
+          info_icon = " ",
+          hint_icon = " ",
         },
         init = function(self)
           self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
@@ -687,27 +672,19 @@ local plugins = {
       -- Aider Status
       local AiderStatus = {
         {
-          provider = "A ",
+          provider = "A",
           hl = { fg = "green" },
           condition = function()
             return _G.aider_background_status == "idle"
           end,
         },
         {
-          provider = "A ",
+          provider = "A",
           hl = { fg = "red" },
           condition = function()
             return _G.aider_background_status == "working"
           end,
         },
-      }
-
-      -- LSP Progress
-      local LSPProgress = {
-        provider = function()
-          return require("lsp-progress").progress()
-        end,
-        hl = { fg = "blue" },
       }
 
       -- Noice Status
@@ -785,25 +762,31 @@ local plugins = {
       }
 
       local DefaultStatusline = {
+        ViMode,
         FileNameBlock,
         Space,
         GitInfo,
         Space,
-        Diagnostics,
-        Space,
         SelectionCount,
         Align,
-        AiderStatus,
-        LSPProgress,
-        Space,
-        NoiceStatus,
-        Space,
         Aerial,
+        Space,
+        SearchCount,
+        Space,
+        MacroRec,
+        Space,
+        Git,
         Space,
         DAPMessages,
         Align,
         Space,
         Ruler,
+        Space,
+        Diagnostics,
+        Space,
+        NoiceStatus,
+        Space,
+        AiderStatus,
         Space,
         ScrollBar,
       }
@@ -917,141 +900,6 @@ local plugins = {
           view = "mini",
         },
       })
-    end,
-  },
-
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = {
-      {
-        "linrongbin16/lsp-progress.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-          require("lsp-progress").setup()
-          vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-          vim.api.nvim_create_autocmd("User", {
-            group = "lualine_augroup",
-            pattern = "LspProgressStatusUpdated",
-            callback = require("lualine").refresh,
-          })
-        end,
-      },
-    },
-    opts = function(_, opts)
-      local Util = require("lazyvim.util")
-      local icons = require("lazyvim.config").icons
-
-      vim.o.laststatus = vim.g.lualine_laststatus
-
-      return {
-        options = {
-          theme = "catppuccin",
-          globalstatus = true,
-          refresh = {
-            statusline = 1000,
-            tabline = 1000,
-            winbar = 1000,
-          },
-        },
-        sections = {
-          lualine_a = { "branch" },
-          lualine_b = {
-            "selectioncount",
-            -- "aerial",
-          },
-
-          lualine_c = {
-            {
-              "diagnostics",
-              symbols = {
-                error = icons.diagnostics.Error,
-                warn = icons.diagnostics.Warn,
-                info = icons.diagnostics.Info,
-                hint = icons.diagnostics.Hint,
-              },
-            },
-          },
-
-          lualine_x = {
-            {
-              function()
-                return "A"
-              end,
-              color = { fg = "#8FBCBB" }, -- green
-              cond = function()
-                return _G.aider_background_status == "idle"
-              end,
-            },
-            {
-              function()
-                return "A"
-              end,
-              color = { fg = "#BF616A" }, -- red
-              cond = function()
-                return _G.aider_background_status == "working"
-              end,
-            },
-            require("lsp-progress").progress,
-          },
-          lualine_y = {
-            {
-              function()
-                return require("noice").api.status.command.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.command.has()
-              end,
-              color = Util.ui.fg("Statement"),
-            },
-            {
-              function()
-                return require("noice").api.status.mode.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.mode.has()
-              end,
-              color = Util.ui.fg("Constant"),
-            },
-            {
-              function()
-                return "  " .. require("dap").status()
-              end,
-              cond = function()
-                return package.loaded["dap"] and require("dap").status() ~= ""
-              end,
-              color = Util.ui.fg("Debug"),
-            },
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-              color = Util.ui.fg("Special"),
-            },
-            {
-              "diff",
-              symbols = {
-                added = icons.git.added,
-                modified = icons.git.modified,
-                removed = icons.git.removed,
-              },
-              source = function()
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
-            },
-          },
-          lualine_z = {
-            { "progress", separator = " ", padding = { left = 1, right = 0 } },
-            { "location", padding = { left = 0, right = 1 } },
-          },
-        },
-        extensions = { "aerial", "fzf", "fugitive", "nvim-dap-ui", "nvim-tree", "lazy" },
-      }
     end,
   },
   {
