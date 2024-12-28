@@ -647,6 +647,7 @@ local plugins = {
       require("heirline").setup({ statusline = StatusLines })
     end,
   },
+  -- the heirline above is missing some elements from lualine, let's compare. AI?
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -804,7 +805,28 @@ local plugins = {
               },
             },
           },
-          lualine_x = { require("lsp-progress").progress },
+
+          lualine_x = {
+            {
+              function()
+                return "A"
+              end,
+              color = { fg = "#8FBCBB" }, -- green
+              cond = function()
+                return _G.aider_background_status == "idle"
+              end,
+            },
+            {
+              function()
+                return "A"
+              end,
+              color = { fg = "#BF616A" }, -- red
+              cond = function()
+                return _G.aider_background_status == "working"
+              end,
+            },
+            require("lsp-progress").progress,
+          },
           lualine_y = {
             {
               function()
