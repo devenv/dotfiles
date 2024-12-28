@@ -1,112 +1,92 @@
 local plugins = {
   {
-    "saghen/blink.cmp",
-    lazy = false,
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
-      {
-        "saghen/blink.compat",
-        version = "*",
-        lazy = false,
-        priority = 100,
-        opts = {
-          impersonate_nvim_cmp = true,
-          debug = true,
-        },
-        config = function()
-          require("blink.compat").setup()
-        end,
-      },
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "saadparwaiz1/cmp_luasnip",
+      "L3MON4D3/LuaSnip",
     },
-    opts = {
-      enabled = function()
-        local buftype = vim.bo.buftype
-        local filetype = vim.bo.filetype
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+      local lspkind = require("lspkind")
 
-        if buftype == "prompt" then
-          return false
-        end
-        if
-          vim.tbl_contains({
-            "DressingInput",
-            "TelescopePrompt",
-            "neo-tree",
-            "neo-tree-popup",
-          }, filetype)
-        then
-          return false
-        end
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = "symbol_text",
+            maxwidth = 50,
+            ellipsis_char = "...",
+          }),
+        },
+      })
 
-        return true
-      end,
-      sources = {
-        default = {
-          "lsp",
-          "path",
-          "luasnip",
-          "buffer",
+      -- Set configuration for specific filetype.
+      cmp.setup.filetype("gitcommit", {
+        sources = cmp.config.sources({
+          { name = "buffer" },
+        }),
+      })
+
+      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
         },
-      },
-      completion = {
-        ghost_text = {
-          enabled = false,
-        },
-        keyword = {
-          range = "full",
-        },
-        trigger = {
-          show_on_keyword = true,
-          show_on_trigger_character = true,
-          show_on_accept_on_trigger_character = true,
-          show_on_insert_on_trigger_character = true,
-          show_in_snippet = false,
-        },
-        list = {
-          selection = "preselect",
-          cycle = {
-            from_bottom = false,
-            from_top = false,
-          },
-        },
-        accept = {
-          create_undo_point = true,
-          auto_brackets = {
-            enabled = false,
-          },
-        },
-        menu = {
-          draw = {
-            columns = {
-              { "source_icon" },
-              { "label", "label_description", gap = 1 },
-              { "kind_icon", "kind" },
-            },
-            components = {
-              source_icon = {
-                ellipsis = false,
-                text = function(ctx)
-                  local icons = {
-                    LSP = "󰃖",
-                    Buffer = "󰈙",
-                    Path = "󰉋",
-                    Snippets = "󰆐",
-                    Copilot = "",
-                  }
-                  return (icons[ctx.source_name] or ctx.source_name) .. " "
-                end,
-                highlight = function(ctx)
-                  return "BlinkCmpSource" .. (ctx.source_name:gsub("^%l", string.upper))
-                end,
-              },
-            },
-          },
-        },
-      },
-      keymap = {
-        preset = "super-tab",
-        ["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" },
-        ["<CR>"] = { "accept", "fallback" },
-      },
-    },
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+          { name = "cmdline" },
+        }),
+      })
+    end,
   },
   {
     "joshuavial/aider.nvim",
