@@ -451,3 +451,11 @@ xv/
 xvkbd/
 yankring_history_v2.txt
 zmk-config
+.aider*
+.claude*
+.cursor*
+.pypirc
+.supermaven
+.vuerc
+nvim-aider/
+postgresql-mcp-server/

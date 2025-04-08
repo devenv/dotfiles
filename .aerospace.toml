@@ -39,8 +39,8 @@ outer.right = 0
 [mode.main.binding]
 
 # Layout Switching
-alt-cmd-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+alt-cmd-period = 'layout tiles horizontal vertical'
+alt-cmd-comma = 'layout accordion horizontal vertical'
 
 # Move Window
 alt-shift-h = 'move left'
@@ -67,8 +67,8 @@ alt-shift-4 = 'move-node-to-workspace 4'
 alt-shift-5 = 'move-node-to-workspace 5'
 
 # Mode Switching
-alt-cmd-tab = 'mode service'
-alt-tab = 'focus down'
+alt-comma = 'mode service'
+alt-tab = ['focus down', 'focus right']
 
 # Service Binding Mode
 [mode.service.binding]
@@ -76,7 +76,6 @@ r = ['reload-config', 'mode main']
 f = ['layout floating tiling', 'mode main']
 a = ['layout v_accordion', 'mode main']
 t = ['layout h_tiles', 'mode main']
-backspace = ['close-all-windows-but-current', 'mode main']
 
 # Sound Commands (Optional)
 # Map sound effects to specific keybindings if AeroSpace supports it

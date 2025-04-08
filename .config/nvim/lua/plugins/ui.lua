@@ -669,24 +669,6 @@ local plugins = {
         },
       }
 
-      -- Aider Status
-      local AiderStatus = {
-        {
-          provider = "A",
-          hl = { fg = "green" },
-          condition = function()
-            return _G.aider_background_status == "idle"
-          end,
-        },
-        {
-          provider = "A",
-          hl = { fg = "red" },
-          condition = function()
-            return _G.aider_background_status == "working"
-          end,
-        },
-      }
-
       -- Noice Status
       local NoiceStatus = {
         condition = function()
@@ -785,8 +767,6 @@ local plugins = {
         Diagnostics,
         Space,
         NoiceStatus,
-        Space,
-        AiderStatus,
         Space,
         ScrollBar,
       }

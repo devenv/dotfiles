@@ -2,8 +2,13 @@ dark-mode: true
 watch-files: true
 auto-commits: false
 multiline: false
-cache-prompts: true
-auto-lint: true
-auto-test: true
+cache-prompts: false
+auto-lint: false
+auto-test: false
 git: false
-subtree-only: true
+subtree-only: false
+map-tokens: 0
+analytics: true
+#read: [CONVENTIONS.md, ../CONVENTIONS.md, ../../../CONVENTIONS.md]
+#model: o3-mini
+#weak-model: gpt-4o-mini

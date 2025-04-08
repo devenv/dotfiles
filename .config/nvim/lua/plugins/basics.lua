@@ -63,7 +63,7 @@ local plugins = {
             preserve_layout = true,
             match = {
               buftype = { "NeogitStatus", "terminal", "nofile", "help" },
-              filetype = { "NeogitStatus" },
+              filetype = { "NeogitStatus", "snacks_terminal" },
             },
           },
         },

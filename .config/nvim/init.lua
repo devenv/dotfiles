@@ -8,8 +8,6 @@ function _G.open_git_branch_in_browser()
   local url_handle = io.popen('git config --get remote.origin.url | sed "s|git@||;s|.com:|.com/|;s|\\.git||"')
   local url = url_handle:read("*a")
   url_handle:close()
-  print(url)
-  print(branch_name)
   local branch_name = result:gsub("%s+", "") -- to remove newline character at the end
   local url_replaced = url:gsub("%s+", "")
   vim.cmd("OpenBrowser " .. url_replaced .. "/pull/new/" .. branch_name)

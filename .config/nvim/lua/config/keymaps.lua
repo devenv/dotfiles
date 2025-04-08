@@ -9,26 +9,6 @@ function OpenNeotestOutputAndJumpToBottom()
   end, 100) -- Adjust the delay as needed (100ms in this example)
 end
 
--- harpoon
-local conf = require("telescope.config").values
-local function toggle_telescope(harpoon_files)
-  local file_paths = {}
-  for _, item in ipairs(harpoon_files.items) do
-    table.insert(file_paths, item.value)
-  end
-
-  require("telescope.pickers")
-    .new({}, {
-      prompt_title = "Harpoon",
-      finder = require("telescope.finders").new_table({
-        results = file_paths,
-      }),
-      previewer = conf.file_previewer({}),
-      sorter = conf.generic_sorter({}),
-    })
-    :find()
-end
-
 local mappings = {
   n = {
     ["m"] = { "<Nop>", { noremap = true } },
@@ -48,6 +28,7 @@ local mappings = {
     ["<leader>hh"] = { ":exe ':Telescope possession list default_text='.$TICKET.''<CR>", opts = opts },
     ["<leader>L"] = { ":copen<CR>", opts = opts },
     ["<leader>E"] = { ":clist<CR>", opts = opts },
+    ["<leader>S"] = { ":SupermavenRestart<CR>", opts = opts },
 
     ["<leader>a"] = { ":lua require('harpoon'):list():add()<CR>", opts = opts },
     ["<C-e>"] = {
@@ -174,6 +155,8 @@ local mappings = {
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
     ["g<tab>"] = { ":Trouble symbols<CR>", opts = opts },
 
+    ["<leader>oa"] = { ":lua AiderOpen()<CR>", opts = opts },
+
     ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
     ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },
     ["<leader>re"] = { ":Telescope toggletasks edit<CR>", opts = opts },
@@ -202,10 +185,6 @@ local mappings = {
       ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
       opts = opts,
     },
-    ["<leader>dz"] = {
-      ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
-      opts = opts,
-    },
 
     ["<leader>dR"] = { ":lua require('dap').restart({strategy = 'dap'})<CR>", opts = opts },
     ["<leader>da"] = {
@@ -225,27 +204,17 @@ local mappings = {
     ["<leader>d<tab>"] = { ":lua require('dapui').toggle(1)<CR>", opts = opts },
 
     ["<leader>tb"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
-    ["<leader>db"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
     ["<leader>dB"] = { ":Telescope dap_breakpoints<CR>", opts = opts },
     ["<leader>d<space>"] = { ":lua require('dap').focus_frame()<CR>", opts = opts },
 
-    ["<leader>dp"] = {
-      function()
-        vim.keymap.set("n", "<Leader>lp", function()
-          require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-        end)
-      end,
-      opts = opts,
-    },
-    ["<leader>dd"] = { ":lua require('dap').step_over()<CR>", opts = opts },
     ["<C-u>"] = { ":lua require('dap').step_over()<CR>", opts = opts },
-    ["<leader>ds"] = { ":lua require('dap').step_into()<CR>", opts = opts },
     ["<C-y>"] = { ":lua require('dap').step_into()<CR>", opts = opts },
-    ["<leader>dr"] = { ":lua require('dap').step_out()<CR>", opts = opts },
     ["<C-t>"] = { ":lua require('dap').step_out()<CR>", opts = opts },
+    ["<C-e>"] = { ":lua require('dap').continue()<CR>", opts = opts },
+    ["<C-d>"] = { ":lua require('dap').toggle_breakpoint()<CR>", opts = opts },
+
     ["<leader>dk"] = { ":lua require('dap').up()<CR>", opts = opts },
     ["<leader>dj"] = { ":lua require('dap').down()<CR>", opts = opts },
-    ["<leader>dc"] = { ":lua require('dap').continue()<CR>", opts = opts },
     ["<leader>dx"] = { ":lua require('dap').terminate()<CR>", opts = opts },
 
     ["<leader>dw"] = {
@@ -399,8 +368,10 @@ local defaults_to_clear = {
     "<leader>w|",
     "<leader>wd",
     "<leader><leader>",
+    "<leader>,",
     "<C-p>",
     "<C-s>",
+    "<C-u>",
     "<A-j>",
     "<A-k>",
     "<A-h>",

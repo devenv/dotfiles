@@ -46,6 +46,8 @@ export MAKEPRG="tox"
 
 export DATABASE_URL="postgresql://dbadmin:dbadmin@localhost/"
 
+ulimit -n 4096
+
 alias gut='git'
 alias got='git'
 alias l='lsd -alh'
@@ -58,6 +60,5 @@ alias gcp='git ci -a && git push'
 alias tf='terraform'
 alias kss='f() { kubectl get pods --no-headers --field-selector=status.phase==Running | { [[ -n "$1" ]] && grep "$1" || cat; } | fzf -0 -1 | awk "{print \$1}" | xpanes -c "kubectl exec -t -i {} -- env PYTHONPATH=\".\" bash" }; f'
 alias ksi='f() { POD=$(kubectl get pods | fzf | awk "{print \$1}"); kubectl exec -it $POD -- /bin/bash -c "$(cat ~/bin/init_ssh_machine.sh); exec /bin/bash" }; f'
-
 
 test -e "${HOME}/.secrets" && source "${HOME}/.secrets"

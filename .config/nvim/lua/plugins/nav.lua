@@ -4,6 +4,7 @@ local plugins = {
     dependencies = {
       "jedrzejboczar/possession.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      "GeorgesAlkhouri/nvim-aider",
     },
     config = function()
       require("telescope").setup({

@@ -66,10 +66,6 @@ local plugins = {
     "mbbill/undotree",
     event = "VeryLazy",
   },
-  {
-    "tpope/vim-speeddating",
-    event = "VeryLazy",
-  },
 }
 
 return plugins
