@@ -28,7 +28,6 @@ local mappings = {
     ["<leader>hh"] = { ":exe ':Telescope possession list default_text='.$TICKET.''<CR>", opts = opts },
     ["<leader>L"] = { ":copen<CR>", opts = opts },
     ["<leader>E"] = { ":clist<CR>", opts = opts },
-    ["<leader>S"] = { ":SupermavenRestart<CR>", opts = opts },
 
     ["<leader>a"] = { ":lua require('harpoon'):list():add()<CR>", opts = opts },
     ["<C-e>"] = {

@@ -1,3 +1,4 @@
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 source $HOME/.profile
 
 DISABLE_AUTO_UPDATE=true
@@ -12,8 +13,8 @@ source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh init zsh -c ~/.config/fish/catppuccin.omp.json)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-test -e "${HOME}/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "${HOME}/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 test -e "${HOME}/.config/zsh-autosuggestions.zsh" && source "${HOME}/.config/zsh-autosuggestions.zsh"
+test -e "${HOME}/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "${HOME}/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 fd() {
   preview="git diff $@ --color=always -- {-1}"
