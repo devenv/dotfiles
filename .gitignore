@@ -466,6 +466,7 @@ postgresql-mcp-server/
 .clickhouse-client-history
 .users_cache.json
 .mcp-auth/
+.codex/
 
 # Config cache files
 .config/gh/
