@@ -459,3 +459,15 @@ zmk-config
 .vuerc
 nvim-aider/
 postgresql-mcp-server/
+
+# Additional cache and temporary files
+.aerospace.log
+.channels_cache_v2.json
+.clickhouse-client-history
+.users_cache.json
+.mcp-auth/
+
+# Config cache files
+.config/gh/
+.config/git-cola/
+.config/tfenv/

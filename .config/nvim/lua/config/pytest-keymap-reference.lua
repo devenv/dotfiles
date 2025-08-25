@@ -1,0 +1,66 @@
+-- Pytest Integration Keymap Reference
+-- =====================================
+--
+-- This replaces the previous neotest configuration with a more stable pytest alternative.
+--
+-- Key bindings:
+-- -------------
+-- <leader>tt  - Run nearest test (test under cursor)
+-- <leader>tf  - Run current test file  
+-- <leader>tl  - Run last test command
+-- <leader>tF  - Run test with DAP debugger (one-click debug)
+-- <leader>tB  - Set breakpoint at cursor and run test with debugger
+-- <leader>t<tab> - Run all tests
+-- <leader>tw  - Show test functions in current file
+-- <leader>e   - Show test command history
+-- <leader>o   - Run tests matching pattern (interactive)
+-- <leader>dt  - Run test with DAP debugger (respects existing breakpoints)
+-- <leader>do  - Show test functions in current file
+-- <leader>di  - Show pytest debug information (troubleshooting)
+-- <leader>ds  - Show current debug session status
+--
+-- User commands:
+-- --------------
+-- :PytestNearest   - Run nearest test
+-- :PytestFile      - Run current test file
+-- :PytestAll       - Run all tests
+-- :PytestPattern   - Run tests matching pattern
+-- :PytestLast      - Run last test command
+-- :PytestDebug     - Run test with DAP debugger
+-- :PytestDebugHere - Set breakpoint at cursor and run test with debugger
+-- :PytestShow      - Show test functions in current file
+-- :PytestHistory   - Show test command history
+-- :PytestDebugInfo - Show pytest debug information (troubleshooting)
+-- :PytestDebugStatus - Show current debug session status
+--
+-- Features:
+-- ---------
+-- • Automatic detection of nilus service projects with proper virtualenv
+-- • PYTHONPATH setup for nilus projects
+-- • Test function parsing and nearest test detection
+-- • Command history tracking
+-- • Better terminal integration with toggleterm (when available)
+-- • Fallback to basic terminal when toggleterm is not available
+-- • Support for async test functions
+-- • Support for test classes
+-- • One-click DAP debugging integration
+-- • Manual DAP UI control (use <leader>d<tab> to open if needed)
+-- • Breakpoint management integration
+-- • Debug session status tracking and display
+-- • Framework file debugging support (nilus packages in venv)
+-- • Fallback to pytest --pdb when DAP is not available
+--
+-- Project support:
+-- ----------------
+-- • Nilus services: Auto-detects service virtualenv and sets up PYTHONPATH
+-- • General Python projects: Looks for venv/.venv directories
+-- • Fallback: Uses system Python
+--
+-- Test file detection:
+-- --------------------
+-- • Files matching pattern: test_*.py
+-- • Test functions: def test_* or async def test_*
+-- • Test classes: class *Test* or class *test*
+
+-- This file is for reference only and is not loaded by Neovim
+return {}
