@@ -1,5 +1,9 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+require("config.notifications")
+
+-- Setup pytest integration
+require("config.pytest").setup()
 
 function _G.open_git_branch_in_browser()
   local branch_handle = io.popen("git rev-parse --abbrev-ref HEAD")

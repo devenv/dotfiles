@@ -1,12 +1,20 @@
 local opts = { noremap = true, silent = true }
 
-function OpenNeotestOutputAndJumpToBottom()
-  require("neotest").output.open({ enter = true, last_run = true })
+-- Pytest integration functions
+function ShowPytestHistory()
+  require("config.pytest").show_history()
+end
 
-  -- Use a timer to delay the jump command
-  vim.defer_fn(function()
-    vim.cmd("normal! G")
-  end, 100) -- Adjust the delay as needed (100ms in this example)
+function ShowPytestTests()
+  require("config.pytest").show_tests()
+end
+
+function ShowPytestDebugInfo()
+  require("config.pytest").debug_info()
+end
+
+function ShowPytestDebugStatus()
+  require("config.pytest").show_debug_status()
 end
 
 local mappings = {
@@ -63,12 +71,12 @@ local mappings = {
     ["]h"] = { ":cnext<CR>", opts = opts },
     ["[g"] = { ":cprev<CR>", opts = opts },
 
-    ["H"] = { ":BufferLineCyclePrev<CR>", opts = opts },
-    ["L"] = { ":BufferLineCycleNext<CR>", opts = opts },
-    ["X"] = { ":silent! bd<CR>", opts = opts },
-    ["gH"] = { ":BufferLineMovePrev<CR>", opts = opts },
-    ["gL"] = { ":BufferLineMoveNext<CR>", opts = opts },
-    ["gP"] = { ":BufferLineTogglePin<CR>", opts = opts },
+    ["H"] = { ":BufferPrevious<CR>", opts = opts },
+    ["L"] = { ":BufferNext<CR>", opts = opts },
+    ["X"] = { ":BufferClose<CR>", opts = opts },
+    ["gH"] = { ":BufferMovePrevious<CR>", opts = opts },
+    ["gL"] = { ":BufferMoveNext<CR>", opts = opts },
+    ["gP"] = { ":BufferPin<CR>", opts = opts },
 
     ["gl"] = { ":Gitsigns toggle_current_line_blame<CR>", opts = opts },
     ["gb"] = { ":BlameToggle virtual<CR>", opts = opts },
@@ -153,6 +161,24 @@ local mappings = {
     ["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
     ["g<tab>"] = { ":Trouble symbols<CR>", opts = opts },
+    
+    -- Breadcrumb navigation
+    ["<leader>bc"] = { ":lua require('barbecue.ui').toggle()<CR>", "Toggle breadcrumbs", opts = opts },
+    ["<leader>bn"] = { ":lua require('nvim-navic').get_location()<CR>", "Show navic location", opts = opts },
+    ["<leader>bp"] = { 
+      function()
+        -- Copy current file path to clipboard
+        local filepath = vim.fn.expand("%:.")
+        vim.fn.setreg("+", filepath)
+        -- Use a smaller notification
+        vim.notify("Copied: " .. filepath, vim.log.levels.INFO, { 
+          title = "Clipboard",
+          timeout = 1500,
+        })
+      end, 
+      "Copy file path to clipboard", 
+      opts = opts 
+    },
 
     ["<leader>oa"] = { ":lua AiderOpen()<CR>", opts = opts },
 
@@ -161,24 +187,19 @@ local mappings = {
     ["<leader>re"] = { ":Telescope toggletasks edit<CR>", opts = opts },
 
     ["<leader>tr"] = { ":silent! wa<CR>:Dispatch<CR>", opts = opts },
-    ["<leader>tt"] = { ":silent! wa<CR>:lua require('neotest').run.run()<CR>", opts = opts },
-    ["<leader>tw"] = { ":silent! wa<CR>:lua require('neotest').watch.toggle()<CR>", opts = opts },
-    ["<leader>tl"] = { ":silent! wa<CR>:lua require('neotest').run.run_last()<CR>", opts = opts },
-    ["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>", opts = opts },
-    ["<leader>tF"] = { ":lua require('neotest').run.run(vim.fn.expand('%'), {strategy = 'dap'})<CR>", opts = opts },
+    ["<leader>tt"] = { ":silent! wa<CR>:lua require('config.pytest').run_nearest()<CR>", opts = opts },
+    ["<leader>tw"] = { ":lua require('config.pytest').show_tests()<CR>", opts = opts },
+    ["<leader>tl"] = { ":silent! wa<CR>:lua require('config.pytest').run_last()<CR>", opts = opts },
+    ["<leader>tf"] = { ":lua require('config.pytest').run_file()<CR>", opts = opts },
+    ["<leader>tF"] = { ":lua require('config.pytest').run_debug()<CR>", opts = opts },
+    ["<leader>tB"] = { ":lua require('config.pytest').run_debug_here()<CR>", opts = opts },
     ["<leader>de"] = { ":lua require('dapui').eval()<CR>:lua require('dapui').eval()<CR>", opts = opts },
 
-    ["<leader>t<tab>"] = { ":lua require('neotest').summary.toggle()<CR>", opts = opts },
-    ["<leader>e"] = { ":lua OpenNeotestOutputAndJumpToBottom()<CR>", opts = opts },
-    ["<leader>o"] = {
-      ":lua require('neotest').output_panel.open({ maximized = true, enter = true, last_run = true })<CR>",
-      opts = opts,
-    },
+    ["<leader>t<tab>"] = { ":lua require('config.pytest').run_all()<CR>", opts = opts },
+    ["<leader>e"] = { ":lua ShowPytestHistory()<CR>", opts = opts },
+    ["<leader>o"] = { ":lua require('config.pytest').run_pattern()<CR>", opts = opts },
 
-    ["<leader>dt"] = {
-      ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('neotest').run.run({strategy = 'dap'})<CR>",
-      opts = opts,
-    },
+    ["<leader>dt"] = { ":silent! wa<CR>:lua require('config.pytest').run_debug()<CR>", opts = opts },
     ["<leader>df"] = { ":lua require('dap.ui.widgets')<CR>:lua require('dap').run_to_cursor()<CR>", opts = opts },
     ["<leader>dl"] = {
       ":silent! wa<CR>:lua require('dap.ui.widgets')<CR>:lua require('dap').run_last({strategy = 'dap'})<CR>",
@@ -195,10 +216,9 @@ local mappings = {
     },
     ["<leader>dA"] = { ":Telescope dap_commands<CR>", opts = opts },
 
-    ["<leader>do"] = {
-      ":lua require('neotest').output_panel.open({ enter = true, last_run = true })<CR>",
-      opts = opts,
-    },
+    ["<leader>do"] = { ":lua ShowPytestTests()<CR>", opts = opts },
+    ["<leader>di"] = { ":lua ShowPytestDebugInfo()<CR>", opts = opts },
+    ["<leader>ds"] = { ":lua ShowPytestDebugStatus()<CR>", opts = opts },
     ["<leader>dW"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
     ["<leader>d<tab>"] = { ":lua require('dapui').toggle(1)<CR>", opts = opts },
 

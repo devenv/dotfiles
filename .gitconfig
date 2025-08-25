@@ -42,12 +42,12 @@
 [init]
   templateDir = /home/devenv/.git-templates/git-secrets
   defaultBranch = master
-[diff]
-  colorMoved = default
-  tool = difftastic
-  external = difft
-[difftool "difftastic"]
-  cmd = difft "$LOCAL" "$REMOTE"
+#[diff]
+  #colorMoved = default
+  #tool = difftastic
+  #external = difft
+#[difftool "difftastic"]
+  #cmd = difft "$LOCAL" "$REMOTE"
 [mergetool "diffconflicts"]
   cmd = nvim -c DiffConflictsWithHistory \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
   trustExitCode = true
@@ -65,10 +65,13 @@
   process = git-lfs filter-process
   required = true
   clean = git-lfs clean -- %f
-#[interactive]
-  #diffFilter = delta --color-only
 [add.interactive]
   useBuiltin = false # required for git 2.37.0
 [delta]
   navigate = true    # use n and N to move between diff sections
   light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+[diff]
+	tool = opendiff
+[difftool "git-cola"]
+	cmd = git cola diff "$LOCAL" "$REMOTE"
+	trustExitCode = false

@@ -4,7 +4,6 @@ local plugins = {
     lazy = false,
     dependencies = {
       "neovim/nvim-lspconfig",
-      "nvim-neotest/neotest",
       "rcarriga/nvim-dap-ui",
       "NeogitOrg/neogit",
       "nvim-lua/plenary.nvim",
@@ -21,12 +20,7 @@ local plugins = {
             pcall(function()
               require("nvim-tree.api").tree.close()
             end)
-            pcall(function()
-              require("neotest").summary.close()
-            end)
-            pcall(function()
-              require("neotest").output_panel.close()
-            end)
+            -- Neotest hooks removed (replaced with pytest integration)
             pcall(function()
               require("dapui").close()
             end)

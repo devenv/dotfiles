@@ -34,6 +34,9 @@ require("lazy").setup({
   },
   install = { colorscheme = { "catppuccin" } },
   checker = { enabled = true, frequency = 86400 }, -- automatically check for plugin updates
+  rocks = {
+    enabled = false, -- disable luarocks support to avoid hererocks warnings
+  },
   performance = {
     cache = {
       enabled = true,

@@ -5,6 +5,37 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Option+Home/End to Command+Left/Right Arrow globally",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "home",
+                                    "modifiers": { "mandatory": ["option"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "end",
+                                    "modifiers": { "mandatory": ["option"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Swap Command and Control keys in Warp",
                         "manipulators": [
                             {

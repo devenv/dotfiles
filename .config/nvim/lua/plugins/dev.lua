@@ -39,6 +39,9 @@ local plugins = {
         indent = {
           enable = true,
         },
+        -- Add compatibility settings
+        sync_install = false,
+        auto_install = true,
         textobjects = {
           swap = {
             enable = true,
@@ -130,140 +133,229 @@ local plugins = {
       current_line_blame_formatter = "<author>, <abbrev_sha> <author_time:%Y-%m-%d> - <summary>",
     },
   },
+  -- Neotest moved to separate file to avoid treesitter conflicts
+  -- {
+  --   "nvim-neotest/neotest",
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "antoinemadec/FixCursorHold.nvim",
+  --     "folke/neodev.nvim",
+  --     "nvim-neotest/neotest-python",
+  --     {
+  --       "mfussenegger/nvim-dap",
+  --       config = function()
+  --         local dap = require("dap")
+  --         dap.adapters.python = function(cb, config)
+  --           if config.request == "attach" then
+  --             local port = (config.connect or config).port
+  --             local host = (config.connect or config).host or "127.0.0.1"
+  --             cb({
+  --               type = "server",
+  --               port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+  --               host = host,
+  --               options = {
+  --                 source_filetype = "python",
+  --               },
+  --             })
+  --           else
+  --             cb({
+  --               type = "executable",
+  --               command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
+  --               args = { "-m", "debugpy.adapter" },
+  --               options = {
+  --                 source_filetype = "python",
+  --               },
+  --             })
+  --           end
+  --         end
+
+  --         -- Adding disconnect event handling
+  --         dap.listeners.after["disconnect"]["custom_cleanup"] = function(session, body)
+  --           print("Debug session disconnected. Cleaning up...")
+  --           -- Add any custom cleanup code here
+  --         end
+
+  --         dap.configurations.python = {
+  --           {
+  --             type = "python",
+  --             request = "attach",
+  --             name = "Attach",
+  --             port = 5678,
+  --             pathMappings = {
+  --               { localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
+  --               {
+  --                 localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages",
+  --                 remoteRoot = "/usr/local/lib/python3.10/site-packages",
+  --               },
+  --               {
+  --                 localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework",
+  --                 remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework",
+  --               },
+  --             },
+  --             showReturnValue = true,
+  --             justMyCode = false,
+  --             pythonPath = function()
+  --               return os.getenv("VIRTUAL_ENV") .. "/bin/python"
+  --             end,
+  --           },
+  --         }
+  --       end,
+  --     },
+  --   },
+  --   config = function()
+  --     -- Neotest configuration moved to neotest-simple.lua
+  --   end,
+  -- },
   {
-    "nvim-neotest/neotest",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "folke/neodev.nvim",
-      "nvim-neotest/neotest-python",
-      {
-        "mfussenegger/nvim-dap",
-        config = function()
-          local dap = require("dap")
-          dap.adapters.python = function(cb, config)
-            if config.request == "attach" then
-              local port = (config.connect or config).port
-              local host = (config.connect or config).host or "127.0.0.1"
-              cb({
-                type = "server",
-                port = assert(port, "`connect.port` is required for a python `attach` configuration"),
-                host = host,
-                options = {
-                  source_filetype = "python",
-                },
-              })
-            else
-              cb({
-                type = "executable",
-                command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
-                args = { "-m", "debugpy.adapter" },
-                options = {
-                  source_filetype = "python",
-                },
-              })
-            end
-          end
-
-          -- Adding disconnect event handling
-          dap.listeners.after["disconnect"]["custom_cleanup"] = function(session, body)
-            print("Debug session disconnected. Cleaning up...")
-            -- Add any custom cleanup code here
-          end
-
-          dap.configurations.python = {
-            {
-              type = "python",
-              request = "attach",
-              name = "Attach",
-              port = 5678,
-              pathMappings = {
-                { localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
-                {
-                  localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages",
-                  remoteRoot = "/usr/local/lib/python3.10/site-packages",
-                },
-                {
-                  localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework",
-                  remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework",
-                },
-              },
-              showReturnValue = true,
-              justMyCode = false,
-              pythonPath = function()
-                return os.getenv("VIRTUAL_ENV") .. "/bin/python"
-              end,
-            },
-          }
-        end,
-      },
-    },
+    "mfussenegger/nvim-dap",
     config = function()
-      require("neotest").setup({
-        log_level = 5,
+      local dap = require("dap")
+      dap.adapters.python = function(cb, config)
+        if config.request == "attach" then
+          local port = (config.connect or config).port
+          local host = (config.connect or config).host or "127.0.0.1"
+          cb({
+            type = "server",
+            port = assert(port, "`connect.port` is required for a python `attach` configuration"),
+            host = host,
+            options = {
+              source_filetype = "python",
+            },
+          })
+        else
+          -- Get python path similar to pytest integration
+          local python_cmd = "python"
+          local cwd = vim.fn.getcwd()
+          
+          if string.match(cwd, "/nilus/core/services/") then
+            local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+            if not service_match then
+              -- Check if we're in src/ subdirectory
+              service_match = string.match(cwd, "/nilus/core/services/([^/]+)/src")
+            end
+            if service_match then
+              local service_venv = "/Users/devenv/nilus/core/services/" .. service_match .. "/venv/bin/python"
+              if vim.fn.executable(service_venv) == 1 then
+                python_cmd = service_venv
+              end
+            end
+          elseif os.getenv("VIRTUAL_ENV") then
+            python_cmd = os.getenv("VIRTUAL_ENV") .. "/bin/python"
+          end
+          
+          cb({
+            type = "executable",
+            command = python_cmd,
+            args = { "-m", "debugpy.adapter" },
+            options = {
+              source_filetype = "python",
+            },
+          })
+        end
+      end
 
-        discovery = {
-          filter_dir = function(name, rel_path, root)
-            return not string.match(rel_path, "sdk/")
+      -- Adding disconnect event handling
+      dap.listeners.after["disconnect"]["custom_cleanup"] = function(session, body)
+        print("Debug session disconnected. Cleaning up...")
+        -- Add any custom cleanup code here
+      end
+
+      dap.configurations.python = {
+        {
+          type = "python",
+          request = "attach",
+          name = "Attach",
+          port = 5678,
+          pathMappings = {
+            { localRoot = vim.fn.getcwd(), remoteRoot = "/usr/app/src" },
+            {
+              localRoot = vim.fn.getcwd() .. "/../venv/lib/python3.10/site-packages",
+              remoteRoot = "/usr/local/lib/python3.10/site-packages",
+            },
+            {
+              localRoot = "/Users/devenv/nilus/common/rules_framework/src/nilus/common/rules_framework",
+              remoteRoot = "/usr/local/lib/python3.10/site-packages/nilus/common/rules_framework",
+            },
+          },
+          showReturnValue = true,
+          justMyCode = false,
+          pythonPath = function()
+            local cwd = vim.fn.getcwd()
+            if string.match(cwd, "/nilus/core/services/") then
+              local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+              if not service_match then
+                -- Check if we're in src/ subdirectory
+                service_match = string.match(cwd, "/nilus/core/services/([^/]+)/src")
+              end
+              if service_match then
+                local service_venv = "/Users/devenv/nilus/core/services/" .. service_match .. "/venv/bin/python"
+                if vim.fn.executable(service_venv) == 1 then
+                  return service_venv
+                end
+              end
+            end
+            return os.getenv("VIRTUAL_ENV") and (os.getenv("VIRTUAL_ENV") .. "/bin/python") or "python"
           end,
         },
-        quickfix = {
-          enabled = true,
-          open = false,
+        {
+          type = "python",
+          request = "launch",
+          name = "Debug Test",
+          program = function()
+            return vim.fn.input("Path to test file: ", vim.fn.expand("%"), "file")
+          end,
+          args = function()
+            local test_args = vim.fn.input("Test arguments: ", "-v")
+            return vim.split(test_args, " ")
+          end,
+          console = "integratedTerminal",
+          showReturnValue = true,
+          justMyCode = false,
+          pythonPath = function()
+            -- Get python path similar to pytest integration
+            local cwd = vim.fn.getcwd()
+            if string.match(cwd, "/nilus/core/services/") then
+              local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+              if service_match then
+                local service_venv = "/Users/devenv/nilus/core/services/" .. service_match .. "/venv/bin/python"
+                if vim.fn.executable(service_venv) == 1 then
+                  return service_venv
+                end
+              end
+            end
+            return os.getenv("VIRTUAL_ENV") and (os.getenv("VIRTUAL_ENV") .. "/bin/python") or "python"
+          end,
+          cwd = function()
+            local cwd = vim.fn.getcwd()
+            if string.match(cwd, "/nilus/core/services/") then
+              local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+              if service_match then
+                local src_path = "/Users/devenv/nilus/core/services/" .. service_match .. "/src"
+                if vim.fn.isdirectory(src_path) == 1 then
+                  return src_path
+                end
+              end
+            end
+            return cwd
+          end,
+          env = function()
+            local cwd = vim.fn.getcwd()
+            local env = {}
+            if string.match(cwd, "/nilus/core/services/") then
+              local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+              if service_match then
+                local src_path = "/Users/devenv/nilus/core/services/" .. service_match .. "/src"
+                if vim.fn.isdirectory(src_path) == 1 then
+                  env.PYTHONPATH = src_path
+                end
+              end
+            end
+            return env
+          end,
         },
-        output = {
-          enabled = true,
-          open_on_run = false,
-        },
-        floating = {
-          max_height = 0.99,
-          max_width = 0.99,
-        },
-        output_panel = {
-          enabled = true,
-          open_on_run = true,
-        },
-        status = {
-          enabled = true,
-          signs = true,
-          virtual_text = true,
-        },
-        summary = {
-          animated = true,
-          enabled = true,
-          expand_errors = true,
-          follow = true,
-          mappings = {
-            attach = "a",
-            clear_marked = "M",
-            clear_target = "T",
-            debug = "d",
-            debug_marked = "D",
-            expand = { "<CR>", "<2-LeftMouse>" },
-            expand_all = "e",
-            jumpto = "i",
-            mark = "m",
-            next_failed = "J",
-            output = "o",
-            prev_failed = "K",
-            run = "r",
-            run_marked = "R",
-            short = "O",
-            stop = "u",
-            target = "t",
-            watch = "w",
-          },
-        },
-        adapters = {
-          require("neotest-python")({
-            dap = { justMyCode = false },
-            args = { "--log-level", "DEBUG", "-vv" },
-            runner = "pytest",
-          }),
-        },
-      })
+      }
     end,
   },
   {

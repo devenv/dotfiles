@@ -37,7 +37,7 @@ export FZF_DEFAULT_OPTS="-m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:
 export SQLALCHEMY_SILENCE_UBER_WARNING=1
 export OLLAMA_HOST="http://127.0.0.1:11434"
 
-export PATH=$HOME/.local/bin:/opt/homebrew/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+export PATH="../venv/bin/:$HOME/.local/bin:/opt/homebrew/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 #export PY="$HOME/.pyenv/versions/3.10.5/lib/python3.10/site-packages"
 
 export GOPATH=$HOME/.go

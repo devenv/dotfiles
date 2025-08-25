@@ -1,0 +1,898 @@
+-- Modern pytest integration for Neovim
+-- A stable alternative to neotest
+
+local M = {}
+
+-- Safe require function
+local function safe_require(module)
+  local ok, result = pcall(require, module)
+  return ok and result or nil
+end
+
+local notify = safe_require("notify") or (vim and vim.notify) or print
+local Terminal = safe_require("toggleterm.terminal") and safe_require("toggleterm.terminal").Terminal or nil
+
+-- Test result storage
+M.last_test_results = {}
+M.test_history = {}
+
+-- Debug status tracking
+M.debug_status = {
+  is_running = false,
+  current_test = nil,
+  start_time = nil,
+}
+
+-- Status tracking functions
+local function start_debug_tracking(test_name)
+  M.debug_status.is_running = true
+  M.debug_status.current_test = test_name
+  M.debug_status.start_time = os.time()
+  
+  -- Option 1: Use notifications (current)
+  if type(notify) == "function" then
+    local short_test_name = string.len(test_name) > 25 and (string.sub(test_name, 1, 22) .. "...") or test_name
+    notify("Debug started", "info", { 
+      title = "🐛 " .. short_test_name,
+      timeout = 2000,
+      render = "minimal",
+    })
+  else
+    print("🐛 Debug: " .. test_name)
+  end
+  
+  -- Option 2: Use command line echo (uncomment to use instead)
+  -- vim.api.nvim_echo({
+  --   { "🐛 Debug started: ", "Normal" },
+  --   { test_name, "Title" },
+  -- }, false, {})
+end
+
+local function stop_debug_tracking()
+  if M.debug_status.is_running then
+    local duration = M.debug_status.start_time and (os.time() - M.debug_status.start_time) or 0
+    local test_name = M.debug_status.current_test or "test"
+    
+    -- Show subtle completion message
+    if type(notify) == "function" then
+      local short_test_name = string.len(test_name) > 25 and (string.sub(test_name, 1, 22) .. "...") or test_name
+      notify(string.format("Debug ended (%ds)", duration), "info", { 
+        title = "✅ " .. short_test_name,
+        timeout = 3000,
+        render = "minimal",
+      })
+    else
+      print(string.format("✅ Debug ended: %s (%ds)", test_name, duration))
+    end
+  end
+  
+  M.debug_status.is_running = false
+  M.debug_status.current_test = nil
+  M.debug_status.start_time = nil
+end
+
+-- Get debug status for display
+function M.get_debug_status()
+  if not M.debug_status.is_running then
+    return ""
+  end
+  
+  local test_name = M.debug_status.current_test or "test"
+  local duration = M.debug_status.start_time and (os.time() - M.debug_status.start_time) or 0
+  
+  return string.format("🐛 %s (%ds)", test_name, duration)
+end
+
+-- Enhanced breakpoint setting function
+function M.set_breakpoint_here()
+  local dap_ok, dap = pcall(require, "dap")
+  if not dap_ok then
+    notify("DAP not available", "error", { title = "Pytest", timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local file_abs = vim.fn.expand("%:p")
+  local current_line = vim.fn.line(".")
+  
+  -- Try to set breakpoint with full path
+  dap.set_breakpoint(nil, nil, nil, { 
+    file = file_abs,
+    line = current_line 
+  })
+  
+  notify("Set at line " .. current_line, "info", { 
+    title = "🔴 BP", 
+    timeout = 1500, 
+    render = "minimal" 
+  })
+  
+  print("Breakpoint set: " .. vim.fn.fnamemodify(file_abs, ":t") .. ":" .. current_line)
+end
+
+-- Show current debug status
+function M.show_debug_status()
+  if M.debug_status.is_running then
+    local duration = M.debug_status.start_time and (os.time() - M.debug_status.start_time) or 0
+    local test_name = M.debug_status.current_test or "test"
+    
+    if type(notify) == "function" then
+      local short_test_name = string.len(test_name) > 25 and (string.sub(test_name, 1, 22) .. "...") or test_name
+      notify(string.format("Active (%ds)", duration), "info", { 
+        title = "🐛 " .. short_test_name,
+        timeout = 2000,
+        render = "minimal",
+      })
+    else
+      print(string.format("🐛 Debug active: %s (%ds)", test_name, duration))
+    end
+  else
+    if type(notify) == "function" then
+      notify("No debug session currently running", "info", { 
+        title = "Debug Status",
+        timeout = 1500,
+        render = "minimal",
+      })
+    else
+      print("No debug session currently running")
+    end
+  end
+end
+
+-- Configuration
+M.config = {
+  -- Pytest command patterns for different project types
+  python_paths = {
+    nilus_service = function(cwd)
+      -- Check if we're in a nilus service directory (either root or src subdirectory)
+      local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+      if not service_match then
+        -- Check if we're in src/ subdirectory
+        service_match = string.match(cwd, "/nilus/core/services/([^/]+)/src")
+      end
+      if service_match then
+        return "/Users/devenv/nilus/core/services/" .. service_match .. "/venv/bin/python"
+      end
+      return nil
+    end,
+    virtualenv = function(cwd)
+      local venv_paths = { "venv/bin/python", ".venv/bin/python", "../venv/bin/python" }
+      for _, path in ipairs(venv_paths) do
+        local full_path = cwd .. "/" .. path
+        if vim.fn.executable(full_path) == 1 then
+          return full_path
+        end
+      end
+      return nil
+    end,
+  },
+  
+  -- Environment setup for different project types
+  env_setup = {
+    nilus_service = function(cwd)
+      -- Check if we're in a nilus service directory (either root or src subdirectory)
+      local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
+      if not service_match then
+        -- Check if we're in src/ subdirectory
+        service_match = string.match(cwd, "/nilus/core/services/([^/]+)/src")
+      end
+      if service_match then
+        local src_path = "/Users/devenv/nilus/core/services/" .. service_match .. "/src"
+        if vim.fn.isdirectory(src_path) == 1 then
+          return {
+            PYTHONPATH = src_path,
+            working_dir = src_path,
+          }
+        end
+      end
+      return { working_dir = cwd }
+    end,
+    default = function(cwd)
+      return { working_dir = cwd }
+    end,
+  },
+}
+
+-- Get the appropriate python executable for the current project
+local function get_python_cmd()
+  if not vim or not vim.fn then
+    return "python"
+  end
+  local cwd = vim.fn.getcwd()
+  
+  -- Try nilus service first (handles both root and src/ subdirectory)
+  if string.match(cwd, "/nilus/core/services/") then
+    local python_path = M.config.python_paths.nilus_service(cwd)
+    if python_path and vim.fn.executable(python_path) == 1 then
+      return python_path
+    end
+  end
+  
+  -- Try virtual environment
+  local venv_python = M.config.python_paths.virtualenv(cwd)
+  if venv_python then
+    return venv_python
+  end
+  
+  -- Fallback to system python
+  return "python"
+end
+
+-- Get environment configuration for the current project
+local function get_env_config()
+  if not vim or not vim.fn then
+    return { working_dir = "." }
+  end
+  local cwd = vim.fn.getcwd()
+  
+  -- Check if we're in any nilus service directory (handles both root and src/ subdirectory)
+  if string.match(cwd, "/nilus/core/services/") then
+    return M.config.env_setup.nilus_service(cwd)
+  end
+  
+  return M.config.env_setup.default(cwd)
+end
+
+-- Parse test functions from current buffer
+local function get_test_functions()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local tests = {}
+  local current_class = nil
+  
+  for i, line in ipairs(lines) do
+    -- Check for test class
+    local class_match = string.match(line, "^class%s+([%w_]*[Tt]est[%w_]*)")
+    if class_match then
+      current_class = class_match
+    end
+    
+    -- Check for test function (handle async and various patterns)
+    local func_match = string.match(line, "^%s*async%s+def%s+(test_[%w_]+)")
+    if not func_match then
+      func_match = string.match(line, "^%s*def%s+(test_[%w_]+)")
+    end
+    
+    if func_match then
+      local test_id = current_class and (current_class .. "::" .. func_match) or func_match
+      table.insert(tests, {
+        name = func_match,
+        full_name = test_id,
+        line = i,
+        class = current_class,
+      })
+    end
+  end
+  
+  return tests
+end
+
+-- Find the nearest test to cursor position
+local function find_nearest_test()
+  local tests = get_test_functions()
+  if #tests == 0 then
+    return nil
+  end
+  
+  local cursor_line = vim.fn.line(".")
+  local nearest_test = nil
+  local min_distance = math.huge
+  
+  for _, test in ipairs(tests) do
+    local distance = math.abs(test.line - cursor_line)
+    if distance < min_distance then
+      min_distance = distance
+      nearest_test = test
+    end
+  end
+  
+  return nearest_test
+end
+
+-- Build pytest command
+local function build_pytest_cmd(test_spec, extra_args)
+  local python_cmd = get_python_cmd()
+  local env_config = get_env_config()
+  extra_args = extra_args or "-v"
+  
+  local cmd_parts = {}
+  
+  -- Change to working directory
+  table.insert(cmd_parts, "cd " .. env_config.working_dir)
+  
+  -- Set environment variables
+  if env_config.PYTHONPATH then
+    table.insert(cmd_parts, "PYTHONPATH=" .. env_config.PYTHONPATH)
+  end
+  
+  -- Add the pytest command
+  table.insert(cmd_parts, python_cmd .. " -m pytest " .. (test_spec or "") .. " " .. extra_args)
+  
+  return table.concat(cmd_parts, " && ")
+end
+
+-- Run pytest command in terminal
+local function run_pytest_in_terminal(cmd, title)
+  title = title or "Pytest"
+  
+  if Terminal then
+    -- Use toggleterm if available
+    local pytest_terminal = Terminal:new({
+      cmd = cmd,
+      dir = get_env_config().working_dir,
+      direction = "horizontal",
+      close_on_exit = false,
+      on_open = function()
+        local short_title = string.len(title) > 30 and (string.sub(title, 1, 27) .. "...") or title
+        notify("Running", "info", { title = "▶️ " .. short_title, timeout = 1500, render = "minimal" })
+      end,
+      on_close = function()
+        notify("Test completed", "info", { title = "✅ Pytest", timeout = 2000, render = "minimal" })
+      end,
+    })
+    pytest_terminal:toggle()
+  else
+    -- Fallback to basic terminal if toggleterm is not available
+    local short_title = string.len(title) > 30 and (string.sub(title, 1, 27) .. "...") or title
+    notify("Running", "info", { title = "▶️ " .. short_title, timeout = 1500, render = "minimal" })
+    vim.cmd("split")
+    vim.cmd("terminal " .. cmd)
+  end
+  
+  -- Store the command for history
+  table.insert(M.test_history, {
+    cmd = cmd,
+    title = title,
+    timestamp = os.date("%Y-%m-%d %H:%M:%S"),
+  })
+  
+  -- Keep only last 10 commands
+  if #M.test_history > 10 then
+    table.remove(M.test_history, 1)
+  end
+end
+
+-- Public API functions
+
+-- Check if file is debuggable (test file or framework file)
+local function is_debuggable_file(file)
+  local file_abs = vim.fn.expand("%:p")
+  
+  -- Standard test files
+  if string.match(file, "test_.*%.py$") then
+    return true
+  end
+  
+  -- Files in nilus framework (venv site-packages)
+  if string.match(file_abs, "/venv/lib/python.*/site%-packages/nilus/") then
+    return true
+  end
+  
+  return false
+end
+
+-- Run the nearest test to cursor
+function M.run_nearest()
+  local file = vim.fn.expand("%")
+  if not is_debuggable_file(file) then
+    notify("File not debuggable", "warn", { title = "Pytest · " .. vim.fn.fnamemodify(file, ":t"), timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local nearest_test = find_nearest_test()
+  if not nearest_test then
+    notify("No test function found near cursor", "warn", { title = "Pytest", timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local test_spec = file .. "::" .. nearest_test.full_name
+  local cmd = build_pytest_cmd(test_spec)
+  run_pytest_in_terminal(cmd, "Test: " .. nearest_test.name)
+end
+
+-- Run current test file
+function M.run_file()
+  local file = vim.fn.expand("%")
+  if not string.match(file, "test_.*%.py$") then
+    notify("File not a test", "warn", { title = "Pytest · " .. vim.fn.fnamemodify(file, ":t"), timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local cmd = build_pytest_cmd(file)
+  run_pytest_in_terminal(cmd, "File: " .. vim.fn.fnamemodify(file, ":t"))
+end
+
+-- Run all tests in tests directory
+function M.run_all()
+  local cmd = build_pytest_cmd("tests/")
+  run_pytest_in_terminal(cmd, "All tests")
+end
+
+-- Run tests matching a pattern
+function M.run_pattern()
+  local pattern = vim.fn.input("Test pattern (-k): ")
+  if pattern == "" then
+    return
+  end
+  
+  local cmd = build_pytest_cmd("", "-k '" .. pattern .. "' -v")
+  run_pytest_in_terminal(cmd, "Pattern: " .. pattern)
+end
+
+-- Run last test command
+function M.run_last()
+  if #M.test_history == 0 then
+    notify("No previous test command found", "warn", { title = "Pytest", timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local last_cmd = M.test_history[#M.test_history]
+  run_pytest_in_terminal(last_cmd.cmd, "Last: " .. last_cmd.title)
+end
+
+-- Run debug with current line breakpoint
+function M.run_debug_here()
+  local file = vim.fn.expand("%")
+  if not is_debuggable_file(file) then
+    notify("File not debuggable", "warn", { title = "Pytest", timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  -- Set breakpoint at current line
+  local dap_ok, dap = pcall(require, "dap")
+  if dap_ok then
+    dap.toggle_breakpoint()
+    vim.defer_fn(function()
+      M.run_debug()
+    end, 100)
+  else
+    M.run_debug()
+  end
+end
+
+-- Get a suitable test to run for framework files
+local function get_framework_test_spec()
+  local file_abs = vim.fn.expand("%:p")
+  
+  -- For nilus framework files, suggest some common test patterns
+  if string.match(file_abs, "/site%-packages/nilus/common/db/testing/") then
+    -- For testing framework files, run integration tests
+    return "tests/ -k 'integrated' -v"
+  elseif string.match(file_abs, "/site%-packages/nilus/") then
+    -- For other nilus framework files, run all tests
+    return "tests/ -v"
+  end
+  
+  return "tests/ -v" -- fallback
+end
+
+-- Run tests with debug mode
+function M.run_debug()
+  local file = vim.fn.expand("%")
+  local file_abs = vim.fn.expand("%:p")
+  
+  if not is_debuggable_file(file) then
+    notify("File not debuggable", "warn", { title = "Pytest", timeout = 2000, render = "minimal" })
+    return
+  end
+  
+  local test_spec
+  local is_framework_file = string.match(file_abs, "/venv/lib/python.*/site%-packages/nilus/")
+  
+  if is_framework_file then
+    -- For framework files, use a general test pattern
+    test_spec = get_framework_test_spec()
+  else
+    -- For test files, find the nearest test
+    local nearest_test = find_nearest_test()
+    if not nearest_test then
+      notify("No test function found near cursor", "warn", { title = "Pytest" })
+      return
+    end
+    test_spec = nearest_test.full_name
+  end
+  
+  -- First try to use DAP for proper debugging
+  local dap_ok, dap = pcall(require, "dap")
+  if dap_ok and dap.configurations and dap.configurations.python then
+    -- Create a custom DAP configuration for this specific test
+    local python_cmd = get_python_cmd()
+    local env_config = get_env_config()
+    
+    -- Ensure we use the correct file path relative to the working directory
+    local current_cwd = vim.fn.getcwd()
+    local working_dir = env_config.working_dir
+    
+    -- Always use relative path from working directory for pytest
+    local file_abs = vim.fn.expand("%:p")
+    local test_file_path = file
+    
+    -- Convert absolute path to relative path from working directory
+    if string.find(file_abs, working_dir, 1, true) then
+      test_file_path = string.sub(file_abs, string.len(working_dir) + 2) -- +2 to skip the trailing slash
+    end
+    
+    -- For test files, build the full test spec with file and function
+    if not is_framework_file then
+      test_spec = test_file_path .. "::" .. test_spec
+    end
+    
+    -- Build environment with proper PYTHONPATH
+    local env = {}
+    local pythonpath_parts = {}
+    
+    if env_config.PYTHONPATH then
+      table.insert(pythonpath_parts, env_config.PYTHONPATH)
+    end
+    
+    -- Add current working directory to PYTHONPATH
+    if current_cwd ~= working_dir then
+      table.insert(pythonpath_parts, current_cwd)
+    end
+    
+    if #pythonpath_parts > 0 then
+      env.PYTHONPATH = table.concat(pythonpath_parts, ":")
+    end
+    
+    -- Always run from current_cwd where breakpoints are set
+    local final_cwd = current_cwd
+    
+    -- Create a pytest runner script to ensure proper debugging
+    local temp_runner = vim.fn.tempname() .. "_pytest_runner.py"
+    local runner_content = string.format([[
+import sys
+import os
+
+# Set up the environment
+sys.path.insert(0, "%s")
+
+# Set PYTHONPATH
+if "%s":
+    os.environ["PYTHONPATH"] = "%s"
+
+# Import and run pytest
+import pytest
+
+if __name__ == "__main__":
+    # Run pytest with the specified arguments
+    sys.exit(pytest.main(["%s", "-v", "-s", "--capture=no"]))
+]], final_cwd, env.PYTHONPATH or "", env.PYTHONPATH or "", test_spec)
+    
+    local file_handle = io.open(temp_runner, "w")
+    if not file_handle then
+      notify("Failed to create pytest runner script", "error", { title = "Pytest Debug", timeout = 2000, render = "minimal" })
+      return
+    end
+    file_handle:write(runner_content)
+    file_handle:close()
+
+    -- Build path mappings for framework files
+    local path_mappings = {}
+    
+    -- Add mapping for current working directory
+    table.insert(path_mappings, {
+      localRoot = final_cwd,
+      remoteRoot = final_cwd
+    })
+    
+    -- Add mapping for venv site-packages to enable framework debugging
+    local venv_path = string.match(python_cmd, "(.*/venv)/bin/python")
+    if venv_path then
+      -- Find the actual site-packages directory by checking what exists
+      local possible_versions = {"3.10", "3.11", "3.12", "3.9"}
+      for _, version in ipairs(possible_versions) do
+        local site_packages = venv_path .. "/lib/python" .. version .. "/site-packages"
+        if vim.fn.isdirectory(site_packages) == 1 then
+          table.insert(path_mappings, {
+            localRoot = site_packages,
+            remoteRoot = site_packages
+          })
+          break
+        end
+      end
+    end
+
+    local debug_config = {
+      type = "python",
+      request = "launch",
+      name = "Debug Test: " .. (is_framework_file and "Framework" or vim.fn.fnamemodify(file, ":t")),
+      program = temp_runner, -- Use script instead of module
+      console = "integratedTerminal",
+      showReturnValue = true,
+      justMyCode = false, -- Set to false to enable framework debugging
+      stopOnEntry = false,
+      python = python_cmd,
+      cwd = final_cwd,
+      env = env,
+      pathMappings = path_mappings,
+    }
+    
+    -- Notify user
+    local test_display_name = is_framework_file and ("Framework: " .. vim.fn.fnamemodify(file, ":t")) or vim.fn.fnamemodify(file, ":t")
+    local short_name = string.len(test_display_name) > 30 and (string.sub(test_display_name, 1, 27) .. "...") or test_display_name
+    notify("Starting debug", "info", { title = "🐛 " .. short_name, timeout = 2000, render = "minimal" })
+    
+    -- Debug: Show path mappings being used
+    if is_framework_file then
+      print("Framework debugging enabled:")
+      for i, mapping in ipairs(path_mappings) do
+        print("  Mapping " .. i .. ": " .. mapping.localRoot .. " -> " .. mapping.remoteRoot)
+      end
+    end
+    
+    -- Start debug tracking
+    start_debug_tracking(test_display_name)
+    
+    -- Set up DAP listeners for this session
+    dap.listeners.after["event_terminated"]["pytest_debug"] = function()
+      stop_debug_tracking()
+      vim.fn.delete(temp_runner) -- Clean up temp script
+      dap.listeners.after["event_terminated"]["pytest_debug"] = nil
+      dap.listeners.after["disconnect"]["pytest_debug"] = nil
+    end
+    
+    dap.listeners.after["disconnect"]["pytest_debug"] = function()
+      stop_debug_tracking()
+      vim.fn.delete(temp_runner) -- Clean up temp script
+      dap.listeners.after["event_terminated"]["pytest_debug"] = nil
+      dap.listeners.after["disconnect"]["pytest_debug"] = nil
+    end
+    
+    -- Start DAP session
+    dap.run(debug_config)
+    
+    -- Don't automatically open DAP UI - let user open manually if needed
+    -- User can open with <leader>d<tab> or <leader>dW if they want the UI
+    
+    return
+  end
+  
+  -- Fallback to pytest with --pdb if DAP is not available
+  notify("Using pytest --pdb", "warn", { title = "⚠️ DAP Unavailable", timeout = 3000, render = "minimal" })
+  local test_spec = nearest_test and (file .. "::" .. nearest_test.full_name) or file
+  local cmd = build_pytest_cmd(test_spec, "-v -s --pdb")
+  run_pytest_in_terminal(cmd, "Debug: " .. (nearest_test and nearest_test.name or vim.fn.fnamemodify(file, ":t")))
+end
+
+-- Show test functions in current file
+function M.show_tests()
+  local file = vim.fn.expand("%")
+  if not string.match(file, "test_.*%.py$") then
+    notify("Not in a test file", "warn", { title = "Pytest" })
+    return
+  end
+  
+  local tests = get_test_functions()
+  if #tests == 0 then
+    notify("No test functions found", "warn", { title = "Pytest" })
+    return
+  end
+  
+  print("Found " .. #tests .. " test functions in " .. vim.fn.fnamemodify(file, ":t") .. ":")
+  for i, test in ipairs(tests) do
+    local class_info = test.class and (" (in " .. test.class .. ")") or ""
+    print(i .. ". " .. test.name .. class_info .. " (line " .. test.line .. ")")
+  end
+end
+
+-- Show test history
+function M.show_history()
+  if #M.test_history == 0 then
+    notify("No test history", "info", { title = "Pytest" })
+    return
+  end
+  
+  print("Recent test commands:")
+  for i, entry in ipairs(M.test_history) do
+    print(i .. ". [" .. entry.timestamp .. "] " .. entry.title)
+  end
+end
+
+-- Debug information function to help troubleshoot issues
+function M.debug_info()
+  print("=== Pytest Debug Information ===")
+  
+  local python_cmd = get_python_cmd()
+  local env_config = get_env_config()
+  
+  print("Python command: " .. python_cmd)
+  print("Working directory: " .. env_config.working_dir)
+  if env_config.PYTHONPATH then
+    print("PYTHONPATH: " .. env_config.PYTHONPATH)
+  else
+    print("PYTHONPATH: (not set)")
+  end
+  
+  local file = vim.fn.expand("%")
+  local file_abs = vim.fn.expand("%:p")
+  print("Current file (relative): " .. file)
+  print("Current file (absolute): " .. file_abs)
+  local is_test_file = string.match(file, "test_.*%.py$")
+  local is_framework_file = string.match(file_abs, "/venv/lib/python.*/site%-packages/nilus/")
+  local is_debuggable = is_debuggable_file(file)
+  
+  print("Is test file: " .. (is_test_file and "yes" or "no"))
+  print("Is framework file: " .. (is_framework_file and "yes" or "no"))
+  print("Is debuggable: " .. (is_debuggable and "yes" or "no"))
+  
+  -- Show path resolution for debugging
+  local current_cwd = vim.fn.getcwd()
+  if current_cwd ~= env_config.working_dir then
+    local test_file_path = file
+    if string.find(file_abs, env_config.working_dir, 1, true) then
+      test_file_path = string.sub(file_abs, string.len(env_config.working_dir) + 2)
+    end
+    print("Path resolution:")
+    print("  Current CWD: " .. current_cwd)
+    print("  Debug working dir: " .. env_config.working_dir)
+    print("  Test file for pytest: " .. test_file_path)
+  end
+  
+  if is_test_file then
+    local tests = get_test_functions()
+    print("Found " .. #tests .. " test functions:")
+    for i, test in ipairs(tests) do
+      print("  " .. i .. ". " .. test.name .. " (line " .. test.line .. ")")
+    end
+    
+    local nearest = find_nearest_test()
+    if nearest then
+      print("Nearest test: " .. nearest.name .. " -> " .. nearest.full_name)
+    end
+  elseif is_framework_file then
+    print("Framework file - debug will run: " .. get_framework_test_spec())
+    
+    -- Show path mapping info for framework files
+    local python_cmd = get_python_cmd()
+    local venv_path = string.match(python_cmd, "(.*/venv)/bin/python")
+    if venv_path then
+      print("Path mappings for debugging:")
+      print("  venv path: " .. venv_path)
+      print("  Framework breakpoint path: " .. file_abs)
+      
+      -- Find the actual site-packages directory
+      local possible_versions = {"3.10", "3.11", "3.12", "3.9"}
+      for _, version in ipairs(possible_versions) do
+        local site_packages = venv_path .. "/lib/python" .. version .. "/site-packages"
+        if vim.fn.isdirectory(site_packages) == 1 then
+          print("  Found site-packages: " .. site_packages)
+          print("  Path mapping needed: " .. (string.find(file_abs, site_packages, 1, true) and "YES" or "NO"))
+          break
+        end
+      end
+    end
+  end
+  
+  -- Check DAP availability
+  local dap_ok, dap = pcall(require, "dap")
+  print("DAP available: " .. (dap_ok and "yes" or "no"))
+  
+  if dap_ok then
+    print("DAP adapters configured: " .. (dap.adapters.python and "yes" or "no"))
+    print("DAP configurations: " .. (dap.configurations.python and #dap.configurations.python or 0))
+    
+    -- Show detailed breakpoint information
+    print("\n--- Breakpoint Analysis ---")
+    local breakpoints_ok, breakpoints = pcall(function()
+      -- Try different ways to access breakpoints
+      if dap.breakpoints and type(dap.breakpoints.get) == "function" then
+        return dap.breakpoints.get()
+      elseif dap.breakpoints and type(dap.breakpoints) == "table" then
+        -- Sometimes breakpoints are stored directly as a table
+        return dap.breakpoints
+      elseif dap and dap.session and dap.session() and dap.session().breakpoints then
+        return dap.session().breakpoints
+      else
+        -- Try to access internal breakpoint storage
+        return require("dap.breakpoints").get()
+      end
+    end)
+    
+    if breakpoints_ok and breakpoints and type(breakpoints) == "table" then
+      local bp_count = 0
+      print("Breakpoints by file:")
+      for file_path, file_bps in pairs(breakpoints) do
+        if type(file_bps) == "table" then
+          local file_bp_count = 0
+          for line, bp in pairs(file_bps) do
+            if bp then
+              bp_count = bp_count + 1
+              file_bp_count = file_bp_count + 1
+            end
+          end
+          if file_bp_count > 0 then
+            print("  " .. tostring(file_path) .. ": " .. file_bp_count .. " breakpoints")
+            for line, bp in pairs(file_bps) do
+              if bp and type(bp) == "table" and bp.line then
+                print("    Line " .. bp.line)
+              end
+            end
+          end
+        end
+      end
+      print("Total breakpoints: " .. bp_count)
+    else
+      print("Current breakpoints: unable to retrieve")
+    end
+    
+    -- Show current file breakpoint expectations
+    print("\n--- Current File Analysis ---")
+    local current_file_abs = vim.fn.expand("%:p")
+    local current_bufnr = vim.api.nvim_get_current_buf()
+    print("Current file absolute path: " .. current_file_abs)
+    print("Current buffer number: " .. current_bufnr)
+    print("Current cursor line: " .. vim.fn.line("."))
+    
+    -- Show buffer-to-file mapping for breakpoints
+    print("\n--- Buffer-File Mapping ---")
+    if breakpoints_ok and breakpoints then
+      for file_id, file_bps in pairs(breakpoints) do
+        if type(file_id) == "number" then
+          -- This is a buffer number, try to get the file path
+          local buf_exists, buf_name = pcall(vim.api.nvim_buf_get_name, file_id)
+          if buf_exists and buf_name ~= "" then
+            print("Buffer " .. file_id .. " -> " .. buf_name)
+            if file_bps and type(file_bps) == "table" then
+              for line, bp in pairs(file_bps) do
+                if bp and type(bp) == "table" and bp.line then
+                  print("  Breakpoint at line " .. bp.line)
+                  -- Check if this matches our current file
+                  if buf_name == current_file_abs then
+                    print("  ✅ MATCH: This is our current file!")
+                  end
+                end
+              end
+            end
+          else
+            print("Buffer " .. file_id .. " -> (invalid or unnamed buffer)")
+          end
+        else
+          print("File path: " .. tostring(file_id))
+        end
+      end
+      
+      -- Check if current buffer has breakpoints
+      local current_buf_bps = breakpoints[current_bufnr]
+      if current_buf_bps then
+        print("\n✅ Current buffer HAS breakpoints:")
+        for line, bp in pairs(current_buf_bps) do
+          if bp and type(bp) == "table" and bp.line then
+            print("  Line " .. bp.line)
+          end
+        end
+      else
+        print("\n❌ Current buffer has NO breakpoints")
+      end
+    end
+  end
+  
+  print("==============================")
+end
+
+-- Setup function
+function M.setup(opts)
+  opts = opts or {}
+  
+  -- Merge user config with defaults
+  M.config = vim.tbl_deep_extend("force", M.config, opts)
+  
+  -- Create user commands
+  vim.api.nvim_create_user_command("PytestNearest", M.run_nearest, { desc = "Run nearest test" })
+  vim.api.nvim_create_user_command("PytestFile", M.run_file, { desc = "Run current test file" })
+  vim.api.nvim_create_user_command("PytestAll", M.run_all, { desc = "Run all tests" })
+  vim.api.nvim_create_user_command("PytestPattern", M.run_pattern, { desc = "Run tests matching pattern" })
+  vim.api.nvim_create_user_command("PytestLast", M.run_last, { desc = "Run last test command" })
+  vim.api.nvim_create_user_command("PytestDebug", M.run_debug, { desc = "Run test with debugger" })
+  vim.api.nvim_create_user_command("PytestDebugHere", M.run_debug_here, { desc = "Set breakpoint and run test with debugger" })
+  vim.api.nvim_create_user_command("PytestShow", M.show_tests, { desc = "Show test functions in current file" })
+  vim.api.nvim_create_user_command("PytestHistory", M.show_history, { desc = "Show test command history" })
+  vim.api.nvim_create_user_command("PytestDebugInfo", M.debug_info, { desc = "Show pytest debug information" })
+  vim.api.nvim_create_user_command("PytestDebugStatus", M.show_debug_status, { desc = "Show current debug session status" })
+  vim.api.nvim_create_user_command("PytestSetBreakpoint", M.set_breakpoint_here, { desc = "Set breakpoint with proper path" })
+  
+  if notify then
+    notify("Integration loaded", "info", { title = "🧪 Pytest", timeout = 2000, render = "minimal" })
+  else
+    print("✅ Pytest integration loaded")
+  end
+end
+
+return M

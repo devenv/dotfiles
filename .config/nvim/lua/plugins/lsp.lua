@@ -114,30 +114,6 @@ local plugins = {
     end,
   },
   {
-    "GeorgesAlkhouri/nvim-aider",
-    lazy = false,
-    cmd = {
-      "AiderTerminalToggle",
-    },
-    keys = {
-      { "<leader>a<tab>", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
-      { "<leader>a<space>", "<cmd>AiderTerminalSend<cr>", desc = "Send to Aider", mode = { "n", "v" } },
-      { "<leader>ar", "<cmd>AiderQuickReadOnlyFile<cr>", desc = "Send Command To Aider" },
-      { "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>", desc = "Send Buffer To Aider" },
-      { "<leader>aa", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
-      { "<leader>ad", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
-      { "<leader>aa", "<cmd>AiderTreeAddFile<cr>", desc = "Add File from Tree to Aider", ft = "NvimTree" },
-      { "<leader>ad", "<cmd>AiderTreeDropFile<cr>", desc = "Drop File from Tree from Aider", ft = "NvimTree" },
-      { "<leader>ar", "<cmd>AiderTreeAddReadOnlyFile<cr>", desc = "Refresh Tree from Aider", ft = "NvimTree" },
-    },
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      --- The below dependencies are optional
-      "catppuccin/nvim",
-    },
-    config = true,
-  },
-  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
@@ -191,67 +167,18 @@ local plugins = {
         bash = { "beautysh" },
         sql = { "sqlfmt" },
         json = { "deno_fmt" },
-        css = { "prettier" },
-        html = { "prettier" },
-        javascript = { "prettier" },
-        yaml = { "prettier" },
-        vue = { "prettier" },
+        -- Remove unavailable formatters: prettier, erb_format, packer_fmt, rubocop, markdown-toc, markdownlint-cli2
         lua = { "stylua" },
         python = {
           "ruff_fix",
           "ruff_format",
         },
-      },
-    },
-  },
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false,
-    opts = {
-      file_selector = {
-        provider = "mini.pick",
-      },
-      mappings = {
-        ask = "<leader>va",
-        files = {
-          add_current = "<leader>vb",
-        },
-      },
-    },
-    build = "make",
-    keys = {
-      { "<leader>vc", "<cmd>AvanteToggle<cr>", desc = "Toggle Avante" },
-    },
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "echasnovski/mini.pick",
-      "nvim-telescope/telescope.nvim",
-      "hrsh7th/nvim-cmp",
-      "nvim-tree/nvim-web-devicons",
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
+        sh = { "shfmt" },
+        fish = { "fish_indent" },
+        go = { "gofumpt", "goimports" },
+        terraform = { "terraform_fmt" },
+        mysql = { "sqlfluff" },
+        plsql = { "sqlfluff" },
       },
     },
   },

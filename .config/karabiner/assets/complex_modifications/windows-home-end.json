@@ -1,0 +1,62 @@
+{
+  "title": "Global Windows-style Home/End keys",
+  "rules": [
+    {
+      "description": "Option+Home/End to Command+Left/Right Arrow globally",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "home",
+            "modifiers": {"mandatory": ["option"]}
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": ["command"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "end",
+            "modifiers": {"mandatory": ["option"]}
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": ["command"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "home",
+            "modifiers": {"mandatory": ["shift", "option"]}
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": ["shift", "command"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "end",
+            "modifiers": {"mandatory": ["shift", "option"]}
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": ["shift", "command"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 
