@@ -2,8 +2,7 @@
 require("config.lazy")
 require("config.notifications")
 
--- Setup pytest integration
-require("config.pytest").setup()
+-- Neotest integration is now configured via plugins/neotest.lua
 
 function _G.open_git_branch_in_browser()
   local branch_handle = io.popen("git rev-parse --abbrev-ref HEAD")
