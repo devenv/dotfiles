@@ -1,0 +1,95 @@
+-- Neotest Integration Keymap Reference
+-- ===================================
+--
+-- This replaces the previous custom pytest integration with neotest for better test management.
+--
+-- Key bindings:
+-- -------------
+-- <leader>tt  - Run nearest test (test under cursor)
+-- <leader>tf  - Run current test file  
+-- <leader>tl  - Run last test command
+-- <leader>tF  - Run test with DAP debugger (one-click debug)
+-- <leader>t<tab> - Run all tests
+-- <leader>tw  - Toggle test summary window
+-- <leader>to  - Open test output window
+-- <leader>tO  - Toggle output panel
+-- <leader>ts  - Stop running tests
+-- <leader>tW  - Toggle watch mode (continuous testing)
+-- <leader>dt  - Run test with DAP debugger (respects existing breakpoints)
+-- <leader>ta  - Attach to running test process
+-- ]t          - Jump to next failed test
+-- [t          - Jump to previous failed test
+--
+-- User commands:
+-- --------------
+-- :NeotestRun      - Run nearest test
+-- :NeotestFile     - Run current test file
+-- :NeotestAll      - Run all tests
+-- :NeotestLast     - Run last test command
+-- :NeotestStop     - Stop running tests
+-- :NeotestDebug    - Run test with DAP debugger
+-- :NeotestSummary  - Toggle test summary window
+-- :NeotestOutput   - Open test output window
+-- :NeotestPanel    - Toggle output panel
+-- :NeotestWatch    - Toggle watch mode
+-- :NeotestAttach   - Attach to running test process
+--
+-- Test Summary Window Mappings:
+-- -----------------------------
+-- <CR>  - Expand/collapse or run test
+-- o     - View test output
+-- d     - Debug test
+-- r     - Run test
+-- R     - Run marked tests
+-- m     - Mark test
+-- M     - Clear marked tests
+-- e     - Expand all
+-- u     - Stop test
+-- J     - Jump to next failed test
+-- K     - Jump to previous failed test
+-- t     - Set as target test
+-- T     - Clear target test
+-- w     - Toggle watch mode for test
+-- a     - Attach to test process
+--
+-- Features:
+-- ---------
+-- • Automatic detection of nilus service projects with proper virtualenv
+-- • PYTHONPATH setup for nilus projects
+-- • Test function parsing and nearest test detection
+-- • Visual test status indicators (passed/failed/running)
+-- • Test summary tree view with collapsible structure
+-- • One-click DAP debugging integration
+-- • Watch mode for continuous testing
+-- • Test output viewing and management
+-- • Support for async test functions
+-- • Support for test classes
+-- • Framework file debugging support (nilus packages in venv)
+-- • Integration with nvim-notify for test completion notifications
+-- • Quickfix list integration for failed tests
+--
+-- Project support:
+-- ----------------
+-- • Nilus services: Auto-detects service virtualenv and sets up PYTHONPATH
+-- • General Python projects: Looks for venv/.venv directories
+-- • Fallback: Uses system Python
+--
+-- Test file detection:
+-- --------------------
+-- • Files matching pattern: test_*.py, *_test.py
+-- • Test functions: def test_* or async def test_*
+-- • Test classes: class *Test* or class *test*
+--
+-- Advantages over custom pytest integration:
+-- ------------------------------------------
+-- • Better test discovery and parsing using treesitter
+-- • Visual test status indicators in the gutter
+-- • Hierarchical test organization in summary window
+-- • More robust test running with proper status tracking
+-- • Better integration with DAP debugging
+-- • Watch mode for continuous testing
+-- • Better error handling and reporting
+-- • Extensible architecture for additional test frameworks
+
+-- This file is for reference only and is not loaded by Neovim
+return {}
