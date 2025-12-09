@@ -149,10 +149,18 @@ local plugins = {
               ["@variable.builtin.python"] = { fg = cp.peach },
               ["@module"] = { fg = cp.lavender, style = {} },
 
+              -- Python treesitter syntax highlighting
+              ["@keyword.import.python"] = { fg = cp.blue, bold = true },  -- import statements
+              ["@keyword.python"] = { fg = cp.yellow, bold = true },  -- def, class, if, etc.
+              ["@keyword.function.python"] = { fg = cp.mauve, bold = true },  -- def keyword
+              ["@keyword.control.python"] = { fg = cp.yellow, bold = true },  -- if, for, while, etc.
+              ["@keyword.operator.python"] = { fg = cp.mauve, bold = true },  -- and, or, not, etc.
+
               DiagnosticVirtualTextError = { bg = cp.none, fg = cp.red, style = {} },
               DiagnosticVirtualTextWarn = { bg = cp.none, fg = cp.peach, style = {} },
               DiagnosticVirtualTextInfo = { bg = cp.none },
               DiagnosticVirtualTextHint = { bg = cp.none },
+              
               DiagnosticUnnecessary = { bg = cp.surface1 },
 
               LspInfoBorder = { link = "FloatBorder" },

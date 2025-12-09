@@ -13,6 +13,11 @@
       "name": "Install requirements.txt",
       "cmd": "pip install -r requirements.txt",
       "tags": []
+    },
+    {
+      "name": "Login to AWS CodeArtifact",
+      "cmd": "aws codeartifact login --tool pip --domain nilus --domain-owner 011574297736 --repository nilus-pypi --region us-east-1 --profile org",
+      "tags": []
     }
   ]
 }

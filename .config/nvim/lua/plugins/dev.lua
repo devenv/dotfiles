@@ -11,58 +11,21 @@ local plugins = {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         event = "BufEnter",
-      },
-    },
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "vim",
-          "lua",
-          "html",
-          "css",
-          "javascript",
-          "typescript",
-          "tsx",
-          "c",
-          "python",
-          "markdown",
-          "markdown_inline",
-        },
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = true,
-        },
-        -- Add compatibility settings
-        sync_install = false,
-        auto_install = true,
-        textobjects = {
-          swap = {
-            enable = true,
-            swap_next = {
-              ["ma"] = "@parameter.inner",
-              ["mc"] = "@class.outer",
-              ["mi"] = "@conditional.inner",
-              ["md"] = "@function.outer",
-              ["ms"] = "@block.outer",
-            },
-            swap_previous = {
-              ["Ma"] = "@parameter.inner",
-              ["Mc"] = "@class.outer",
-              ["Mi"] = "@conditional.inner",
-              ["Md"] = "@function.outer",
-              ["Ms"] = "@block.outer",
-            },
-          },
+        opts = {
           select = {
-            enable = true,
             lookahead = true,
+            include_surrounding_whitespace = true,
+            selection_modes = {
+              ["@parameter.outer"] = "v",
+              ["@function.outer"] = "V",
+              ["@class.outer"] = "<c-v>",
+            },
             keymaps = {
               ["aa"] = "@parameter.outer",
               ["ia"] = "@parameter.inner",
@@ -73,15 +36,24 @@ local plugins = {
               ["as"] = "@block.outer",
               ["is"] = "@block.inner",
             },
-            selection_modes = {
-              ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V", -- linewise
-              ["@class.outer"] = "<c-v>", -- blockwise
+          },
+          swap = {
+            next = {
+              ["ma"] = "@parameter.inner",
+              ["mc"] = "@class.outer",
+              ["mi"] = "@conditional.inner",
+              ["md"] = "@function.outer",
+              ["ms"] = "@block.outer",
             },
-            include_surrounding_whitespace = true,
+            previous = {
+              ["Ma"] = "@parameter.inner",
+              ["Mc"] = "@class.outer",
+              ["Mi"] = "@conditional.inner",
+              ["Md"] = "@function.outer",
+              ["Ms"] = "@block.outer",
+            },
           },
           move = {
-            enable = true,
             set_jumps = true,
             goto_next_start = {
               ["]a"] = "@parameter.outer",
@@ -96,17 +68,123 @@ local plugins = {
               ["[s"] = "@block.outer",
             },
           },
-          lsp_interop = {
-            enable = true,
-            border = "none",
-            floating_preview_opts = {},
-            peek_definition_code = {
-              ["<leader>KK"] = "@call.inner",
-              ["<leader>Kf"] = "@function.outer",
-              ["<leader>Kc"] = "@class.outer",
-            },
-          },
         },
+        config = function(_, opts)
+          local textobjects = require("nvim-treesitter-textobjects")
+          textobjects.setup({
+            select = {
+              lookahead = opts.select.lookahead,
+              include_surrounding_whitespace = opts.select.include_surrounding_whitespace,
+              selection_modes = opts.select.selection_modes,
+            },
+            move = {
+              set_jumps = opts.move.set_jumps,
+            },
+          })
+
+          local select_mod = require("nvim-treesitter-textobjects.select")
+          local move_mod = require("nvim-treesitter-textobjects.move")
+          local swap_mod = require("nvim-treesitter-textobjects.swap")
+
+          local function capture_label(query)
+            local capture = query:gsub("^@", ""):gsub("%..*$", "")
+            return capture:gsub("_", " ")
+          end
+
+          local function titleize(text)
+            return text:sub(1, 1):upper() .. text:sub(2)
+          end
+
+          for lhs, query in pairs(opts.select.keymaps or {}) do
+            vim.keymap.set({ "x", "o" }, lhs, function()
+              select_mod.select_textobject(query, "textobjects")
+            end, { desc = "TS select " .. titleize(capture_label(query)) })
+          end
+
+          for lhs, query in pairs(opts.swap.next or {}) do
+            vim.keymap.set("n", lhs, function()
+              swap_mod.swap_next(query, "textobjects")
+            end, { desc = "TS swap next " .. titleize(capture_label(query)) })
+          end
+
+          for lhs, query in pairs(opts.swap.previous or {}) do
+            vim.keymap.set("n", lhs, function()
+              swap_mod.swap_previous(query, "textobjects")
+            end, { desc = "TS swap prev " .. titleize(capture_label(query)) })
+          end
+
+          local move_mappings = {
+            goto_next_start = { fn = move_mod.goto_next_start, label = "next start" },
+            goto_previous_start = { fn = move_mod.goto_previous_start, label = "prev start" },
+            goto_next_end = { fn = move_mod.goto_next_end, label = "next end" },
+            goto_previous_end = { fn = move_mod.goto_previous_end, label = "prev end" },
+          }
+
+          for field, meta in pairs(move_mappings) do
+            for lhs, query in pairs(opts.move[field] or {}) do
+              vim.keymap.set({ "n", "x", "o" }, lhs, function()
+                meta.fn(query, "textobjects")
+              end, { desc = "TS move " .. meta.label .. " " .. titleize(capture_label(query)) })
+            end
+          end
+        end,
+      },
+    },
+    opts = {
+      ensure_installed = {
+        "vim",
+        "lua",
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "tsx",
+        "c",
+        "python",
+        "markdown",
+        "markdown_inline",
+        "yaml",
+      },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+        -- disable = function(lang, buf)
+        -- Disable treesitter for Python files
+        -- if lang == "python" then
+        -- return true
+        -- end
+        -- Disable treesitter if parser fails to load
+        -- local ok, parser = pcall(vim.treesitter.get_parser, buf, lang)
+        -- return not ok
+        -- end,
+      },
+      indent = {
+        enable = true,
+      },
+      sync_install = false,
+      auto_install = true,
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.config").setup(opts)
+
+      -- Ensure treesitter attaches to buffers properly
+      -- This fixes issues where highlighting doesn't attach after session restore
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufReadPost" }, {
+        group = vim.api.nvim_create_augroup("TreesitterAttach", { clear = true }),
+        callback = function(args)
+          local bufnr = args.buf
+          local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+
+          -- Skip certain filetypes
+          if ft == "" or ft == "nofile" or ft == "terminal" then
+            return
+          end
+
+          -- Ensure treesitter is attached
+          pcall(function()
+            vim.treesitter.start(bufnr, ft)
+          end)
+        end,
       })
     end,
   },
@@ -228,7 +306,7 @@ local plugins = {
           -- Get python path similar to pytest integration
           local python_cmd = "python"
           local cwd = vim.fn.getcwd()
-          
+
           if string.match(cwd, "/nilus/core/services/") then
             local service_match = string.match(cwd, "/nilus/core/services/([^/]+)")
             if not service_match then
@@ -244,7 +322,7 @@ local plugins = {
           elseif os.getenv("VIRTUAL_ENV") then
             python_cmd = os.getenv("VIRTUAL_ENV") .. "/bin/python"
           end
-          
+
           cb({
             type = "executable",
             command = python_cmd,

@@ -29,7 +29,6 @@ local plugins = {
             end)
             return {}
           end,
-          after_load = function() end,
         },
         autosave = {
           current = true,
@@ -86,7 +85,7 @@ local plugins = {
     end,
   },
   {
-    "echasnovski/mini.nvim",
+    "nvim-mini/mini.nvim",
     event = "VeryLazy",
     version = "*",
     config = function()

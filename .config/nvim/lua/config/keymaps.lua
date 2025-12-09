@@ -1,5 +1,30 @@
 local opts = { noremap = true, silent = true }
 
+-- Treesitter debug function
+function DebugTreesitter()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+  local ts_attach = vim.treesitter.get_parser(bufnr, ft)
+
+  print("=== Treesitter Debug Info ===")
+  print("Buffer: " .. bufnr)
+  print("Filetype: " .. ft)
+  print("Parser attached: " .. (ts_attach and "YES" or "NO"))
+
+  if ts_attach then
+    print("Language: " .. ts_attach:lang())
+  end
+
+  -- Try to attach if not attached
+  if not ts_attach then
+    print("Attempting to attach treesitter...")
+    pcall(function()
+      vim.treesitter.start(bufnr, ft)
+      print("Attachment successful!")
+    end)
+  end
+end
+
 -- Neotest integration functions
 function ShowNeotestSummary()
   require("neotest").summary.toggle()
@@ -16,7 +41,9 @@ function NeotestDebugInfo()
   print("Adapters: neotest-python")
   local results = neotest.state.get_results()
   local count = 0
-  for _ in pairs(results) do count = count + 1 end
+  for _ in pairs(results) do
+    count = count + 1
+  end
   print("Test results available: " .. count)
 end
 
@@ -171,26 +198,24 @@ local mappings = {
     ["gi"] = { ":Telescope lsp_incoming_calls<CR>", opts = opts },
     ["gI"] = { ":Telescope lsp_outgoing_calls<CR>", opts = opts },
     ["g<tab>"] = { ":Trouble symbols<CR>", opts = opts },
-    
+
     -- Breadcrumb navigation
     ["<leader>bc"] = { ":lua require('barbecue.ui').toggle()<CR>", "Toggle breadcrumbs", opts = opts },
     ["<leader>bn"] = { ":lua require('nvim-navic').get_location()<CR>", "Show navic location", opts = opts },
-    ["<leader>bp"] = { 
+    ["<leader>bp"] = {
       function()
         -- Copy current file path to clipboard
         local filepath = vim.fn.expand("%:.")
         vim.fn.setreg("+", filepath)
         -- Use a smaller notification
-        vim.notify("Copied: " .. filepath, vim.log.levels.INFO, { 
+        vim.notify("Copied: " .. filepath, vim.log.levels.INFO, {
           title = "Clipboard",
           timeout = 1500,
         })
-      end, 
-      "Copy file path to clipboard", 
-      opts = opts 
+      end,
+      "Copy file path to clipboard",
+      opts = opts,
     },
-
-    ["<leader>oa"] = { ":lua AiderOpen()<CR>", opts = opts },
 
     ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
     ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },
@@ -203,7 +228,10 @@ local mappings = {
     ["<leader>tl"] = { ":silent! wa<CR>:lua require('neotest').run.run_last()<CR>", opts = opts },
     ["<leader>tf"] = { ":lua require('neotest').run.run(vim.fn.expand('%'))<CR>", opts = opts },
     ["<leader>tF"] = { ":lua require('neotest').run.run({strategy = 'dap'})<CR>", opts = opts },
-    ["<leader>tB"] = { ":lua require('dap').toggle_breakpoint(); require('neotest').run.run({strategy = 'dap'})<CR>", opts = opts },
+    ["<leader>tB"] = {
+      ":lua require('dap').toggle_breakpoint(); require('neotest').run.run({strategy = 'dap'})<CR>",
+      opts = opts,
+    },
     ["<leader>ts"] = { ":lua require('neotest').run.stop()<CR>", opts = opts },
     ["<leader>to"] = { ":lua require('neotest').output.open({ enter = true })<CR>", opts = opts },
     ["<leader>tO"] = { ":lua require('neotest').output_panel.toggle()<CR>", opts = opts },
@@ -237,6 +265,7 @@ local mappings = {
 
     ["<leader>do"] = { ":lua ShowNeotestSummary()<CR>", opts = opts },
     ["<leader>di"] = { ":lua NeotestDebugInfo()<CR>", opts = opts },
+    ["<leader>dts"] = { ":lua DebugTreesitter()<CR>", opts = opts },
     ["<leader>ds"] = { ":lua require('neotest').run.stop()<CR>", opts = opts },
     ["<leader>dW"] = { ":lua require('dapui').toggle(2)<CR>", opts = opts },
     ["<leader>d<tab>"] = { ":lua require('dapui').toggle(1)<CR>", opts = opts },

@@ -44,10 +44,13 @@ export GOPATH=$HOME/.go
 
 export MAKEPRG="tox"
 
-export DATABASE_URL="postgresql://dbadmin:dbadmin@localhost/"
-
 ulimit -n 4096
 
+alias cl='claude --permission-mode bypassPermissions --model haiku'
+alias cls='claude --permission-mode bypassPermissions --model sonnet'
+alias clo='claude --permission-mode bypassPermissions --model opus'
+alias ccl='core && cl'
+alias ccom='common && cl'
 alias gut='git'
 alias got='git'
 alias l='lsd -alh'
@@ -60,5 +63,37 @@ alias gcp='git ci -a && git push'
 alias tf='terraform'
 alias kss='f() { kubectl get pods --no-headers --field-selector=status.phase==Running | { [[ -n "$1" ]] && grep "$1" || cat; } | fzf -0 -1 | awk "{print \$1}" | xpanes -c "kubectl exec -t -i {} -- env PYTHONPATH=\".\" bash" }; f'
 alias ksi='f() { POD=$(kubectl get pods | fzf | awk "{print \$1}"); kubectl exec -it $POD -- /bin/bash -c "$(cat ~/bin/init_ssh_machine.sh); exec /bin/bash" }; f'
+
+# git shortcuts
+alias gad='git add'
+alias gadd='git add'
+alias gbr='git br'
+alias gci='git ci'
+alias gco='git co'
+alias gcob='git cob'
+alias gcom='git com'
+alias gdc='git dc'
+alias gdi='git di'
+alias gfa='git fa'
+alias gfacob='git facob'
+alias gfarbo='git farbo'
+alias gmt='git mt'
+alias gpr='git pr'
+alias grb='git rb'
+alias grba='git rba'
+alias grbc='git rbc'
+alias grbo='git rbo'
+alias gst='git st'
+alias gpush='git push'
+alias gpull='git pull'
+alias gfetch='git fetch'
+alias gmerge='git merge'
+alias gclean='git clean'
+alias gclone='git clone'
+alias gstash='git stash'
+alias greb='git rebase'
+alias gres='git reset'
+alias gshow='git show'
+alias glog='git log'
 
 test -e "${HOME}/.secrets" && source "${HOME}/.secrets"

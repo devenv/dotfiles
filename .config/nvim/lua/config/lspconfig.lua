@@ -65,12 +65,18 @@ lspconfig.jsonls.setup({
   capabilities = capabilities,
 })
 
-lspconfig.ruff_lsp.setup({
+lspconfig.ruff.setup({
   on_attach = on_attach,
   capabilities = capabilities,
+  cmd = { "/opt/homebrew/bin/ruff", "server" },
   settings = {
     ruff = {
       ignore = {},
+    },
+  },
+  init_options = {
+    settings = {
+      args = {},
     },
   },
 })
@@ -84,9 +90,20 @@ require("deno-nvim").setup({
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = {
-    severity_limit = "Warning",
+    severity_limit = "Hint",
   },
   virtual_text = {
-    severity_limit = "Warning",
+    severity_limit = "Hint",
   },
+})
+
+-- Additional diagnostic configuration for better visibility
+vim.diagnostic.config({
+  virtual_text = {
+    severity = vim.diagnostic.severity.HINT,
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
 })

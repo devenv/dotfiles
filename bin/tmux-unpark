@@ -1,0 +1,16 @@
+#!/bin/bash
+# Unpark a window from the parking session using tmux choose-window
+
+# Check if parking session exists
+if ! tmux has-session -t parking 2>/dev/null; then
+  echo "No parking session found"
+  exit 1
+fi
+
+# Use tmux's choose-window to let user select a window from parking
+# The -O flag outputs the choice instead of running a command
+tmux choose-window -t parking -F "#{window_index}" -O | while read window; do
+  if [ -n "$window" ]; then
+    tmux move-window -s parking:"$window" -t :
+  fi
+done

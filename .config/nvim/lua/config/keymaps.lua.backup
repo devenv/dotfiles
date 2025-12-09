@@ -180,7 +180,6 @@ local mappings = {
       opts = opts 
     },
 
-    ["<leader>oa"] = { ":lua AiderOpen()<CR>", opts = opts },
 
     ["<leader>rr"] = { ":Telescope toggletasks spawn<CR>", opts = opts },
     ["<leader>rs"] = { ":Telescope toggletasks select<CR>", opts = opts },

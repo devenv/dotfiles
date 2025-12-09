@@ -2,6 +2,7 @@
 return {
   {
     "folke/noice.nvim",
+    enabled = false, -- Temporarily disabled to fix hanging issue
     opts = {
       -- Make notifications smaller and less intrusive
       notify = {

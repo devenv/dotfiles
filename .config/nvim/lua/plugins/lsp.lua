@@ -180,6 +180,16 @@ local plugins = {
         mysql = { "sqlfluff" },
         plsql = { "sqlfluff" },
       },
+      formatters = {
+        ruff_fix = {
+          command = "/opt/homebrew/bin/ruff",
+          args = { "check", "--fix", "--stdin-filename", "$FILENAME", "-" },
+        },
+        ruff_format = {
+          command = "/opt/homebrew/bin/ruff",
+          args = { "format", "--stdin-filename", "$FILENAME", "-" },
+        },
+      },
     },
   },
 }

@@ -1,6 +1,7 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
-require("config.notifications")
+-- Temporarily disabled to debug hanging issue
+-- require("config.notifications")
 
 -- Neotest integration is now configured via plugins/neotest.lua
 

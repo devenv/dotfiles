@@ -472,3 +472,25 @@ postgresql-mcp-server/
 .config/gh/
 .config/git-cola/
 .config/tfenv/
+
+# Latest
+
+.bun/
+.config/adhdinator/
+.config/adhdinator/.config/goose/
+.config/goose/
+.emulator_console_auth_token
+.gemini/
+.matplotlib/
+.n8n/
+.opencode/
+.secrets_aliases.sh
+.secrets_commands.sh
+.smithery/
+.warp/
+ADHDinator/
+Sites/
+adhdinator_data/
+claude-plugins/
+local/
+mbox
