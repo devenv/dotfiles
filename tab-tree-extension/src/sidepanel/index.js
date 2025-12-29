@@ -66,7 +66,7 @@ class SidePanelController {
         if (newStateStr !== oldStateStr) {
           this.state = response.state;
           console.log('Side Panel: State updated, re-rendering');
-          this.treeRenderer.render(this.state);
+          await this.treeRenderer.render(this.state);
 
           // Update active tab highlight
           if (this.activeTabId) {
@@ -83,24 +83,24 @@ class SidePanelController {
    * Handle messages from service worker
    * @param {Object} message - Message object with type and payload
    */
-  handleMessage(message) {
+  async handleMessage(message) {
     console.log('Side Panel: Message received:', message.type);
 
     switch (message.type) {
       case MSG_TYPES.STATE_CHANGED:
         this.state = message.payload;
-        this.treeRenderer.render(this.state);
+        await this.treeRenderer.render(this.state);
         break;
 
       case MSG_TYPES.TAB_CREATED:
         // Re-render to show new tab
         // Could also update incrementally
-        this.treeRenderer.render(this.state);
+        await this.treeRenderer.render(this.state);
         break;
 
       case MSG_TYPES.TAB_REMOVED:
         // Re-render to remove tab
-        this.treeRenderer.render(this.state);
+        await this.treeRenderer.render(this.state);
         break;
 
       case MSG_TYPES.TAB_UPDATED:
@@ -136,7 +136,7 @@ class SidePanelController {
 
       if (response.success) {
         this.state = response.state;
-        this.treeRenderer.render(this.state);
+        await this.treeRenderer.render(this.state);
       }
     } catch (error) {
       console.error('Error toggling collapse:', error);
@@ -159,7 +159,7 @@ class SidePanelController {
 
       if (response.success) {
         this.state = response.state;
-        this.treeRenderer.render(this.state);
+        await this.treeRenderer.render(this.state);
       }
     } catch (error) {
       console.error('Error moving tab:', error);

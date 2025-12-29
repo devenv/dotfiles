@@ -29,8 +29,9 @@ export class TreeRenderer {
   /**
    * Render the entire tree
    * @param {AppState} state - Current application state
+   * @returns {Promise<void>}
    */
-  render(state) {
+  async render(state) {
     console.log('TreeRenderer: Rendering', Object.keys(state.tabs).length, 'tabs');
 
     // Store current state for drag-drop handlers
@@ -48,9 +49,9 @@ export class TreeRenderer {
     // Flatten tree respecting collapse state
     this.flattenedTabs = this.flattenTree(state);
 
-    // Render flattened list
+    // Render flattened list - now async
     for (const item of this.flattenedTabs) {
-      const element = this.createTabElement(item, state);
+      const element = await this.createTabElement(item, state);
       this.container.appendChild(element);
     }
 
@@ -214,9 +215,9 @@ export class TreeRenderer {
    * Create a DOM element for a single tab
    * @param {Object} item - Item {node, level}
    * @param {AppState} state - Current state
-   * @returns {Element} - Tab item DOM element
+   * @returns {Promise<Element>} - Tab item DOM element
    */
-  createTabElement(item, state) {
+  async createTabElement(item, state) {
     const { node, level } = item;
     const hasChildren = (state.order[node.id] || []).length > 0;
     const isCollapsed = state.collapsed[node.id] || false;
@@ -273,15 +274,28 @@ export class TreeRenderer {
     icons.className = 'tab-icons';
 
     if (node.isLocked) {
+      // Query current URL from Chrome API for accuracy
+      // This catches back/forward navigation that doesn't trigger onUpdated
+      let currentUrl = node.url;
+      try {
+        const chromeTab = await chrome.tabs.get(node.id);
+        if (chromeTab) {
+          currentUrl = chromeTab.url || node.url;
+        }
+      } catch (error) {
+        // Tab might have been closed, use stored URL
+        console.warn(`Tab Manager: Could not query tab ${node.id} URL:`, error);
+      }
+
       // Check if locked tab has drifted from its original URL
-      const hasDrifted = node.url && node.lockUrl && node.url !== node.lockUrl;
+      const hasDrifted = node.lockUrl && currentUrl !== node.lockUrl;
 
       if (hasDrifted) {
-        // Show revert arrow if tab has navigated away
+        // Show revert arrow only if URL actually differs from locked URL
         const revert = document.createElement('span');
         revert.className = 'revert-icon';
         revert.textContent = '←';
-        revert.title = 'Tab has drifted. Click to revert to locked URL';
+        revert.title = `Tab has drifted. Click to revert to locked URL`;
         revert.onclick = (e) => {
           e.stopPropagation();
           // Revert the tab - send message to background
