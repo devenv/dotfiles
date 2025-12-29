@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Tree",
+  "version": "0.1.0",
+  "description": "Hierarchical tab management with locking and drag-drop",
+  "permissions": [
+    "tabs",
+    "storage",
+    "sidePanel",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/background/index.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "action": {
+    "default_title": "Open Tab Tree"
+  }
+}

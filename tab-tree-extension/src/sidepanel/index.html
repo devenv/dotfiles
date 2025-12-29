@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Tree</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="sidebar" class="sidebar">
+    <div class="header">
+      <h1>Tab Tree</h1>
+    </div>
+    <div id="tab-tree" class="tab-tree" role="region" aria-label="Tab list">
+      <!-- Tabs will be rendered here -->
+    </div>
+  </div>
+  <!-- Load SortableJS for drag-drop -->
+  <script src="../lib/sortable.min.js"></script>
+  <!-- Import side panel controller as ES module -->
+  <script src="index.js" type="module"></script>
+</body>
+</html>

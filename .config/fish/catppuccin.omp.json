@@ -19,7 +19,7 @@
       "segments": [
         {
           "properties": {
-            "cache_duration": "none"
+            "cache_duration": "5s"
           },
           "template": "\ue0c8\u2388 {{if .Namespace}}{{.Namespace}}{{end}}\ue0c7",
           "foreground": "#000000",
@@ -34,7 +34,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none"
+            "cache_duration": "5s"
           },
           "template": "{{ if .Error }} {{ .Error }} {{ else }}{{ if .Venv }}\ue0c6 {{ .Venv }} \ue0c7{{ end }}{{ end }}",
           "foreground": "#000000",
@@ -44,7 +44,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5s",
             "fetch_stash_count": false,
             "fetch_status": true,
             "fetch_upstream_icon": false
@@ -63,7 +63,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5s",
             "folder_icon": "..\ue5fe..",
             "home_icon": "~",
             "style": "agnoster_short"
@@ -84,7 +84,7 @@
         {
           "properties": {
             "always_enabled": false,
-            "cache_duration": "none"
+            "cache_duration": "5s"
           },
           "template": "\ue0c6 {{ .Code }} \ue0c7",
           "foreground": "p:text",
@@ -94,7 +94,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5s",
             "style": "austin",
             "threshold": 500
           },
@@ -106,7 +106,7 @@
         },
         {
           "properties": {
-            "cache_duration": "none",
+            "cache_duration": "5s",
             "time_format": "15:04:05"
           },
           "template": "\ue0c6 {{ .CurrentDate | date .Format }}\ue0c7",
@@ -124,7 +124,7 @@
         {
           "properties": {
             "always_enabled": true,
-            "cache_duration": "none"
+            "cache_duration": "5s"
           },
           "template": "\ue0c8",
           "foreground": "p:green",
