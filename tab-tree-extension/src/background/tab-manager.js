@@ -74,9 +74,26 @@ async function loadAllTabs() {
   }
 
   for (const chromeTab of allTabs) {
-    // Skip if already tracked
-    if (state.tabs[chromeTab.id]) {
-      console.log(`Tab Manager: Tab ${chromeTab.id} already tracked`);
+    const existingNode = state.tabs[chromeTab.id];
+
+    if (existingNode) {
+      // Tab is tracked, but ensure it's in order arrays
+      const parentKey = existingNode.parentId || 'root';
+      if (!state.order[parentKey]) {
+        state.order[parentKey] = [];
+      }
+
+      if (!state.order[parentKey].includes(chromeTab.id)) {
+        console.log(`Tab Manager: Tab ${chromeTab.id} was tracked but not in order, adding`);
+        state.order[parentKey].push(chromeTab.id);
+      }
+
+      // Update tab properties in case they changed
+      existingNode.title = chromeTab.title || existingNode.title;
+      existingNode.url = chromeTab.url || existingNode.url;
+      existingNode.favicon = chromeTab.favIconUrl || existingNode.favicon;
+      existingNode.windowId = chromeTab.windowId;
+
       continue;
     }
 
@@ -100,6 +117,8 @@ async function loadAllTabs() {
     if (!state.order[parentKey].includes(node.id)) {
       state.order[parentKey].push(node.id);
     }
+
+    console.log(`Tab Manager: Added new tab ${chromeTab.id} - ${chromeTab.title}`);
   }
 
   await storage.setState(state);
@@ -170,55 +189,10 @@ async function handleTabRemoved(tabId, removeInfo) {
     return;
   }
 
-  // If tab is locked, recreate it immediately
+  // Note: Locked tabs can be closed via keyboard/context menu
+  // We don't recreate them - the close button in UI is already disabled
   if (node.isLocked) {
-    console.log(`Tab Manager: Locked tab ${tabId} was closed, recreating...`);
-
-    try {
-      // Recreate the tab at its locked URL
-      const newTab = await chrome.tabs.create({
-        url: node.lockUrl || node.url,
-        active: false,
-        windowId: removeInfo.isWindowClosing ? undefined : removeInfo.windowId,
-      });
-
-      console.log(`Tab Manager: Recreated locked tab as ${newTab.id}`);
-
-      // Transfer all properties to new tab
-      const oldId = node.id;
-      node.id = newTab.id;
-      node.url = node.lockUrl || node.url;
-
-      // Update state
-      delete state.tabs[oldId];
-      state.tabs[newTab.id] = node;
-
-      // Update order arrays
-      for (const key in state.order) {
-        state.order[key] = state.order[key].map(id => (id === oldId ? newTab.id : id));
-      }
-
-      // Update parent references for children
-      const childIds = state.order[newTab.id] || [];
-      for (const childId of childIds) {
-        const child = state.tabs[childId];
-        if (child && child.parentId === oldId) {
-          child.parentId = newTab.id;
-        }
-      }
-
-      await storage.setState(state);
-
-      broadcastMessage({
-        type: MSG_TYPES.STATE_CHANGED,
-        payload: state,
-      });
-
-      return; // Don't proceed with normal removal
-    } catch (error) {
-      console.error(`Tab Manager: Failed to recreate locked tab:`, error);
-      // Fall through to normal removal if recreation failed
-    }
+    console.log(`Tab Manager: Locked tab ${tabId} was closed (ignoring lock)`);
   }
 
   // Get children before deletion
