@@ -120,8 +120,9 @@ body {
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
   display: flex;
-  gap: 4px;
+  gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .header-btn {
@@ -151,6 +152,55 @@ body {
 
 .header-btn span {
   font-size: 14px;
+}
+
+.auto-unload-control {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auto-unload-control label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.auto-unload-control #auto-unload-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.auto-unload-control input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.auto-unload-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.auto-unload-control input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
 }
 
 .tab-tree {
@@ -422,6 +472,20 @@ body {
   background: var(--ctp-sapphire);
 }
 
+/* Pin button */
+.pin-btn.unpinned {
+  opacity: 0.5;
+}
+
+.pin-btn.pinned {
+  background: var(--ctp-pink);
+  color: var(--ctp-crust);
+}
+
+.pin-btn.pinned:hover {
+  background: var(--ctp-mauve);
+}
+
 /* Close button */
 .close-btn {
   color: var(--text-secondary);
@@ -443,9 +507,10 @@ body {
   visibility: visible;
 }
 
-/* Always show locked state */
+/* Always show locked and pinned states */
 .tab-item .lock-btn.locked,
-.tab-item .lock-btn.drifted {
+.tab-item .lock-btn.drifted,
+.tab-item .pin-btn.pinned {
   opacity: 1 !important;
   visibility: visible !important;
 }

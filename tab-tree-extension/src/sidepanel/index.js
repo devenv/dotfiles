@@ -198,4 +198,49 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Failed to expand all:', error);
     }
   });
+
+  // Auto-unload slider
+  const slider = document.getElementById('auto-unload-slider');
+  const valueLabel = document.getElementById('auto-unload-value');
+
+  const thresholdLabels = ['5 min', '15 min', '30 min', '1 hour', '2 hours', 'Never'];
+  const thresholdValues = [5, 15, 30, 60, 120, 0]; // 0 = Never
+
+  if (slider && valueLabel) {
+    // Update label on change
+    slider.addEventListener('input', (e) => {
+      const index = parseInt(e.target.value);
+      valueLabel.textContent = thresholdLabels[index];
+    });
+
+    // Save to storage on change
+    slider.addEventListener('change', async (e) => {
+      const index = parseInt(e.target.value);
+      const threshold = thresholdValues[index];
+      try {
+        await chrome.runtime.sendMessage({
+          type: MSG_TYPES.SET_AUTO_UNLOAD,
+          payload: { threshold },
+        });
+        console.log(`Auto-unload threshold set to ${threshold} minutes`);
+      } catch (error) {
+        console.error('Failed to set auto-unload threshold:', error);
+      }
+    });
+
+    // Load saved value
+    try {
+      const state = await chrome.runtime.sendMessage({ type: MSG_TYPES.GET_STATE });
+      if (state.success && state.state.settings.autoUnloadThreshold !== undefined) {
+        const threshold = state.state.settings.autoUnloadThreshold;
+        const index = thresholdValues.indexOf(threshold);
+        if (index !== -1) {
+          slider.value = index;
+          valueLabel.textContent = thresholdLabels[index];
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load auto-unload setting:', error);
+    }
+  }
 });

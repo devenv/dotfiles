@@ -336,6 +336,34 @@ export class TreeRenderer {
     }
     icons.appendChild(lockBtn);
 
+    // Pin button
+    const pinBtn = document.createElement('button');
+    pinBtn.className = 'tab-action-btn pin-btn';
+    if (node.isPinned) {
+      pinBtn.textContent = '📌';
+      pinBtn.title = 'Unpin tab';
+      pinBtn.classList.add('pinned');
+      pinBtn.onclick = (e) => {
+        e.stopPropagation();
+        chrome.runtime.sendMessage({
+          type: MSG_TYPES.UNPIN_TAB,
+          payload: { tabId: node.id },
+        });
+      };
+    } else {
+      pinBtn.textContent = '📍';
+      pinBtn.title = 'Pin tab (locks and prioritizes)';
+      pinBtn.classList.add('unpinned');
+      pinBtn.onclick = (e) => {
+        e.stopPropagation();
+        chrome.runtime.sendMessage({
+          type: MSG_TYPES.PIN_TAB,
+          payload: { tabId: node.id },
+        });
+      };
+    }
+    icons.appendChild(pinBtn);
+
     // Close button (disabled if locked)
     const closeBtn = document.createElement('button');
     closeBtn.className = 'tab-action-btn close-btn';

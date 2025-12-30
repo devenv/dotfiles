@@ -34,6 +34,9 @@ export async function initialize() {
   // Listen for tab updates (title, favicon)
   chrome.tabs.onUpdated.addListener(handleTabUpdated);
 
+  // Listen for tab activation to update lastVisited
+  chrome.tabs.onActivated.addListener(handleTabActivated);
+
   isInitialized = true;
   console.log('Tab Manager: Ready');
 }
@@ -335,6 +338,31 @@ async function handleTabUpdated(tabId, changeInfo, chromeTab) {
 }
 
 /**
+ * Handle tab activation (user switches to tab)
+ * Updates lastVisited timestamp
+ * @param {Object} activeInfo - { tabId, windowId }
+ * @returns {Promise<void>}
+ */
+async function handleTabActivated(activeInfo) {
+  const { tabId } = activeInfo;
+  console.log(`Tab Manager: Tab activated ${tabId}`);
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    console.log(`Tab Manager: Activated tab ${tabId} not in hierarchy`);
+    return;
+  }
+
+  // Update lastVisited timestamp
+  node.lastVisited = Date.now();
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+}
+
+/**
  * Create a new TabNode from Chrome tab
  * @param {Tab} chromeTab - Chrome tab object
  * @param {number|null} parentId - Parent tab ID
@@ -348,9 +376,11 @@ function createTabNode(chromeTab, parentId = null) {
     title: chromeTab.title || 'Loading...',
     favicon: chromeTab.favIconUrl || '',
     isLocked: false,
+    isPinned: false,
     lockUrl: null,
     isCollapsed: false,
     createdAt: Date.now(),
+    lastVisited: Date.now(),
     windowId: chromeTab.windowId,
   };
 }
@@ -673,6 +703,103 @@ export async function closeTab(tabId) {
   // Close the actual Chrome tab
   await chrome.tabs.remove(tabId);
   // handleTabRemoved will clean up the state
+}
+
+/**
+ * Pin a tab - locks it and makes it high priority
+ * @param {number} tabId - Tab to pin
+ * @returns {Promise<void>}
+ */
+export async function pinTab(tabId) {
+  console.log(`Tab Manager: Pinning tab ${tabId}`);
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Pin and lock the tab
+  node.isPinned = true;
+  node.isLocked = true;
+
+  // Save current URL as lock URL if not already locked
+  if (!node.lockUrl) {
+    const chromeTab = (await chrome.tabs.query({})).find(t => t.id === tabId);
+    if (chromeTab) {
+      node.lockUrl = chromeTab.url;
+    }
+  }
+
+  state.tabs[tabId] = node;
+
+  // Sort tabs so pinned ones are first
+  sortTabsByPriority(state);
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Unpin a tab - unlocks it and removes priority
+ * @param {number} tabId - Tab to unpin
+ * @returns {Promise<void>}
+ */
+export async function unpinTab(tabId) {
+  console.log(`Tab Manager: Unpinning tab ${tabId}`);
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Unpin and unlock
+  node.isPinned = false;
+  node.isLocked = false;
+  node.lockUrl = null;
+
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Sort tabs by priority (pinned first, then unpinned)
+ * @param {Object} state - Current state
+ */
+function sortTabsByPriority(state) {
+  for (const parentKey in state.order) {
+    const tabIds = state.order[parentKey];
+
+    // Sort: pinned tabs first, then unpinned
+    tabIds.sort((a, b) => {
+      const nodeA = state.tabs[a];
+      const nodeB = state.tabs[b];
+
+      if (!nodeA || !nodeB) return 0;
+
+      // Pinned tabs come first
+      if (nodeA.isPinned && !nodeB.isPinned) return -1;
+      if (!nodeA.isPinned && nodeB.isPinned) return 1;
+
+      // Keep original order for same priority
+      return 0;
+    });
+
+    state.order[parentKey] = tabIds;
+  }
 }
 
 /**

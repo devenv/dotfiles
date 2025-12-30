@@ -15,6 +15,28 @@
       <button id="expand-all-btn" class="header-btn" title="Expand all parent tabs">
         <span>▼</span> Expand All
       </button>
+      <div class="auto-unload-control">
+        <label for="auto-unload-slider" title="Auto-unload inactive tabs after this time">
+          ⏱️ Auto-unload: <span id="auto-unload-value">Never</span>
+        </label>
+        <input
+          type="range"
+          id="auto-unload-slider"
+          min="0"
+          max="5"
+          value="5"
+          step="1"
+          list="auto-unload-markers"
+        />
+        <datalist id="auto-unload-markers">
+          <option value="0" label="5m"></option>
+          <option value="1" label="15m"></option>
+          <option value="2" label="30m"></option>
+          <option value="3" label="1h"></option>
+          <option value="4" label="2h"></option>
+          <option value="5" label="Never"></option>
+        </datalist>
+      </div>
     </div>
     <div id="tab-tree" class="tab-tree" role="region" aria-label="Tab list">
       <!-- Tabs will be rendered here -->

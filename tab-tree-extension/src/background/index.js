@@ -27,6 +27,62 @@ setTimeout(async () => {
   }
 }, 100);
 
+// Set up auto-unload alarm (runs every minute)
+chrome.alarms.create('auto-unload-check', { periodInMinutes: 1 });
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  if (alarm.name === 'auto-unload-check') {
+    await checkAndUnloadTabs();
+  }
+});
+
+/**
+ * Check tabs and unload inactive ones based on threshold
+ */
+async function checkAndUnloadTabs() {
+  try {
+    const state = await storage.getState();
+    const threshold = state.settings.autoUnloadThreshold || 0;
+
+    // If threshold is 0 (Never), skip
+    if (threshold === 0) return;
+
+    const now = Date.now();
+    const thresholdMs = threshold * 60 * 1000; // Convert minutes to milliseconds
+
+    const allTabs = await chrome.tabs.query({});
+    const activeTabs = allTabs.filter(t => t.active);
+    const activeTabIds = new Set(activeTabs.map(t => t.id));
+
+    for (const tabId in state.tabs) {
+      const node = state.tabs[tabId];
+
+      // Skip active tabs, locked tabs, and pinned tabs
+      if (activeTabIds.has(node.id) || node.isLocked || node.isPinned) {
+        continue;
+      }
+
+      // Check if tab hasn't been visited within threshold
+      const timeSinceVisit = now - (node.lastVisited || node.createdAt);
+
+      if (timeSinceVisit > thresholdMs) {
+        try {
+          // Check if tab is already discarded
+          const chromeTab = await chrome.tabs.get(node.id);
+          if (!chromeTab.discarded) {
+            await chrome.tabs.discard(node.id);
+            console.log(`Auto-unload: Discarded tab ${node.id} (inactive for ${Math.round(timeSinceVisit / 60000)} minutes)`);
+          }
+        } catch (error) {
+          // Tab might have been closed, ignore
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Auto-unload check failed:', error);
+  }
+}
+
 /**
  * Handle extension icon click - open side panel
  */
@@ -166,6 +222,29 @@ async function handleMessage(message, sender, sendResponse) {
         await TabManager.expandAll();
         const state = await storage.getState();
         sendResponse({ success: true, state });
+        break;
+      }
+
+      case MSG_TYPES.PIN_TAB: {
+        const { tabId } = message.payload;
+        await TabManager.pinTab(tabId);
+        const state = await storage.getState();
+        sendResponse({ success: true, state });
+        break;
+      }
+
+      case MSG_TYPES.UNPIN_TAB: {
+        const { tabId } = message.payload;
+        await TabManager.unpinTab(tabId);
+        const state = await storage.getState();
+        sendResponse({ success: true, state });
+        break;
+      }
+
+      case MSG_TYPES.SET_AUTO_UNLOAD: {
+        const { threshold } = message.payload;
+        await storage.setSetting('autoUnloadThreshold', threshold);
+        sendResponse({ success: true });
         break;
       }
 

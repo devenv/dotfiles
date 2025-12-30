@@ -153,3 +153,25 @@ export async function setCollapsed(tabId, collapsed) {
   }
   await setState(state);
 }
+
+/**
+ * Get a specific setting value
+ * @param {string} key - Setting key
+ * @returns {Promise<any>} - Setting value
+ */
+export async function getSetting(key) {
+  const state = await getState();
+  return state.settings[key];
+}
+
+/**
+ * Set a specific setting value
+ * @param {string} key - Setting key
+ * @param {any} value - Setting value
+ * @returns {Promise<void>}
+ */
+export async function setSetting(key, value) {
+  const state = await getState();
+  state.settings[key] = value;
+  await setState(state);
+}
