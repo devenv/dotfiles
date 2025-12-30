@@ -42,6 +42,11 @@ export class TabHierarchy {
    * @returns {boolean} - True if potentialAncestorId is ancestor of tabId
    */
   static hasAncestor(potentialAncestorId, tabId, tabs) {
+    // Same tab is not its own ancestor
+    if (potentialAncestorId === tabId) {
+      return false;
+    }
+
     let currentId = tabId;
     const visited = new Set();
 
@@ -51,13 +56,13 @@ export class TabHierarchy {
         return false;
       }
 
-      if (currentId === potentialAncestorId) {
-        return true;
-      }
-
       visited.add(currentId);
       const node = tabs[currentId];
       currentId = node ? node.parentId : null;
+
+      if (currentId === potentialAncestorId) {
+        return true;
+      }
     }
 
     return false;
@@ -186,5 +191,75 @@ export class TabHierarchy {
     for (const key in order) {
       order[key] = [...new Set(order[key])];
     }
+  }
+
+  /**
+   * Calculate target parent for drag-drop operation
+   * @param {number} draggedTabId - ID of tab being dragged
+   * @param {number} dropIndex - Visual index where tab was dropped (in flattened list)
+   * @param {string|null} dragZone - 'left' (root), 'right' (child), or null (no zone change)
+   * @param {Object} state - Full state
+   * @returns {Object} - { parentId, insertIndex } where to insert the tab
+   */
+  static calculateDropTarget(draggedTabId, dropIndex, dragZone, state) {
+    const flattened = TabHierarchy.flatten(state, false); // Don't respect collapse
+    const draggedNode = state.tabs[draggedTabId];
+    const currentParentId = draggedNode ? (draggedNode.parentId || 'root') : 'root';
+
+    // Handle explicit zone changes
+    if (dragZone === 'left') {
+      // Force to root level
+      return {
+        parentId: 'root',
+        insertIndex: dropIndex,
+      };
+    }
+
+    if (dragZone === 'right') {
+      // Make child of item above
+      if (dropIndex > 0) {
+        const prevItem = flattened[dropIndex - 1];
+        if (prevItem) {
+          const prevNode = state.tabs[prevItem.id];
+          if (prevItem.level === 0) {
+            // Previous is root-level parent
+            return {
+              parentId: prevItem.id,
+              insertIndex: 0, // Insert as first child
+            };
+          } else if (prevItem.level === 1) {
+            // Previous is a child - become sibling
+            return {
+              parentId: prevNode.parentId || 'root',
+              insertIndex: null, // Append to end of siblings
+            };
+          }
+        }
+      }
+      // Fallback to root
+      return {
+        parentId: 'root',
+        insertIndex: dropIndex,
+      };
+    }
+
+    // No zone change - reordering within same level
+    // Calculate position among siblings
+    const parentKey = currentParentId === 'root' ? 'root' : currentParentId;
+    const siblings = state.order[parentKey] || [];
+    const currentIndex = siblings.indexOf(draggedTabId);
+
+    // Calculate target index based on visual drop position
+    let targetIndex = dropIndex;
+
+    // Adjust for removal of dragged item (if moving down in same parent)
+    if (currentParentId === parentKey && currentIndex !== -1 && targetIndex > currentIndex) {
+      targetIndex--;
+    }
+
+    return {
+      parentId: currentParentId,
+      insertIndex: targetIndex,
+    };
   }
 }

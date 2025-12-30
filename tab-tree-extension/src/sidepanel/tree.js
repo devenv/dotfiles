@@ -4,6 +4,7 @@
  */
 
 import { MSG_TYPES } from '../shared/constants.js';
+import { TabHierarchy } from '../background/TabHierarchy.js';
 
 /**
  * Tree Renderer class
@@ -134,46 +135,19 @@ export class TreeRenderer {
 
     console.log('TreeRenderer: Drag end', { tabId, oldIndex, newIndex, zone: this.dragZone });
 
-    // Get current parent of dragged tab
-    const currentNode = this.currentState.tabs[tabId];
-    const currentParentId = currentNode ? (currentNode.parentId || 'root') : 'root';
+    // Use TabHierarchy to calculate drop target
+    const dropTarget = TabHierarchy.calculateDropTarget(
+      tabId,
+      newIndex,
+      this.dragZone,
+      this.currentState
+    );
 
-    // Determine new parent based on which zone the drag ended in
-    let newParentId = currentParentId; // Default to keeping same parent
-
-    const items = Array.from(this.container.querySelectorAll('.tab-item'));
-
-    if (this.dragZone === 'left') {
-      // Explicitly moved to root level
-      newParentId = 'root';
-    } else if (this.dragZone === 'right') {
-      // Right zone: make this a child of the item above (or its parent if it's already a child)
-      const referenceIndex = newIndex > 0 ? newIndex - 1 : 0;
-      const prevItem = items[referenceIndex];
-
-      if (prevItem) {
-        const prevTabId = parseInt(prevItem.dataset.tabId, 10);
-        const prevLevel = this.getTabLevel(prevTabId);
-
-        if (prevLevel === 0) {
-          // Previous item is at root level - make it the parent
-          newParentId = prevTabId;
-        } else if (prevLevel === 1) {
-          // Previous item is already a child - use its parent as the new parent
-          const prevParentId = prevItem.dataset.parentId;
-          if (prevParentId && prevParentId !== 'root') {
-            newParentId = parseInt(prevParentId, 10);
-          } else {
-            newParentId = 'root';
-          }
-        }
-      }
-    }
-    // else: No zone detected (just reordering) - keep current parent
+    console.log('TreeRenderer: Drop target', dropTarget);
 
     // Always notify even if just reordering within same parent
     if (this.onMoveTab) {
-      this.onMoveTab(tabId, newParentId, newIndex);
+      this.onMoveTab(tabId, dropTarget.parentId, dropTarget.insertIndex);
     }
   }
 
