@@ -177,11 +177,20 @@ body {
 
 .auto-unload-control input[type="range"] {
   width: 100%;
+  height: 20px;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.auto-unload-control input[type="range"]::-webkit-slider-track {
+  width: 100%;
   height: 4px;
   background: var(--border-color);
   border-radius: 2px;
-  outline: none;
-  -webkit-appearance: none;
+  cursor: pointer;
 }
 
 .auto-unload-control input[type="range"]::-webkit-slider-thumb {
@@ -191,6 +200,15 @@ body {
   height: 14px;
   background: var(--accent-blue);
   border-radius: 50%;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+.auto-unload-control input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
   cursor: pointer;
 }
 

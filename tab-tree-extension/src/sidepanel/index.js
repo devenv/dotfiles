@@ -228,19 +228,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Load saved value
-    try {
-      const state = await chrome.runtime.sendMessage({ type: MSG_TYPES.GET_STATE });
-      if (state.success && state.state.settings.autoUnloadThreshold !== undefined) {
-        const threshold = state.state.settings.autoUnloadThreshold;
-        const index = thresholdValues.indexOf(threshold);
-        if (index !== -1) {
-          slider.value = index;
-          valueLabel.textContent = thresholdLabels[index];
+    // Load saved value (don't await, run async)
+    chrome.runtime.sendMessage({ type: MSG_TYPES.GET_STATE })
+      .then((state) => {
+        if (state.success && state.state.settings) {
+          const threshold = state.state.settings.autoUnloadThreshold ?? 0;
+          const index = thresholdValues.indexOf(threshold);
+          if (index !== -1) {
+            slider.value = index;
+            valueLabel.textContent = thresholdLabels[index];
+          }
         }
-      }
-    } catch (error) {
-      console.error('Failed to load auto-unload setting:', error);
-    }
+      })
+      .catch((error) => {
+        console.error('Failed to load auto-unload setting:', error);
+      });
   }
 });
