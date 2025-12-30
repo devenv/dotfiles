@@ -13,6 +13,16 @@ console.log('Service Worker loaded');
 chrome.runtime.onInstalled.addListener(async () => {
   console.log('Extension installed/updated');
   await TabManager.initialize();
+
+  // Open sidebar on install
+  try {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tabs[0]) {
+      await chrome.sidePanel.open({ tabId: tabs[0].id });
+    }
+  } catch (error) {
+    console.error('Failed to open sidebar on install:', error);
+  }
 });
 
 // Also initialize on service worker startup (in case it was running before)
@@ -92,6 +102,48 @@ chrome.action.onClicked.addListener(async (tab) => {
     await chrome.sidePanel.open({ tabId: tab.id });
   } catch (error) {
     console.error('Error opening side panel:', error);
+  }
+});
+
+/**
+ * Handle keyboard commands
+ */
+chrome.commands.onCommand.addListener(async (command) => {
+  console.log('Command received:', command);
+
+  try {
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tabs.length === 0) return;
+
+    const tabId = tabs[0].id;
+    const state = await storage.getState();
+    const node = state.tabs[tabId];
+
+    switch (command) {
+      case 'lock-tab':
+        if (node && node.isLocked) {
+          await TabManager.unlockTab(tabId);
+        } else if (node) {
+          await TabManager.lockTab(tabId);
+        }
+        break;
+
+      case 'pin-tab':
+        if (node && node.isPinned) {
+          await TabManager.unpinTab(tabId);
+        } else if (node) {
+          await TabManager.pinTab(tabId);
+        }
+        break;
+
+      case 'close-or-discard-tab':
+        if (node) {
+          await TabManager.closeTab(tabId);
+        }
+        break;
+    }
+  } catch (error) {
+    console.error('Error handling command:', error);
   }
 });
 

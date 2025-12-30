@@ -17,10 +17,40 @@
     "service_worker": "src/background/index.js",
     "type": "module"
   },
+  "action": {
+    "default_title": "Open Tab Tree"
+  },
   "side_panel": {
     "default_path": "src/sidepanel/index.html"
   },
-  "action": {
-    "default_title": "Open Tab Tree"
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Open Tab Tree sidebar"
+    },
+    "lock-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Lock/unlock current tab"
+    },
+    "pin-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Pin/unpin current tab"
+    },
+    "close-or-discard-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+D",
+        "mac": "Command+Shift+D"
+      },
+      "description": "Close tab (or discard if locked)"
+    }
   }
 }
