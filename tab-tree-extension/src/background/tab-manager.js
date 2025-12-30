@@ -189,21 +189,53 @@ async function handleTabRemoved(tabId, removeInfo) {
     return;
   }
 
-  // Note: Locked tabs can be closed via keyboard/context menu
-  // We don't recreate them - the close button in UI is already disabled
+  // Locked tabs become ghosts instead of being removed
   if (node.isLocked) {
-    console.log(`Tab Manager: Locked tab ${tabId} was closed (ignoring lock)`);
+    console.log(`Tab Manager: Locked tab ${tabId} was closed, keeping as ghost`);
+    node.isGhost = true;
+    state.tabs[tabId] = node;
+
+    // Get children and promote to root (since parent is now a ghost)
+    const childIds = state.order[tabId] || [];
+    for (const childId of childIds) {
+      const child = state.tabs[childId];
+      if (child) {
+        child.parentId = null;
+        state.tabs[childId] = child;
+      }
+    }
+
+    // Move children to root order
+    if (childIds.length > 0) {
+      if (!state.order.root) {
+        state.order.root = [];
+      }
+      state.order.root.push(...childIds);
+    }
+
+    // Remove children order from ghost tab
+    delete state.order[tabId];
+    delete state.collapsed[tabId];
+
+    await storage.setState(state);
+
+    broadcastMessage({
+      type: MSG_TYPES.STATE_CHANGED,
+      payload: state,
+    });
+
+    return;
   }
 
+  // Non-locked tabs: fully remove from state
   // Get children before deletion
   const childIds = state.order[tabId] || [];
 
-  // Strategy: Move children to root level (flatten)
-  // Alternative: Move to parent level (preserve nesting)
+  // Move children to root level
   for (const childId of childIds) {
     const child = state.tabs[childId];
     if (child) {
-      child.parentId = null; // Promote to root
+      child.parentId = null;
       state.tabs[childId] = child;
     }
   }
@@ -663,6 +695,52 @@ export async function closeTab(tabId) {
   // Close the actual Chrome tab
   await chrome.tabs.remove(tabId);
   // handleTabRemoved will clean up the state
+}
+
+/**
+ * Recreate a ghost tab with new Chrome tab ID
+ * @param {number} oldId - Old tab ID (ghost)
+ * @param {number} newId - New Chrome tab ID
+ * @returns {Promise<void>}
+ */
+export async function recreateTab(oldId, newId) {
+  console.log(`Tab Manager: Recreating ghost tab ${oldId} as ${newId}`);
+
+  const state = await storage.getState();
+  const oldNode = state.tabs[oldId];
+
+  if (!oldNode) {
+    console.warn(`Tab Manager: Ghost tab ${oldId} not found in state`);
+    return;
+  }
+
+  // Transfer all properties to new ID
+  oldNode.id = newId;
+  oldNode.isGhost = false;
+
+  // Update state
+  delete state.tabs[oldId];
+  state.tabs[newId] = oldNode;
+
+  // Update order arrays
+  for (const key in state.order) {
+    state.order[key] = state.order[key].map(id => (id === oldId ? newId : id));
+  }
+
+  // Update parent references for children
+  for (const tabId in state.tabs) {
+    const node = state.tabs[tabId];
+    if (node.parentId === oldId) {
+      node.parentId = newId;
+    }
+  }
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
 }
 
 /**

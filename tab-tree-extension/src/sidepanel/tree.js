@@ -203,12 +203,29 @@ export class TreeRenderer {
     const hasChildren = (state.order[node.id] || []).length > 0;
     const isCollapsed = state.collapsed[node.id] || false;
 
+    // Check if tab is a ghost (locked+closed) or discarded (auto-unloaded)
+    let isGhost = node.isGhost || false;
+    let isDiscarded = false;
+
+    if (!isGhost) {
+      try {
+        const chromeTab = await chrome.tabs.get(node.id);
+        isDiscarded = chromeTab.discarded || false;
+      } catch (error) {
+        // Tab doesn't exist in Chrome anymore
+        isGhost = true;
+      }
+    }
+
     const div = document.createElement('div');
     div.className = 'tab-item';
     div.dataset.tabId = node.id;
     div.dataset.parentId = node.parentId || 'root';
     if (this.activeTabId === node.id) {
       div.classList.add('active');
+    }
+    if (isGhost || isDiscarded) {
+      div.classList.add('ghost');
     }
 
     // Indentation

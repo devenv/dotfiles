@@ -17,6 +17,7 @@ export class TabNode {
     this.isLocked = false;
     this.isPinned = false;
     this.lockUrl = null;
+    this.isGhost = false; // Tab exists in state but not in Chrome
     this.lastVisited = Date.now();
     this.createdAt = Date.now();
   }
@@ -104,6 +105,7 @@ export class TabNode {
       isLocked: this.isLocked,
       isPinned: this.isPinned,
       lockUrl: this.lockUrl,
+      isGhost: this.isGhost,
       lastVisited: this.lastVisited,
       createdAt: this.createdAt,
     };

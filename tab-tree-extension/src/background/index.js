@@ -299,6 +299,14 @@ async function handleMessage(message, sender, sendResponse) {
         break;
       }
 
+      case MSG_TYPES.RECREATE_TAB: {
+        const { oldId, newId } = message.payload;
+        await TabManager.recreateTab(oldId, newId);
+        const state = await storage.getState();
+        sendResponse({ success: true, state });
+        break;
+      }
+
       default:
         sendResponse({ success: false, error: 'Unknown message type' });
     }

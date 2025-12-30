@@ -112,14 +112,39 @@ class SidePanelController {
   }
 
   /**
-   * Switch to a specific tab
+   * Switch to a specific tab (or recreate if it's a ghost)
    * @param {number} tabId - Tab ID to switch to
    */
   async switchToTab(tabId) {
     try {
+      // Try to activate the tab
       await chrome.tabs.update(tabId, { active: true });
     } catch (error) {
-      console.error('Failed to switch tab:', error);
+      // Tab doesn't exist - check if it's a locked ghost tab
+      const response = await chrome.runtime.sendMessage({
+        type: MSG_TYPES.GET_STATE,
+      });
+
+      if (response.success) {
+        const node = response.state.tabs[tabId];
+
+        if (node && node.isLocked) {
+          // Recreate locked tab
+          console.log('Recreating locked tab:', node.title);
+          const newTab = await chrome.tabs.create({
+            url: node.lockUrl || node.url,
+            active: true,
+          });
+
+          // Send message to update tab ID in state
+          await chrome.runtime.sendMessage({
+            type: MSG_TYPES.RECREATE_TAB,
+            payload: { oldId: tabId, newId: newTab.id },
+          });
+        } else {
+          console.error('Failed to switch to tab:', error);
+        }
+      }
     }
   }
 

@@ -23,6 +23,7 @@ export const MSG_TYPES = {
   CLOSE_TAB: 'close_tab',
   MOVE_TAB: 'move_tab',
   REORDER_TABS: 'reorder_tabs',
+  RECREATE_TAB: 'recreate_tab',
 
   // Service Worker → Side Panel (broadcasts)
   STATE_CHANGED: 'state_changed',
