@@ -203,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('auto-unload-slider');
   const valueLabel = document.getElementById('auto-unload-value');
 
-  const thresholdLabels = ['5 min', '15 min', '30 min', '1 hour', '2 hours', 'Never'];
-  const thresholdValues = [5, 15, 30, 60, 120, 0]; // 0 = Never
+  const thresholdLabels = ['30 sec', '5 min', '15 min', '30 min', '1 hour', '6 hours', '1 day', '3 days', '1 week', 'Never'];
+  const thresholdValues = [0.5, 5, 15, 30, 60, 360, 1440, 4320, 10080, 0]; // Minutes (0 = Never, 0.5 = 30 seconds)
 
   if (slider && valueLabel) {
     // Update label on change

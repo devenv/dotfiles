@@ -673,31 +673,10 @@ export async function closeTab(tabId) {
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
-  // Don't close locked tabs - discard them instead
+  // Don't allow closing locked tabs
   if (node && node.isLocked) {
-    console.log(`Tab Manager: Tab ${tabId} is locked, discarding instead of closing`);
-
-    // Find the previously active tab to switch to
-    const allTabs = await chrome.tabs.query({ currentWindow: true });
-    const currentTab = allTabs.find(t => t.id === tabId);
-
-    // Switch to a different tab before discarding
-    const otherTabs = allTabs.filter(t => t.id !== tabId);
-    if (otherTabs.length > 0) {
-      // Prefer the last active tab, or just pick the first one
-      const targetTab = otherTabs[otherTabs.length - 1];
-      await chrome.tabs.update(targetTab.id, { active: true });
-    }
-
-    // Discard the locked tab (unloads it but keeps it open)
-    try {
-      await chrome.tabs.discard(tabId);
-      console.log(`Tab Manager: Discarded locked tab ${tabId}`);
-    } catch (error) {
-      console.error(`Tab Manager: Failed to discard tab:`, error);
-    }
-
-    return;
+    console.log(`Tab Manager: Cannot close locked tab ${tabId}`);
+    throw new Error('Cannot close locked tab');
   }
 
   // Close the actual Chrome tab

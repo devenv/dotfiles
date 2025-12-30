@@ -40,7 +40,7 @@ export const SETTINGS = {
   enableAutoNesting: true,
   confirmCloseWithChildren: true,
   debounceDelayMs: 500,
-  autoUnloadThreshold: 5, // Minutes (0 = Never)
+  autoUnloadThreshold: 0.5, // Minutes (0 = Never, 0.5 = 30 seconds)
 };
 
 /**
