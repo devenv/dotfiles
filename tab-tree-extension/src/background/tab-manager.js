@@ -247,6 +247,8 @@ async function handleTabRemoved(tabId, removeInfo) {
   }
 
   // Non-locked tabs: fully remove from state
+  console.log(`Tab Manager: Removing unlocked tab ${tabId} from state`);
+
   // Get children before deletion
   const childIds = state.order[tabId] || [];
 
@@ -270,7 +272,9 @@ async function handleTabRemoved(tabId, removeInfo) {
   // Remove from order
   const parentKey = node.parentId || 'root';
   if (state.order[parentKey]) {
+    const oldLength = state.order[parentKey].length;
     state.order[parentKey] = state.order[parentKey].filter((id) => id !== tabId);
+    console.log(`Tab Manager: Removed from ${parentKey} order (was ${oldLength}, now ${state.order[parentKey].length})`);
   }
 
   // Remove tab node and its children order
@@ -278,7 +282,11 @@ async function handleTabRemoved(tabId, removeInfo) {
   delete state.order[tabId];
   delete state.collapsed[tabId];
 
+  console.log(`Tab Manager: Tab ${tabId} fully removed. Total tabs: ${Object.keys(state.tabs).length}`);
+
   await storage.setState(state);
+
+  console.log(`Tab Manager: State saved after removal`);
 
   // Notify UI
   broadcastMessage({

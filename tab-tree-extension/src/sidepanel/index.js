@@ -30,6 +30,12 @@ class SidePanelController {
     // Fetch initial state
     await this.refreshState();
 
+    // Listen for messages from service worker
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      console.log('Side Panel: Received message:', message.type);
+      this.handleMessage(message);
+    });
+
     // Listen for active tab changes
     chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
       this.onTabActivated(tabId);
@@ -95,14 +101,14 @@ class SidePanelController {
         break;
 
       case MSG_TYPES.TAB_CREATED:
-        // Re-render to show new tab
-        // Could also update incrementally
-        await this.treeRenderer.render(this.state);
+        // Refresh state and re-render
+        await this.refreshState();
         break;
 
       case MSG_TYPES.TAB_REMOVED:
-        // Re-render to remove tab
-        await this.treeRenderer.render(this.state);
+        // Refresh state and re-render
+        console.log('Side Panel: Tab removed, refreshing state');
+        await this.refreshState();
         break;
 
       case MSG_TYPES.TAB_UPDATED:
