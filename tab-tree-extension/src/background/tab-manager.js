@@ -597,18 +597,6 @@ export async function lockTab(tabId) {
   node.lockUrl = chromeTab.url;
   state.tabs[tabId] = node;
 
-  // Inject lock protection content script
-  try {
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      files: ['src/content/lock-protection.js'],
-    });
-    console.log(`Tab Manager: Injected lock protection into tab ${tabId}`);
-  } catch (error) {
-    console.error(`Tab Manager: Failed to inject lock protection:`, error);
-    // Don't fail the lock operation if script injection fails
-  }
-
   await storage.setState(state);
 
   broadcastMessage({
@@ -630,15 +618,6 @@ export async function unlockTab(tabId) {
 
   if (!node) {
     throw new Error('Tab not found');
-  }
-
-  // Remove lock protection from content script
-  try {
-    await chrome.tabs.sendMessage(tabId, { type: 'unlock_protection' });
-    console.log(`Tab Manager: Removed lock protection from tab ${tabId}`);
-  } catch (error) {
-    console.error(`Tab Manager: Failed to remove lock protection:`, error);
-    // Content script might not be injected or tab might be closed
   }
 
   node.isLocked = false;
@@ -664,14 +643,80 @@ export async function closeTab(tabId) {
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
-  // Don't close locked tabs
+  // Don't close locked tabs - discard them instead
   if (node && node.isLocked) {
-    throw new Error('Cannot close locked tab');
+    console.log(`Tab Manager: Tab ${tabId} is locked, discarding instead of closing`);
+
+    // Find the previously active tab to switch to
+    const allTabs = await chrome.tabs.query({ currentWindow: true });
+    const currentTab = allTabs.find(t => t.id === tabId);
+
+    // Switch to a different tab before discarding
+    const otherTabs = allTabs.filter(t => t.id !== tabId);
+    if (otherTabs.length > 0) {
+      // Prefer the last active tab, or just pick the first one
+      const targetTab = otherTabs[otherTabs.length - 1];
+      await chrome.tabs.update(targetTab.id, { active: true });
+    }
+
+    // Discard the locked tab (unloads it but keeps it open)
+    try {
+      await chrome.tabs.discard(tabId);
+      console.log(`Tab Manager: Discarded locked tab ${tabId}`);
+    } catch (error) {
+      console.error(`Tab Manager: Failed to discard tab:`, error);
+    }
+
+    return;
   }
 
   // Close the actual Chrome tab
   await chrome.tabs.remove(tabId);
   // handleTabRemoved will clean up the state
+}
+
+/**
+ * Collapse all parent tabs
+ * @returns {Promise<void>}
+ */
+export async function collapseAll() {
+  console.log('Tab Manager: Collapsing all parent tabs');
+
+  const state = await storage.getState();
+
+  // Find all tabs that have children
+  for (const tabId in state.order) {
+    if (tabId !== 'root' && state.order[tabId].length > 0) {
+      state.collapsed[tabId] = true;
+    }
+  }
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Expand all parent tabs
+ * @returns {Promise<void>}
+ */
+export async function expandAll() {
+  console.log('Tab Manager: Expanding all parent tabs');
+
+  const state = await storage.getState();
+
+  // Clear all collapsed states
+  state.collapsed = {};
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
 }
 
 /**

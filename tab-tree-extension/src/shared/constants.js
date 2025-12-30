@@ -15,6 +15,8 @@ export const MSG_TYPES = {
   SET_PARENT: 'set_parent',
   REMOVE_PARENT: 'remove_parent',
   TOGGLE_COLLAPSE: 'toggle_collapse',
+  COLLAPSE_ALL: 'collapse_all',
+  EXPAND_ALL: 'expand_all',
   CLOSE_TAB: 'close_tab',
   MOVE_TAB: 'move_tab',
   REORDER_TABS: 'reorder_tabs',

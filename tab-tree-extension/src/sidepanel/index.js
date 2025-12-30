@@ -180,4 +180,22 @@ class SidePanelController {
 document.addEventListener('DOMContentLoaded', () => {
   const controller = new SidePanelController();
   controller.initialize();
+
+  // Collapse All button
+  document.getElementById('collapse-all-btn')?.addEventListener('click', async () => {
+    try {
+      await chrome.runtime.sendMessage({ type: MSG_TYPES.COLLAPSE_ALL });
+    } catch (error) {
+      console.error('Failed to collapse all:', error);
+    }
+  });
+
+  // Expand All button
+  document.getElementById('expand-all-btn')?.addEventListener('click', async () => {
+    try {
+      await chrome.runtime.sendMessage({ type: MSG_TYPES.EXPAND_ALL });
+    } catch (error) {
+      console.error('Failed to expand all:', error);
+    }
+  });
 });

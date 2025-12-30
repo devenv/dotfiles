@@ -155,6 +155,20 @@ async function handleMessage(message, sender, sendResponse) {
         break;
       }
 
+      case MSG_TYPES.COLLAPSE_ALL: {
+        await TabManager.collapseAll();
+        const state = await storage.getState();
+        sendResponse({ success: true, state });
+        break;
+      }
+
+      case MSG_TYPES.EXPAND_ALL: {
+        await TabManager.expandAll();
+        const state = await storage.getState();
+        sendResponse({ success: true, state });
+        break;
+      }
+
       case MSG_TYPES.CLOSE_TAB: {
         const { tabId } = message.payload;
         await TabManager.closeTab(tabId);
