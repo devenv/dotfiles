@@ -131,7 +131,12 @@ async function loadAllTabs() {
     console.log(`Tab Manager: Added new tab ${chromeTab.id} - ${chromeTab.title}`);
   }
 
+  console.log(`Tab Manager: loadAllTabs complete. Total tabs in state: ${Object.keys(state.tabs).length}`);
+  console.log(`Tab Manager: Root order:`, state.order.root);
+
   await storage.setState(state);
+
+  console.log(`Tab Manager: Initial state saved`);
 }
 
 /**
@@ -141,7 +146,7 @@ async function loadAllTabs() {
  * @returns {Promise<void>}
  */
 async function handleTabCreated(chromeTab) {
-  console.log(`Tab Manager: Tab created ${chromeTab.id}`, chromeTab.title);
+  console.log(`Tab Manager: Tab created ${chromeTab.id}`, chromeTab.title, chromeTab.url);
 
   const state = await storage.getState();
 
@@ -173,7 +178,11 @@ async function handleTabCreated(chromeTab) {
   }
   state.order[parentKey].push(node.id);
 
+  console.log(`Tab Manager: Added tab ${chromeTab.id} to state. Total tabs: ${Object.keys(state.tabs).length}`);
+
   await storage.setState(state);
+
+  console.log(`Tab Manager: State saved after tab creation`);
 
   // Notify UI of new tab
   broadcastMessage({
