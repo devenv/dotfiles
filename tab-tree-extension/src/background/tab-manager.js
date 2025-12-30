@@ -316,25 +316,32 @@ async function handleTabUpdated(tabId, changeInfo, chromeTab) {
   }
 
   // Update tab properties (only if not locked or URL didn't change)
-  if (changeInfo.title) {
+  let updated = false;
+
+  if (changeInfo.title && chromeTab.title) {
     node.title = chromeTab.title;
+    updated = true;
   }
   if (changeInfo.favIconUrl) {
     node.favicon = chromeTab.favIconUrl || '';
+    updated = true;
   }
   if (changeInfo.url && !node.isLocked) {
     // Only update URL if tab is not locked
     node.url = chromeTab.url;
+    updated = true;
   }
 
-  state.tabs[tabId] = node;
-  await storage.setState(state);
+  if (updated) {
+    state.tabs[tabId] = node;
+    await storage.setState(state);
 
-  // Notify UI of update
-  broadcastMessage({
-    type: MSG_TYPES.TAB_UPDATED,
-    payload: node,
-  });
+    // Notify UI of update
+    broadcastMessage({
+      type: MSG_TYPES.TAB_UPDATED,
+      payload: node,
+    });
+  }
 }
 
 /**
@@ -673,10 +680,10 @@ export async function closeTab(tabId) {
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
-  // Don't allow closing locked tabs
+  // Don't allow closing locked tabs - just log and return silently
   if (node && node.isLocked) {
-    console.log(`Tab Manager: Cannot close locked tab ${tabId}`);
-    throw new Error('Cannot close locked tab');
+    console.log(`Tab Manager: Cannot close locked tab ${tabId} (locked)`);
+    return; // Silent return, not an error
   }
 
   // Close the actual Chrome tab

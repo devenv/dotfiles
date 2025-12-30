@@ -28,13 +28,10 @@ chrome.runtime.onInstalled.addListener(async () => {
 // Also initialize on service worker startup (in case it was running before)
 // Use a small delay to ensure Chrome has registered listeners
 setTimeout(async () => {
-  const state = await storage.getState();
-  if (Object.keys(state.tabs).length === 0) {
-    console.log('Service Worker: Cold start, initializing Tab Manager');
-    await TabManager.initialize();
-  } else {
-    console.log('Service Worker: Warm start, resuming Tab Manager');
-  }
+  console.log('Service Worker: Startup, initializing Tab Manager');
+  // Always initialize to register event listeners
+  // The initialize function has guards against duplicate initialization
+  await TabManager.initialize();
 }, 100);
 
 // Set up auto-unload alarm (runs every minute)
