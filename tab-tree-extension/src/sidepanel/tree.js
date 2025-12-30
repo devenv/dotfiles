@@ -132,19 +132,22 @@ export class TreeRenderer {
     const oldIndex = evt.oldIndex;
     const newIndex = evt.newIndex;
 
-    if (oldIndex === newIndex && !this.dragZone) return; // No change
-
     console.log('TreeRenderer: Drag end', { tabId, oldIndex, newIndex, zone: this.dragZone });
 
+    // Get current parent of dragged tab
+    const currentNode = this.currentState.tabs[tabId];
+    const currentParentId = currentNode ? (currentNode.parentId || 'root') : 'root';
+
     // Determine new parent based on which zone the drag ended in
-    let newParentId = 'root'; // Default to root
+    let newParentId = currentParentId; // Default to keeping same parent
 
     const items = Array.from(this.container.querySelectorAll('.tab-item'));
 
-    if (this.dragZone === 'right') {
+    if (this.dragZone === 'left') {
+      // Explicitly moved to root level
+      newParentId = 'root';
+    } else if (this.dragZone === 'right') {
       // Right zone: make this a child of the item above (or its parent if it's already a child)
-      // When dropped at the end, use the last item (newIndex - 1)
-      // When dropped in the middle, use the item before the drop position
       const referenceIndex = newIndex > 0 ? newIndex - 1 : 0;
       const prevItem = items[referenceIndex];
 
@@ -157,18 +160,18 @@ export class TreeRenderer {
           newParentId = prevTabId;
         } else if (prevLevel === 1) {
           // Previous item is already a child - use its parent as the new parent
-          // This allows dragging to become a sibling of existing children
           const prevParentId = prevItem.dataset.parentId;
           if (prevParentId && prevParentId !== 'root') {
             newParentId = parseInt(prevParentId, 10);
+          } else {
+            newParentId = 'root';
           }
         }
-        // If prevLevel > 1, we don't support deeper nesting, so stay at root
       }
     }
-    // else: dragZone === 'left' means root level, newParentId stays 'root'
+    // else: No zone detected (just reordering) - keep current parent
 
-    // Notify callback
+    // Always notify even if just reordering within same parent
     if (this.onMoveTab) {
       this.onMoveTab(tabId, newParentId, newIndex);
     }
