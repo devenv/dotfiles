@@ -405,17 +405,20 @@ body {
   color: var(--ctp-crust);
 }
 
-/* Hide buttons on non-hover (optional, cleaner UI) */
+/* Hide buttons until hover (cleaner UI) */
 .tab-item:not(:hover) .tab-action-btn {
-  opacity: 0.4;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .tab-item:hover .tab-action-btn {
   opacity: 1;
+  visibility: visible;
 }
 
 /* Always show locked state */
 .tab-item .lock-btn.locked,
 .tab-item .lock-btn.drifted {
-  opacity: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
 }

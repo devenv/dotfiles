@@ -34,40 +34,6 @@ export async function initialize() {
   // Listen for tab updates (title, favicon)
   chrome.tabs.onUpdated.addListener(handleTabUpdated);
 
-  // Prevent removal of locked tabs
-  if (chrome.tabs.onRemove) {
-    chrome.tabs.onRemove.addListener(async (tabId, removeInfo) => {
-      const state = await storage.getState();
-      const node = state.tabs[tabId];
-
-      if (node && node.isLocked) {
-        console.log(`Tab Manager: Preventing closure of locked tab ${tabId}`);
-        // Reopen the locked tab at its locked URL
-        const newTab = await chrome.tabs.create({
-          url: node.lockUrl || node.url,
-          active: false,
-          index: removeInfo.windowId ? undefined : 0,
-        });
-
-        // Transfer the locked state to the new tab
-        node.id = newTab.id;
-        delete state.tabs[tabId];
-        state.tabs[newTab.id] = node;
-
-        // Update order arrays
-        for (const key in state.order) {
-          state.order[key] = state.order[key].map(id => (id === tabId ? newTab.id : id));
-        }
-
-        await storage.setState(state);
-        broadcastMessage({
-          type: MSG_TYPES.STATE_CHANGED,
-          payload: state,
-        });
-      }
-    });
-  }
-
   isInitialized = true;
   console.log('Tab Manager: Ready');
 }
@@ -82,6 +48,27 @@ async function loadAllTabs() {
   console.log(`Tab Manager: Found ${allTabs.length} open tabs`);
 
   const state = await storage.getState();
+
+  // Clean up state: remove tabs that no longer exist in Chrome
+  const chromeTabIds = new Set(allTabs.map(t => t.id));
+  const stateTabIds = Object.keys(state.tabs).map(Number);
+
+  for (const tabId of stateTabIds) {
+    if (!chromeTabIds.has(tabId)) {
+      console.log(`Tab Manager: Cleaning up orphaned tab ${tabId}`);
+      delete state.tabs[tabId];
+
+      // Remove from order arrays
+      for (const key in state.order) {
+        state.order[key] = state.order[key].filter(id => id !== tabId);
+      }
+    }
+  }
+
+  // Deduplicate order arrays
+  for (const key in state.order) {
+    state.order[key] = [...new Set(state.order[key])];
+  }
 
   for (const chromeTab of allTabs) {
     // Skip if already tracked
@@ -105,7 +92,11 @@ async function loadAllTabs() {
     if (!state.order[parentKey]) {
       state.order[parentKey] = [];
     }
-    state.order[parentKey].push(node.id);
+
+    // Check if already in order (prevent duplicates)
+    if (!state.order[parentKey].includes(node.id)) {
+      state.order[parentKey].push(node.id);
+    }
   }
 
   await storage.setState(state);
@@ -165,8 +156,8 @@ async function handleTabCreated(chromeTab) {
  * @param {number} tabId - Removed tab ID
  * @returns {Promise<void>}
  */
-async function handleTabRemoved(tabId) {
-  console.log(`Tab Manager: Tab removed ${tabId}`);
+async function handleTabRemoved(tabId, removeInfo) {
+  console.log(`Tab Manager: Tab removed ${tabId}`, removeInfo);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -174,6 +165,57 @@ async function handleTabRemoved(tabId) {
   if (!node) {
     console.log(`Tab Manager: Tab ${tabId} not in hierarchy`);
     return;
+  }
+
+  // If tab is locked, recreate it immediately
+  if (node.isLocked) {
+    console.log(`Tab Manager: Locked tab ${tabId} was closed, recreating...`);
+
+    try {
+      // Recreate the tab at its locked URL
+      const newTab = await chrome.tabs.create({
+        url: node.lockUrl || node.url,
+        active: false,
+        windowId: removeInfo.isWindowClosing ? undefined : removeInfo.windowId,
+      });
+
+      console.log(`Tab Manager: Recreated locked tab as ${newTab.id}`);
+
+      // Transfer all properties to new tab
+      const oldId = node.id;
+      node.id = newTab.id;
+      node.url = node.lockUrl || node.url;
+
+      // Update state
+      delete state.tabs[oldId];
+      state.tabs[newTab.id] = node;
+
+      // Update order arrays
+      for (const key in state.order) {
+        state.order[key] = state.order[key].map(id => (id === oldId ? newTab.id : id));
+      }
+
+      // Update parent references for children
+      const childIds = state.order[newTab.id] || [];
+      for (const childId of childIds) {
+        const child = state.tabs[childId];
+        if (child && child.parentId === oldId) {
+          child.parentId = newTab.id;
+        }
+      }
+
+      await storage.setState(state);
+
+      broadcastMessage({
+        type: MSG_TYPES.STATE_CHANGED,
+        payload: state,
+      });
+
+      return; // Don't proceed with normal removal
+    } catch (error) {
+      console.error(`Tab Manager: Failed to recreate locked tab:`, error);
+      // Fall through to normal removal if recreation failed
+    }
   }
 
   // Get children before deletion
@@ -555,6 +597,18 @@ export async function lockTab(tabId) {
   node.lockUrl = chromeTab.url;
   state.tabs[tabId] = node;
 
+  // Inject lock protection content script
+  try {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['src/content/lock-protection.js'],
+    });
+    console.log(`Tab Manager: Injected lock protection into tab ${tabId}`);
+  } catch (error) {
+    console.error(`Tab Manager: Failed to inject lock protection:`, error);
+    // Don't fail the lock operation if script injection fails
+  }
+
   await storage.setState(state);
 
   broadcastMessage({
@@ -576,6 +630,15 @@ export async function unlockTab(tabId) {
 
   if (!node) {
     throw new Error('Tab not found');
+  }
+
+  // Remove lock protection from content script
+  try {
+    await chrome.tabs.sendMessage(tabId, { type: 'unlock_protection' });
+    console.log(`Tab Manager: Removed lock protection from tab ${tabId}`);
+  } catch (error) {
+    console.error(`Tab Manager: Failed to remove lock protection:`, error);
+    // Content script might not be injected or tab might be closed
   }
 
   node.isLocked = false;

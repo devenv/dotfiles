@@ -141,9 +141,13 @@ export class TreeRenderer {
 
     const items = Array.from(this.container.querySelectorAll('.tab-item'));
 
-    if (this.dragZone === 'right' && newIndex > 0) {
+    if (this.dragZone === 'right') {
       // Right zone: make this a child of the item above (or its parent if it's already a child)
-      const prevItem = items[newIndex - 1];
+      // When dropped at the end, use the last item (newIndex - 1)
+      // When dropped in the middle, use the item before the drop position
+      const referenceIndex = newIndex > 0 ? newIndex - 1 : 0;
+      const prevItem = items[referenceIndex];
+
       if (prevItem) {
         const prevTabId = parseInt(prevItem.dataset.tabId, 10);
         const prevLevel = this.getTabLevel(prevTabId);
