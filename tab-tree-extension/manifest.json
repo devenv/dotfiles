@@ -54,15 +54,15 @@
     },
     "next-tab": {
       "suggested_key": {
-        "default": "Ctrl+Shift+]",
-        "mac": "Command+Shift+]"
+        "default": "Ctrl+Shift+Period",
+        "mac": "Command+Shift+Period"
       },
       "description": "Switch to next tab in tree"
     },
     "prev-tab": {
       "suggested_key": {
-        "default": "Ctrl+Shift+[",
-        "mac": "Command+Shift+["
+        "default": "Ctrl+Shift+Comma",
+        "mac": "Command+Shift+Comma"
       },
       "description": "Switch to previous tab in tree"
     },
