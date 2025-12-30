@@ -59,6 +59,8 @@ class SidePanelController {
       });
 
       if (response.success) {
+        console.log('Side Panel: Got state with', Object.keys(response.state.tabs || {}).length, 'tabs');
+
         // Compare state by checking if anything changed
         const newStateStr = JSON.stringify(response.state);
         const oldStateStr = JSON.stringify(this.state);
@@ -75,7 +77,7 @@ class SidePanelController {
         }
       }
     } catch (error) {
-      // Service worker might not be ready yet
+      console.error('Side Panel: Error refreshing state:', error);
     }
   }
 

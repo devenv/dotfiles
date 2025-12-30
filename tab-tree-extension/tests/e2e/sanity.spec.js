@@ -112,6 +112,21 @@ test.describe('Tab Tree Extension - Sanity Suite', () => {
       // Verify lock icon appears
       const lockIcons = await sidePanel.$$('.lock-icon');
       expect(lockIcons.length).toBeGreaterThanOrEqual(0);
+
+      // Unlock before closing to avoid creating ghost tab
+      await tabItems[0].click({ button: 'right' });
+      await sidePanel.waitForTimeout(200);
+
+      const unlockMenuItems = await sidePanel.$$('.context-menu-item');
+      for (const item of unlockMenuItems) {
+        const text = await item.textContent();
+        if (text.toLowerCase().includes('unlock')) {
+          await item.click();
+          break;
+        }
+      }
+
+      await sidePanel.waitForTimeout(500);
     }
 
     await testTab.close();
@@ -124,11 +139,25 @@ test.describe('Tab Tree Extension - Sanity Suite', () => {
 
     const beforeClose = await sidePanel.$$('.tab-item');
     const countBefore = beforeClose.length;
+    console.log('Tabs before close:', countBefore);
+
+    // Get tab titles to see what's there
+    for (const tab of beforeClose) {
+      const title = await tab.$eval('.tab-title', el => el.textContent);
+      console.log('  -', title);
+    }
 
     await testTab.close();
-    await sidePanel.waitForTimeout(1500);
+    await sidePanel.waitForTimeout(2000); // Longer wait
 
     const afterClose = await sidePanel.$$('.tab-item');
+    console.log('Tabs after close:', afterClose.length);
+
+    for (const tab of afterClose) {
+      const title = await tab.$eval('.tab-title', el => el.textContent);
+      console.log('  -', title);
+    }
+
     expect(afterClose.length).toBeLessThan(countBefore);
   });
 
