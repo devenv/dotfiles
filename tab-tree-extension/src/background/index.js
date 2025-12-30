@@ -155,22 +155,6 @@ async function handleMessage(message, sender, sendResponse) {
         break;
       }
 
-      case MSG_TYPES.PIN_TAB: {
-        const { tabId } = message.payload;
-        await TabManager.pinTab(tabId);
-        const state = await storage.getState();
-        sendResponse({ success: true, state });
-        break;
-      }
-
-      case MSG_TYPES.UNPIN_TAB: {
-        const { tabId } = message.payload;
-        await TabManager.unpinTab(tabId);
-        const state = await storage.getState();
-        sendResponse({ success: true, state });
-        break;
-      }
-
       case MSG_TYPES.CLOSE_TAB: {
         const { tabId } = message.payload;
         await TabManager.closeTab(tabId);

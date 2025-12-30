@@ -273,9 +273,12 @@ export class TreeRenderer {
     const icons = document.createElement('div');
     icons.className = 'tab-icons';
 
+    // Lock/Unlock button (always visible)
+    const lockBtn = document.createElement('button');
+    lockBtn.className = 'tab-action-btn lock-btn';
+
     if (node.isLocked) {
       // Query current URL from Chrome API for accuracy
-      // This catches back/forward navigation that doesn't trigger onUpdated
       let currentUrl = node.url;
       try {
         const chromeTab = await chrome.tabs.get(node.id);
@@ -283,7 +286,6 @@ export class TreeRenderer {
           currentUrl = chromeTab.url || node.url;
         }
       } catch (error) {
-        // Tab might have been closed, use stored URL
         console.warn(`Tab Manager: Could not query tab ${node.id} URL:`, error);
       }
 
@@ -291,37 +293,63 @@ export class TreeRenderer {
       const hasDrifted = node.lockUrl && currentUrl !== node.lockUrl;
 
       if (hasDrifted) {
-        // Show revert arrow only if URL actually differs from locked URL
-        const revert = document.createElement('span');
-        revert.className = 'revert-icon';
-        revert.textContent = '←';
-        revert.title = `Tab has drifted. Click to revert to locked URL`;
-        revert.onclick = (e) => {
+        // Show revert arrow if tab drifted
+        lockBtn.textContent = '←';
+        lockBtn.title = 'Revert to locked URL';
+        lockBtn.classList.add('drifted');
+        lockBtn.onclick = (e) => {
           e.stopPropagation();
-          // Revert the tab - send message to background
           chrome.runtime.sendMessage({
             type: 'revert_locked_tab',
             payload: { tabId: node.id, url: node.lockUrl },
           });
         };
-        icons.appendChild(revert);
       } else {
-        // Show lock icon if tab is at locked URL
-        const lock = document.createElement('span');
-        lock.className = 'lock-icon';
-        lock.textContent = '🔒';
-        lock.title = 'Tab is locked';
-        icons.appendChild(lock);
+        // Locked state - solid lock icon
+        lockBtn.textContent = '🔒';
+        lockBtn.title = 'Unlock tab';
+        lockBtn.classList.add('locked');
+        lockBtn.onclick = (e) => {
+          e.stopPropagation();
+          chrome.runtime.sendMessage({
+            type: MSG_TYPES.UNLOCK_TAB,
+            payload: { tabId: node.id },
+          });
+        };
       }
+    } else {
+      // Unlocked state - greyed out lock icon
+      lockBtn.textContent = '🔓';
+      lockBtn.title = 'Lock tab';
+      lockBtn.classList.add('unlocked');
+      lockBtn.onclick = (e) => {
+        e.stopPropagation();
+        chrome.runtime.sendMessage({
+          type: MSG_TYPES.LOCK_TAB,
+          payload: { tabId: node.id },
+        });
+      };
     }
+    icons.appendChild(lockBtn);
 
-    if (node.isPinned) {
-      const pin = document.createElement('span');
-      pin.className = 'pin-icon';
-      pin.textContent = '📌';
-      pin.title = 'Tab is pinned';
-      icons.appendChild(pin);
+    // Close button (disabled if locked)
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'tab-action-btn close-btn';
+    closeBtn.textContent = '✕';
+    closeBtn.title = node.isLocked ? 'Cannot close locked tab' : 'Close tab';
+    if (node.isLocked) {
+      closeBtn.disabled = true;
+      closeBtn.classList.add('disabled');
     }
+    closeBtn.onclick = (e) => {
+      if (node.isLocked) return;
+      e.stopPropagation();
+      chrome.runtime.sendMessage({
+        type: MSG_TYPES.CLOSE_TAB,
+        payload: { tabId: node.id },
+      });
+    };
+    icons.appendChild(closeBtn);
 
     div.appendChild(icons);
 
@@ -432,20 +460,6 @@ export class TreeRenderer {
       });
     };
     menu.appendChild(lockItem);
-
-    // Pin/Unpin option
-    const pinItem = document.createElement('div');
-    pinItem.className = 'context-menu-item';
-    pinItem.textContent = node.isPinned ? 'Unpin' : 'Pin';
-    pinItem.onclick = () => {
-      this.hideContextMenu();
-      const msgType = node.isPinned ? MSG_TYPES.UNPIN_TAB : MSG_TYPES.PIN_TAB;
-      chrome.runtime.sendMessage({
-        type: msgType,
-        payload: { tabId: node.id },
-      });
-    };
-    menu.appendChild(pinItem);
 
     // Move to root option (only if has parent)
     if (node.parentId !== null) {

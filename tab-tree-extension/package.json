@@ -4,7 +4,10 @@
   "description": "Chrome extension for hierarchical tab management",
   "type": "module",
   "scripts": {
-    "test": "playwright test",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/**/*.test.js",
+    "test:e2e": "playwright test tests/e2e/sanity.spec.js",
+    "test:e2e:full": "playwright test",
     "test:watch": "playwright test --watch",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",

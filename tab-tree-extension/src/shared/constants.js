@@ -15,8 +15,6 @@ export const MSG_TYPES = {
   SET_PARENT: 'set_parent',
   REMOVE_PARENT: 'remove_parent',
   TOGGLE_COLLAPSE: 'toggle_collapse',
-  PIN_TAB: 'pin_tab',
-  UNPIN_TAB: 'unpin_tab',
   CLOSE_TAB: 'close_tab',
   MOVE_TAB: 'move_tab',
   REORDER_TABS: 'reorder_tabs',

@@ -6,12 +6,20 @@
 import * as storage from '../shared/storage.js';
 import { MSG_TYPES, SETTINGS } from '../shared/constants.js';
 
+// Track initialization to prevent duplicate listeners
+let isInitialized = false;
+
 /**
  * Initialize tab manager
  * Set up Chrome event listeners
  * @returns {Promise<void>}
  */
 export async function initialize() {
+  if (isInitialized) {
+    console.log('Tab Manager: Already initialized, skipping');
+    return;
+  }
+
   console.log('Tab Manager: Initializing');
 
   // Load all existing tabs and build initial hierarchy
@@ -20,12 +28,47 @@ export async function initialize() {
   // Listen for new tab creation
   chrome.tabs.onCreated.addListener(handleTabCreated);
 
-  // Listen for tab removal
+  // Listen for tab removal (and prevent closing locked tabs)
   chrome.tabs.onRemoved.addListener(handleTabRemoved);
 
   // Listen for tab updates (title, favicon)
   chrome.tabs.onUpdated.addListener(handleTabUpdated);
 
+  // Prevent removal of locked tabs
+  if (chrome.tabs.onRemove) {
+    chrome.tabs.onRemove.addListener(async (tabId, removeInfo) => {
+      const state = await storage.getState();
+      const node = state.tabs[tabId];
+
+      if (node && node.isLocked) {
+        console.log(`Tab Manager: Preventing closure of locked tab ${tabId}`);
+        // Reopen the locked tab at its locked URL
+        const newTab = await chrome.tabs.create({
+          url: node.lockUrl || node.url,
+          active: false,
+          index: removeInfo.windowId ? undefined : 0,
+        });
+
+        // Transfer the locked state to the new tab
+        node.id = newTab.id;
+        delete state.tabs[tabId];
+        state.tabs[newTab.id] = node;
+
+        // Update order arrays
+        for (const key in state.order) {
+          state.order[key] = state.order[key].map(id => (id === tabId ? newTab.id : id));
+        }
+
+        await storage.setState(state);
+        broadcastMessage({
+          type: MSG_TYPES.STATE_CHANGED,
+          payload: state,
+        });
+      }
+    });
+  }
+
+  isInitialized = true;
   console.log('Tab Manager: Ready');
 }
 
@@ -78,6 +121,12 @@ async function handleTabCreated(chromeTab) {
   console.log(`Tab Manager: Tab created ${chromeTab.id}`, chromeTab.title);
 
   const state = await storage.getState();
+
+  // Skip if tab already exists (prevent duplicates)
+  if (state.tabs[chromeTab.id]) {
+    console.log(`Tab Manager: Tab ${chromeTab.id} already exists, skipping creation`);
+    return;
+  }
 
   // Determine parent from openerTabId
   let parentId = null;
@@ -258,7 +307,6 @@ function createTabNode(chromeTab, parentId = null) {
     favicon: chromeTab.favIconUrl || '',
     isLocked: false,
     lockUrl: null,
-    isPinned: chromeTab.pinned || false,
     isCollapsed: false,
     createdAt: Date.now(),
     windowId: chromeTab.windowId,
@@ -414,16 +462,38 @@ export async function moveTab(tabId, newParentId, newIndex) {
     );
   }
 
-  // Add to new parent
+  // Add to new parent at the correct position
   const newParentKey = newParentId || 'root';
   if (!state.order[newParentKey]) {
     state.order[newParentKey] = [];
   }
+
+  // Calculate insertion position within parent's children
+  // newIndex is the visual position in the flattened tree
+  // We need to find the position within the parent's children array
+  const flattenedBefore = flattenTreeForReorder(state);
+  const visualPosition = flattenedBefore.findIndex(item => item.id === tabId);
+
+  // Insert at the end of parent's children for now
+  // TODO: Calculate proper position based on newIndex
   state.order[newParentKey].push(tabId);
 
   // Update node parent reference
   node.parentId = newParentId === 'root' ? null : newParentId;
   state.tabs[tabId] = node;
+
+  // Calculate Chrome tab index and reorder physical tabs
+  const flattenedAfter = flattenTreeForReorder(state);
+  const chromeTabIndex = flattenedAfter.findIndex(item => item.id === tabId);
+
+  if (chromeTabIndex >= 0) {
+    try {
+      await chrome.tabs.move(tabId, { index: chromeTabIndex });
+      console.log(`Tab Manager: Moved Chrome tab ${tabId} to index ${chromeTabIndex}`);
+    } catch (error) {
+      console.error(`Tab Manager: Failed to move Chrome tab ${tabId}:`, error);
+    }
+  }
 
   await storage.setState(state);
 
@@ -431,6 +501,32 @@ export async function moveTab(tabId, newParentId, newIndex) {
     type: MSG_TYPES.STATE_CHANGED,
     payload: state,
   });
+}
+
+/**
+ * Flatten tree structure to calculate Chrome tab indices
+ * @param {Object} state - Current state
+ * @returns {Array} - Flattened array of {id, level}
+ */
+function flattenTreeForReorder(state) {
+  const result = [];
+
+  function traverse(parentKey, level = 0) {
+    const tabIds = state.order[parentKey] || [];
+
+    for (const tabId of tabIds) {
+      const node = state.tabs[tabId];
+      if (!node) continue;
+
+      result.push({ id: tabId, level });
+
+      // Always traverse children for reordering (ignore collapse state)
+      traverse(tabId, level + 1);
+    }
+  }
+
+  traverse('root', 0);
+  return result;
 }
 
 /**
@@ -484,66 +580,6 @@ export async function unlockTab(tabId) {
 
   node.isLocked = false;
   node.lockUrl = null;
-  state.tabs[tabId] = node;
-
-  await storage.setState(state);
-
-  broadcastMessage({
-    type: MSG_TYPES.STATE_CHANGED,
-    payload: state,
-  });
-}
-
-/**
- * Pin a tab - marks tab as pinned in our hierarchy
- * Also pins the actual Chrome tab
- * @param {number} tabId - Tab to pin
- * @returns {Promise<void>}
- */
-export async function pinTab(tabId) {
-  console.log(`Tab Manager: Pinning tab ${tabId}`);
-
-  const state = await storage.getState();
-  const node = state.tabs[tabId];
-
-  if (!node) {
-    throw new Error('Tab not found');
-  }
-
-  // Pin the actual Chrome tab
-  await chrome.tabs.update(tabId, { pinned: true });
-
-  node.isPinned = true;
-  state.tabs[tabId] = node;
-
-  await storage.setState(state);
-
-  broadcastMessage({
-    type: MSG_TYPES.STATE_CHANGED,
-    payload: state,
-  });
-}
-
-/**
- * Unpin a tab - removes pin from tab
- * Also unpins the actual Chrome tab
- * @param {number} tabId - Tab to unpin
- * @returns {Promise<void>}
- */
-export async function unpinTab(tabId) {
-  console.log(`Tab Manager: Unpinning tab ${tabId}`);
-
-  const state = await storage.getState();
-  const node = state.tabs[tabId];
-
-  if (!node) {
-    throw new Error('Tab not found');
-  }
-
-  // Unpin the actual Chrome tab
-  await chrome.tabs.update(tabId, { pinned: false });
-
-  node.isPinned = false;
   state.tabs[tabId] = node;
 
   await storage.setState(state);
