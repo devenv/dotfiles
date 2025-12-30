@@ -52,12 +52,19 @@ async function loadAllTabs() {
 
   const state = await storage.getState();
 
-  // Clean up state: remove tabs that no longer exist in Chrome
+  // Clean up state: remove tabs that no longer exist in Chrome (except ghosts)
   const chromeTabIds = new Set(allTabs.map(t => t.id));
   const stateTabIds = Object.keys(state.tabs).map(Number);
 
   for (const tabId of stateTabIds) {
     if (!chromeTabIds.has(tabId)) {
+      const node = state.tabs[tabId];
+      // Keep ghost tabs (locked tabs that were closed)
+      if (node && node.isGhost) {
+        console.log(`Tab Manager: Keeping ghost tab ${tabId}`);
+        continue;
+      }
+
       console.log(`Tab Manager: Cleaning up orphaned tab ${tabId}`);
       delete state.tabs[tabId];
 
@@ -77,6 +84,9 @@ async function loadAllTabs() {
     const existingNode = state.tabs[chromeTab.id];
 
     if (existingNode) {
+      // Tab exists in Chrome, so it's not a ghost
+      existingNode.isGhost = false;
+
       // Tab is tracked, but ensure it's in order arrays
       const parentKey = existingNode.parentId || 'root';
       if (!state.order[parentKey]) {
