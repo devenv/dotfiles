@@ -125,30 +125,12 @@ chrome.commands.onCommand.addListener(async (command) => {
         }
         break;
 
-      case 'pin-tab':
-        if (node && node.isPinned) {
-          await TabManager.unpinTab(tabId);
-        } else if (node) {
-          await TabManager.pinTab(tabId);
-        }
-        break;
-
-      case 'close-or-discard-tab':
-        if (node) {
-          await TabManager.closeTab(tabId);
-        }
-        break;
-
       case 'next-tab':
         await TabManager.navigateNext();
         break;
 
       case 'prev-tab':
         await TabManager.navigatePrev();
-        break;
-
-      case 'last-tab':
-        await TabManager.navigateLastVisited();
         break;
     }
   } catch (error) {
