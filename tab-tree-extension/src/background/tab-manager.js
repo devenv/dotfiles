@@ -807,6 +807,88 @@ export async function expandAll() {
 }
 
 /**
+ * Navigate to next tab in tree order
+ * @returns {Promise<void>}
+ */
+export async function navigateNext() {
+  console.log('Tab Manager: Navigate to next tab');
+
+  const state = await storage.getState();
+  const flattened = flattenTreeForReorder(state);
+
+  // Get current active tab
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+  const currentIndex = flattened.findIndex(item => item.id === currentTabId);
+
+  if (currentIndex === -1) return; // Current tab not in tree
+
+  // Get next tab (wrap around to first)
+  const nextIndex = (currentIndex + 1) % flattened.length;
+  const nextTabId = flattened[nextIndex].id;
+
+  // Switch to next tab (Chrome will reload if discarded)
+  await chrome.tabs.update(nextTabId, { active: true });
+}
+
+/**
+ * Navigate to previous tab in tree order
+ * @returns {Promise<void>}
+ */
+export async function navigatePrev() {
+  console.log('Tab Manager: Navigate to previous tab');
+
+  const state = await storage.getState();
+  const flattened = flattenTreeForReorder(state);
+
+  // Get current active tab
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+  const currentIndex = flattened.findIndex(item => item.id === currentTabId);
+
+  if (currentIndex === -1) return; // Current tab not in tree
+
+  // Get previous tab (wrap around to last)
+  const prevIndex = (currentIndex - 1 + flattened.length) % flattened.length;
+  const prevTabId = flattened[prevIndex].id;
+
+  // Switch to previous tab (Chrome will reload if discarded)
+  await chrome.tabs.update(prevTabId, { active: true });
+}
+
+/**
+ * Navigate to last visited tab
+ * @returns {Promise<void>}
+ */
+export async function navigateLastVisited() {
+  console.log('Tab Manager: Navigate to last visited tab');
+
+  const state = await storage.getState();
+
+  // Find tab with most recent lastVisited (excluding current tab)
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+
+  // Get all tabs sorted by lastVisited
+  const tabs = Object.values(state.tabs)
+    .filter(node => node.id !== currentTabId && node.lastVisited)
+    .sort((a, b) => b.lastVisited - a.lastVisited);
+
+  if (tabs.length === 0) return; // No other visited tabs
+
+  const lastVisitedTabId = tabs[0].id;
+
+  // Switch to last visited tab (Chrome will reload if discarded)
+  await chrome.tabs.update(lastVisitedTabId, { active: true });
+}
+
+/**
  * Broadcast message to all UI tabs
  * @param {Message} message - Message to send
  */

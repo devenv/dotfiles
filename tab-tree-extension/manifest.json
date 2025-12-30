@@ -51,6 +51,27 @@
         "mac": "Command+Shift+D"
       },
       "description": "Close tab (or discard if locked)"
+    },
+    "next-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+]",
+        "mac": "Command+Shift+]"
+      },
+      "description": "Switch to next tab in tree"
+    },
+    "prev-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+[",
+        "mac": "Command+Shift+["
+      },
+      "description": "Switch to previous tab in tree"
+    },
+    "last-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+0",
+        "mac": "Command+Shift+0"
+      },
+      "description": "Switch to last visited tab"
     }
   }
 }

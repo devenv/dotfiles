@@ -138,6 +138,18 @@ chrome.commands.onCommand.addListener(async (command) => {
           await TabManager.closeTab(tabId);
         }
         break;
+
+      case 'next-tab':
+        await TabManager.navigateNext();
+        break;
+
+      case 'prev-tab':
+        await TabManager.navigatePrev();
+        break;
+
+      case 'last-tab':
+        await TabManager.navigateLastVisited();
+        break;
     }
   } catch (error) {
     console.error('Error handling command:', error);

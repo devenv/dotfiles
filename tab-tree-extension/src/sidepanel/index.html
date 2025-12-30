@@ -8,16 +8,19 @@
 </head>
 <body>
   <div id="sidebar" class="sidebar">
-    <div class="header">
-      <button id="collapse-all-btn" class="header-btn" title="Collapse all parent tabs">
-        <span>▶</span> Collapse All
+    <div id="tab-tree" class="tab-tree" role="region" aria-label="Tab list">
+      <!-- Tabs will be rendered here -->
+    </div>
+    <div class="footer">
+      <button id="collapse-all-btn" class="footer-btn" title="Collapse all">
+        ▶
       </button>
-      <button id="expand-all-btn" class="header-btn" title="Expand all parent tabs">
-        <span>▼</span> Expand All
+      <button id="expand-all-btn" class="footer-btn" title="Expand all">
+        ▼
       </button>
       <div class="auto-unload-control">
-        <label for="auto-unload-slider" title="Auto-unload inactive tabs after this time">
-          ⏱️ Auto-unload: <span id="auto-unload-value">Never</span>
+        <label for="auto-unload-slider" title="Auto-unload inactive tabs">
+          <span id="auto-unload-value">Never</span>
         </label>
         <input
           type="range"
@@ -41,9 +44,6 @@
           <option value="9" label="Never"></option>
         </datalist>
       </div>
-    </div>
-    <div id="tab-tree" class="tab-tree" role="region" aria-label="Tab list">
-      <!-- Tabs will be rendered here -->
     </div>
   </div>
   <!-- Load SortableJS for drag-drop -->
