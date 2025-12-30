@@ -1,43 +1,41 @@
 # Tab Tree - Hierarchical Tab Manager
 
-A Chrome extension for managing tabs hierarchically with support for pinning, locking, and drag-and-drop organization.
+A Chrome extension for managing tabs hierarchically with Catppuccin theming, auto-unload, locking, pinning, and intuitive drag-and-drop organization.
 
-## Features
+## ✨ Features
 
-- **Hierarchical tabs**: Parent-child tab relationships (1 level nesting)
-- **Locked tabs**: Tabs that can't be closed or navigated away
-- **Pinned tabs**: Keep important tabs at the top
-- **Drag and drop**: Reorder and reorganize tabs
-- **Auto-nesting**: Tabs opened from links automatically nest under parent
+### Core Functionality
+- **Hierarchical Tabs** - Parent-child tab relationships (1-level nesting)
+- **Auto-Nesting** - Tabs opened from links automatically nest under their parent
+- **Drag & Drop** - Reorder and reorganize tabs with visual zone detection
+- **Collapse/Expand** - Hide children of parent tabs with toggle arrows (▶/▼)
 
-## Screenshots
+### Tab Management
+- **Pinning** (📌) - Pin important tabs to keep them locked and at the top of their siblings
+- **Locking** (🔒) - Locked tabs cannot be closed and show revert arrows (←) when navigated away
+- **Smart Close** - Close button (✕) automatically disabled for locked tabs
+- **Auto-Unload** - Automatically unload inactive tabs after a configurable time (30s to 1 week)
 
-### Empty Sidebar (Initial Load)
-Shows the extension sidebar when no tabs are open yet.
+### UI/UX
+- **Catppuccin Theming** - Beautiful Latte (light) and Mocha (dark) themes that match your system
+- **Inline Actions** - Lock, pin, and close buttons appear on hover
+- **Header Controls** - Collapse All and Expand All buttons for quick organization
+- **Auto-Unload Slider** - Elegant slider with 10 time options: 30s, 5m, 15m, 30m, 1h, 6h, 1d, 3d, 1w, Never
 
-![Empty Sidebar](./screenshots/sidebar-01-empty.png)
+### Keyboard Shortcuts
+- **Cmd+Shift+E** (Ctrl+Shift+E) - Open Tab Tree sidebar
+- **Cmd+Shift+L** (Ctrl+Shift+L) - Lock/unlock current tab
+- **Cmd+Shift+P** (Ctrl+Shift+P) - Pin/unpin current tab
+- **Cmd+Shift+D** (Ctrl+Shift+D) - Close tab (or discard if locked)
 
-### Populated Hierarchy
-The sidebar with multiple tabs and automatic nesting. Tabs opened from links become children of the parent tab (e.g., GitHub issue opened from GitHub becomes a child).
+## 🎨 Design
 
-![Populated Hierarchy](./screenshots/sidebar-02-populated.png)
+- **Catppuccin Latte** for light mode - Soft, warm pastels
+- **Catppuccin Mocha** for dark mode - Deep, cozy colors
+- Auto-detects system theme with `prefers-color-scheme`
+- Accent colors: Blue (active tabs), Peach (locked), Pink (pinned), Red (close)
 
-### Collapsed Parent
-Parent tabs can be collapsed (▶) to hide their children, then expanded (▼) to show them again.
-
-![Collapsed Parent](./screenshots/sidebar-03-collapsed.png)
-
-### Deep Nesting View
-Shows how multiple levels of nesting work with consistent 20px indentation per level.
-
-![Deep Nesting](./screenshots/sidebar-04-deep.png)
-
-### Full Demo View
-All states shown together for reference:
-
-![Full Demo](./screenshots/tab-tree-demo.png)
-
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Install dependencies
@@ -46,123 +44,192 @@ npm install
 # Build the extension
 npm run build
 
-# Run tests (requires built extension)
-npm test
-
-# Run tests with UI
-npm test -- --headed
-
-# Run tests in debug mode
-npm test -- --debug
+# Run tests
+npm test                    # Unit + E2E sanity tests
+npm run test:unit           # Just unit tests
+npm run test:e2e            # Just sanity E2E tests
+npm run test:e2e:full       # All E2E tests (45+ tests)
 ```
 
-## Development
+### Load in Chrome
 
-### Project Structure
+1. Open `chrome://extensions`
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select the `dist/` folder
+
+## 🏗️ Project Structure
 
 ```
 tab-tree-extension/
 ├── src/
 │   ├── background/
-│   │   ├── index.js           # Service worker entry
-│   │   ├── tab-manager.js     # Tab tracking (phase 2)
-│   │   └── lock-manager.js    # Lock enforcement (phase 4)
+│   │   ├── index.js           # Service worker with auto-unload alarm
+│   │   └── tab-manager.js     # Tab hierarchy, locking, pinning logic
 │   │
 │   ├── sidepanel/
-│   │   ├── index.html         # UI container
-│   │   ├── index.js           # UI controller
-│   │   ├── tree.js            # Tree rendering (phase 2+)
-│   │   └── styles.css         # Styling
+│   │   ├── index.html         # Header with buttons + slider
+│   │   ├── index.js           # Controller + button handlers
+│   │   ├── tree.js            # Tree rendering + inline buttons
+│   │   └── styles.css         # Catppuccin theming
 │   │
 │   ├── shared/
-│   │   ├── types.js           # Type definitions
-│   │   ├── constants.js       # Message types
-│   │   └── storage.js         # Storage helpers
+│   │   ├── constants.js       # MSG_TYPES, SETTINGS
+│   │   └── storage.js         # Chrome storage helpers
 │   │
 │   └── lib/
-│       └── sortable.min.js    # SortableJS (phase 6)
+│       └── sortable.min.js    # SortableJS for drag-drop
 │
 ├── tests/
 │   ├── e2e/
-│   │   ├── setup.js           # Test utilities
-│   │   ├── hierarchy.spec.js  # Hierarchy tests
-│   │   ├── locking.spec.js    # Lock tests
-│   │   ├── dragdrop.spec.js   # Drag-drop tests
-│   │   └── pinned.spec.js     # Pinned tabs tests
+│   │   ├── sanity.spec.js     # 7 critical path tests (default)
+│   │   ├── sidebar.spec.js    # Full sidebar tests
+│   │   ├── locked-tabs.spec.js
+│   │   ├── dragdrop.spec.js
+│   │   └── context-menu.spec.js
 │   │
 │   └── unit/
-│       ├── tab-manager.test.js
-│       └── lock-manager.test.js
+│       └── tab-manager.test.js # 14 unit tests (Node test runner)
 │
-├── docs/
-│   ├── ARCHITECTURE.md        # System overview for AI agents
-│   ├── FEATURES.md            # Feature specifications
-│   ├── TESTING.md             # Testing guide
-│   └── API.md                 # Data structures and messages
-│
-└── manifest.json              # Chrome extension manifest
-
+└── manifest.json              # MV3 with commands, alarms
 ```
 
-### Implementation Phases
+## 🧪 Testing
 
-**Phase 1** (Days 1-2): Skeleton + first E2E test ✓
-**Phase 2** (Days 3-4): Tab display + hierarchy
-**Phase 3** (Day 5): Collapse/expand
-**Phase 4** (Days 6-7): Locked tabs
-**Phase 5** (Day 8): Pinned tabs
-**Phase 6** (Days 9-10): Drag and drop
-**Phase 7** (Days 11-12): Polish + docs
+The project has a lean testing strategy:
 
-## Screenshots
-
-Screenshots are automatically generated from a demo UI and are part of the development cycle. To regenerate screenshots after UI changes:
-
+**Unit Tests** (14 tests) - Core logic only
 ```bash
-# Generate screenshots
-npm run screenshot
-
-# Screenshots are saved to screenshots/ directory
+npm run test:unit
 ```
+- Cycle detection (`hasAncestor`)
+- Tree flattening (`flattenTreeForReorder`)
+- Chrome tab index calculation
 
-This ensures the README always shows the latest UI state.
-
-## Testing
-
-Tests are written with Playwright and test the extension end-to-end:
-
+**E2E Sanity Tests** (7 tests) - Critical path only
 ```bash
-# Run all tests
-npm test
+npm run test:e2e
+```
+- Sidebar loads
+- Tabs appear and are clickable
+- Lock/unlock works
+- Hierarchy works
 
-# Run specific test file
-npm test -- tests/e2e/hierarchy.spec.js
+**Full E2E Suite** (45+ tests) - All functionality
+```bash
+npm run test:e2e:full
+```
+- Drag-drop with zone detection
+- Context menus
+- All locked tab edge cases
 
-# Run with browser visible (headed mode)
-npm test -- --headed
+## 🎯 How It Works
 
-# Debug mode (interactive)
-npm test -- --debug
+### Tab Hierarchy
+- Tabs opened via links auto-nest under the opener tab (`openerTabId`)
+- Drag tabs to **left zone** → root level
+- Drag tabs to **right zone** → child of tab above
+
+### Pinning
+- Pinning a tab **locks it** and **prioritizes it**
+- Pinned tabs appear first among siblings (parents and children sorted separately)
+- Pinned tabs show 📌 icon (pink/mauve) and cannot be closed
+
+### Locking
+- Locked tabs cannot be closed (close button disabled)
+- If navigated away, shows ← revert arrow (blue)
+- Clicking revert arrow navigates back to locked URL
+
+### Auto-Unload
+- Background alarm checks every minute
+- Discards tabs inactive beyond threshold
+- **Exceptions**: Active tabs, locked tabs, pinned tabs
+- Tracks `lastVisited` timestamp on tab activation
+
+## 📋 State Management
+
+All state stored in `chrome.storage.local`:
+
+```javascript
+{
+  tabs: {
+    [tabId]: {
+      id, parentId, url, title, favicon,
+      isLocked, isPinned, lockUrl,
+      lastVisited, createdAt, windowId
+    }
+  },
+  order: {
+    root: [tabId1, tabId2, ...],
+    [parentId]: [childId1, childId2, ...]
+  },
+  collapsed: {
+    [tabId]: true  // if parent is collapsed
+  },
+  settings: {
+    autoUnloadThreshold: 0.5,  // minutes (0 = Never)
+    enableAutoNesting: true,
+    ...
+  }
+}
 ```
 
-Tests automatically:
-1. Build the extension
-2. Launch Chrome with extension loaded
-3. Open the side panel
-4. Verify functionality
+## 🎹 Keyboard Shortcuts
 
-## Documentation
+Configurable in `chrome://extensions/shortcuts`:
 
-- **ARCHITECTURE.md** - How the system works (for AI agents)
-- **FEATURES.md** - Feature specifications and examples
-- **TESTING.md** - How to write and run tests
-- **API.md** - Data structures and message protocol
+| Shortcut | Action |
+|----------|--------|
+| **Cmd+Shift+E** | Open sidebar |
+| **Cmd+Shift+L** | Lock/unlock current tab |
+| **Cmd+Shift+P** | Pin/unpin current tab |
+| **Cmd+Shift+D** | Close tab (respects locks) |
 
-## Browser Support
+## 🔧 Development
 
-- Chrome 114+
+### Scripts
+- `npm run build` - Build extension to `dist/`
+- `npm run build:watch` - Rebuild on file changes
+- `npm test` - Run unit + sanity E2E tests
+- `npm run test:unit` - Node test runner (fast)
+- `npm run test:e2e` - Playwright sanity suite
+- `npm run test:e2e:full` - All E2E tests
+
+### Key Files to Modify
+
+**Adding a new tab action:**
+1. Add message type to `src/shared/constants.js`
+2. Add handler in `src/background/index.js`
+3. Add function in `src/background/tab-manager.js`
+4. Add UI in `src/sidepanel/tree.js`
+
+**Changing theme colors:**
+- Edit Catppuccin variables in `src/sidepanel/styles.css`
+
+## 🌐 Browser Support
+
+- Chrome 114+ (Manifest V3)
 - Edge 114+ (Chromium-based)
 
-## License
+Requires:
+- `chrome.alarms` for auto-unload
+- `chrome.sidePanel` for sidebar UI
+- `chrome.commands` for keyboard shortcuts
+
+## 📝 Commit History
+
+All major features committed with `🤖 Generated with Claude Code`:
+
+- `4f1589e` - Fix locked tab closing + expand auto-unload range (30s-1w)
+- `f171247` - Fix slider interactivity + default settings
+- `b3eda7f` - Add keyboard shortcuts + auto-open sidebar
+- `095c37e` - Add pin functionality + auto-unload feature
+- `aa48fce` - Replace header with action buttons
+- `ef8a071` - Implement beforeunload lock protection
+- `7d1adc8` - Fix locked tab URL tracking
+- `ab21a27` - Phase A: Cycle detection, pin/unpin, context menu
+- `a12a8e6` - Major refactor: tab reordering, inline buttons, Catppuccin
+
+## 📄 License
 
 MIT
