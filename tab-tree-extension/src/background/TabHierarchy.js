@@ -244,22 +244,54 @@ export class TabHierarchy {
     }
 
     // No zone change - reordering within same level
-    // Calculate position among siblings
+    // Calculate position among siblings by looking at flattened view
     const parentKey = currentParentId === 'root' ? 'root' : currentParentId;
     const siblings = state.order[parentKey] || [];
-    const currentIndex = siblings.indexOf(draggedTabId);
 
-    // Calculate target index based on visual drop position
-    let targetIndex = dropIndex;
+    // Find the item at the drop position in flattened view
+    const itemAtDropPos = flattened[dropIndex];
 
-    // Adjust for removal of dragged item (if moving down in same parent)
-    if (currentParentId === parentKey && currentIndex !== -1 && targetIndex > currentIndex) {
-      targetIndex--;
+    if (!itemAtDropPos) {
+      // Dropped at end
+      return {
+        parentId: currentParentId,
+        insertIndex: siblings.length,
+      };
     }
 
+    // If the item at drop position is at the same level and has same parent
+    if (itemAtDropPos.node.parentId === draggedNode.parentId) {
+      // Find its index among siblings
+      const targetSiblingIndex = siblings.indexOf(itemAtDropPos.id);
+
+      // No adjustment needed - when we remove the dragged item and reinsert,
+      // the target index remains correct because:
+      // - Moving down: removal shifts target down, but we want to be where it was
+      // - Moving up: removal hasn't happened yet when we calculate position
+      return {
+        parentId: currentParentId,
+        insertIndex: targetSiblingIndex,
+      };
+    }
+
+    // Item at drop position is different level
+    // Look ahead to find next item at same level
+    for (let i = dropIndex + 1; i < flattened.length; i++) {
+      const nextItem = flattened[i];
+      if (nextItem.node.parentId === draggedNode.parentId) {
+        // Found next sibling
+        const targetIndex = siblings.indexOf(nextItem.id);
+        return {
+          parentId: currentParentId,
+          insertIndex: targetIndex,
+        };
+      }
+    }
+
+    // No more siblings found - append to end
     return {
       parentId: currentParentId,
-      insertIndex: targetIndex,
+      insertIndex: siblings.length,
     };
   }
 }

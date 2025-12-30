@@ -60,11 +60,12 @@ describe('Drag-Drop calculateDropTarget', () => {
         collapsed: {},
       };
 
+      // Moving tab 1 from position 0 to position 2 (end)
+      // Siblings [1, 2, 3] should become [2, 3, 1]
       const result = TabHierarchy.calculateDropTarget(1, 2, null, state);
 
       assert.strictEqual(result.parentId, 'root');
-      // When moving down, adjust for removal
-      assert.strictEqual(result.insertIndex, 1);
+      assert.strictEqual(result.insertIndex, 2); // Insert at position of tab 3
     });
   });
 
@@ -84,10 +85,11 @@ describe('Drag-Drop calculateDropTarget', () => {
       };
 
       // Tab 3 is at visual index 2, moving to visual index 1
+      // Siblings [2, 3] should become [3, 2]
       const result = TabHierarchy.calculateDropTarget(3, 1, null, state);
 
       assert.strictEqual(result.parentId, 1);
-      assert.strictEqual(result.insertIndex, 1);
+      assert.strictEqual(result.insertIndex, 0); // Insert at beginning after removal
     });
   });
 
@@ -171,11 +173,13 @@ describe('Drag-Drop calculateDropTarget', () => {
         collapsed: {},
       };
 
-      // Dragging parent tab 1 to position 1 (after tab 3)
+      // Dragging parent tab 1 to position 1 (where its child is)
+      // Flattened: [1, 2, 3] -> looking ahead finds tab 3
+      // Root siblings [1, 3] should become [3, 1]
       const result = TabHierarchy.calculateDropTarget(1, 1, null, state);
 
       assert.strictEqual(result.parentId, 'root');
-      assert.strictEqual(result.insertIndex, 0); // Adjusted for removal
+      assert.strictEqual(result.insertIndex, 1); // Insert before tab 3's position
     });
   });
 
