@@ -9,3 +9,6 @@ test-results/
 playwright-report/
 screenshots/
 PHASE_*.md
+PUBLISHING.md
+sigma-tabs.zip
+icons/
