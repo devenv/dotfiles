@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Tab Tree",
+  "name": "Sigma Tabs",
   "version": "0.1.0",
   "description": "Hierarchical tab management with locking and drag-drop",
   "permissions": [
@@ -10,15 +10,12 @@
     "contextMenus",
     "alarms"
   ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
   "background": {
     "service_worker": "src/background/index.js",
     "type": "module"
   },
   "action": {
-    "default_title": "Open Tab Tree"
+    "default_title": "Open Sigma Tabs"
   },
   "side_panel": {
     "default_path": "src/sidepanel/index.html"
@@ -29,7 +26,7 @@
         "default": "Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "Open Tab Tree sidebar"
+      "description": "Open Sigma Tabs sidebar"
     },
     "lock-tab": {
       "suggested_key": {

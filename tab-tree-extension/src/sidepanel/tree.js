@@ -33,8 +33,6 @@ export class TreeRenderer {
    * @returns {Promise<void>}
    */
   async render(state) {
-    console.log('TreeRenderer: Rendering', Object.keys(state.tabs).length, 'tabs');
-
     // Store current state for drag-drop handlers
     this.currentState = state;
 
@@ -71,7 +69,6 @@ export class TreeRenderer {
 
     // Check if Sortable is available
     if (typeof Sortable === 'undefined') {
-      console.log('TreeRenderer: SortableJS not loaded');
       return;
     }
 
@@ -133,8 +130,6 @@ export class TreeRenderer {
     const oldIndex = evt.oldIndex;
     const newIndex = evt.newIndex;
 
-    console.log('TreeRenderer: Drag end', { tabId, oldIndex, newIndex, zone: this.dragZone });
-
     // Use TabHierarchy to calculate drop target
     const dropTarget = TabHierarchy.calculateDropTarget(
       tabId,
@@ -142,8 +137,6 @@ export class TreeRenderer {
       this.dragZone,
       this.currentState
     );
-
-    console.log('TreeRenderer: Drop target', dropTarget);
 
     // Always notify even if just reordering within same parent
     if (this.onMoveTab) {
@@ -217,11 +210,21 @@ export class TreeRenderer {
       div.classList.add('active');
     }
 
-    // Indentation
-    div.style.paddingLeft = `${8 + level * 20}px`;
+    // Indentation (reduced for subtle hierarchy)
+    div.style.paddingLeft = `${8 + level * 12}px`;
 
-    // Collapse/expand toggle (if has children)
-    if (hasChildren) {
+    // Child indicator or collapse/expand toggle
+    const isChild = node.parentId !== null;
+
+    if (isChild) {
+      // Child tab: show ":." indicator
+      const childIndicator = document.createElement('span');
+      childIndicator.className = 'child-indicator';
+      childIndicator.textContent = ':.';
+      childIndicator.title = 'Child tab';
+      div.appendChild(childIndicator);
+    } else if (hasChildren) {
+      // Parent tab: show collapse/expand toggle
       const toggle = document.createElement('span');
       toggle.className = 'toggle-icon';
       toggle.textContent = isCollapsed ? '▶' : '▼';
@@ -232,7 +235,7 @@ export class TreeRenderer {
       };
       div.appendChild(toggle);
     } else {
-      // Spacer for alignment
+      // Root tab with no children: spacer for alignment
       const spacer = document.createElement('span');
       spacer.className = 'toggle-icon';
       spacer.style.visibility = 'hidden';
@@ -273,7 +276,7 @@ export class TreeRenderer {
           currentUrl = chromeTab.url || node.url;
         }
       } catch (error) {
-        console.warn(`Tab Manager: Could not query tab ${node.id} URL:`, error);
+        // Could not query tab URL, may be a ghost tab
       }
 
       // Check if locked tab has drifted from its original URL
@@ -287,7 +290,7 @@ export class TreeRenderer {
         lockBtn.onclick = (e) => {
           e.stopPropagation();
           chrome.runtime.sendMessage({
-            type: 'revert_locked_tab',
+            type: MSG_TYPES.REVERT_LOCKED_TAB,
             payload: { tabId: node.id, url: node.lockUrl },
           });
         };
@@ -374,7 +377,6 @@ export class TreeRenderer {
     // Context menu (lock, pin, close, move to root)
     div.oncontextmenu = (e) => {
       e.preventDefault();
-      console.log('Context menu on tab', node.id);
       this.showContextMenu(e.clientX, e.clientY, node, state);
     };
 

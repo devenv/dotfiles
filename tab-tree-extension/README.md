@@ -1,4 +1,4 @@
-# Tab Tree - Hierarchical Tab Manager
+# Sigma Tabs - Hierarchical Tab Manager
 
 A Chrome extension for managing tabs hierarchically with Catppuccin theming, auto-unload, locking, pinning, and intuitive drag-and-drop organization.
 
@@ -23,7 +23,7 @@ A Chrome extension for managing tabs hierarchically with Catppuccin theming, aut
 - **Auto-Unload Slider** - Elegant slider with 10 time options: 30s, 5m, 15m, 30m, 1h, 6h, 1d, 3d, 1w, Never
 
 ### Keyboard Shortcuts
-- **Cmd+Shift+E** (Ctrl+Shift+E) - Open Tab Tree sidebar
+- **Cmd+Shift+E** (Ctrl+Shift+E) - Open Sigma Tabs sidebar
 - **Cmd+Shift+L** (Ctrl+Shift+L) - Lock/unlock current tab
 - **Cmd+Shift+P** (Ctrl+Shift+P) - Pin/unpin current tab
 - **Cmd+Shift+D** (Ctrl+Shift+D) - Close tab (or discard if locked)
@@ -61,7 +61,7 @@ npm run test:e2e:full       # All E2E tests (45+ tests)
 ## 🏗️ Project Structure
 
 ```
-tab-tree-extension/
+sigma-tabs/
 ├── src/
 │   ├── background/
 │   │   ├── index.js           # Service worker with auto-unload alarm
@@ -216,20 +216,10 @@ Requires:
 - `chrome.sidePanel` for sidebar UI
 - `chrome.commands` for keyboard shortcuts
 
-## 📝 Commit History
-
-All major features committed with `🤖 Generated with Claude Code`:
-
-- `4f1589e` - Fix locked tab closing + expand auto-unload range (30s-1w)
-- `f171247` - Fix slider interactivity + default settings
-- `b3eda7f` - Add keyboard shortcuts + auto-open sidebar
-- `095c37e` - Add pin functionality + auto-unload feature
-- `aa48fce` - Replace header with action buttons
-- `ef8a071` - Implement beforeunload lock protection
-- `7d1adc8` - Fix locked tab URL tracking
-- `ab21a27` - Phase A: Cycle detection, pin/unpin, context menu
-- `a12a8e6` - Major refactor: tab reordering, inline buttons, Catppuccin
-
 ## 📄 License
 
-MIT
+MIT - See [LICENSE](LICENSE) for details.
+
+## 🔒 Privacy
+
+Sigma Tabs does not collect or transmit any user data. All data is stored locally. See [PRIVACY.md](PRIVACY.md) for details.

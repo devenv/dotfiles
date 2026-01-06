@@ -7,28 +7,14 @@ import * as TabManager from './tab-manager.js';
 import * as storage from '../shared/storage.js';
 import { MSG_TYPES } from '../shared/constants.js';
 
-console.log('Service Worker loaded');
-
 // Initialize managers when service worker starts
 chrome.runtime.onInstalled.addListener(async () => {
-  console.log('Extension installed/updated');
   await TabManager.initialize();
-
-  // Open sidebar on install
-  try {
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (tabs[0]) {
-      await chrome.sidePanel.open({ tabId: tabs[0].id });
-    }
-  } catch (error) {
-    console.error('Failed to open sidebar on install:', error);
-  }
 });
 
 // Also initialize on service worker startup (in case it was running before)
 // Use a small delay to ensure Chrome has registered listeners
 setTimeout(async () => {
-  console.log('Service Worker: Startup, initializing Tab Manager');
   // Always initialize to register event listeners
   // The initialize function has guards against duplicate initialization
   await TabManager.initialize();
@@ -78,7 +64,6 @@ async function checkAndUnloadTabs() {
           const chromeTab = await chrome.tabs.get(node.id);
           if (!chromeTab.discarded) {
             await chrome.tabs.discard(node.id);
-            console.log(`Auto-unload: Discarded tab ${node.id} (inactive for ${Math.round(timeSinceVisit / 60000)} minutes)`);
           }
         } catch (error) {
           // Tab might have been closed, ignore
@@ -86,7 +71,7 @@ async function checkAndUnloadTabs() {
       }
     }
   } catch (error) {
-    console.error('Auto-unload check failed:', error);
+    // Auto-unload check failed, will retry on next alarm
   }
 }
 
@@ -94,11 +79,10 @@ async function checkAndUnloadTabs() {
  * Handle extension icon click - open side panel
  */
 chrome.action.onClicked.addListener(async (tab) => {
-  console.log('Extension icon clicked, opening side panel');
   try {
     await chrome.sidePanel.open({ tabId: tab.id });
   } catch (error) {
-    console.error('Error opening side panel:', error);
+    // Side panel opening failed
   }
 });
 
@@ -106,8 +90,6 @@ chrome.action.onClicked.addListener(async (tab) => {
  * Handle keyboard commands
  */
 chrome.commands.onCommand.addListener(async (command) => {
-  console.log('Command received:', command);
-
   try {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tabs.length === 0) return;
@@ -134,7 +116,7 @@ chrome.commands.onCommand.addListener(async (command) => {
         break;
     }
   } catch (error) {
-    console.error('Error handling command:', error);
+    // Command handling failed
   }
 });
 
@@ -164,18 +146,16 @@ chrome.runtime.onInstalled.addListener(() => {
  */
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'lock-current-tab') {
-    console.log('Locking tab', tab.id);
     try {
       await TabManager.lockTab(tab.id);
     } catch (error) {
-      console.error('Error locking tab:', error);
+      // Lock failed
     }
   } else if (info.menuItemId === 'unlock-current-tab') {
-    console.log('Unlocking tab', tab.id);
     try {
       await TabManager.unlockTab(tab.id);
     } catch (error) {
-      console.error('Error unlocking tab:', error);
+      // Unlock failed
     }
   }
 });
@@ -184,8 +164,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
  * Listen for messages from side panel
  */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('Service Worker received:', message.type);
-
   handleMessage(message, sender, sendResponse);
   return true; // Keep channel open for async response
 });
@@ -307,11 +285,17 @@ async function handleMessage(message, sender, sendResponse) {
         break;
       }
 
+      case MSG_TYPES.REVERT_LOCKED_TAB: {
+        const { tabId, url } = message.payload;
+        await chrome.tabs.update(tabId, { url });
+        sendResponse({ success: true });
+        break;
+      }
+
       default:
         sendResponse({ success: false, error: 'Unknown message type' });
     }
   } catch (error) {
-    console.error('Error handling message:', error);
     sendResponse({ success: false, error: error.message });
   }
 }

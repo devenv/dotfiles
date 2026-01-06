@@ -1,5 +1,5 @@
 {
-  "name": "tab-tree-extension",
+  "name": "sigma-tabs",
   "version": "0.1.0",
   "description": "Chrome extension for hierarchical tab management",
   "type": "module",

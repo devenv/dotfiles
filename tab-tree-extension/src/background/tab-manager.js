@@ -16,11 +16,8 @@ let isInitialized = false;
  */
 export async function initialize() {
   if (isInitialized) {
-    console.log('Tab Manager: Already initialized, skipping');
     return;
   }
-
-  console.log('Tab Manager: Initializing');
 
   // Load all existing tabs and build initial hierarchy
   await loadAllTabs();
@@ -38,7 +35,6 @@ export async function initialize() {
   chrome.tabs.onActivated.addListener(handleTabActivated);
 
   isInitialized = true;
-  console.log('Tab Manager: Ready');
 }
 
 /**
@@ -48,7 +44,6 @@ export async function initialize() {
  */
 async function loadAllTabs() {
   const allTabs = await chrome.tabs.query({});
-  console.log(`Tab Manager: Found ${allTabs.length} open tabs`);
 
   const state = await storage.getState();
 
@@ -61,11 +56,9 @@ async function loadAllTabs() {
       const node = state.tabs[tabId];
       // Keep ghost tabs (locked tabs that were closed)
       if (node && node.isGhost) {
-        console.log(`Tab Manager: Keeping ghost tab ${tabId}`);
         continue;
       }
 
-      console.log(`Tab Manager: Cleaning up orphaned tab ${tabId}`);
       delete state.tabs[tabId];
 
       // Remove from order arrays
@@ -94,7 +87,6 @@ async function loadAllTabs() {
       }
 
       if (!state.order[parentKey].includes(chromeTab.id)) {
-        console.log(`Tab Manager: Tab ${chromeTab.id} was tracked but not in order, adding`);
         state.order[parentKey].push(chromeTab.id);
       }
 
@@ -128,15 +120,9 @@ async function loadAllTabs() {
       state.order[parentKey].push(node.id);
     }
 
-    console.log(`Tab Manager: Added new tab ${chromeTab.id} - ${chromeTab.title}`);
   }
 
-  console.log(`Tab Manager: loadAllTabs complete. Total tabs in state: ${Object.keys(state.tabs).length}`);
-  console.log(`Tab Manager: Root order:`, state.order.root);
-
   await storage.setState(state);
-
-  console.log(`Tab Manager: Initial state saved`);
 }
 
 /**
@@ -146,13 +132,11 @@ async function loadAllTabs() {
  * @returns {Promise<void>}
  */
 async function handleTabCreated(chromeTab) {
-  console.log(`Tab Manager: Tab created ${chromeTab.id}`, chromeTab.title, chromeTab.url);
 
   const state = await storage.getState();
 
   // Skip if tab already exists (prevent duplicates)
   if (state.tabs[chromeTab.id]) {
-    console.log(`Tab Manager: Tab ${chromeTab.id} already exists, skipping creation`);
     return;
   }
 
@@ -161,9 +145,6 @@ async function handleTabCreated(chromeTab) {
   if (chromeTab.openerTabId && SETTINGS.enableAutoNesting) {
     if (state.tabs[chromeTab.openerTabId]) {
       parentId = chromeTab.openerTabId;
-      console.log(
-        `Tab Manager: Auto-nesting tab ${chromeTab.id} under ${parentId}`
-      );
     }
   }
 
@@ -178,11 +159,7 @@ async function handleTabCreated(chromeTab) {
   }
   state.order[parentKey].push(node.id);
 
-  console.log(`Tab Manager: Added tab ${chromeTab.id} to state. Total tabs: ${Object.keys(state.tabs).length}`);
-
   await storage.setState(state);
-
-  console.log(`Tab Manager: State saved after tab creation`);
 
   // Notify UI of new tab
   broadcastMessage({
@@ -198,19 +175,15 @@ async function handleTabCreated(chromeTab) {
  * @returns {Promise<void>}
  */
 async function handleTabRemoved(tabId, removeInfo) {
-  console.log(`Tab Manager: Tab removed ${tabId}`, removeInfo);
-
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
   if (!node) {
-    console.log(`Tab Manager: Tab ${tabId} not in hierarchy`);
     return;
   }
 
   // Locked tabs become ghosts instead of being removed
   if (node.isLocked) {
-    console.log(`Tab Manager: Locked tab ${tabId} was closed, keeping as ghost`);
     node.isGhost = true;
     state.tabs[tabId] = node;
 
@@ -247,7 +220,6 @@ async function handleTabRemoved(tabId, removeInfo) {
   }
 
   // Non-locked tabs: fully remove from state
-  console.log(`Tab Manager: Removing unlocked tab ${tabId} from state`);
 
   // Get children before deletion
   const childIds = state.order[tabId] || [];
@@ -272,9 +244,7 @@ async function handleTabRemoved(tabId, removeInfo) {
   // Remove from order
   const parentKey = node.parentId || 'root';
   if (state.order[parentKey]) {
-    const oldLength = state.order[parentKey].length;
     state.order[parentKey] = state.order[parentKey].filter((id) => id !== tabId);
-    console.log(`Tab Manager: Removed from ${parentKey} order (was ${oldLength}, now ${state.order[parentKey].length})`);
   }
 
   // Remove tab node and its children order
@@ -282,11 +252,7 @@ async function handleTabRemoved(tabId, removeInfo) {
   delete state.order[tabId];
   delete state.collapsed[tabId];
 
-  console.log(`Tab Manager: Tab ${tabId} fully removed. Total tabs: ${Object.keys(state.tabs).length}`);
-
   await storage.setState(state);
-
-  console.log(`Tab Manager: State saved after removal`);
 
   // Notify UI
   broadcastMessage({
@@ -303,24 +269,16 @@ async function handleTabRemoved(tabId, removeInfo) {
  * @returns {Promise<void>}
  */
 async function handleTabUpdated(tabId, changeInfo, chromeTab) {
-  // Only log on meaningful changes
+  // Only process meaningful changes
   if (!changeInfo.title && !changeInfo.favIconUrl && !changeInfo.status) {
     return;
   }
-
-  console.log(`Tab Manager: Tab updated ${tabId}`, {
-    title: changeInfo.title,
-    favicon: changeInfo.favIconUrl,
-    status: changeInfo.status,
-  });
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
   if (!node) {
-    console.log(`Tab Manager: Tab ${tabId} not in hierarchy, creating...`);
-    // Might be a tab opened before extension loaded
-    // Add it now
+    // Might be a tab opened before extension loaded - add it now
     const parentId = chromeTab.openerTabId || null;
     const newNode = createTabNode(chromeTab, parentId);
     state.tabs[newNode.id] = newNode;
@@ -337,9 +295,6 @@ async function handleTabUpdated(tabId, changeInfo, chromeTab) {
 
   // Check if tab is locked and URL changed
   if (node.isLocked && changeInfo.url && changeInfo.url !== node.lockUrl) {
-    console.log(
-      `Tab Manager: Locked tab ${tabId} navigated away. Reverting to ${node.lockUrl}`
-    );
     // Revert locked tab back to its original URL
     await chrome.tabs.update(tabId, { url: node.lockUrl });
     // Don't update the stored URL - it stays locked to the original
@@ -385,13 +340,11 @@ async function handleTabUpdated(tabId, changeInfo, chromeTab) {
  */
 async function handleTabActivated(activeInfo) {
   const { tabId } = activeInfo;
-  console.log(`Tab Manager: Tab activated ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
   if (!node) {
-    console.log(`Tab Manager: Activated tab ${tabId} not in hierarchy`);
     return;
   }
 
@@ -439,7 +392,6 @@ function hasAncestor(tabId, potentialAncestorId, state) {
   while (current && current.parentId !== null) {
     // Prevent infinite loops from corrupted state
     if (visited.has(current.id)) {
-      console.warn(`Tab Manager: Detected existing cycle at tab ${current.id}`);
       return true;
     }
     visited.add(current.id);
@@ -459,7 +411,6 @@ function hasAncestor(tabId, potentialAncestorId, state) {
  * @returns {Promise<void>}
  */
 export async function setParent(childId, parentId) {
-  console.log(`Tab Manager: Setting tab ${childId} as child of ${parentId}`);
 
   const state = await storage.getState();
   const child = state.tabs[childId];
@@ -471,7 +422,6 @@ export async function setParent(childId, parentId) {
 
   // Cycle detection: Prevent A becoming child of B if B is already descendant of A
   if (hasAncestor(parentId, childId, state)) {
-    console.warn(`Tab Manager: Rejected cycle - ${parentId} is descendant of ${childId}`);
     throw new Error('Cannot create circular hierarchy');
   }
 
@@ -513,7 +463,6 @@ export async function setParent(childId, parentId) {
  * @returns {Promise<void>}
  */
 export async function removeParent(tabId) {
-  console.log(`Tab Manager: Removing parent from tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -557,7 +506,6 @@ export async function removeParent(tabId) {
  * @returns {Promise<void>}
  */
 export async function moveTab(tabId, newParentId, newIndex) {
-  console.log(`Tab Manager: Moving tab ${tabId} to parent ${newParentId} at index ${newIndex}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -601,9 +549,7 @@ export async function moveTab(tabId, newParentId, newIndex) {
   if (chromeTabIndex >= 0) {
     try {
       await chrome.tabs.move(tabId, { index: chromeTabIndex });
-      console.log(`Tab Manager: Moved Chrome tab ${tabId} to index ${chromeTabIndex}`);
     } catch (error) {
-      console.error(`Tab Manager: Failed to move Chrome tab ${tabId}:`, error);
     }
   }
 
@@ -647,7 +593,6 @@ function flattenTreeForReorder(state) {
  * @returns {Promise<void>}
  */
 export async function lockTab(tabId) {
-  console.log(`Tab Manager: Locking tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -681,7 +626,6 @@ export async function lockTab(tabId) {
  * @returns {Promise<void>}
  */
 export async function unlockTab(tabId) {
-  console.log(`Tab Manager: Unlocking tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -708,14 +652,12 @@ export async function unlockTab(tabId) {
  * @returns {Promise<void>}
  */
 export async function closeTab(tabId) {
-  console.log(`Tab Manager: Closing tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
 
   // Don't allow closing locked tabs - just log and return silently
   if (node && node.isLocked) {
-    console.log(`Tab Manager: Cannot close locked tab ${tabId} (locked)`);
     return; // Silent return, not an error
   }
 
@@ -731,13 +673,11 @@ export async function closeTab(tabId) {
  * @returns {Promise<void>}
  */
 export async function recreateTab(oldId, newId) {
-  console.log(`Tab Manager: Recreating ghost tab ${oldId} as ${newId}`);
 
   const state = await storage.getState();
   const oldNode = state.tabs[oldId];
 
   if (!oldNode) {
-    console.warn(`Tab Manager: Ghost tab ${oldId} not found in state`);
     return;
   }
 
@@ -776,7 +716,6 @@ export async function recreateTab(oldId, newId) {
  * @returns {Promise<void>}
  */
 export async function pinTab(tabId) {
-  console.log(`Tab Manager: Pinning tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -816,7 +755,6 @@ export async function pinTab(tabId) {
  * @returns {Promise<void>}
  */
 export async function unpinTab(tabId) {
-  console.log(`Tab Manager: Unpinning tab ${tabId}`);
 
   const state = await storage.getState();
   const node = state.tabs[tabId];
@@ -872,7 +810,6 @@ function sortTabsByPriority(state) {
  * @returns {Promise<void>}
  */
 export async function collapseAll() {
-  console.log('Tab Manager: Collapsing all parent tabs');
 
   const state = await storage.getState();
 
@@ -896,7 +833,6 @@ export async function collapseAll() {
  * @returns {Promise<void>}
  */
 export async function expandAll() {
-  console.log('Tab Manager: Expanding all parent tabs');
 
   const state = await storage.getState();
 
@@ -916,7 +852,6 @@ export async function expandAll() {
  * @returns {Promise<void>}
  */
 export async function navigateNext() {
-  console.log('Tab Manager: Navigate to next tab');
 
   const state = await storage.getState();
   const flattened = flattenTreeForReorder(state);
@@ -943,7 +878,6 @@ export async function navigateNext() {
  * @returns {Promise<void>}
  */
 export async function navigatePrev() {
-  console.log('Tab Manager: Navigate to previous tab');
 
   const state = await storage.getState();
   const flattened = flattenTreeForReorder(state);
@@ -970,7 +904,6 @@ export async function navigatePrev() {
  * @returns {Promise<void>}
  */
 export async function navigateLastVisited() {
-  console.log('Tab Manager: Navigate to last visited tab');
 
   const state = await storage.getState();
 
@@ -998,7 +931,6 @@ export async function navigateLastVisited() {
  * @param {Message} message - Message to send
  */
 async function broadcastMessage(message) {
-  console.log('Tab Manager: Broadcasting', message.type);
 
   // Send to all tabs (content scripts would receive this)
   const tabs = await chrome.tabs.query({});

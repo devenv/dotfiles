@@ -25,14 +25,11 @@ class SidePanelController {
   }
 
   async initialize() {
-    console.log('Side Panel: Initializing...');
-
     // Fetch initial state
     await this.refreshState();
 
     // Listen for messages from service worker
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      console.log('Side Panel: Received message:', message.type);
       this.handleMessage(message);
     });
 
@@ -51,8 +48,6 @@ class SidePanelController {
     // Periodically refresh state to catch updates from service worker
     // This ensures tabs created/removed show up immediately
     setInterval(() => this.refreshState(), 500);
-
-    console.log('Side Panel: Ready');
   }
 
   /**
@@ -65,15 +60,12 @@ class SidePanelController {
       });
 
       if (response.success) {
-        console.log('Side Panel: Got state with', Object.keys(response.state.tabs || {}).length, 'tabs');
-
         // Compare state by checking if anything changed
         const newStateStr = JSON.stringify(response.state);
         const oldStateStr = JSON.stringify(this.state);
 
         if (newStateStr !== oldStateStr) {
           this.state = response.state;
-          console.log('Side Panel: State updated, re-rendering');
           await this.treeRenderer.render(this.state);
 
           // Update active tab highlight
@@ -83,7 +75,7 @@ class SidePanelController {
         }
       }
     } catch (error) {
-      console.error('Side Panel: Error refreshing state:', error);
+      // Error refreshing state, will retry on next interval
     }
   }
 
@@ -92,8 +84,6 @@ class SidePanelController {
    * @param {Object} message - Message object with type and payload
    */
   async handleMessage(message) {
-    console.log('Side Panel: Message received:', message.type);
-
     switch (message.type) {
       case MSG_TYPES.STATE_CHANGED:
         this.state = message.payload;
@@ -107,7 +97,6 @@ class SidePanelController {
 
       case MSG_TYPES.TAB_REMOVED:
         // Refresh state and re-render
-        console.log('Side Panel: Tab removed, refreshing state');
         await this.refreshState();
         break;
 
@@ -138,7 +127,6 @@ class SidePanelController {
 
         if (node && node.isLocked) {
           // Recreate locked tab
-          console.log('Recreating locked tab:', node.title);
           const newTab = await chrome.tabs.create({
             url: node.lockUrl || node.url,
             active: true,
@@ -149,8 +137,6 @@ class SidePanelController {
             type: MSG_TYPES.RECREATE_TAB,
             payload: { oldId: tabId, newId: newTab.id },
           });
-        } else {
-          console.error('Failed to switch to tab:', error);
         }
       }
     }
@@ -172,7 +158,7 @@ class SidePanelController {
         await this.treeRenderer.render(this.state);
       }
     } catch (error) {
-      console.error('Error toggling collapse:', error);
+      // Toggle collapse failed
     }
   }
 
@@ -183,7 +169,6 @@ class SidePanelController {
    * @param {number} newIndex - New position in the flat list
    */
   async moveTab(tabId, newParentId, newIndex) {
-    console.log('Side Panel: Moving tab', { tabId, newParentId, newIndex });
     try {
       const response = await chrome.runtime.sendMessage({
         type: MSG_TYPES.MOVE_TAB,
@@ -195,7 +180,7 @@ class SidePanelController {
         await this.treeRenderer.render(this.state);
       }
     } catch (error) {
-      console.error('Error moving tab:', error);
+      // Move tab failed
     }
   }
 
@@ -219,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await chrome.runtime.sendMessage({ type: MSG_TYPES.COLLAPSE_ALL });
     } catch (error) {
-      console.error('Failed to collapse all:', error);
+      // Collapse all failed
     }
   });
 
@@ -228,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await chrome.runtime.sendMessage({ type: MSG_TYPES.EXPAND_ALL });
     } catch (error) {
-      console.error('Failed to expand all:', error);
+      // Expand all failed
     }
   });
 
@@ -255,9 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
           type: MSG_TYPES.SET_AUTO_UNLOAD,
           payload: { threshold },
         });
-        console.log(`Auto-unload threshold set to ${threshold} minutes`);
       } catch (error) {
-        console.error('Failed to set auto-unload threshold:', error);
+        // Failed to set auto-unload threshold
       }
     });
 
@@ -274,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
       .catch((error) => {
-        console.error('Failed to load auto-unload setting:', error);
+        // Failed to load auto-unload setting
       });
   }
 });

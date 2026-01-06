@@ -24,6 +24,7 @@ export const MSG_TYPES = {
   MOVE_TAB: 'move_tab',
   REORDER_TABS: 'reorder_tabs',
   RECREATE_TAB: 'recreate_tab',
+  REVERT_LOCKED_TAB: 'revert_locked_tab',
 
   // Service Worker → Side Panel (broadcasts)
   STATE_CHANGED: 'state_changed',
