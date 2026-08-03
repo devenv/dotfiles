@@ -58,7 +58,7 @@ def _active_path(slug: str) -> Path:
     return WATCHERS_DIR / f"{slug}.json"
 
 
-def _load_active(slug: str) -> dict:
+def _load_active(slug: str) -> dict[str, object]:
     path = _active_path(slug)
     if not path.exists():
         done_path = DONE_DIR / f"{slug}.json"
@@ -70,8 +70,8 @@ def _load_active(slug: str) -> dict:
     return json.loads(path.read_text())
 
 
-def _save_active(slug: str, state: dict) -> None:
-    _active_path(slug).write_text(json.dumps(state, indent=2) + "\n")
+def _save_active(slug: str, state: dict[str, object]) -> None:
+    _ = _active_path(slug).write_text(json.dumps(state, indent=2) + "\n")
 
 
 def cmd_init(args: argparse.Namespace) -> None:
@@ -132,7 +132,7 @@ def cmd_complete(args: argparse.Namespace) -> None:
     state["completed_at"] = _now_slack_ts()
     state["completed_reason"] = args.reason
     DONE_DIR.mkdir(parents=True, exist_ok=True)
-    (DONE_DIR / f"{args.slug}.json").write_text(json.dumps(state, indent=2) + "\n")
+    _ = (DONE_DIR / f"{args.slug}.json").write_text(json.dumps(state, indent=2) + "\n")
     _active_path(args.slug).unlink()
     print(json.dumps(state, indent=2))
 
