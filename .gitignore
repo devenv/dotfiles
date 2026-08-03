@@ -296,6 +296,8 @@
 .tmux/plugins/tmux/
 .tmux/resurrect/
 .tox/
+.pytest_cache/
+__pycache__/
 .v8flags.6.7.288.49-node.19.3ba735738fd95b92fef4a3ffe491b6d8.json
 .vagrant.d/
 .var/

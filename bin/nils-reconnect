@@ -1,0 +1,50 @@
+#!/bin/bash
+# Update EC2 security group to allow SSH from current IP
+
+set -e
+
+SG="sg-0a57e0f2b646ae603"
+REGION="eu-central-1"
+PROFILE="${1:-avi}"
+PORTS=(22 18789)
+DESC="nils-reconnect"
+
+# Get current IPv4
+MY_IP=$(curl -4 -s --max-time 5 https://ifconfig.me)
+if [[ -z "$MY_IP" ]]; then
+    echo "Failed to get current IP"
+    exit 1
+fi
+echo "My IP: $MY_IP"
+
+# Revoke old rules with our description
+for port in "${PORTS[@]}"; do
+    # Get existing rule IDs with our description
+    RULE_IDS=$(aws ec2 describe-security-group-rules \
+        --region "$REGION" --profile "$PROFILE" \
+        --filters "Name=group-id,Values=$SG" \
+        --query "SecurityGroupRules[?FromPort==\`$port\` && Description==\`$DESC\`].SecurityGroupRuleId" \
+        --output text 2>/dev/null || true)
+
+    for rule_id in $RULE_IDS; do
+        if [[ -n "$rule_id" && "$rule_id" != "None" ]]; then
+            echo "Revoking rule $rule_id for port $port"
+            aws ec2 revoke-security-group-ingress \
+                --region "$REGION" --profile "$PROFILE" \
+                --group-id "$SG" \
+                --security-group-rule-ids "$rule_id" 2>/dev/null || true
+        fi
+    done
+done
+
+# Add new rules
+for port in "${PORTS[@]}"; do
+    echo "Opening port $port for $MY_IP"
+    aws ec2 authorize-security-group-ingress \
+        --region "$REGION" --profile "$PROFILE" \
+        --group-id "$SG" \
+        --ip-permissions "IpProtocol=tcp,FromPort=$port,ToPort=$port,IpRanges=[{CidrIp=$MY_IP/32,Description=$DESC}]" 2>/dev/null || echo "  (rule may already exist)"
+done
+
+echo "Done. Testing SSH..."
+ssh -o ConnectTimeout=5 nils-ec2 "echo 'SSH OK'" 2>/dev/null && echo "Connection successful!" || echo "SSH test failed"

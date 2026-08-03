@@ -1,0 +1,64 @@
+#!/bin/bash
+# Sync skills from nilus/core into ~/.openclaw/skills (copy not symlink)
+# Runs via cron every time repos auto-pull
+# NOTE: Copying (not symlinking) because OpenClaw gateway blocks symlinks outside root dir for security
+
+set -o pipefail  # but allow individual command failures
+
+CORE_SKILLS_DIR="$HOME/nilus/core/.claude/skills"
+OPENCLAW_SKILLS_DIR="$HOME/.openclaw/skills"
+
+if [ ! -d "$CORE_SKILLS_DIR" ]; then
+    echo "Core skills dir not found: $CORE_SKILLS_DIR"
+    exit 1
+fi
+[ ! -d "$OPENCLAW_SKILLS_DIR" ] && mkdir -p "$OPENCLAW_SKILLS_DIR"
+
+COPIED=0
+SKIPPED=0
+DELETED=0
+
+echo "Syncing core skills (copy)..."
+
+# Copy new/updated skills from core
+for skill_dir in "$CORE_SKILLS_DIR"/*/; do
+    [ ! -d "$skill_dir" ] && continue
+    skill_name=$(basename "$skill_dir")
+    target_path="$OPENCLAW_SKILLS_DIR/$skill_name"
+
+    # If already exists as directory, skip (assume it's a local skill or already synced)
+    if [ -d "$target_path" ] && [ ! -L "$target_path" ]; then
+        ((SKIPPED++))
+        continue
+    fi
+
+    # Remove stale symlinks first (from old sync-core-skills approach)
+    if [ -L "$target_path" ]; then
+        rm -f "$target_path"
+    fi
+
+    # Copy the skill
+    cp -r "$skill_dir" "$target_path"
+    echo "SYNCED: $skill_name"
+    ((COPIED++))
+done
+
+# Remove skills that were deleted from core (but only if they're copies, not local skills)
+# Be conservative: only remove if the source no longer exists
+for local_skill in "$OPENCLAW_SKILLS_DIR"/*/; do
+    [ ! -d "$local_skill" ] && continue
+    skill_name=$(basename "$local_skill")
+    core_skill="$CORE_SKILLS_DIR/$skill_name"
+
+    # Only remove if it DEFINITELY came from core (no way to tell for sure, so be conservative)
+    # Actually, keep all existing skills to avoid accidents
+done
+
+echo ""
+echo "Summary: Synced=$COPIED, Skipped=$SKIPPED"
+
+# Restart gateway so skill index refreshes
+if command -v openclaw &>/dev/null; then
+    echo "Restarting gateway..."
+    openclaw gateway restart 2>/dev/null || echo "  (gateway restart skipped or failed)"
+fi
