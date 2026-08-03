@@ -1,0 +1,2801 @@
+Script started
+1: node
+2: node
+3: node
+4: node
+5: node
+6: zsh
+7: zsh
+8: zsh
+9: zsh
+10: zsh
+11: zsh
+12: zsh
+13: zsh
+14: zsh
+15: zsh
+16: zsh
+tmux list-windows finished
+Script finished
+Script started
+1: node
+2: node
+3: node
+4: node
+5: node
+6: zsh
+7: zsh
+8: zsh
+9: zsh
+10: zsh
+11: zsh
+12: zsh
+13: zsh
+14: zsh
+15: zsh
+16: zsh
+tmux list-windows finished
+Script finished
+Script started
+1: node
+2: node
+3: node
+4: node
+5: node
+6: zsh
+7: zsh
+8: zsh
+9: zsh
+10: zsh
+11: zsh
+12: zsh
+13: zsh
+14: zsh
+15: zsh
+16: zsh
+tmux list-windows finished
+Script finished
+Script started
+1: node
+2: node
+3: node
+4: node
+5: node
+6: zsh
+7: zsh
+8: zsh
+9: zsh
+10: zsh
+11: zsh
+12: zsh
+13: zsh
+14: zsh
+15: zsh
+16: zsh
+tmux list-windows finished
+Script finished
+Script started
+1: node
+2: node
+3: node
+4: node
+5: node
+6: zsh
+7: zsh
+8: zsh
+9: zsh
+10: zsh
+11: zsh
+12: zsh
+13: zsh
+14: zsh
+15: zsh
+16: zsh
+17: zsh
+tmux list-windows finished
+Script finished
+Script started
+1: node (1 panes) [172x47] [layout c944,172x47,0,0,7] @0
+2: node (1 panes) [172x47] [layout e4d2,172x47,0,0,80] @23
+3: node (1 panes) [172x47] [layout c93d,172x47,0,0,0] @1
+4: node (1 panes) [172x47] [layout e4d8,172x47,0,0,86] @18
+5: node (1 panes) [172x47] [layout 64d3,172x47,0,0,90] @26
+6: zsh (1 panes) [172x47] [layout b29d,172x47,0,0,106] @31
+7: zsh (1 panes) [172x47] [layout b29f,172x47,0,0,108] @32
+8: zsh (1 panes) [172x47] [layout b2a0,172x47,0,0,109] @33
+9: zsh (1 panes) [172x47] [layout 3298,172x47,0,0,110] @34
+10: zsh (1 panes) [172x47] [layout 329b,172x47,0,0,113] @36
+11: zsh (1 panes) [172x47] [layout 329c,172x47,0,0,114] @37
+12: zsh (1 panes) [172x47] [layout 329e,172x47,0,0,116] @38
+13: zsh (1 panes) [172x47] [layout 32a0,172x47,0,0,118] @39
+14: zsh (1 panes) [172x47] [layout 32a1,172x47,0,0,119] @40
+15: zsh (1 panes) [172x47] [layout b298,172x47,0,0,120] @41
+16: zsh (1 panes) [172x47] [layout b299,172x47,0,0,121] @42
+17: zsh- (1 panes) [172x47] [layout b29b,172x47,0,0,123] @43
+18: zsh* (1 panes) [172x47] [layout b29c,172x47,0,0,124] @44 (active)
+Script finished
+Script started
+1: node (1 panes) [172x47] [layout c944,172x47,0,0,7] @0
+2: node (1 panes) [172x47] [layout e4d2,172x47,0,0,80] @23
+3: node (1 panes) [172x47] [layout c93d,172x47,0,0,0] @1
+4: node (1 panes) [172x47] [layout e4d8,172x47,0,0,86] @18
+5: node (1 panes) [172x47] [layout 64d3,172x47,0,0,90] @26
+6: zsh (1 panes) [172x47] [layout b29d,172x47,0,0,106] @31
+7: zsh (1 panes) [172x47] [layout b29f,172x47,0,0,108] @32
+8: zsh (1 panes) [172x47] [layout b2a0,172x47,0,0,109] @33
+9: zsh (1 panes) [172x47] [layout 3298,172x47,0,0,110] @34
+10: zsh (1 panes) [172x47] [layout 329b,172x47,0,0,113] @36
+11: zsh (1 panes) [172x47] [layout 329c,172x47,0,0,114] @37
+12: zsh (1 panes) [172x47] [layout 329e,172x47,0,0,116] @38
+13: zsh (1 panes) [172x47] [layout 32a0,172x47,0,0,118] @39
+14: zsh (1 panes) [172x47] [layout 32a1,172x47,0,0,119] @40
+15: zsh (1 panes) [172x47] [layout b298,172x47,0,0,120] @41
+16: zsh (1 panes) [172x47] [layout b299,172x47,0,0,121] @42
+17: zsh- (1 panes) [172x47] [layout b29b,172x47,0,0,123] @43
+18: zsh* (1 panes) [172x47] [layout b29c,172x47,0,0,124] @44 (active)
+Script finished
+Script started
+1: node (1 panes) [172x47] [layout c944,172x47,0,0,7] @0
+2: node (1 panes) [172x47] [layout e4d2,172x47,0,0,80] @23
+3: node (1 panes) [172x47] [layout c93d,172x47,0,0,0] @1
+4: node (1 panes) [172x47] [layout e4d8,172x47,0,0,86] @18
+5: node (1 panes) [172x47] [layout 64d3,172x47,0,0,90] @26
+6: zsh (1 panes) [172x47] [layout b29d,172x47,0,0,106] @31
+7: zsh (1 panes) [172x47] [layout b29f,172x47,0,0,108] @32
+8: zsh (1 panes) [172x47] [layout b2a0,172x47,0,0,109] @33
+9: zsh (1 panes) [172x47] [layout 3298,172x47,0,0,110] @34
+10: zsh (1 panes) [172x47] [layout 329b,172x47,0,0,113] @36
+11: zsh (1 panes) [172x47] [layout 329c,172x47,0,0,114] @37
+12: zsh (1 panes) [172x47] [layout 329e,172x47,0,0,116] @38
+13: zsh (1 panes) [172x47] [layout 32a0,172x47,0,0,118] @39
+14: zsh (1 panes) [172x47] [layout 32a1,172x47,0,0,119] @40
+15: zsh (1 panes) [172x47] [layout b298,172x47,0,0,120] @41
+16: zsh (1 panes) [172x47] [layout b299,172x47,0,0,121] @42
+17: zsh- (1 panes) [172x47] [layout b29b,172x47,0,0,123] @43
+18: zsh* (1 panes) [172x47] [layout b29c,172x47,0,0,124] @44 (active)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+@45:19
+Moving window 19 (id: @45, name: zsh) from parking to 0
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+@46:19
+Moving window 19 (id: @46, name: zsh) from parking to 0
+index in use: 0
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+@46:19
+Moving window 19 (id: @46, name: zsh) from parking to 0
+index in use: 0
+Moving window 18 (id: @44, name: zsh) from parking to 0
+index in use: 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+index in use: 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+index in use: 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+index in use: 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+index in use: 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+index in use: 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+index in use: 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+index in use: 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+index in use: 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+index in use: 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+index in use: 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+index in use: 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+index in use: 0
+Moving window 5 (id: @26, name: node) from parking to 0
+index in use: 0
+Moving window 4 (id: @18, name: node) from parking to 0
+index in use: 0
+Moving window 3 (id: @1, name: node) from parking to 0
+index in use: 0
+Moving window 2 (id: @23, name: node) from parking to 0
+index in use: 0
+Moving window 1 (id: @0, name: node) from parking to 0
+index in use: 0
+Selecting window 2 (node)
+Script finished
+Script started
+Current session: 0
+Windows in parking: @0:1
+@23:2
+@1:3
+@18:4
+@26:5
+@31:6
+@32:7
+@33:8
+@34:9
+@36:10
+@37:11
+@38:12
+@39:13
+@40:14
+@41:15
+@42:16
+@43:17
+@44:18
+@46:19
+@47:20
+Moving window 20 (id: @47, name: zsh) from parking to 0
+Moving window 19 (id: @46, name: zsh) from parking to 0
+Moving window 18 (id: @44, name: zsh) from parking to 0
+Moving window 17 (id: @43, name: zsh) from parking to 0
+Moving window 16 (id: @42, name: zsh) from parking to 0
+Moving window 15 (id: @41, name: zsh) from parking to 0
+Moving window 14 (id: @40, name: zsh) from parking to 0
+Moving window 13 (id: @39, name: zsh) from parking to 0
+Moving window 12 (id: @38, name: zsh) from parking to 0
+Moving window 11 (id: @37, name: zsh) from parking to 0
+Moving window 10 (id: @36, name: zsh) from parking to 0
+Moving window 9 (id: @34, name: zsh) from parking to 0
+Moving window 8 (id: @33, name: zsh) from parking to 0
+Moving window 7 (id: @32, name: zsh) from parking to 0
+Moving window 6 (id: @31, name: zsh) from parking to 0
+Moving window 5 (id: @26, name: node) from parking to 0
+Moving window 4 (id: @18, name: node) from parking to 0
+Moving window 3 (id: @1, name: node) from parking to 0
+Moving window 2 (id: @23, name: node) from parking to 0
+Moving window 1 (id: @0, name: node) from parking to 0
+Selecting window 25 (id: @0, name: node)
+Script finished
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, switching to session 0
+Switched to session 0
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @63:1
+@23:2
+@18:3
+@26:4
+@1:5
+@0:6
+@29:9
+@30:10
+Moving window 10 from parking to 0
+Moving window 9 from parking to 0
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:2
+@29:7
+@18:9
+@23:10
+@1:12
+@0:13
+Moving window 13 from parking to 0
+Moving window 12 from parking to 0
+Moving window 10 from parking to 0
+Moving window 9 from parking to 0
+Moving window 7 from parking to 0
+Moving window 2 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:13
+@1:14
+@23:15
+@18:16
+@29:17
+@26:18
+Moving window 18 from parking to 0
+Moving window 17 from parking to 0
+Moving window 16 from parking to 0
+Moving window 15 from parking to 0
+Moving window 14 from parking to 0
+Moving window 13 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:19
+@29:20
+@18:21
+@23:22
+@1:23
+@0:24
+Moving window 24 from parking to 0
+Moving window 23 from parking to 0
+Moving window 22 from parking to 0
+Moving window 21 from parking to 0
+Moving window 20 from parking to 0
+Moving window 19 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:25
+@1:26
+@23:27
+@18:28
+@29:29
+@26:30
+Moving window 30 from parking to 0
+Moving window 29 from parking to 0
+Moving window 28 from parking to 0
+Moving window 27 from parking to 0
+Moving window 26 from parking to 0
+Moving window 25 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:30
+@18:31
+@23:32
+@1:33
+@0:34
+@29:35
+Moving window 35 from parking to 0
+Moving window 34 from parking to 0
+Moving window 33 from parking to 0
+Moving window 32 from parking to 0
+Moving window 31 from parking to 0
+Moving window 30 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @29:35
+@0:36
+@1:37
+@23:38
+@18:39
+@26:40
+Moving window 40 from parking to 0
+Moving window 39 from parking to 0
+Moving window 38 from parking to 0
+Moving window 37 from parking to 0
+Moving window 36 from parking to 0
+Moving window 35 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:40
+@23:41
+@1:42
+@0:43
+@29:44
+@18:45
+Moving window 45 from parking to 0
+Moving window 44 from parking to 0
+Moving window 43 from parking to 0
+Moving window 42 from parking to 0
+Moving window 41 from parking to 0
+Moving window 40 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:1
+@0:44
+@18:45
+@23:46
+@1:50
+@29:51
+Moving window 51 from parking to 0
+Moving window 50 from parking to 0
+Moving window 46 from parking to 0
+Moving window 45 from parking to 0
+Moving window 44 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @29:47
+@1:48
+@23:49
+@18:50
+@0:51
+@26:52
+Moving window 52 from parking to 0
+Moving window 51 from parking to 0
+Moving window 50 from parking to 0
+Moving window 49 from parking to 0
+Moving window 48 from parking to 0
+Moving window 47 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @29:1
+@30:2
+@26:53
+@0:54
+@18:55
+@23:56
+@1:57
+Moving window 57 from parking to 0
+Moving window 56 from parking to 0
+Moving window 55 from parking to 0
+Moving window 54 from parking to 0
+Moving window 53 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:3
+@23:4
+@18:5
+@0:6
+@26:7
+@30:8
+@29:9
+Moving window 9 from parking to 0
+Moving window 8 from parking to 0
+Moving window 7 from parking to 0
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Moving window 3 from parking to 0
+no current client
+Selecting window 8 in session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @85:1
+@0:2
+@18:3
+@1:4
+@23:5
+@29:6
+@26:7
+Moving window 7 from parking to 0
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:8
+@29:9
+@23:10
+@1:11
+@18:12
+@0:13
+Moving window 13 from parking to 0
+Moving window 12 from parking to 0
+Moving window 11 from parking to 0
+Moving window 10 from parking to 0
+Moving window 9 from parking to 0
+Moving window 8 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:14
+@18:15
+@1:16
+@23:17
+@29:18
+@26:19
+Moving window 19 from parking to 0
+Moving window 18 from parking to 0
+Moving window 17 from parking to 0
+Moving window 16 from parking to 0
+Moving window 15 from parking to 0
+Moving window 14 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: floating
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:19
+@29:20
+@23:21
+@1:22
+@18:23
+@0:24
+Moving window 24 from parking to 0
+Moving window 23 from parking to 0
+Moving window 22 from parking to 0
+Moving window 21 from parking to 0
+Moving window 20 from parking to 0
+Moving window 19 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:25
+@18:26
+@1:27
+@23:28
+@29:29
+@26:30
+Moving window 30 from parking to 0
+Moving window 29 from parking to 0
+Moving window 28 from parking to 0
+Moving window 27 from parking to 0
+Moving window 26 from parking to 0
+Moving window 25 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:31
+@29:32
+@23:33
+@1:34
+@18:35
+@0:36
+Moving window 36 from parking to 0
+Moving window 35 from parking to 0
+Moving window 34 from parking to 0
+Moving window 33 from parking to 0
+Moving window 32 from parking to 0
+Moving window 31 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:35
+@0:36
+@29:37
+@26:38
+@23:39
+@18:40
+Moving window 40 from parking to 0
+Moving window 39 from parking to 0
+Moving window 38 from parking to 0
+Moving window 37 from parking to 0
+Moving window 36 from parking to 0
+Moving window 35 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @18:41
+@23:42
+@26:43
+@29:44
+@0:45
+@1:46
+Moving window 46 from parking to 0
+Moving window 45 from parking to 0
+Moving window 44 from parking to 0
+Moving window 43 from parking to 0
+Moving window 42 from parking to 0
+Moving window 41 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:1
+@113:2
+@114:3
+@23:47
+Moving window 47 from parking to 0
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:6
+Moving window 6 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:7
+Moving window 7 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @125:1
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @125:2
+Moving window 2 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:1
+@125:3
+Moving window 3 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:1
+@23:2
+@125:4
+Moving window 4 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:4
+@26:5
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:1
+@0:2
+@23:3
+@26:5
+Moving window 5 from parking to 0
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:3
+@26:4
+@1:5
+@23:6
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Moving window 3 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:6
+@1:7
+@26:8
+@0:9
+Moving window 9 from parking to 0
+Moving window 8 from parking to 0
+Moving window 7 from parking to 0
+Moving window 6 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:10
+@26:11
+@1:12
+@23:13
+Moving window 13 from parking to 0
+Moving window 12 from parking to 0
+Moving window 11 from parking to 0
+Moving window 10 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:14
+@1:15
+@26:16
+@0:17
+Moving window 17 from parking to 0
+Moving window 16 from parking to 0
+Moving window 15 from parking to 0
+Moving window 14 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:18
+@26:19
+@1:20
+@23:21
+Moving window 21 from parking to 0
+Moving window 20 from parking to 0
+Moving window 19 from parking to 0
+Moving window 18 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:22
+@1:23
+@26:24
+@0:25
+Moving window 25 from parking to 0
+Moving window 24 from parking to 0
+Moving window 23 from parking to 0
+Moving window 22 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:26
+@26:27
+@1:28
+@23:29
+Moving window 29 from parking to 0
+Moving window 28 from parking to 0
+Moving window 27 from parking to 0
+Moving window 26 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:30
+@1:31
+@26:32
+@0:33
+Moving window 33 from parking to 0
+Moving window 32 from parking to 0
+Moving window 31 from parking to 0
+Moving window 30 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:34
+@26:35
+@1:36
+@23:37
+Moving window 37 from parking to 0
+Moving window 36 from parking to 0
+Moving window 35 from parking to 0
+Moving window 34 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:38
+@1:39
+@26:40
+@0:41
+Moving window 41 from parking to 0
+Moving window 40 from parking to 0
+Moving window 39 from parking to 0
+Moving window 38 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:42
+@26:43
+@1:44
+@23:45
+Moving window 45 from parking to 0
+Moving window 44 from parking to 0
+Moving window 43 from parking to 0
+Moving window 42 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:46
+@1:47
+@26:48
+@0:49
+Moving window 49 from parking to 0
+Moving window 48 from parking to 0
+Moving window 47 from parking to 0
+Moving window 46 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:50
+@26:51
+@1:52
+@23:53
+Moving window 53 from parking to 0
+Moving window 52 from parking to 0
+Moving window 51 from parking to 0
+Moving window 50 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @23:54
+@1:55
+@26:56
+@0:57
+Moving window 57 from parking to 0
+Moving window 56 from parking to 0
+Moving window 55 from parking to 0
+Moving window 54 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:57
+@26:58
+@1:59
+@23:60
+Moving window 60 from parking to 0
+Moving window 59 from parking to 0
+Moving window 58 from parking to 0
+Moving window 57 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:62
+@26:63
+@0:64
+Moving window 64 from parking to 0
+Moving window 63 from parking to 0
+Moving window 62 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:64
+@1:65
+@26:66
+Moving window 66 from parking to 0
+Moving window 65 from parking to 0
+Moving window 64 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:67
+@1:68
+@0:69
+Moving window 69 from parking to 0
+Moving window 68 from parking to 0
+Moving window 67 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:70
+@1:71
+@26:72
+Moving window 72 from parking to 0
+Moving window 71 from parking to 0
+Moving window 70 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:73
+@1:74
+@0:75
+Moving window 75 from parking to 0
+Moving window 74 from parking to 0
+Moving window 73 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:76
+@1:77
+@26:78
+Moving window 78 from parking to 0
+Moving window 77 from parking to 0
+Moving window 76 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @26:78
+@0:79
+@1:80
+Moving window 80 from parking to 0
+Moving window 79 from parking to 0
+Moving window 78 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:80
+@0:81
+Moving window 81 from parking to 0
+Moving window 80 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:82
+@1:83
+Moving window 83 from parking to 0
+Moving window 82 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:84
+@0:85
+Moving window 85 from parking to 0
+Moving window 84 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:86
+@1:87
+Moving window 87 from parking to 0
+Moving window 86 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:87
+@0:88
+Moving window 88 from parking to 0
+Moving window 87 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:89
+@1:90
+Moving window 90 from parking to 0
+Moving window 89 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:91
+@0:92
+Moving window 92 from parking to 0
+Moving window 91 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:92
+@1:93
+Moving window 93 from parking to 0
+Moving window 92 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:94
+@0:95
+Moving window 95 from parking to 0
+Moving window 94 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:96
+@1:97
+Moving window 97 from parking to 0
+Moving window 96 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:98
+@0:99
+Moving window 99 from parking to 0
+Moving window 98 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:100
+@1:101
+Moving window 101 from parking to 0
+Moving window 100 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:102
+@0:103
+Moving window 103 from parking to 0
+Moving window 102 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:104
+@1:105
+Moving window 105 from parking to 0
+Moving window 104 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:106
+@0:107
+Moving window 107 from parking to 0
+Moving window 106 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @0:108
+@1:109
+Moving window 109 from parking to 0
+Moving window 108 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:110
+@0:111
+Moving window 111 from parking to 0
+Moving window 110 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist
+Script finished (no parking session)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:1
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:2
+Moving window 2 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @24:1
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @12:1
+@24:2
+@11:3
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @11:4
+@24:5
+@12:6
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @12:7
+@24:8
+@11:9
+Moving window 9 from parking to 0
+Moving window 8 from parking to 0
+Moving window 7 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, staying in parking
+Script finished (already in parking)
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:1
+@2:2
+@3:3
+Moving window 3 from parking to 0
+Moving window 2 from parking to 0
+Moving window 1 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @3:4
+@2:5
+@1:6
+Moving window 6 from parking to 0
+Moving window 5 from parking to 0
+Moving window 4 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:7
+@2:8
+@3:9
+Moving window 9 from parking to 0
+Moving window 8 from parking to 0
+Moving window 7 from parking to 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @3:10
+@2:11
+@1:12
+Moving window 10 from parking to 0:10
+Moving window 11 from parking to 0:11
+Moving window 12 from parking to 0:12
+no current client
+Selecting window 10 in session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @4:1
+Moving window 1 from parking to 0:1
+index in use: 1
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @4:1
+Moving window 1 from parking to 0:1
+index in use: 1
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @4:1
+Moving window 1 from parking to 0:1
+index in use: 1
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @4:1
+Moving window 1 from parking to 0:1
+no current client
+Selecting window 1 in session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @6:1
+Moving window 1 from parking to 0:1
+index in use: 1
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @6:1
+Moving window 1 from parking to 0:1
+index in use: 1
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @6:1
+Moving window 1 from parking to 0:1
+no current client
+Selecting window 1 in session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @7:1
+Window 0:1 already exists, moving to 0:13
+no current client
+Selecting window 13 in session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:1
+Moving window parking:1 to end of session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @9:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:1
+@11:2
+Moving window parking:1 to end of session 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@11:2
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@11:2
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@11:2
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@11:2
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@11:2
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:2 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@20:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @13:0
+@20:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @20:1
+Moving window parking:1 to end of session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:1
+Moving window parking:1 to end of session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:0
+@43:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:0
+@43:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: background
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:0
+@43:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:0
+@43:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @57:0
+@43:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @212:2
+Moving window parking:2 to end of session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @212:0
+@214:1
+Moving window parking:0 to end of session 0
+same index: 0
+Moving window parking:1 to end of session 0
+index in use: 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Parking session does not exist, creating one
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:1
+Moving window parking:1 to end of session 0
+Script finished (moved windows to session 0)
+Script started
+Current session: 0
+Switching to parking session
+Successfully switched to parking session
+Script finished
+Script started
+Current session: parking
+Currently in parking session, moving windows to session 0
+Windows in parking: @1:0
+Moving window parking:0 to end of session 0
+same index: 0
+Script finished (moved windows to session 0)

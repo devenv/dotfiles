@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Sigma Tabs",
+  "version": "0.1.0",
+  "description": "Hierarchical tab management with locking and drag-drop",
+  "permissions": [
+    "tabs",
+    "storage",
+    "sidePanel",
+    "contextMenus",
+    "alarms"
+  ],
+  "background": {
+    "service_worker": "src/background/index.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open Sigma Tabs"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Open Sigma Tabs sidebar"
+    },
+    "lock-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Lock/unlock current tab"
+    },
+    "next-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Period",
+        "mac": "Command+Shift+Period"
+      },
+      "description": "Switch to next tab in tree"
+    },
+    "prev-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Comma",
+        "mac": "Command+Shift+Comma"
+      },
+      "description": "Switch to previous tab in tree"
+    }
+  }
+}

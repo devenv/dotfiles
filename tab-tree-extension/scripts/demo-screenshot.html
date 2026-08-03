@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Tree Extension - Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .demo-container {
+      display: flex;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    /* Sidebar styling (from extension) */
+    .sidebar {
+      width: 280px;
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      padding: 12px 16px;
+      background: #f8f8f8;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .tab-tree {
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .tab-item {
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .tab-item:hover {
+      background: #f5f5f5;
+    }
+
+    .tab-item.active {
+      background: #e3f2fd;
+      border-left: 3px solid #2196f3;
+      padding-left: 9px;
+    }
+
+    .toggle-icon {
+      width: 20px;
+      min-width: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .toggle-icon.spacer {
+      pointer-events: none;
+    }
+
+    .favicon {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      border-radius: 3px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .tab-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tab-title {
+      font-size: 13px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tab-url {
+      font-size: 11px;
+      color: #999;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .icons {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    /* Hierarchy indentation */
+    .tab-item[data-level="1"] {
+      padding-left: 32px;
+    }
+
+    .tab-item[data-level="2"] {
+      padding-left: 52px;
+    }
+
+    .tab-item.child .toggle-icon.spacer::before {
+      content: "└ ";
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <!-- Demo 1: Empty Sidebar -->
+    <div class="sidebar">
+      <div class="tab-tree">
+        <!-- Empty -->
+      </div>
+    </div>
+
+    <!-- Demo 2: Populated Sidebar -->
+    <div class="sidebar">
+      <div class="tab-tree">
+        <div class="tab-item active" data-level="0">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">G</div>
+          <div class="tab-info">
+            <div class="tab-title">GitHub</div>
+            <div class="tab-url">github.com</div>
+          </div>
+          <div class="icons">
+            <div class="icon">🔒</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">I</div>
+          <div class="tab-info">
+            <div class="tab-title">Issue #123 - Add feature</div>
+            <div class="tab-url">github.com/issues/123</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">P</div>
+          <div class="tab-info">
+            <div class="tab-title">PR #456 - Fix bug</div>
+            <div class="tab-url">github.com/pull/456</div>
+          </div>
+        </div>
+
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">D</div>
+          <div class="tab-info">
+            <div class="tab-title">Chrome Docs</div>
+            <div class="tab-url">docs.chrome.com</div>
+          </div>
+          <div class="icons">
+            <div class="icon">🔒</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">A</div>
+          <div class="tab-info">
+            <div class="tab-title">API Reference</div>
+            <div class="tab-url">docs.chrome.com/api</div>
+          </div>
+        </div>
+
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">🔐</div>
+          <div class="tab-info">
+            <div class="tab-title">Gmail</div>
+            <div class="tab-url">mail.google.com/search/unread</div>
+          </div>
+          <div class="icons">
+            <div class="icon">←</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 3: Collapsed State -->
+    <div class="sidebar">
+      <div class="tab-tree">
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon">▶</div>
+          <div class="favicon">G</div>
+          <div class="tab-info">
+            <div class="tab-title">GitHub</div>
+            <div class="tab-url">github.com</div>
+          </div>
+          <div class="icons">
+            <div class="icon">↗</div>
+          </div>
+        </div>
+
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">D</div>
+          <div class="tab-info">
+            <div class="tab-title">Chrome Docs</div>
+            <div class="tab-url">docs.chrome.com</div>
+          </div>
+          <div class="icons">
+            <div class="icon">🔒</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">A</div>
+          <div class="tab-info">
+            <div class="tab-title">API Reference</div>
+            <div class="tab-url">docs.chrome.com/api</div>
+          </div>
+        </div>
+
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">🔐</div>
+          <div class="tab-info">
+            <div class="tab-title">Gmail</div>
+            <div class="tab-url">mail.google.com/search/unread</div>
+          </div>
+          <div class="icons">
+            <div class="icon">←</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo 4: Deep Hierarchy -->
+    <div class="sidebar">
+      <div class="tab-tree">
+        <div class="tab-item" data-level="0">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">🚀</div>
+          <div class="tab-info">
+            <div class="tab-title">Project Setup</div>
+            <div class="tab-url">example.com/project</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">📋</div>
+          <div class="tab-info">
+            <div class="tab-title">Requirements</div>
+            <div class="tab-url">docs.example.com/req</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">📖</div>
+          <div class="tab-info">
+            <div class="tab-title">Getting Started</div>
+            <div class="tab-url">docs.example.com/start</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon">▼</div>
+          <div class="favicon">⚙️</div>
+          <div class="tab-info">
+            <div class="tab-title">Configuration</div>
+            <div class="tab-url">docs.example.com/config</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">🔑</div>
+          <div class="tab-info">
+            <div class="tab-title">API Keys</div>
+            <div class="tab-url">dashboard.example.com</div>
+          </div>
+        </div>
+
+        <div class="tab-item child" data-level="1" style="padding-left: 32px;">
+          <div class="toggle-icon spacer"></div>
+          <div class="favicon">🔐</div>
+          <div class="tab-info">
+            <div class="tab-title">Environment Variables</div>
+            <div class="tab-url">docs.example.com/env</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

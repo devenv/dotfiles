@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Tree</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="sidebar" class="sidebar">
+    <div id="tab-tree" class="tab-tree" role="region" aria-label="Tab list">
+      <!-- Tabs will be rendered here -->
+    </div>
+    <div class="footer">
+      <button id="collapse-all-btn" class="footer-btn" title="Collapse all">
+        ▶
+      </button>
+      <button id="expand-all-btn" class="footer-btn" title="Expand all">
+        ▼
+      </button>
+      <div class="auto-unload-control">
+        <label for="auto-unload-slider" title="Auto-unload inactive tabs">
+          <span id="auto-unload-value">Never</span>
+        </label>
+        <input
+          type="range"
+          id="auto-unload-slider"
+          min="0"
+          max="9"
+          value="0"
+          step="1"
+          list="auto-unload-markers"
+        />
+        <datalist id="auto-unload-markers">
+          <option value="0" label="30s"></option>
+          <option value="1" label="5m"></option>
+          <option value="2" label="15m"></option>
+          <option value="3" label="30m"></option>
+          <option value="4" label="1h"></option>
+          <option value="5" label="6h"></option>
+          <option value="6" label="1d"></option>
+          <option value="7" label="3d"></option>
+          <option value="8" label="1w"></option>
+          <option value="9" label="Never"></option>
+        </datalist>
+      </div>
+    </div>
+  </div>
+  <!-- Load SortableJS for drag-drop -->
+  <script src="../lib/sortable.min.js"></script>
+  <!-- Import side panel controller as ES module -->
+  <script src="index.js" type="module"></script>
+</body>
+</html>

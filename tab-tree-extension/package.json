@@ -1,0 +1,22 @@
+{
+  "name": "sigma-tabs",
+  "version": "0.1.0",
+  "description": "Chrome extension for hierarchical tab management",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/unit/**/*.test.js",
+    "test:e2e": "playwright test tests/e2e/sanity.spec.js",
+    "test:e2e:full": "playwright test",
+    "test:watch": "playwright test --watch",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "screenshot": "node scripts/take-screenshots.js",
+    "dev": "npm run build && npm screenshot && npm test -- --watch",
+    "build": "node scripts/build.js",
+    "build:watch": "node scripts/build.js --watch"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

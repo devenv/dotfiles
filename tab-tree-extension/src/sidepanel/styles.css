@@ -1,0 +1,547 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Catppuccin Latte (Light Theme) */
+:root {
+  --ctp-base: #eff1f5;
+  --ctp-mantle: #e6e9ef;
+  --ctp-crust: #dce0e8;
+  --ctp-surface0: #ccd0da;
+  --ctp-surface1: #bcc0cc;
+  --ctp-surface2: #acb0be;
+  --ctp-overlay0: #9ca0b0;
+  --ctp-overlay1: #8c8fa1;
+  --ctp-overlay2: #7c7f93;
+  --ctp-text: #4c4f69;
+  --ctp-subtext0: #6c6f85;
+  --ctp-subtext1: #5c5f77;
+  --ctp-blue: #1e66f5;
+  --ctp-lavender: #7287fd;
+  --ctp-sapphire: #209fb5;
+  --ctp-sky: #04a5e5;
+  --ctp-teal: #179299;
+  --ctp-green: #40a02b;
+  --ctp-yellow: #df8e1d;
+  --ctp-peach: #fe640b;
+  --ctp-maroon: #e64553;
+  --ctp-red: #d20f39;
+  --ctp-mauve: #8839ef;
+  --ctp-pink: #ea76cb;
+  --ctp-flamingo: #dd7878;
+  --ctp-rosewater: #dc8a78;
+
+  --bg-primary: var(--ctp-base);
+  --bg-hover: var(--ctp-mantle);
+  --bg-active: var(--ctp-surface0);
+  --text-primary: var(--ctp-text);
+  --text-secondary: var(--ctp-subtext0);
+  --border-color: var(--ctp-surface1);
+  --indent-size: 20px;
+  --btn-bg: var(--ctp-surface0);
+  --btn-hover-bg: var(--ctp-surface1);
+  --btn-active-bg: var(--ctp-surface2);
+  --accent-blue: var(--ctp-blue);
+  --accent-peach: var(--ctp-peach);
+  --accent-red: var(--ctp-red);
+}
+
+/* Catppuccin Mocha (Dark Theme) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ctp-base: #1e1e2e;
+    --ctp-mantle: #181825;
+    --ctp-crust: #11111b;
+    --ctp-surface0: #313244;
+    --ctp-surface1: #45475a;
+    --ctp-surface2: #585b70;
+    --ctp-overlay0: #6c7086;
+    --ctp-overlay1: #7f849c;
+    --ctp-overlay2: #9399b2;
+    --ctp-text: #cdd6f4;
+    --ctp-subtext0: #a6adc8;
+    --ctp-subtext1: #bac2de;
+    --ctp-blue: #89b4fa;
+    --ctp-lavender: #b4befe;
+    --ctp-sapphire: #74c7ec;
+    --ctp-sky: #89dceb;
+    --ctp-teal: #94e2d5;
+    --ctp-green: #a6e3a1;
+    --ctp-yellow: #f9e2af;
+    --ctp-peach: #fab387;
+    --ctp-maroon: #eba0ac;
+    --ctp-red: #f38ba8;
+    --ctp-mauve: #cba6f7;
+    --ctp-pink: #f5c2e7;
+    --ctp-flamingo: #f2cdcd;
+    --ctp-rosewater: #f5e0dc;
+
+    --bg-primary: var(--ctp-base);
+    --bg-hover: var(--ctp-surface0);
+    --bg-active: var(--ctp-surface1);
+    --text-primary: var(--ctp-text);
+    --text-secondary: var(--ctp-subtext0);
+    --border-color: var(--ctp-surface0);
+    --btn-bg: var(--ctp-surface0);
+    --btn-hover-bg: var(--ctp-surface1);
+    --btn-active-bg: var(--ctp-surface2);
+    --accent-blue: var(--ctp-blue);
+    --accent-peach: var(--ctp-peach);
+    --accent-red: var(--ctp-red);
+  }
+
+  .context-menu {
+    background: var(--ctp-mantle);
+    border-color: var(--ctp-surface0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.footer {
+  padding: 6px 8px;
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: var(--bg-primary);
+}
+
+.footer-btn {
+  padding: 4px 8px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  line-height: 1;
+  min-width: 24px;
+}
+
+.footer-btn:hover {
+  background: var(--btn-hover-bg);
+}
+
+.footer-btn:active {
+  background: var(--btn-active-bg);
+}
+
+.auto-unload-control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auto-unload-control label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.auto-unload-control #auto-unload-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.auto-unload-control input[type="range"] {
+  flex: 1;
+  height: 16px;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.auto-unload-control input[type="range"]::-webkit-slider-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.auto-unload-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+.auto-unload-control input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.auto-unload-control input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-blue);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.tab-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: background 0.1s ease;
+  user-select: none;
+}
+
+.tab-item:hover {
+  background: var(--bg-hover);
+}
+
+.tab-item.active {
+  background: var(--bg-active);
+  border-left: 3px solid var(--accent-blue);
+  padding-left: 5px;
+}
+
+.tab-item.ghost {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.tab-item.ghost:hover {
+  opacity: 0.7;
+}
+
+.tab-item.loading {
+  opacity: 0.6;
+}
+
+.child-indicator {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  color: var(--text-secondary);
+  cursor: default;
+  flex-shrink: 0;
+  letter-spacing: -1px;
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tab-item.no-children .toggle-icon {
+  visibility: hidden;
+}
+
+.favicon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.favicon.placeholder {
+  background: var(--bg-hover);
+}
+
+.tab-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.tab-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.lock-icon {
+  font-size: 12px;
+  color: #ffa726;
+  cursor: pointer;
+}
+
+.revert-icon {
+  font-size: 12px;
+  color: #2196f3;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.revert-icon:hover {
+  color: #1976d2;
+  text-shadow: 0 0 2px rgba(33, 150, 243, 0.5);
+}
+
+.pin-icon {
+  font-size: 12px;
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Pinned tabs section */
+.pinned-section {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 4px;
+}
+
+.pinned-section:empty {
+  display: none;
+}
+
+.section-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+/* Drag and drop states */
+.tab-item.drag-over {
+  background: #fff3cd;
+  border-top: 2px solid #ffc107;
+}
+
+.tab-item.dragging {
+  opacity: 0.5;
+}
+
+/* Drag zone indicators */
+.tab-tree.drag-active {
+  position: relative;
+}
+
+.tab-tree.drag-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid #4caf50;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 1;
+}
+
+.tab-tree.drag-active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: rgba(33, 150, 243, 0.1);
+  border-right: 3px solid #2196f3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 1;
+}
+
+.tab-tree.drag-active.zone-left::before {
+  opacity: 1;
+}
+
+.tab-tree.drag-active.zone-right::after {
+  opacity: 1;
+}
+
+/* Drop indicator line */
+.tab-tree .drop-indicator {
+  height: 2px;
+  background: #2196f3;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Sortable drag preview */
+.sortable-ghost {
+  opacity: 0.3;
+  background: #2196f3 !important;
+}
+
+/* Context menu */
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 100;
+  min-width: 150px;
+}
+
+.context-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.context-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.context-menu-item.disabled {
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+  background: transparent;
+}
+
+/* Tab action buttons (lock, close) */
+.tab-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: var(--btn-bg);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text-primary);
+  transition: background 0.15s ease, opacity 0.15s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.tab-action-btn:hover:not(:disabled) {
+  background: var(--btn-hover-bg);
+}
+
+.tab-action-btn:active:not(:disabled) {
+  background: var(--btn-active-bg);
+}
+
+.tab-action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Lock button states */
+.lock-btn.unlocked {
+  opacity: 0.5;
+}
+
+.lock-btn.locked {
+  background: var(--accent-peach);
+  color: var(--ctp-crust);
+}
+
+.lock-btn.locked:hover {
+  background: var(--ctp-yellow);
+}
+
+.lock-btn.drifted {
+  background: var(--accent-blue);
+  color: var(--ctp-crust);
+}
+
+.lock-btn.drifted:hover {
+  background: var(--ctp-sapphire);
+}
+
+/* Pin button */
+.pin-btn.unpinned {
+  opacity: 0.5;
+}
+
+.pin-btn.pinned {
+  background: var(--ctp-pink);
+  color: var(--ctp-crust);
+}
+
+.pin-btn.pinned:hover {
+  background: var(--ctp-mauve);
+}
+
+/* Close button */
+.close-btn {
+  color: var(--text-secondary);
+}
+
+.close-btn:hover:not(:disabled) {
+  background: var(--accent-red);
+  color: var(--ctp-crust);
+}
+
+/* Hide buttons until hover (cleaner UI) */
+.tab-item:not(:hover) .tab-action-btn {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tab-item:hover .tab-action-btn {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Always show locked and pinned states */
+.tab-item .lock-btn.locked,
+.tab-item .lock-btn.drifted,
+.tab-item .pin-btn.pinned {
+  opacity: 1 !important;
+  visibility: visible !important;
+}

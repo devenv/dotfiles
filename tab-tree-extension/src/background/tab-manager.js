@@ -1,0 +1,952 @@
+/**
+ * Tab Manager - Core Hierarchy Tracking Logic
+ * Listens to Chrome tab events and maintains parent-child relationships
+ */
+
+import * as storage from '../shared/storage.js';
+import { MSG_TYPES, SETTINGS } from '../shared/constants.js';
+
+// Track initialization to prevent duplicate listeners
+let isInitialized = false;
+
+/**
+ * Initialize tab manager
+ * Set up Chrome event listeners
+ * @returns {Promise<void>}
+ */
+export async function initialize() {
+  if (isInitialized) {
+    return;
+  }
+
+  // Load all existing tabs and build initial hierarchy
+  await loadAllTabs();
+
+  // Listen for new tab creation
+  chrome.tabs.onCreated.addListener(handleTabCreated);
+
+  // Listen for tab removal (and prevent closing locked tabs)
+  chrome.tabs.onRemoved.addListener(handleTabRemoved);
+
+  // Listen for tab updates (title, favicon)
+  chrome.tabs.onUpdated.addListener(handleTabUpdated);
+
+  // Listen for tab activation to update lastVisited
+  chrome.tabs.onActivated.addListener(handleTabActivated);
+
+  isInitialized = true;
+}
+
+/**
+ * Load all currently open tabs into hierarchy
+ * Called on startup to populate storage
+ * @returns {Promise<void>}
+ */
+async function loadAllTabs() {
+  const allTabs = await chrome.tabs.query({});
+
+  const state = await storage.getState();
+
+  // Clean up state: remove tabs that no longer exist in Chrome (except ghosts)
+  const chromeTabIds = new Set(allTabs.map(t => t.id));
+  const stateTabIds = Object.keys(state.tabs).map(Number);
+
+  for (const tabId of stateTabIds) {
+    if (!chromeTabIds.has(tabId)) {
+      const node = state.tabs[tabId];
+      // Keep ghost tabs (locked tabs that were closed)
+      if (node && node.isGhost) {
+        continue;
+      }
+
+      delete state.tabs[tabId];
+
+      // Remove from order arrays
+      for (const key in state.order) {
+        state.order[key] = state.order[key].filter(id => id !== tabId);
+      }
+    }
+  }
+
+  // Deduplicate order arrays
+  for (const key in state.order) {
+    state.order[key] = [...new Set(state.order[key])];
+  }
+
+  for (const chromeTab of allTabs) {
+    const existingNode = state.tabs[chromeTab.id];
+
+    if (existingNode) {
+      // Tab exists in Chrome, so it's not a ghost
+      existingNode.isGhost = false;
+
+      // Tab is tracked, but ensure it's in order arrays
+      const parentKey = existingNode.parentId || 'root';
+      if (!state.order[parentKey]) {
+        state.order[parentKey] = [];
+      }
+
+      if (!state.order[parentKey].includes(chromeTab.id)) {
+        state.order[parentKey].push(chromeTab.id);
+      }
+
+      // Update tab properties in case they changed
+      existingNode.title = chromeTab.title || existingNode.title;
+      existingNode.url = chromeTab.url || existingNode.url;
+      existingNode.favicon = chromeTab.favIconUrl || existingNode.favicon;
+      existingNode.windowId = chromeTab.windowId;
+
+      continue;
+    }
+
+    // Determine parent from openerTabId
+    let parentId = null;
+    if (chromeTab.openerTabId && state.tabs[chromeTab.openerTabId]) {
+      parentId = chromeTab.openerTabId;
+    }
+
+    // Create tab node
+    const node = createTabNode(chromeTab, parentId);
+    state.tabs[node.id] = node;
+
+    // Add to order
+    const parentKey = parentId || 'root';
+    if (!state.order[parentKey]) {
+      state.order[parentKey] = [];
+    }
+
+    // Check if already in order (prevent duplicates)
+    if (!state.order[parentKey].includes(node.id)) {
+      state.order[parentKey].push(node.id);
+    }
+
+  }
+
+  await storage.setState(state);
+}
+
+/**
+ * Handle new tab creation
+ * Establish parent-child relationship via openerTabId
+ * @param {Tab} chromeTab - Chrome tab object
+ * @returns {Promise<void>}
+ */
+async function handleTabCreated(chromeTab) {
+
+  const state = await storage.getState();
+
+  // Skip if tab already exists (prevent duplicates)
+  if (state.tabs[chromeTab.id]) {
+    return;
+  }
+
+  // Determine parent from openerTabId
+  let parentId = null;
+  if (chromeTab.openerTabId && SETTINGS.enableAutoNesting) {
+    if (state.tabs[chromeTab.openerTabId]) {
+      parentId = chromeTab.openerTabId;
+    }
+  }
+
+  // Create tab node
+  const node = createTabNode(chromeTab, parentId);
+  state.tabs[node.id] = node;
+
+  // Add to order
+  const parentKey = parentId || 'root';
+  if (!state.order[parentKey]) {
+    state.order[parentKey] = [];
+  }
+  state.order[parentKey].push(node.id);
+
+  await storage.setState(state);
+
+  // Notify UI of new tab
+  broadcastMessage({
+    type: MSG_TYPES.TAB_CREATED,
+    payload: node,
+  });
+}
+
+/**
+ * Handle tab removal
+ * Clean up from hierarchy
+ * @param {number} tabId - Removed tab ID
+ * @returns {Promise<void>}
+ */
+async function handleTabRemoved(tabId, removeInfo) {
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    return;
+  }
+
+  // Locked tabs become ghosts instead of being removed
+  if (node.isLocked) {
+    node.isGhost = true;
+    state.tabs[tabId] = node;
+
+    // Get children and promote to root (since parent is now a ghost)
+    const childIds = state.order[tabId] || [];
+    for (const childId of childIds) {
+      const child = state.tabs[childId];
+      if (child) {
+        child.parentId = null;
+        state.tabs[childId] = child;
+      }
+    }
+
+    // Move children to root order
+    if (childIds.length > 0) {
+      if (!state.order.root) {
+        state.order.root = [];
+      }
+      state.order.root.push(...childIds);
+    }
+
+    // Remove children order from ghost tab
+    delete state.order[tabId];
+    delete state.collapsed[tabId];
+
+    await storage.setState(state);
+
+    broadcastMessage({
+      type: MSG_TYPES.STATE_CHANGED,
+      payload: state,
+    });
+
+    return;
+  }
+
+  // Non-locked tabs: fully remove from state
+
+  // Get children before deletion
+  const childIds = state.order[tabId] || [];
+
+  // Move children to root level
+  for (const childId of childIds) {
+    const child = state.tabs[childId];
+    if (child) {
+      child.parentId = null;
+      state.tabs[childId] = child;
+    }
+  }
+
+  // Add children to root order
+  if (childIds.length > 0) {
+    if (!state.order.root) {
+      state.order.root = [];
+    }
+    state.order.root.push(...childIds);
+  }
+
+  // Remove from order
+  const parentKey = node.parentId || 'root';
+  if (state.order[parentKey]) {
+    state.order[parentKey] = state.order[parentKey].filter((id) => id !== tabId);
+  }
+
+  // Remove tab node and its children order
+  delete state.tabs[tabId];
+  delete state.order[tabId];
+  delete state.collapsed[tabId];
+
+  await storage.setState(state);
+
+  // Notify UI
+  broadcastMessage({
+    type: MSG_TYPES.TAB_REMOVED,
+    payload: { tabId, orphanedChildren: childIds },
+  });
+}
+
+/**
+ * Handle tab update (title, favicon, URL)
+ * @param {number} tabId - Updated tab ID
+ * @param {Object} changeInfo - What changed
+ * @param {Tab} chromeTab - Full tab object
+ * @returns {Promise<void>}
+ */
+async function handleTabUpdated(tabId, changeInfo, chromeTab) {
+  // Only process meaningful changes
+  if (!changeInfo.title && !changeInfo.favIconUrl && !changeInfo.status) {
+    return;
+  }
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    // Might be a tab opened before extension loaded - add it now
+    const parentId = chromeTab.openerTabId || null;
+    const newNode = createTabNode(chromeTab, parentId);
+    state.tabs[newNode.id] = newNode;
+
+    const parentKey = parentId || 'root';
+    if (!state.order[parentKey]) {
+      state.order[parentKey] = [];
+    }
+    state.order[parentKey].push(newNode.id);
+
+    await storage.setState(state);
+    return;
+  }
+
+  // Check if tab is locked and URL changed
+  if (node.isLocked && changeInfo.url && changeInfo.url !== node.lockUrl) {
+    // Revert locked tab back to its original URL
+    await chrome.tabs.update(tabId, { url: node.lockUrl });
+    // Don't update the stored URL - it stays locked to the original
+    state.tabs[tabId] = node;
+    await storage.setState(state);
+    return; // Exit early, don't process further
+  }
+
+  // Update tab properties (only if not locked or URL didn't change)
+  let updated = false;
+
+  if (changeInfo.title && chromeTab.title) {
+    node.title = chromeTab.title;
+    updated = true;
+  }
+  if (changeInfo.favIconUrl) {
+    node.favicon = chromeTab.favIconUrl || '';
+    updated = true;
+  }
+  if (changeInfo.url && !node.isLocked) {
+    // Only update URL if tab is not locked
+    node.url = chromeTab.url;
+    updated = true;
+  }
+
+  if (updated) {
+    state.tabs[tabId] = node;
+    await storage.setState(state);
+
+    // Notify UI of update
+    broadcastMessage({
+      type: MSG_TYPES.TAB_UPDATED,
+      payload: node,
+    });
+  }
+}
+
+/**
+ * Handle tab activation (user switches to tab)
+ * Updates lastVisited timestamp
+ * @param {Object} activeInfo - { tabId, windowId }
+ * @returns {Promise<void>}
+ */
+async function handleTabActivated(activeInfo) {
+  const { tabId } = activeInfo;
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    return;
+  }
+
+  // Update lastVisited timestamp
+  node.lastVisited = Date.now();
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+}
+
+/**
+ * Create a new TabNode from Chrome tab
+ * @param {Tab} chromeTab - Chrome tab object
+ * @param {number|null} parentId - Parent tab ID
+ * @returns {TabNode} - Created node
+ */
+function createTabNode(chromeTab, parentId = null) {
+  return {
+    id: chromeTab.id,
+    parentId,
+    url: chromeTab.url || chromeTab.pendingUrl || '',
+    title: chromeTab.title || 'Loading...',
+    favicon: chromeTab.favIconUrl || '',
+    isLocked: false,
+    isPinned: false,
+    lockUrl: null,
+    isCollapsed: false,
+    createdAt: Date.now(),
+    lastVisited: Date.now(),
+    windowId: chromeTab.windowId,
+  };
+}
+
+/**
+ * Check if a tab has a given ancestor (for cycle detection)
+ * @param {number} tabId - Tab to check
+ * @param {number} potentialAncestorId - Potential ancestor
+ * @param {Object} state - Current state
+ * @returns {boolean} - True if potentialAncestorId is an ancestor of tabId
+ */
+function hasAncestor(tabId, potentialAncestorId, state) {
+  let current = state.tabs[tabId];
+  const visited = new Set();
+
+  while (current && current.parentId !== null) {
+    // Prevent infinite loops from corrupted state
+    if (visited.has(current.id)) {
+      return true;
+    }
+    visited.add(current.id);
+
+    if (current.parentId === potentialAncestorId) {
+      return true;
+    }
+    current = state.tabs[current.parentId];
+  }
+  return false;
+}
+
+/**
+ * Set a tab as the child of another tab
+ * @param {number} childId - Tab to become child
+ * @param {number} parentId - Tab to become parent
+ * @returns {Promise<void>}
+ */
+export async function setParent(childId, parentId) {
+
+  const state = await storage.getState();
+  const child = state.tabs[childId];
+  const parent = state.tabs[parentId];
+
+  if (!child || !parent) {
+    throw new Error('Child or parent tab not found');
+  }
+
+  // Cycle detection: Prevent A becoming child of B if B is already descendant of A
+  if (hasAncestor(parentId, childId, state)) {
+    throw new Error('Cannot create circular hierarchy');
+  }
+
+  // Check max hierarchy level
+  if (parent.parentId !== null && SETTINGS.maxHierarchyLevel <= 1) {
+    throw new Error('Cannot nest more than 1 level');
+  }
+
+  // Remove from old parent
+  const oldParentKey = child.parentId || 'root';
+  if (state.order[oldParentKey]) {
+    state.order[oldParentKey] = state.order[oldParentKey].filter(
+      (id) => id !== childId
+    );
+  }
+
+  // Update child
+  child.parentId = parentId;
+  state.tabs[childId] = child;
+
+  // Add to new parent
+  const newParentKey = parentId;
+  if (!state.order[newParentKey]) {
+    state.order[newParentKey] = [];
+  }
+  state.order[newParentKey].push(childId);
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Remove parent from a tab (make it root level)
+ * @param {number} tabId - Tab ID
+ * @returns {Promise<void>}
+ */
+export async function removeParent(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node || node.parentId === null) {
+    return; // Already at root or doesn't exist
+  }
+
+  // Remove from old parent
+  const oldParentKey = node.parentId;
+  if (state.order[oldParentKey]) {
+    state.order[oldParentKey] = state.order[oldParentKey].filter(
+      (id) => id !== tabId
+    );
+  }
+
+  // Make root
+  node.parentId = null;
+  state.tabs[tabId] = node;
+
+  // Add to root
+  if (!state.order.root) {
+    state.order.root = [];
+  }
+  state.order.root.push(tabId);
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Move a tab via drag-drop
+ * Reorders tabs in their parent's child list
+ * @param {number} tabId - Tab being moved
+ * @param {string|number} newParentId - New parent ('root' or tab ID)
+ * @param {number} newIndex - New position in flattened list (for future use)
+ * @returns {Promise<void>}
+ */
+export async function moveTab(tabId, newParentId, newIndex) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Remove from old parent
+  const oldParentKey = node.parentId || 'root';
+  if (state.order[oldParentKey]) {
+    state.order[oldParentKey] = state.order[oldParentKey].filter(
+      (id) => id !== tabId
+    );
+  }
+
+  // Add to new parent at the correct position
+  const newParentKey = newParentId || 'root';
+  if (!state.order[newParentKey]) {
+    state.order[newParentKey] = [];
+  }
+
+  // Calculate insertion position within parent's children
+  // newIndex is the visual position in the flattened tree
+  // We need to find the position within the parent's children array
+  const flattenedBefore = flattenTreeForReorder(state);
+  const visualPosition = flattenedBefore.findIndex(item => item.id === tabId);
+
+  // Insert at the end of parent's children for now
+  // TODO: Calculate proper position based on newIndex
+  state.order[newParentKey].push(tabId);
+
+  // Update node parent reference
+  node.parentId = newParentId === 'root' ? null : newParentId;
+  state.tabs[tabId] = node;
+
+  // Calculate Chrome tab index and reorder physical tabs
+  const flattenedAfter = flattenTreeForReorder(state);
+  const chromeTabIndex = flattenedAfter.findIndex(item => item.id === tabId);
+
+  if (chromeTabIndex >= 0) {
+    try {
+      await chrome.tabs.move(tabId, { index: chromeTabIndex });
+    } catch (error) {
+    }
+  }
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Flatten tree structure to calculate Chrome tab indices
+ * @param {Object} state - Current state
+ * @returns {Array} - Flattened array of {id, level}
+ */
+function flattenTreeForReorder(state) {
+  const result = [];
+
+  function traverse(parentKey, level = 0) {
+    const tabIds = state.order[parentKey] || [];
+
+    for (const tabId of tabIds) {
+      const node = state.tabs[tabId];
+      if (!node) continue;
+
+      result.push({ id: tabId, level });
+
+      // Always traverse children for reordering (ignore collapse state)
+      traverse(tabId, level + 1);
+    }
+  }
+
+  traverse('root', 0);
+  return result;
+}
+
+/**
+ * Lock a tab - prevents closing and remembers original URL
+ * @param {number} tabId - Tab to lock
+ * @returns {Promise<void>}
+ */
+export async function lockTab(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Get current tab from Chrome to save its URL
+  const chromeTab = (await chrome.tabs.query({})).find(t => t.id === tabId);
+  if (!chromeTab) {
+    throw new Error('Chrome tab not found');
+  }
+
+  // Save current URL as the lock URL
+  node.isLocked = true;
+  node.lockUrl = chromeTab.url;
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Unlock a tab - allows closing and clears lock URL
+ * @param {number} tabId - Tab to unlock
+ * @returns {Promise<void>}
+ */
+export async function unlockTab(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  node.isLocked = false;
+  node.lockUrl = null;
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Close a tab
+ * @param {number} tabId - Tab to close
+ * @returns {Promise<void>}
+ */
+export async function closeTab(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  // Don't allow closing locked tabs - just log and return silently
+  if (node && node.isLocked) {
+    return; // Silent return, not an error
+  }
+
+  // Close the actual Chrome tab
+  await chrome.tabs.remove(tabId);
+  // handleTabRemoved will clean up the state
+}
+
+/**
+ * Recreate a ghost tab with new Chrome tab ID
+ * @param {number} oldId - Old tab ID (ghost)
+ * @param {number} newId - New Chrome tab ID
+ * @returns {Promise<void>}
+ */
+export async function recreateTab(oldId, newId) {
+
+  const state = await storage.getState();
+  const oldNode = state.tabs[oldId];
+
+  if (!oldNode) {
+    return;
+  }
+
+  // Transfer all properties to new ID
+  oldNode.id = newId;
+  oldNode.isGhost = false;
+
+  // Update state
+  delete state.tabs[oldId];
+  state.tabs[newId] = oldNode;
+
+  // Update order arrays
+  for (const key in state.order) {
+    state.order[key] = state.order[key].map(id => (id === oldId ? newId : id));
+  }
+
+  // Update parent references for children
+  for (const tabId in state.tabs) {
+    const node = state.tabs[tabId];
+    if (node.parentId === oldId) {
+      node.parentId = newId;
+    }
+  }
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Pin a tab - locks it and makes it high priority
+ * @param {number} tabId - Tab to pin
+ * @returns {Promise<void>}
+ */
+export async function pinTab(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Pin and lock the tab
+  node.isPinned = true;
+  node.isLocked = true;
+
+  // Save current URL as lock URL if not already locked
+  if (!node.lockUrl) {
+    const chromeTab = (await chrome.tabs.query({})).find(t => t.id === tabId);
+    if (chromeTab) {
+      node.lockUrl = chromeTab.url;
+    }
+  }
+
+  state.tabs[tabId] = node;
+
+  // Sort tabs so pinned ones are first
+  sortTabsByPriority(state);
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Unpin a tab - unlocks it and removes priority
+ * @param {number} tabId - Tab to unpin
+ * @returns {Promise<void>}
+ */
+export async function unpinTab(tabId) {
+
+  const state = await storage.getState();
+  const node = state.tabs[tabId];
+
+  if (!node) {
+    throw new Error('Tab not found');
+  }
+
+  // Unpin and unlock
+  node.isPinned = false;
+  node.isLocked = false;
+  node.lockUrl = null;
+
+  state.tabs[tabId] = node;
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Sort tabs by priority (pinned first, then unpinned)
+ * @param {Object} state - Current state
+ */
+function sortTabsByPriority(state) {
+  for (const parentKey in state.order) {
+    const tabIds = state.order[parentKey];
+
+    // Sort: pinned tabs first, then unpinned
+    tabIds.sort((a, b) => {
+      const nodeA = state.tabs[a];
+      const nodeB = state.tabs[b];
+
+      if (!nodeA || !nodeB) return 0;
+
+      // Pinned tabs come first
+      if (nodeA.isPinned && !nodeB.isPinned) return -1;
+      if (!nodeA.isPinned && nodeB.isPinned) return 1;
+
+      // Keep original order for same priority
+      return 0;
+    });
+
+    state.order[parentKey] = tabIds;
+  }
+}
+
+/**
+ * Collapse all parent tabs
+ * @returns {Promise<void>}
+ */
+export async function collapseAll() {
+
+  const state = await storage.getState();
+
+  // Find all tabs that have children
+  for (const tabId in state.order) {
+    if (tabId !== 'root' && state.order[tabId].length > 0) {
+      state.collapsed[tabId] = true;
+    }
+  }
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Expand all parent tabs
+ * @returns {Promise<void>}
+ */
+export async function expandAll() {
+
+  const state = await storage.getState();
+
+  // Clear all collapsed states
+  state.collapsed = {};
+
+  await storage.setState(state);
+
+  broadcastMessage({
+    type: MSG_TYPES.STATE_CHANGED,
+    payload: state,
+  });
+}
+
+/**
+ * Navigate to next tab in tree order
+ * @returns {Promise<void>}
+ */
+export async function navigateNext() {
+
+  const state = await storage.getState();
+  const flattened = flattenTreeForReorder(state);
+
+  // Get current active tab
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+  const currentIndex = flattened.findIndex(item => item.id === currentTabId);
+
+  if (currentIndex === -1) return; // Current tab not in tree
+
+  // Get next tab (wrap around to first)
+  const nextIndex = (currentIndex + 1) % flattened.length;
+  const nextTabId = flattened[nextIndex].id;
+
+  // Switch to next tab (Chrome will reload if discarded)
+  await chrome.tabs.update(nextTabId, { active: true });
+}
+
+/**
+ * Navigate to previous tab in tree order
+ * @returns {Promise<void>}
+ */
+export async function navigatePrev() {
+
+  const state = await storage.getState();
+  const flattened = flattenTreeForReorder(state);
+
+  // Get current active tab
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+  const currentIndex = flattened.findIndex(item => item.id === currentTabId);
+
+  if (currentIndex === -1) return; // Current tab not in tree
+
+  // Get previous tab (wrap around to last)
+  const prevIndex = (currentIndex - 1 + flattened.length) % flattened.length;
+  const prevTabId = flattened[prevIndex].id;
+
+  // Switch to previous tab (Chrome will reload if discarded)
+  await chrome.tabs.update(prevTabId, { active: true });
+}
+
+/**
+ * Navigate to last visited tab
+ * @returns {Promise<void>}
+ */
+export async function navigateLastVisited() {
+
+  const state = await storage.getState();
+
+  // Find tab with most recent lastVisited (excluding current tab)
+  const activeTabs = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (activeTabs.length === 0) return;
+
+  const currentTabId = activeTabs[0].id;
+
+  // Get all tabs sorted by lastVisited
+  const tabs = Object.values(state.tabs)
+    .filter(node => node.id !== currentTabId && node.lastVisited)
+    .sort((a, b) => b.lastVisited - a.lastVisited);
+
+  if (tabs.length === 0) return; // No other visited tabs
+
+  const lastVisitedTabId = tabs[0].id;
+
+  // Switch to last visited tab (Chrome will reload if discarded)
+  await chrome.tabs.update(lastVisitedTabId, { active: true });
+}
+
+/**
+ * Broadcast message to all UI tabs
+ * @param {Message} message - Message to send
+ */
+async function broadcastMessage(message) {
+
+  // Send to all tabs (content scripts would receive this)
+  const tabs = await chrome.tabs.query({});
+  for (const tab of tabs) {
+    chrome.tabs.sendMessage(tab.id, message).catch(() => {
+      // Tab might not have content script, ignore
+    });
+  }
+
+  // Also notify any open side panels by getting current state and sending it
+  // The side panel will listen for messages and update
+  try {
+    const allFrames = await chrome.webNavigation.getAllFrames({allFrames: true});
+    // Note: Side panels don't have a direct message target in MV3
+    // Instead, we'll have the side panel poll for updates
+  } catch (error) {
+    // Ignore
+  }
+}

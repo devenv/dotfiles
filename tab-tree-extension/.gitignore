@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.env
+.env.local
+coverage/
+test-results/
+playwright-report/
+screenshots/
+PHASE_*.md
+PUBLISHING.md
+sigma-tabs.zip
+icons/
