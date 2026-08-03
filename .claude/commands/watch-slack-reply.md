@@ -32,13 +32,9 @@ even though bypassing MCP would be cheaper. That door stays closed.
    in context, use it. Otherwise call `mcp__slack__users_search` for the
    name and confirm the match if there's more than one hit.
 
-3. **Resolve `notify_user_id`** (Boris's own Slack user id) the same way —
-   `mcp__slack__users_search` for "Boris Churzin" — unless it's already
-   known in context. *(Design gap: the original spec assumes this is
-   "already known" but doesn't say how. Resolving it via `users_search` each
-   time is the reasonable default; once Boris's Slack user id is confirmed
-   once, it's worth hardcoding as a constant here to skip the lookup —
-   flagged, not done pre-emptively to avoid committing a fabricated id.)*
+3. **`notify_user_id`** is Boris's own Slack user id, confirmed via
+   `mcp__slack__users_search`: **`U0566PX903F`**. Use this constant directly
+   — no lookup needed.
 
 4. **Write the initial state file:**
    ```bash
