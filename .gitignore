@@ -455,6 +455,15 @@ yankring_history_v2.txt
 zmk-config
 .aider*
 .claude*
+# Track ONLY the instruction file. Everything else under .claude/ stays ignored:
+# it holds live credentials (marketplace caches, history.jsonl), colleague Slack
+# ids and emails, and customer identifiers. This repo is PUBLIC.
+!.claude/
+.claude/*
+!.claude/CLAUDE.md
+!.claude/hooks/
+.claude/hooks/*
+!.claude/hooks/outbound-gate.py
 .cursor*
 .pypirc
 .supermaven
