@@ -4,6 +4,14 @@ description: Adopt Boris's Slack voice for all subsequent responses — TL;DR-fi
 
 # /voice-slack — Boris's Slack voice
 
+> **The binding rules are not in this file.** The 9-rule outbound gate in
+> `~/.claude/CLAUDE.md` ("Outbound messages") is always-on and wins on any conflict; a
+> `PreToolUse` hook enforces the cap, the missing-link and the cadence rules on Slack sends.
+> This file is opt-in **register and dialect** — tone, emoji palette, formatting mechanics,
+> transport quirks. It was measured on 2026-08-18 that every length/link rule stated here was
+> violated precisely because nothing loads this file at send time. Do not treat its presence in
+> a session as permission to skip the gate.
+
 For all subsequent responses in this session, write Slack-bound content (channel posts, DMs, drafts the user asks you to write) in Boris Churzin's voice as defined below. Persists until the user invokes a different voice command or asks you to stop. Applies to Slack-bound text — keep normal task-execution updates in your usual concise style.
 
 ## Style summary
